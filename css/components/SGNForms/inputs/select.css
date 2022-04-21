@@ -1,0 +1,88 @@
+.sgn-form.sgn-select {
+	overflow: visible;
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper {
+	/*! position: relative; */
+	/*! display: inline-block; */
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select-input {
+
+	/*! background: ; */
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select {
+	list-style-type: none;
+	border: 1px var(--sgnf-border) solid;
+	border-radius: var(--sgn-border-radius-sm);
+	background-color: var(--sgn-accent-background);
+	box-shadow: 0 1rem 1rem 0 var(--sgn-shadow-darker);
+	box-shadow: -1rem 1rem 1rem -1rem var(--sgn-shadow-darker), 1rem 1rem 1rem -1rem var(--sgn-shadow-darker);
+	padding: var(--padding-sm) !important;
+	width: calc(100% + (3px * 2));
+	z-index: 10;
+	display: none;
+	/*display: flex;*/
+	flex-direction: column;
+	position: absolute;
+	top: .5rem;
+	left: -3px;
+	/*! opacity: 0; */
+	/*! height: 0; */
+	transition: opacity .5s linear .5s, height .4s linear;
+	border-top-width: 0 !important;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select > .sgn-option {
+	border-radius: var(--sgn-border-radius-sm);
+	padding: var(--padding-xs) var(--padding-md);
+	z-index: 2;
+	color: inherit;
+	cursor: pointer;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	transition: color, box-shadow .5s ease-in;
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select > .sgn-option:before {
+	background-image: var(--sgn-gradient-primary);
+	content: "";
+	opacity: 0;
+	width: inherit;
+	height: inherit;
+	position: absolute;
+	top: 0;
+	left: 0;
+	/* TRANSISITION */
+	transition: opacity .5s ease-in;
+	z-index: -1;
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select > .sgn-option:hover {
+	color: var(--sgn-accent-primary-text);
+	box-shadow: 0 0 1rem 0 var(--sgn-shadow-darker);
+	transition: color, box-shadow .5s ease-out;
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select > .sgn-option:hover:before {
+	opacity: 1;
+	transition: opacity .5s ease-out;
+}
+
+
+.sgn-form.sgn-select.open > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select {
+	display: flex;
+	flex-direction: column;
+
+	border-width: 3px;
+	border-color: var(--sgnf-accent-active);
+}
+
+
+
+

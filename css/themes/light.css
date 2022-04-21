@@ -1,0 +1,55 @@
+:root {
+	--sgn-background: hsl(0, 0%, 95%);
+	--sgn-text-primary: hsl(0, 0%, 10%);
+
+	--sgn-accent-background: hsl(0, 0%, 100%);
+	--sgn-accent-hud: hsl(0, 0%, 100%);
+	--sgn-accent-hud-shade: hsl(215, 100%, 15%);
+
+	/*--sgn-bg-light4: hsl(0, 0%, 0%);
+	--sgn-bg-light3: hsl(0, 0%, 0%);
+	--sgn-hud-primary: hsl(0, 0%, 0%);*/
+	--sgn-text-primary-active: hsl(0, 0%, 0%);
+	--sgn-semi-transparent-light: hsl(0, 0%, 0%);
+	--sgn-text-secondary-alt: hsl(0, 0%, 0%);
+	--sgn-text-secondary-light: hsl(0, 0%, 0%);
+
+
+	--sgn-shadow-light: hsla(0, 0%, 0%, .1);
+
+	--sgn-border-light: hsl(0, 0%, 90%);
+
+	--sgn-accent-primary: hsl(215, 100%, 48%);
+	--sgn-accent-primary-light: hsl(215, 100%, 68%);
+	--sgn-accent-primary-dark: hsl(215, 100%, 15%);
+	--sgn-accent-primary-text: hsl(0, 0%, 100%);
+	--sgn-accent-primary-alt: hsl(180, 72%, 52%);
+
+	--sgn-accent-secondary: hsl(226, 15%, 17%);
+
+
+	--sgn-success: #4da422;
+	--sgn-success-light: #85ff44;
+
+	--sgn-info: #00b8d8;
+	--sgn-info-light: #32fbfc;
+
+	--sgn-warning: #eeb400;
+	--sgn-warning-light: #eee400;
+
+	--sgn-danger: #ff2822;
+	--sgn-danger-light: #ff6459;
+	--sgn-danger-dark: #921e18;
+
+	--sgn-gradient-primary: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 100%);
+	--sgn-gradient-success: linear-gradient(to right, var(--sgn-success) 0%, var(--sgn-success-light) 100%);
+	--sgn-gradient-info: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 100%);
+	--sgn-gradient-warning: linear-gradient(to right, var(--sgn-warning) 0%, var(--sgn-warning-light) 100%);
+	--sgn-gradient-danger: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-light) 100%);
+
+	--sgn-gradient-primary-double-width: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 50%, var(--sgn-accent-primary) 100%);
+	--sgn-gradient-success-double-width: linear-gradient(to right, var(--sgn-success) 0%, var(--sgn-success-light) 50%, var(--sgn-success) 100%);
+	--sgn-gradient-info-double-width: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 50%, var(--sgn-info) 100%);
+	--sgn-gradient-warning-double-width: linear-gradient(to right, var(--sgn-warning) 0%, var(--sgn-warning-light) 50%, var(--sgn-warning) 100%);
+	--sgn-gradient-danger-double-width: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-light) 50%, var(--sgn-danger) 100%);
+}

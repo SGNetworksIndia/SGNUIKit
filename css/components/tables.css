@@ -1,0 +1,38 @@
+/*
+ * Copyright (c) 2022 Questry. All rights reserved.
+ * Copyright (c) 2022 SGNetworks.
+ *
+ * The software is an exclusive copyright of "Questry" & "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.sgn-table-wrapper {
+	border-radius: var(--sgn-border-radius-sm);
+	overflow: hidden;
+	margin: var(--margin-md) 0;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table > thead > tr > th,
+table > tbody > tr > td {
+	border: 1px solid var(--sgn-border-light);
+	padding: var(--padding-sm);
+}
+
+table > thead > tr > th {
+	background-color: var(--sgn-accent-primary);
+	color: var(--sgn-text-secondary-light);
+	text-align: left;
+}
+
+table.stripped tr:nth-child(even) {
+	background-color: var(--sgn-bg-light3);
+}
+
+table.hover tr:hover {
+	background-color: var(--sgn-bg-light4);
+}

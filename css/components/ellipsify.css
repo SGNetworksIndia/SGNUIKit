@@ -1,0 +1,9 @@
+.ellipsified > .toggleReadBtn.collapse:not(.show) ~ .ellipsis:before {
+	content: '… ';
+}
+.ellipsified > .toggleReadBtn.collapse:not(.show) ~ .nav-toggle:before {
+	content: 'Read more';
+}
+.ellipsified > .toggleReadBtn.collapse.show ~ .nav-toggle:before {
+	content: 'Read less';
+}

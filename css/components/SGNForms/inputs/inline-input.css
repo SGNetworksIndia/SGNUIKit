@@ -1,0 +1,50 @@
+/*
+ * Copyright (c) 2022 Questry. All rights reserved.
+ * Copyright (c) 2022 SGNetworks.
+ *
+ * The software is an exclusive copyright of "Questry" & "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+
+.sgn-inline-form {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	border: 1px solid var(--sgn-accent-primary);
+	border-radius: var(--sgn-border-radius-sm);
+	width: 100%;
+	overflow: hidden;
+}
+
+.sgn-inline-form > .sgn-form {
+	border: none;
+	border-radius: 0;
+	line-height: 1;
+	margin: 0;
+	flex: 1;
+}
+
+.sgn-inline-form > .sgn-form:before,
+.sgn-inline-form > button {
+	border-radius: 0;
+	line-height: 1;
+	padding: var(--padding-sm) var(--padding-md);
+	margin: 0;
+	min-height: 2rem;
+}
+
+.sgn-inline-form > .sgn-form > .sgn-form-wrapper > .sgn-input-prefix,
+.sgn-inline-form > .sgn-form > .sgn-form-wrapper > .sgn-input-suffix {
+	border-color: var(--sgn-accent-primary);
+}
+
+
+.sgn-inline-form > .sgn-form.active > label,
+.sgn-inline-form > .sgn-form.edited > label,
+.sgn-inline-form > .sgn-form.active > .sgn-form-wrapper > .sgn-input-wrapper > label,
+.sgn-inline-form > .sgn-form.edited > .sgn-form-wrapper > .sgn-input-wrapper > label {
+	height: auto;
+	width: auto;
+	transform: scale(1) translateX(0) translateY(-1.6rem);
+}

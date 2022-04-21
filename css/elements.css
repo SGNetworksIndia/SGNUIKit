@@ -1,0 +1,113 @@
+/*
+ * Copyright (c) 2022 Questry. All rights reserved.
+ * Copyright (c) 2022 SGNetworks.
+ *
+ * The software is an exclusive copyright of "Questry" & "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+ol,
+ul {
+	padding: 0;
+	list-style-position: inside;
+}
+
+ol:first-of-type,
+ul:first-of-type {
+	margin-top: 0;
+}
+
+ol:last-of-type,
+ul:last-of-type {
+	margin-bottom: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--sgn-font-default-bold);
+}
+
+h1 {
+	font-size: 6rem;
+}
+
+h2 {
+	font-size: 5rem;
+}
+
+h3 {
+	font-size: 4rem;
+}
+
+h4 {
+	font-size: 3rem;
+}
+
+h5 {
+	font-size: 2rem;
+}
+
+h6 {
+	font-size: 1rem;
+}
+
+
+header {
+	background-color: var(--sgn-accent-hud);
+	width: 100%;
+
+	min-height: var(--sgn-navbar-height);
+	position: sticky;
+	top: 0;
+	z-index: 999;
+}
+
+footer {
+	margin: 0;
+	width: 100%;
+	position: relative;
+	padding: var(--padding-md);
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--sgn-accent-hud);
+	border-top: 1px solid var(--sgn-border-light);
+	border-left: 1px solid var(--sgn-border-light);
+	z-index: 999;
+
+	/*transition: width,left 5s linear;*/
+	transition-property: all, width, left;
+	transition-duration: 1s, .5s, .5s;
+}
+
+
+fieldset {
+	position: relative;
+	margin: var(--margin-md) 0;
+	border-radius: var(--sgn-border-radius-sm);
+	border: 1px solid var(--sgn-border-light);
+	transition: border-width .3s linear, border-color .3s linear;
+}
+
+fieldset:first-child {
+	margin-top: 0;
+}
+
+fieldset:last-child {
+	/*margin-bottom: 0;*/
+}
+
+fieldset > legend {
+	margin: 0 0 var(--margin-sm);
+	padding: 0 var(--padding-sm);
+}
+
+
+
+
+
+@media all and (prefers-color-scheme: dark) {
+	footer {
+		border-left: none;
+	}
+}

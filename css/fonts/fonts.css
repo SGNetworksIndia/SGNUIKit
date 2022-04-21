@@ -1,0 +1,66 @@
+@import "FontAwesome/css/all.min.css";
+@import "Netmate/netmate.css";
+@import "Poppins/Poppins.css";
+@import "Roboto/Roboto.css";
+@import "TwCenMTStd/TwCenMTStd.css";
+
+:root, [class^="sgn-"], [class^="sgn-"] * {
+	--sgn-font-default-thin: "Poppins Thin", sans-serif;
+	--sgn-font-default-extralight: "Poppins ExtraLight", sans-serif;
+	--sgn-font-default-light: "Poppins Light", sans-serif;
+	--sgn-font-default-regular: "Poppins Regular", sans-serif;
+	--sgn-font-default-medium: "Poppins Medium", sans-serif;
+	--sgn-font-default-semibold: "Poppins SemiBold", sans-serif;
+	--sgn-font-default-bold: "Poppins Bold", sans-serif;
+	--sgn-font-default-extrabold: "Poppins ExtraBold", sans-serif;
+	--sgn-font-default-black: "Poppins Black", sans-serif;
+
+
+	--sgn-font-roboto-thin: "Roboto Thin", sans-serif;
+	--sgn-font-roboto-thin-italic: "Roboto Thin Italic", sans-serif;
+	--sgn-font-roboto-light: "Roboto Light", sans-serif;
+	--sgn-font-roboto-light-italic: "Roboto Light Italic", sans-serif;
+	--sgn-font-roboto-regular: "Roboto Regular", sans-serif;
+	--sgn-font-roboto-regular-italic: "Roboto Italic", sans-serif;
+	--sgn-font-roboto-medium: "Roboto Medium", sans-serif;
+	--sgn-font-roboto-medium-italic: "Roboto Medium Italic", sans-serif;
+	--sgn-font-roboto-bold: "Roboto Bold", sans-serif;
+	--sgn-font-roboto-bold-italic: "Roboto Bold Italic", sans-serif;
+	--sgn-font-roboto-black: "Roboto Black", sans-serif;
+	--sgn-font-roboto-black-italic: "Roboto Black Italic", sans-serif;
+
+	--sgn-font-roboto-condensed-light: "Roboto Condensed Light", sans-serif;
+	--sgn-font-roboto-condensed-light-italic: "Roboto Condensed Light Italic", sans-serif;
+	--sgn-font-roboto-condensed-regular: "Roboto Condensed Regular", sans-serif;
+	--sgn-font-roboto-condensed-regular-italic: "Roboto Condensed Italic", sans-serif;
+	--sgn-font-roboto-condensed-medium: "Roboto Condensed Medium", sans-serif;
+	--sgn-font-roboto-condensed-medium-italic: "Roboto Condensed Medium Italic", sans-serif;
+	--sgn-font-roboto-condensed-bold: "Roboto Condensed Bold", sans-serif;
+	--sgn-font-roboto-condensed-bold-italic: "Roboto Condensed Bold Italic", sans-serif;
+
+
+	--sgn-font-poppins-thin: "Poppins Thin", sans-serif;
+	--sgn-font-poppins-thin-italic: "Poppins Thin Italic", sans-serif;
+	--sgn-font-poppins-extralight: "Poppins ExtraLight", sans-serif;
+	--sgn-font-poppins-extralight-italic: "Poppins ExtraLight Italic", sans-serif;
+	--sgn-font-poppins-light: "Poppins Light", sans-serif;
+	--sgn-font-poppins-light-italic: "Poppins Light Italic", sans-serif;
+	--sgn-font-poppins-regular: "Poppins Regular", sans-serif;
+	--sgn-font-poppins-regular-italic: "Poppins Italic", sans-serif;
+	--sgn-font-poppins-medium: "Poppins Medium", sans-serif;
+	--sgn-font-poppins-medium-italic: "Poppins Medium Italic", sans-serif;
+	--sgn-font-poppins-semibold: "Poppins SemiBold", sans-serif;
+	--sgn-font-poppins-semibold-italic: "Poppins SemiBold Italic", sans-serif;
+	--sgn-font-poppins-bold: "Poppins Bold", sans-serif;
+	--sgn-font-poppins-bold-italic: "Poppins Bold Italic", sans-serif;
+	--sgn-font-poppins-extrabold: "Poppins ExtraBold", sans-serif;
+	--sgn-font-poppins-extrabold-italic: "Poppins ExtraBold Italic", sans-serif;
+	--sgn-font-poppins-black: "Poppins Black", sans-serif;
+	--sgn-font-poppins-black-italic: "Poppins Black Italic", sans-serif;
+
+	--sgn-font-apple: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular', sans-serif;
+	/*--sgn-font-default: Helvetica, Arial, sans-serif;*/
+	--sgn-font-segoe: Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif;
+
+	--sgn-font-fa: "Font Awesome 5 Pro";
+}

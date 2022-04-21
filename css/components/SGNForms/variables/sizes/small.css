@@ -1,0 +1,70 @@
+:root {
+	--sgngf-font-size-sm: 1rem;
+	--sgngf-font-size-small-sm: .8rem;
+	--sgngf-input-container-height-sm: 2.625rem;
+	--sgngf-input-container-margin-sm: 2.625rem;
+
+	--sgngf-addon-width-sm: 18px;
+	--sgngf-addon-height-sm: 18px;
+
+	--sgngf-addon-padding-sm: 0;
+
+	--sgngf-prefix-margin-sm: .1rem 0 .1rem .5rem;
+	--sgngf-prefix-margin-top-sm: .1rem;
+	--sgngf-prefix-margin-right-sm: 0px;
+	--sgngf-prefix-margin-bottom-sm: .1rem;
+	--sgngf-prefix-margin-left-sm: .5rem;
+
+	--sgngf-suffix-margin-sm: .1rem .5rem .1rem 0;
+	--sgngf-suffix-margin-top-sm: .1rem;
+	--sgngf-suffix-margin-right-sm: .5rem;
+	--sgngf-suffix-margin-bottom-sm: .1rem;
+	--sgngf-suffix-margin-left-sm: 0px;
+
+	--sgngf-interactive-addon-height-sm: 2rem;
+	--sgngf-interactive-input-group-addon-height-sm: 2rem;
+
+	--sgngf-input-width-sm: 100%;
+	--sgngf-input-height-sm: 2rem;
+	--sgngf-input-padding-sm: 0px;
+	--sgngf-input-padding-top-sm: 0px;
+	--sgngf-input-padding-right-sm: 0px;
+	--sgngf-input-padding-bottom-sm: 0px;
+	--sgngf-input-padding-left-sm: 0px;
+	--sgngf-input-font-size-sm: 1rem;
+	--sgngf-input-margin-left-sm: 12px;
+	--sgngf-addon-input-margin-sm: 2.625rem;
+	--sgngf-prefix-input-margin-left-sm: 2.625rem;
+	--sgngf-prefix-input-margin-right-sm: 0rem;
+	--sgngf-suffix-input-margin-left-sm: 0rem;
+	--sgngf-suffix-input-margin-right-sm: 2.625rem;
+
+	--sgngf-label-width-sm: 100%;
+	--sgngf-label-height-sm: 2rem;
+	--sgngf-label-padding-sm: 0px;
+	--sgngf-label-padding-left-sm: 1rem;
+	--sgngf-label-margin-sm: 2.625rem;
+	--sgngf-prefix-label-margin-left-sm: 2.625rem;
+	--sgngf-prefix-label-margin-right-sm: 0rem;
+	--sgngf-suffix-label-margin-left-sm: 0rem;
+	--sgngf-suffix-label-margin-right-sm: 2.625rem;
+	--sgngf-prefix-label-padding-left-sm: 0rem;
+	--sgngf-prefix-label-padding-right-sm: 0rem;
+	--sgngf-suffix-label-padding-left-sm: 0rem;
+	--sgngf-suffix-label-padding-right-sm: 0rem;
+
+	--sgngf-label-positionY-extended-sm: -1.85rem;
+
+	--sgngf-selectbox-content-padding-sm: .2rem;
+	--sgngf-selectbox-content-margin-sm: .5rem 0;
+
+	--sgngf-checkbox-check-position-top-sm: -6px;
+	--sgngf-checkbox-check-position-left-sm: -8px;
+	--sgngf-combobox-marginY-base-sm: 1.5;
+	--sgngf-combobox-marginY-sm: 1.5rem;
+	--sgngf-combobox-multiply-base-sm: 1.3;
+	--sgngf-combobox-control-label-positionX-extended-sm: 0;
+	--sgngf-combobox-control-label-positionY-extended-sm: -1.85rem;
+	--sgngf-combobox-prefix-control-label-positionX-extended-sm: -1rem;
+	--sgngf-combobox-prefix-control-label-positionY-extended-sm: -1.85rem;
+}

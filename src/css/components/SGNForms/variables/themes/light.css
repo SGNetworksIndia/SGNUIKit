@@ -1,0 +1,33 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+[class^="sgn-form"],
+[class^="sgn-form-"],
+.sgn-inline-form,
+.crtb-group,
+.input-group,
+fieldset,
+[class^="sgn-form"] *,
+[class^="sgn-form-"] *,
+.sgn-inline-form *,
+.crtb-group *,
+.input-group *,
+fieldset * {
+	--sgnf-accent-inactive: #757575;
+	--sgnf-accent-active: rgb(26, 115, 232);
+	--sgnf-accent-active-light: hsl(214, 90%, 90%);
+	--sgnf-accent-valid: #008000;
+	--sgnf-accent-invalid: #d93025;
+	--sgnf-accent-hover: #4285f4;
+
+	--sgnf-border: rgb(218, 220, 224);
+
+	--sgnf-background: #eee;
+	--sgnf-background-active-light: hsl(214, 90%, 90%);
+	--sgnf-background-valid-light: #E5F2E5;
+	--sgnf-background-invalid-light: #FBEAE9;
+}

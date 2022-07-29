@@ -1,0 +1,29 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+table.dt-rowReorder-float {
+	position: absolute !important;
+	opacity: 0.8;
+	table-layout: fixed;
+	outline: 2px solid #888;
+	outline-offset: -2px;
+	z-index: 2001;
+}
+
+tr.dt-rowReorder-moving {
+	outline: 2px solid #555;
+	outline-offset: -2px;
+}
+
+body.dt-rowReorder-noOverflow {
+	overflow-x: hidden;
+}
+
+table.dataTable td.reorder {
+	text-align: center;
+	cursor: move;
+}

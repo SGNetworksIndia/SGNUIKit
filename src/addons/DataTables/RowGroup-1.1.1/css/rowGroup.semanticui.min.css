@@ -1,0 +1,8 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+table.dataTable tr.dtrg-group td{background-color:#F9FAFB}table.dataTable tr.dtrg-group.dtrg-level-0 td{font-weight:bold}table.dataTable tr.dtrg-group.dtrg-level-1 td,table.dataTable tr.dtrg-group.dtrg-level-2 td{background-color:#f0f0f0;padding-top:0.25em;padding-bottom:0.25em;padding-left:2em;font-size:0.9em}table.dataTable tr.dtrg-group.dtrg-level-2 td{background-color:#f3f3f3}

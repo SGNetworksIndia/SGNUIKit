@@ -1,0 +1,107 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.input-group,
+.crtb-group {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	justify-content: center;
+	position: relative;
+	overflow: visible;
+	min-height: 3rem;
+	width: 100%;
+	border-radius: var(--sgn-border-radius-sm);
+	border: 1px solid var(--sgnf-border);
+}
+
+.input-group.sgn-inline-form,
+.crtb-group.sgn-inline-form {
+	padding: var(--padding-sm) var(--padding-md);
+}
+
+.input-group:not(.sgn-inline-form),
+.crtb-group:not(.sgn-inline-form) {
+	padding: var(--padding-sm) var(--padding-sm);
+}
+
+.input-group > .sgn-input-group-label,
+.crtb-group > .sgn-input-group-label {
+	position: absolute;
+	left: 0;
+	line-height: 1;
+	display: flex;
+	cursor: text;
+	background-color: var(--sgn-accent-background);
+	color: var(--sgnf-accent-inactive);
+	border-radius: var(--sgn-border-radius-sm);
+	transform: scale(1) translateX(0) translateY(0);
+	transform-origin: left;
+	transition: transform .3s linear, color .3s linear;
+	transition-property: transform, left, padding, width, height;
+
+	padding: 0 var(--padding-sm);
+}
+
+
+.input-group.sgn-inline-form > .sgn-input-group-label,
+.crtb-group.sgn-inline-form > .sgn-input-group-label {
+	top: 0;
+	transform: scale(.85) translateX(var(--padding-sm)) translateY(calc(.3rem - var(--padding-md)));
+}
+
+.input-group:not(.sgn-inline-form) > .sgn-input-group-label,
+.crtb-group:not(.sgn-inline-form) > .sgn-input-group-label {
+	top: 0;
+	transform: scale(.85) translateX(calc(1.5rem - var(--padding-md))) translateY(-.7rem);
+}
+
+
+.input-group.active,
+.crtb-group.active,
+.input-group.edited,
+.crtb-group.edited {
+	border-width: 3px;
+}
+
+.input-group.active,
+.crtb-group.active {
+	border-color: var(--sgnf-accent-active);
+}
+
+.input-group.active > .sgn-input-group-label,
+.crtb-group.active > .sgn-input-group-label {
+	color: var(--sgnf-accent-active);
+}
+
+
+.input-group.valid,
+.crtb-group.valid {
+	border-color: var(--sgnf-accent-valid);
+}
+
+.input-group.valid > .sgn-input-group-label,
+.crtb-group.valid > .sgn-input-group-label {
+	color: var(--sgnf-accent-valid);
+}
+
+
+.input-group.invalid,
+.crtb-group.invalid {
+	border-color: var(--sgnf-accent-invalid);
+}
+
+.input-group.invalid > .sgn-input-group-label,
+.crtb-group.invalid > .sgn-input-group-label {
+	color: var(--sgnf-accent-invalid);
+}
+
+
+
+
+
+

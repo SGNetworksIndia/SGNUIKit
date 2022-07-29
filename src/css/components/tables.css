@@ -1,0 +1,133 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.sgn-table-wrapper {
+	border: 1px solid var(--sgn-border-light);
+	border-radius: var(--sgn-border-radius-md);
+	overflow: hidden;
+	margin: var(--margin-md) 0;
+	position: relative;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+	white-space: nowrap;
+	position: relative;
+}
+
+table > thead > tr > th,
+table > tbody > tr > td {
+	text-align: left;
+	overflow: hidden;
+	vertical-align: middle;
+}
+
+table > thead > tr > th {
+	background-color: var(--sgn-accent-primary);
+	color: var(--sgn-accent-primary-text);
+	padding: var(--padding-md);
+}
+
+table > tbody > tr > td {
+	padding: var(--padding-sm);
+}
+
+
+table.bordered > thead > tr > th,
+table.bordered > tbody > tr > td {
+	border: 1px solid var(--sgn-border-light);
+}
+
+.sgn-table-wrapper > table.bordered > thead > tr > th,
+.sgn-table-wrapper > table.bordered > tbody > tr > td {
+	border-left: 0;
+}
+
+.sgn-table-wrapper > table.bordered > thead > tr > th:last-child,
+.sgn-table-wrapper > table.bordered > tbody > tr > td:last-child {
+	border-right: 0;
+}
+
+.sgn-table-wrapper > table.bordered > thead > tr:first-child > th,
+.sgn-table-wrapper > table.bordered > tbody > tr:first-child > td {
+	border-top: 0;
+}
+
+.sgn-table-wrapper > table.bordered > thead > tr:last-child > th,
+.sgn-table-wrapper > table.bordered > tbody > tr:last-child > td {
+	border-bottom: 0;
+}
+
+table.fixed-header > thead > tr > th {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+}
+
+table.striped tr:nth-child(odd) {
+	background-color: var(--sgn-accent-background-secondary);
+}
+
+table.hover tr:hover {
+	background-color: var(--sgn-accent-background-secondary);
+}
+
+
+/*** CONTEXTUAL ****/
+table.primary > thead > tr > th {
+	background-color: var(--sgn-primary);
+}
+
+table.primary > tbody > tr:nth-child(odd) {
+	background-color: var(--sgn-primary-lightest);
+}
+
+
+table.secondary > thead > tr > th {
+	background-color: var(--sgn-secondary);
+}
+
+table.secondary > tbody > tr:nth-child(odd) {
+	background-color: var(--sgn-secondary-lightest);
+}
+
+
+table.success > thead > tr > th {
+	background-color: var(--sgn-success);
+}
+
+table.success > tbody > tr:nth-child(odd) {
+	background-color: var(--sgn-success-lightest);
+}
+
+
+table.info > thead > tr > th {
+	background-color: var(--sgn-info);
+}
+
+table.info > tbody > tr:nth-child(odd) {
+	background-color: var(--sgn-info-lightest);
+}
+
+
+table.warning > thead > tr > th {
+	background-color: var(--sgn-warning);
+}
+
+table.warning > tbody > tr:nth-child(odd) {
+	background-color: var(--sgn-warning-lightest);
+}
+
+
+table.danger > thead > tr > th {
+	background-color: var(--sgn-danger);
+}
+
+table.danger > tbody > tr:nth-child(odd) {
+	background-color: var(--sgn-danger-lightest);
+}

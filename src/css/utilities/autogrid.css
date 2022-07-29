@@ -1,0 +1,66 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.auto-grid {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.auto-grid > * {
+	margin: var(--margin-md);
+}
+
+.auto-grid.col-5 > * {
+	flex: 1 0 20%;
+}
+
+.auto-grid.col-4 > * {
+	flex: 1 0 20%;
+}
+
+.auto-grid.col-3 > * {
+	flex: 1 0 30%;
+}
+
+.auto-grid.col-2 > * {
+	flex: 1 0 40%;
+}
+
+.auto-grid.col-1 > * {
+	flex: 1 0 50%;
+}
+
+
+.auto-grid > .input-group,
+.auto-grid > .crtb-group {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	justify-content: center;
+	position: relative;
+}
+
+.auto-grid > .crtb-group > .sgn-form {
+	margin: var(--margin-sm) 0;
+}
+
+.auto-grid > .input-group.sgn-inline-form,
+.auto-grid > .crtb-group.sgn-inline-form {
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.auto-grid > .input-group.sgn-inline-form > .sgn-form,
+.auto-grid > .crtb-group.sgn-inline-form > .sgn-form {
+	margin: 0 var(--margin-sm);
+	justify-content: center;
+	flex: 0;
+}
+
+
+

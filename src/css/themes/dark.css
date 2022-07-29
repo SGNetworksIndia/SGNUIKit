@@ -1,0 +1,80 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+:root {
+	/*--sgn-background: hsl(0, 0%, 10%);*/
+	--sgn-background: hsl(0, 0%, 0%);
+	--sgn-text-primary: hsl(0, 0%, 100%);
+
+	--sgn-accent-background: hsl(0, 0%, 0%);
+	--sgn-accent-background-secondary: hsl(0, 0%, 5%);
+	--sgn-accent-hud: hsl(0, 0%, 0%);
+	--sgn-accent-hud-shade: hsl(0, 0%, 0%);
+
+	/*--sgn-bg-light4: hsl(0, 0%, 0%);
+	--sgn-bg-light3: hsl(0, 0%, 0%);
+	--sgn-hud-primary: hsl(0, 0%, 0%);*/
+	--sgn-text-primary-active: hsl(0, 0%, 0%);
+	--sgn-semi-transparent-light: hsl(0, 0%, 0%);
+	--sgn-text-secondary-alt: hsl(0, 0%, 0%);
+	--sgn-text-secondary-light: hsl(0, 0%, 0%);
+
+
+	/*--sgn-shadow-light: hsla(215, 0%, 0%, .5);*/
+	--sgn-shadow-light: hsla(215, 100%, 48%, .5);
+
+	--sgn-border-light: hsl(0, 0%, 15%);
+
+	--sgn-accent-primary: hsl(215, 100%, 48%);
+	--sgn-accent-primary-active: hsl(225, 99%, 57%);
+	--sgn-accent-primary-light: hsl(215, 100%, 68%);
+	--sgn-accent-primary-dark: hsl(215, 100%, 15%);
+	--sgn-accent-primary-text: hsl(0, 0%, 100%);
+	--sgn-accent-primary-alt: hsl(180, 72%, 52%);
+
+	--sgn-accent-secondary: hsl(226, 15%, 17%);
+	--sgn-accent-secondary-light: hsl(226, 15%, 30%);
+
+
+	--sgn-primary: hsl(220, 100%, 50%);
+	--sgn-primary-light: hsl(220, 100%, 70%);
+	--sgn-primary-lightest: hsl(220, 100%, 5%);
+
+	--sgn-secondary: hsl(230, 15%, 20%);
+	--sgn-secondary-light: hsl(230, 15%, 30%);
+	--sgn-secondary-lightest: hsl(230, 15%, 5%);
+
+	--sgn-success: hsl(130, 100%, 20%);
+	--sgn-success-light: hsl(130, 100%, 60%);
+	--sgn-success-lightest: hsl(130, 100%, 5%);
+
+	--sgn-info: hsl(190, 100%, 40%);
+	--sgn-info-light: hsl(190, 100%, 60%);
+	--sgn-info-lightest: hsl(190, 100%, 5%);
+
+	--sgn-warning: hsl(45, 100%, 40%);
+	--sgn-warning-light: hsl(45, 100%, 60%);
+	--sgn-warning-lightest: hsl(45, 100%, 5%);
+
+	--sgn-danger: hsl(0, 100%, 50%);
+	--sgn-danger-light: hsl(0, 100%, 60%);
+	--sgn-danger-lightest: hsl(0, 100%, 5%);
+	--sgn-danger-dark: hsl(0, 72%, 33%);
+
+	--sgn-gradient-primary: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 100%);
+	--sgn-gradient-secondary: linear-gradient(to right, var(--sgn-secondary) 0%, var(--sgn-secondary-light) 100%);
+	--sgn-gradient-success: linear-gradient(to right, var(--sgn-success) 0%, var(--sgn-success-light) 100%);
+	--sgn-gradient-info: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 100%);
+	--sgn-gradient-warning: linear-gradient(to right, var(--sgn-warning) 0%, var(--sgn-warning-light) 100%);
+	--sgn-gradient-danger: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-light) 100%);
+
+	--sgn-gradient-primary-double-width: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 50%, var(--sgn-accent-primary) 100%);
+	--sgn-gradient-success-double-width: linear-gradient(to right, var(--sgn-success) 0%, var(--sgn-success-light) 50%, var(--sgn-success) 100%);
+	--sgn-gradient-info-double-width: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 50%, var(--sgn-info) 100%);
+	--sgn-gradient-warning-double-width: linear-gradient(to right, var(--sgn-warning) 0%, var(--sgn-warning-light) 50%, var(--sgn-warning) 100%);
+	--sgn-gradient-danger-double-width: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-light) 50%, var(--sgn-danger) 100%);
+}

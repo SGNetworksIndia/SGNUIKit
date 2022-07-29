@@ -1,0 +1,77 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+:root {
+	--sgngf-font-size-lg: 1.6rem;
+	--sgngf-font-size-small-lg: 1.4rem;
+	--sgngf-input-container-height-lg: 4.625rem;
+	--sgngf-input-container-margin-lg: 4.625rem;
+
+	--sgngf-addon-width-lg: 50px;
+	--sgngf-addon-height-lg: 50px;
+
+	--sgngf-addon-padding-lg: 0;
+
+	--sgngf-prefix-margin-lg: .1rem 0 .1rem .5rem;
+	--sgngf-prefix-margin-top-lg: .1rem;
+	--sgngf-prefix-margin-right-lg: 0px;
+	--sgngf-prefix-margin-bottom-lg: .1rem;
+	--sgngf-prefix-margin-left-lg: .5rem;
+
+	--sgngf-suffix-margin-lg: .1rem .5rem .1rem 0;
+	--sgngf-suffix-margin-top-lg: .1rem;
+	--sgngf-suffix-margin-right-lg: .5rem;
+	--sgngf-suffix-margin-bottom-lg: .1rem;
+	--sgngf-suffix-margin-left-lg: 0px;
+
+	--sgngf-interactive-addon-height-lg: 4rem;
+	--sgngf-interactive-input-group-addon-height-lg: 2rem;
+
+	--sgngf-input-width-lg: 100%;
+	--sgngf-input-height-lg: 4rem;
+	--sgngf-input-padding-lg: 0px;
+	--sgngf-input-padding-top-lg: 0px;
+	--sgngf-input-padding-right-lg: 0px;
+	--sgngf-input-padding-bottom-lg: 0px;
+	--sgngf-input-padding-left-lg: 0px;
+	--sgngf-input-font-size-lg: 1.6rem;
+	--sgngf-input-margin-left-lg: 12px;
+	--sgngf-addon-input-margin-lg: 4.625rem;
+	--sgngf-prefix-input-margin-left-lg: 4.625rem;
+	--sgngf-prefix-input-margin-right-lg: 0rem;
+	--sgngf-suffix-input-margin-left-lg: 0rem;
+	--sgngf-suffix-input-margin-right-lg: 4.625rem;
+
+	--sgngf-label-width-lg: 100%;
+	--sgngf-label-height-lg: 4rem;
+	--sgngf-label-padding-lg: 0px;
+	--sgngf-label-padding-left-lg: 2rem;
+	--sgngf-label-margin-lg: 4.625rem;
+	--sgngf-prefix-label-margin-left-lg: 4.625rem;
+	--sgngf-prefix-label-margin-right-lg: 0rem;
+	--sgngf-suffix-label-margin-left-lg: 0rem;
+	--sgngf-suffix-label-margin-right-lg: 4.625rem;
+	--sgngf-prefix-label-padding-left-lg: 0rem;
+	--sgngf-prefix-label-padding-right-lg: 0rem;
+	--sgngf-suffix-label-padding-left-lg: 0rem;
+	--sgngf-suffix-label-padding-right-lg: 0rem;
+
+	--sgngf-label-positionY-extended-lg: -2.1rem;
+
+	--sgngf-selectbox-content-padding-lg: .8rem;
+	--sgngf-selectbox-content-margin-lg: .5rem 0;
+
+	--sgngf-checkbox-check-position-top-lg: -18px;
+	--sgngf-checkbox-check-position-left-lg: -10px;
+	--sgngf-combobox-marginY-base-lg: 1.7;
+	--sgngf-combobox-marginY-lg: 1.7rem;
+	--sgngf-combobox-multiply-base-lg: 1.5;
+	--sgngf-combobox-control-label-positionX-extended-lg: 0;
+	--sgngf-combobox-control-label-positionY-extended-lg: -1.95rem;
+	--sgngf-combobox-prefix-control-label-positionX-extended-lg: -1rem;
+	--sgngf-combobox-prefix-control-label-positionY-extended-lg: -2.5rem;
+}

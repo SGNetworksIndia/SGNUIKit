@@ -1,0 +1,23 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+@import "preloaders.css";
+@import "sidebar2.css";
+@import "navbar.css";
+@import "tables.css";
+@import "cards.css";
+@import "modals.css";
+@import "datatables.css";
+@import "buttons.css";
+@import "SGNForms/SGNForms.css";
+@import "snackbar.css";
+@import "progressbars.css";
+@import "SGNLoadingDialog.css";
+@import "code.css";
+@import "ellipsify.css";
+@import "wizard.css";
+

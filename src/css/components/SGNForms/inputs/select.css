@@ -1,0 +1,88 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.sgn-form.sgn-select {
+	overflow: visible;
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper {
+
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select-input {
+
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select {
+	list-style-type: none;
+	border: 1px var(--sgnf-border) solid;
+	border-radius: var(--sgn-border-radius-sm);
+	background-color: var(--sgn-accent-background);
+	/*box-shadow: 0 1rem 1rem 0 var(--sgn-shadow-darker);*/
+	box-shadow: -1rem 1rem 1rem -1rem var(--sgn-shadow-darker), 1rem 1rem 1rem -1rem var(--sgn-shadow-darker);
+	padding: var(--padding-sm) !important;
+	width: calc(100% + (3px * 2));
+	display: none;
+	flex-direction: column;
+	position: absolute;
+	top: 0;
+	left: -3px;
+	transition: opacity .5s linear .5s, height .4s linear;
+	border-top-width: 0 !important;
+	z-index: 1;
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select > .sgn-option {
+	border-radius: var(--sgn-border-radius-sm);
+	padding: var(--padding-sm) var(--padding-md);
+	z-index: 2;
+	color: inherit;
+	cursor: pointer;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	transition: color, box-shadow .5s ease-in;
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select > .sgn-option:before {
+	background-image: var(--sgn-gradient-primary);
+	content: "";
+	opacity: 0;
+	width: inherit;
+	height: inherit;
+	position: absolute;
+	top: 0;
+	left: 0;
+	/* TRANSISITION */
+	transition: opacity .5s ease-in;
+	z-index: -1;
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select > .sgn-option:hover {
+	color: var(--sgn-accent-primary-text);
+	box-shadow: 0 0 1rem 0 var(--sgn-shadow-darker);
+	transition: color, box-shadow .5s ease-out;
+}
+
+.sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select > .sgn-option:hover:before {
+	opacity: 1;
+	transition: opacity .5s ease-out;
+}
+
+
+.sgn-form.sgn-select.open > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select {
+	display: flex;
+	flex-direction: column;
+
+	border-width: 3px;
+	border-color: var(--sgnf-accent-active);
+}
+
+
+
+

@@ -1,0 +1,21 @@
+/*!
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+// screen-reader utilities
+// -------------------------
+
+// only display content to screen readers
+.sr-only,
+.#{$fa-css-prefix}-sr-only {
+	@include fa-sr-only;
+}
+
+// use in conjunction with .sr-only to only display content when it's focused
+.sr-only-focusable,
+.#{$fa-css-prefix}-sr-only-focusable {
+	@include fa-sr-only-focusable;
+}

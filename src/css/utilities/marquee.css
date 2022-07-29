@@ -1,0 +1,84 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.has-marquee {
+	white-space: nowrap;
+	display: flex !important;
+	align-items: center;
+	flex-direction: row;
+	overflow: hidden;
+	min-height: 1rem;
+	position: relative;
+}
+
+.has-marquee > .sgn-marquee-wrapper,
+.has-marquee > .js-marquee-wrapper {
+	animation: none !important;
+	width: 100% !important;
+	transform: none !important;
+
+	display: flex;
+	/*position: absolute;*/
+}
+
+.has-marquee > .sgn-marquee-wrapper > .sgn-marquee,
+.has-marquee > .js-marquee-wrapper > .js-marquee {
+	margin: 0 auto !important;
+	float: none !important;
+
+	padding: 0 var(--padding-md);
+	display: inline-block;
+	position: relative;
+	animation: marquee-left 5s linear infinite;
+}
+
+.has-marquee > .sgn-marquee-wrapper > .sgn-marquee:first-child,
+.has-marquee > .js-marquee-wrapper > .js-marquee:first-child {
+	padding-left: 0 !important;
+}
+
+
+@keyframes marquee-left {
+	0% {
+		transform: translateX(0%);
+	}
+
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+@keyframes marquee-right {
+	0% {
+		transform: translateX(-100%);
+	}
+
+	100% {
+		transform: translateX(0%);
+	}
+}
+
+@keyframes marquee {
+	0% {
+		transform: translateY(100%);
+	}
+
+	100% {
+		transform: translateY(-100%);
+	}
+}
+
+@keyframes marquee-bottom {
+	0% {
+		transform: translateY(-100%);
+	}
+
+	100% {
+		transform: translateY(100%);
+	}
+}
+

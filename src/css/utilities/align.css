@@ -1,0 +1,54 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.text-left {
+	text-align: left;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-start {
+	text-align: start;
+}
+
+.text-end {
+	text-align: end;
+}
+
+.text-justify {
+	text-align: justify;
+}
+
+.text-justify-all {
+	text-align: justify-all;
+}
+
+.text-match-parent {
+	text-align: match-parent;
+}
+
+.container-center {
+	align-items: center;
+	justify-content: center;
+}
+
+.container-middle-left {
+	align-items: start;
+	justify-content: center;
+}
+
+.sgn-placeholder-container {
+	align-items: center;
+	justify-content: center;
+}
+

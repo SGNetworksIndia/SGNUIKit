@@ -1,0 +1,302 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+@media all and (prefers-color-scheme: light) {
+	.sgn-wizard,
+	.sgn-wizard * {
+		--active-dark: hsl(213, 100%, 50%);
+		--active-light: hsl(190, 100%, 50%);
+		--active-light-transition: hsl(194, 100%, 49%);
+		--active-dark-hover: hsl(213, 100%, 60%);
+		--active-light-hover: hsl(190, 100%, 60%);
+		--active-light-hover-transition: hsl(194, 100%, 59%);
+
+		--complete-dark: hsl(130, 100%, 20%);
+		--complete-light: hsl(130, 100%, 40%);
+		--complete-light-transition: hsl(130, 100%, 36%);
+		--complete-dark-hover: hsl(130, 100%, 30%);
+		--complete-light-hover: hsl(130, 100%, 50%);
+		--complete-light-hover-transition: hsl(130, 100%, 46%);
+
+		--neutral-dark: hsl(216, 33%, 60%);
+		--neutral-light: hsl(216, 33%, 90%);
+		--neutral-light-transition: hsl(217, 33%, 84%);
+		--neutral-dark-hover: hsl(216, 33%, 70%);
+		--neutral-light-hover: hsl(216, 33%, 100%);
+		--neutral-light-hover-transition: hsl(220, 31%, 94%);
+	}
+}
+
+@media all and (prefers-color-scheme: dark) {
+	.sgn-wizard,
+	.sgn-wizard * {
+		--active-dark: hsl(213, 100%, 50%);
+		--active-light: hsl(190, 100%, 50%);
+		--active-light-transition: hsl(194, 100%, 49%);
+		--active-dark-hover: hsl(213, 100%, 60%);
+		--active-light-hover: hsl(190, 100%, 60%);
+		--active-light-hover-transition: hsl(194, 100%, 59%);
+
+		--complete-dark: hsl(130, 100%, 20%);
+		--complete-light: hsl(130, 100%, 40%);
+		--complete-light-transition: hsl(130, 100%, 36%);
+		--complete-dark-hover: hsl(130, 100%, 30%);
+		--complete-light-hover: hsl(130, 100%, 50%);
+		--complete-light-hover-transition: hsl(130, 100%, 46%);
+
+		--neutral-dark: hsl(0, 0%, 10%);
+		--neutral-light: hsl(0, 0%, 20%);
+		--neutral-light-transition: hsl(0, 0%, 18%);
+		--neutral-dark-hover: hsl(0, 0%, 20%);
+		--neutral-light-hover: hsl(0, 0%, 30%);
+		--neutral-light-hover-transition: hsl(0, 0%, 28%);
+	}
+}
+
+.sgn-wizard,
+.sgn-wizard * {
+	--active-gradient: linear-gradient(130deg, var(--active-dark) 0%, var(--active-light) 100%);
+	--active-gradient-arrow: linear-gradient(90deg, var(--active-light-transition) 0%, var(--active-light) 100%);
+	--active-gradient-hover: linear-gradient(130deg, var(--active-dark-hover) 0%, var(--active-light-hover) 100%);
+	--active-gradient-hover-arrow: linear-gradient(90deg, var(--active-light-hover-transition) 0%, var(--active-light-hover) 100%);
+
+	--complete-gradient: linear-gradient(130deg, var(--complete-dark) 0%, var(--complete-light) 100%);
+	--complete-gradient-arrow: linear-gradient(90deg, var(--complete-light-transition) 0%, var(--complete-light) 100%);
+	--complete-gradient-hover: linear-gradient(130deg, var(--complete-dark-hover) 0%, var(--complete-light-hover) 100%);
+	--complete-gradient-hover-arrow: linear-gradient(90deg, var(--complete-light-hover-transition) 0%, var(--complete-light-hover) 100%);
+
+	--neutral-gradient: linear-gradient(130deg, var(--neutral-dark) 0%, var(--neutral-light) 100%);
+	--neutral-gradient-arrow: linear-gradient(90deg, var(--neutral-light-transition) 0%, var(--neutral-light) 100%);
+	--neutral-gradient-hover: linear-gradient(130deg, var(--neutral-dark-hover) 0%, var(--neutral-light-hover) 100%);
+	--neutral-gradient-hover-arrow: linear-gradient(90deg, var(--neutral-light-hover-transition) 0%, var(--neutral-light-hover) 100%);
+}
+
+
+.sgn-wizard {
+	overflow: hidden;
+	padding: inherit;
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation {
+	/*centering*/
+	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.35);
+	overflow: hidden;
+	border-radius: 5px;
+	/*Lets add the numbers for each link using CSS counters. flag is the name of the counter. to be defined using counter-reset in the parent element of the links*/
+	counter-reset: flag;
+	width: 100%;
+	padding: 0;
+	display: flex;
+	justify-content: space-between;
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper.no-shadow > .wizard-navigation {
+	box-shadow: none;
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper.shadow-bottom > .wizard-navigation {
+	box-shadow: 0 .7rem 15px -.5rem rgba(0, 0, 0, .35);
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper.no-corners > .wizard-navigation {
+	border-radius: 0;
+	margin: 0;
+}
+
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li {
+	float: left;
+	font-size: 12px;
+	color: white;
+	position: relative;
+	list-style-type: none;
+	display: block;
+	line-height: 36px;
+	width: 100%;
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li > a {
+	display: block;
+	text-decoration: none;
+	outline: none;
+	/*need more margin on the left of links to accomodate the numbers*/
+	padding: 0 12px 0 60px;
+}
+
+/*since the first link does not have a triangle before it we can reduce the left padding to make it look consistent with other links*/
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:first-child > a {
+	padding-left: 46px;
+	border-radius: 5px 0 0 5px; /*to match with the parent's radius*/
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:first-child:before {
+	left: 14px;
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:last-child > a {
+	border-radius: 0 5px 5px 0; /*this was to prevent glitches on hover*/
+	padding-right: 20px;
+}
+
+/*hover/active styles*/
+/*.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.active,
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:hover > a{
+	background: #333;
+	background: linear-gradient(#333, #000);
+}
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.active > a:after,
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:hover > a:after {
+	background: #333;
+	background: linear-gradient(135deg, #333, #000);
+}*/
+
+/*adding the arrows for the breadcrumbs using rotated pseudo elements*/
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li > a:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: -18px; /*half of square's length*/
+	/*same dimension as the line-height of .sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > a */
+	width: 36px;
+	height: 36px;
+	/*as you see the rotated square takes a larger height. which makes it tough to position it properly. So we are going to scale it down so that the diagonals become equal to the line-height of the link. We scale it to 70.7% because if square's:
+	length = 1; diagonal = (1^2 + 1^2)^0.5 = 1.414 (pythagoras theorem)
+	if diagonal required = 1; length = 1/1.414 = 0.707*/
+	transform: scale(0.707) rotate(45deg);
+	/*we need to prevent the arrows from getting buried under the next link*/
+	z-index: 1;
+	/*background same as links but the gradient will be rotated to compensate with the transform applied*/
+	/*stylish arrow design using box shadow*/
+	box-shadow: 2px -2px 0 2px rgba(0, 0, 0, 0.4), 3px -3px 0 2px rgba(255, 255, 255, 0.1);
+	/*
+	5px - for rounded arrows and
+	50px - to prevent hover glitches on the border created using shadows
+	*/
+	border-radius: 0 5px 0 50px;
+}
+
+/*we dont need an arrow after the last link*/
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:last-child:after {
+	content: none;
+}
+
+/*we will use the :before element to show numbers*/
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:before {
+	content: counter(flag);
+	counter-increment: flag;
+	/*some styles now*/
+	border-radius: 100%;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	margin: 8px 0;
+	position: absolute;
+	top: 0;
+	left: 30px;
+	font-weight: bold;
+	text-align: center;
+	pointer-events: none;
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li > a {
+	color: white;
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.active {
+	background: var(--active-gradient);
+	font-weight: bold;
+	pointer-events: none;
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.active:before,
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.active > a:after {
+	background: var(--active-gradient-arrow);
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.complete {
+	background: var(--complete-gradient);
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.complete:before,
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.complete > a:after {
+	background: var(--complete-gradient-arrow);
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:not(.active):not(.complete) {
+	background: var(--neutral-gradient);
+	pointer-events: none;
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:not(.active):not(.complete):before,
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:not(.active):not(.complete) > a:after {
+	background: var(--neutral-gradient-arrow);
+}
+
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.active:hover {
+	background: var(--active-gradient-hover);
+	font-weight: bold;
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.active:hover:before,
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.active:hover > a:after {
+	background: var(--active-gradient-hover-arrow);
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.complete:hover {
+	background: var(--complete-gradient-hover);
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.complete:hover:before,
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li.complete:hover > a:after {
+	background: var(--complete-gradient-hover-arrow);
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:not(.active):not(.complete):hover {
+	background: var(--neutral-gradient-hover);
+}
+
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:not(.active):not(.complete):hover:before,
+.sgn-wizard .sgn-wizard-navigation-wrapper > .wizard-navigation > li:not(.active):not(.complete):hover > a:after {
+	background: var(--neutral-gradient-hover-arrow);
+}
+
+
+.sgn-wizard .sgn-wizard-steps-container {
+	position: relative;
+	width: 100%;
+	height: 50vh;
+	overflow: hidden;
+}
+
+.sgn-wizard .sgn-wizard-steps-container > .sgn-wizard-step {
+	width: calc(100% - (var(--padding-md) * 2));
+	height: calc(100% - (var(--padding-md) * 2));
+	overflow: auto;
+	position: absolute;
+	top: 0;
+	box-sizing: content-box;
+	padding: inherit;
+	transition: left 1s ease-in-out;
+}
+
+.sgn-wizard .sgn-wizard-steps-container > .sgn-wizard-step.current.start {
+	left: 0;
+	transition: none;
+}
+
+.sgn-wizard .sgn-wizard-steps-container > .sgn-wizard-step.current {
+	left: 0;
+}
+
+.sgn-wizard .sgn-wizard-steps-container > .sgn-wizard-step:not(.current):not(.complete) {
+	left: 100%;
+}
+
+.sgn-wizard .sgn-wizard-steps-container > .sgn-wizard-step.complete:not(.current) {
+	left: -100%;
+}

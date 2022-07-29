@@ -1,0 +1,117 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+@import "themes/light.css" all and (prefers-color-scheme: light);
+@import "themes/dark.css" all and (prefers-color-scheme: dark);
+@import "elements.css";
+@import "../addons/addons.css";
+@import "components/components.css";
+@import "addons/SGNDataTables.css";
+@import "utilities/utilities.css";
+@import "fonts/fonts.css";
+@import "pages/pages.css";
+
+:root,
+main {
+	scrollbar-width: none !important;
+}
+
+* {
+	scrollbar-width: thin !important;
+	/*scrollbar-color: var(--sgn-primary-light) var(--sgn-primary-dark);*/
+	scroll-behavior: smooth;
+	user-select: none;
+}
+
+*,
+::before,
+::after {
+	box-sizing: border-box;
+}
+
+*:before,
+*:after {
+	font-family: var(--sgn-font-fa);
+}
+
+body {
+	min-width: 100vh;
+	min-height: 100vh;
+	max-height: 100vh;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	line-height: 1.6;
+	font-family: var(--sgn-font-roboto-regular);
+	font-size: 1rem;
+	background-color: var(--sgn-background);
+	color: var(--sgn-text-primary);
+	overflow: hidden;
+}
+
+body,
+body * {
+	transition-property: background, background-color, background-image, border-color, border-left-color, border-top-color, border-right-color, border-bottom-color, box-shadow;
+	transition-duration: 1s;
+	transition-timing-function: linear;
+}
+
+body a {
+	cursor: pointer;
+	color: var(--sgn-accent-primary);
+	text-decoration: none;
+}
+
+body a.disabled {
+	pointer-events: none;
+}
+
+body a:not(.disabled):hover {
+	color: var(--sgn-accent-primary-dark);
+}
+
+body.with-sidebar > main {
+	min-width: calc(100% - var(--sgn-sidebar-width));
+}
+
+main {
+	overflow: auto;
+	position: relative;
+}
+
+main, main > .container,
+main, main > .sgn-container {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+
+	transition-property: width, margin-left;
+	transition-duration: .5s, .5s;
+}
+
+main > .container,
+main > .sgn-container {
+	min-width: 100%;
+	padding: var(--padding-md) var(--padding-xl);
+}
+
+main > .sgn-center-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin: auto;
+	flex: 1;
+}
+
+:root, [class^="sgn-"], [class^="sgn-"] * {
+	--sgn-border-radius-xs: .2rem;
+	--sgn-border-radius-sm: .5rem;
+	--sgn-border-radius-md: 1rem;
+
+	--sgn-shadow-spread: 1rem;
+}

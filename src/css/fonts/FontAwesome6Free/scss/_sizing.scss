@@ -1,0 +1,23 @@
+/*!
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+// sizing icons
+// -------------------------
+
+// literal magnification scale
+@for $i from 1 through 10 {
+	.#{$fa-css-prefix}-#{$i}x {
+		font-size: $i * 1em;
+	}
+}
+
+// step-based scale (with alignment)
+@each $size, $value in $fa-sizes {
+	.#{$fa-css-prefix}-#{$size} {
+		@include fa-size($value);
+	}
+}

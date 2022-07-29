@@ -1,0 +1,108 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.ck-editor {
+	width: 100% !important;
+}
+
+.ck.ck-icon > path:not([fill]) {
+	fill: var(--sgn-accent-primary-text);
+}
+
+.editor__editable, main .ck-editor[role="application"] .ck.ck-content, .ck.editor__editable[role="textbox"], .ck.ck-editor__editable[role="textbox"], .ck.editor[role="textbox"] {
+	user-select: all;
+}
+
+.ck.ck-list {
+	background: none;
+}
+
+.ck.ck-button.ck-on,
+a.ck.ck-button.ck-on,
+.ck.ck-button.ck-switchbutton .ck-button__toggle .ck-button__toggle__inner,
+.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected.ck-widget_with-selection-handle > .ck-widget__selection-handle, .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected.ck-widget_with-selection-handle > .ck-widget__selection-handle:hover, .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover.ck-widget_with-selection-handle > .ck-widget__selection-handle, .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover.ck-widget_with-selection-handle > .ck-widget__selection-handle:hover,
+.ck .ck-widget.ck-widget_selected > .ck-widget__type-around > .ck-widget__type-around__button::after, .ck .ck-widget > .ck-widget__type-around > .ck-widget__type-around__button:hover::after,
+.ck-content hr,
+.ck-widget.raw-html-embed .raw-html-embed__content-wrapper,
+.ck.ck-input-text {
+	background: var(--sgn-accent-secondary-light) !important;
+}
+
+.ck-widget.raw-html-embed .raw-html-embed__buttons-wrapper .ck-button.raw-html-embed__cancel-button {
+
+}
+
+.ck-content hr {
+	height: 1px;
+}
+
+.ck-content blockquote {
+	border-color: var(--sgn-accent-secondary-light);
+}
+
+.ck.ck-input-text,
+.ck.ck-input-text[readonly] {
+	border: none;
+	filter: brightness(40%);
+}
+
+.ck.ck-button:not(.ck-disabled):hover,
+a.ck.ck-button:not(.ck-disabled):hover,
+.ck.ck-button.ck-on:not(.ck-disabled):hover,
+a.ck.ck-button.ck-on:not(.ck-disabled):hover,
+.ck.ck-list__item .ck-button:not(.ck-disabled):hover,
+.ck.ck-toolbar .ck.ck-toolbar__separator {
+	background: var(--sgn-accent-secondary-light);
+}
+
+.ck.ck-splitbutton.ck-splitbutton_open > .ck-button:not(.ck-on):not(.ck-disabled):not(:hover),
+.ck.ck-splitbutton:hover > .ck-button:not(.ck-on):not(.ck-disabled):not(:hover),
+.ck.ck-splitbutton.ck-splitbutton_open > .ck-splitbutton__arrow:not(.ck-disabled)::after,
+.ck.ck-splitbutton:hover > .ck-splitbutton__arrow:not(.ck-disabled)::after {
+	background: var(--sgn-accent-secondary-light);
+}
+
+.ck.ck-splitbutton:hover > .ck-splitbutton__arrow:not(.ck-disabled),
+.ck.ck-splitbutton.ck-splitbutton_open > .ck-splitbutton__arrow:not(.ck-disabled) {
+	filter: brightness(80%);
+}
+
+.ck.ck-splitbutton.ck-splitbutton_open > .ck-splitbutton__arrow:not(.ck-disabled)::after,
+.ck.ck-splitbutton:hover > .ck-splitbutton__arrow:not(.ck-disabled)::after {
+	filter: brightness(80%);
+}
+
+.ck.ck-reset_all,
+.ck.ck-reset_all *,
+.ck.ck-button .ck-button__label,
+a.ck.ck-button .ck-button__label {
+	color: var(--sgn-accent-primary-text);
+}
+
+.ck.ck-toolbar,
+.ck.ck-dropdown__panel,
+.ck.ck-balloon-panel,
+.ck.ck-labeled-field-view > .ck.ck-labeled-field-view__input-wrapper > .ck.ck-label,
+.ck-widget.raw-html-embed::before {
+	background: var(--sgn-accent-secondary);
+	border: none;
+	outline: 0;
+}
+
+.ck.ck-balloon-panel[class*="arrow_n"]::after,
+.ck.ck-balloon-panel[class*="arrow_n"]::before {
+	border-bottom-color: var(--sgn-accent-secondary);
+}
+
+.editor__editable,
+main .ck-editor[role="application"] .ck.ck-content,
+.ck.editor__editable[role="textbox"],
+.ck.ck-editor__editable[role="textbox"],
+.ck.editor[role="textbox"] {
+	background: transparent;
+	border: none;
+}

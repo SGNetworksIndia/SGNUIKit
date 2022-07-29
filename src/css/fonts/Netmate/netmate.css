@@ -1,0 +1,53 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/****************************************************
+*				NETMATE ICONS v1.0.0				*
+*****************************************************
+* Date: January 29, 2018							*
+****************************************************/
+@font-face {
+	font-family: 'Netmate';
+	src: url('Netmate.eot?4yurht');
+	src: url('Netmate.eot?4yurht#iefix') format('embedded-opentype'),
+	url('Netmate.ttf?4yurht') format('truetype'),
+	url('Netmate.woff?4yurht') format('woff'),
+	url('Netmate.svg?4yurht#Netmate') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.nm {
+	display: inline-block;
+	font: normal normal normal 14px/1 Netmate;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+[class^="nm-"], [class*=" nm-"] {
+	font-family: 'Netmate', serif !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	text-decoration: none;
+	font-size: 1em;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.nm-icon:after {
+	content: '\e900';
+}
+
+.nm-icon-transparent:after {
+	content: '\e901';
+}

@@ -1,0 +1,13 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+:root {
+	--accent-red-inactive: #ff718d;
+	--accent-red-active: #ff0235;
+	--accent-red-hover: #ff718d;
+	--background-red: #ffe4e9;
+}

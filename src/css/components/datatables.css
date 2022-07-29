@@ -1,0 +1,43 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.dataTables_length > label,
+.dataTables_filter > label {
+	padding: 0 1rem;
+	border: 1px solid var(--sgn-accent-primary);
+	color: var(--sgn-accent-primary);
+	font-family: var(--sgn-font-default-medium);
+	border-radius: 1rem;
+}
+
+.dataTables_length > label {
+	background-color: var(--sgn-accent-primary);
+	color: var(--sgn-accent-primary-text);
+}
+
+.dataTables_filter > label:after {
+	content: '\f002';
+	font-family: var(--sgn-font-fa);
+
+}
+
+.dataTables_length > label > .form-control,
+.dataTables_filter > label > .form-control {
+	border: none;
+	padding: .5rem;
+	border-radius: 0;
+}
+
+.dataTables_length > label > .form-control:focus,
+.dataTables_filter > label > .form-control:focus {
+	box-shadow: none;
+}
+
+.dataTables_length > label > .form-control:after {
+	content: '\f107';
+	font-family: var(--sgn-font-fa);
+}

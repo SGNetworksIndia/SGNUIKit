@@ -1,0 +1,95 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.sgn-snackbar {
+	min-width: 15rem; /* Set a default minimum width */
+	background-color: #333; /* Black background color */
+	color: #fff; /* White text color */
+	text-align: center; /* Centered text */
+	border-radius: .2rem; /* Rounded borders */
+	padding: var(--padding-md); /* Padding */
+	position: fixed; /* Sit on top of the screen */
+	left: 50%;
+	bottom: 0; /* 30px from the bottom */
+	opacity: 0;
+	transform: translateX(-50%);
+	z-index: 999;
+	transition: bottom .2s linear, opacity .3s linear;
+}
+
+.sgn-snackbar.block {
+	width: 100%;
+	bottom: calc(0rem - var(--padding-md));
+	opacity: 0;
+	padding: var(--padding-sm);
+	border-radius: 0;
+}
+
+body.with-sidebar > .sgn-snackbar {
+	max-width: calc(100% - var(--sgn-sidebar-width));
+	left: calc(50% + (var(--sgn-sidebar-width) + (var(--sgn-sidebar-width) / 2)));
+	transform: translateX(calc(-50% - var(--sgn-sidebar-width)));
+}
+
+.sgn-snackbar.show {
+	visibility: visible; /* Show the snackbar */
+	bottom: var(--padding-md);
+	opacity: 1;
+	transition: opacity .2s linear, bottom .3s linear;
+}
+
+.sgn-snackbar.block.show {
+	visibility: visible; /* Show the snackbar */
+	bottom: 0;
+	opacity: 1;
+	transition: opacity .2s linear, bottom .3s linear;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes sgn-snackbar-fadein {
+	from {
+		bottom: 0;
+		opacity: 0;
+	}
+	to {
+		bottom: var(--padding-md);
+		opacity: 1;
+	}
+}
+
+@keyframes sgn-snackbar-fadein {
+	from {
+		bottom: 0;
+		opacity: 0;
+	}
+	to {
+		bottom: var(--padding-md);
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes sgn-snackbar-fadeout {
+	from {
+		bottom: var(--padding-md);
+		opacity: 1;
+	}
+	to {
+		bottom: 0;
+		opacity: 0;
+	}
+}
+
+@keyframes sgn-snackbar-fadeout {
+	from {
+		bottom: var(--padding-md);
+		opacity: 1;
+	}
+	to {
+		bottom: 0;
+		opacity: 0;
+	}
+}

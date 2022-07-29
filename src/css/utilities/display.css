@@ -1,0 +1,146 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.d-flex {
+	display: flex !important;
+}
+
+.d-block {
+	display: block !important;
+}
+
+.d-inline {
+	display: inline !important;
+}
+
+.d-table {
+	display: table !important;
+}
+
+.d-none {
+	display: none !important;
+}
+
+
+.fd-column {
+	flex-direction: column !important;
+}
+
+.fd-column-r {
+	flex-direction: column-reverse !important;
+}
+
+.fd-row {
+	flex-direction: row !important;
+}
+
+.fd-row-r {
+	flex-direction: row-reverse !important;
+}
+
+
+.ai-start {
+	align-items: start !important;
+}
+
+.ai-center {
+	align-items: center !important;
+}
+
+.ai-end {
+	align-items: end !important;
+}
+
+.ai-stretch {
+	align-items: stretch !important;
+}
+
+
+.jc-start {
+	justify-content: start !important;
+}
+
+.jc-center {
+	justify-content: center !important;
+}
+
+.jc-end {
+	justify-content: end !important;
+}
+
+.jc-stretch {
+	justify-content: stretch !important;
+}
+
+.jc-space-around {
+	justify-content: space-around !important;
+}
+
+.jc-space-between {
+	justify-content: space-between !important;
+}
+
+.jc-space-evenly {
+	justify-content: space-evenly !important;
+}
+
+.jc-left {
+	justify-content: left !important;
+}
+
+.jc-right {
+	justify-content: right !important;
+}
+
+.jc-flex-start {
+	justify-content: flex-start !important;
+}
+
+.jc-flex-end {
+	justify-content: flex-end !important;
+}
+
+
+.as-auto {
+	align-self: auto !important;
+}
+
+.as-start {
+	align-self: start !important;
+}
+
+.as-center {
+	align-self: center !important;
+}
+
+.as-end {
+	align-self: end !important;
+}
+
+.as-stretch {
+	align-self: stretch !important;
+}
+
+.as-baseline {
+	align-self: baseline !important;
+}
+
+.as-flex-start {
+	align-self: flex-start !important;
+}
+
+.as-flex-end {
+	align-self: flex-end !important;
+}
+
+.as-self-start {
+	align-self: self-start !important;
+}
+
+.as-self-end {
+	align-self: self-end !important;
+}

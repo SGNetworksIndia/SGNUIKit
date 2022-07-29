@@ -5,8 +5,7 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-const glob                 = require('glob'),
-	  path                 = require('path'),
+const path                 = require('path'),
 	  MiniCSSExtractPlugin = require('mini-css-extract-plugin'),
 	  CSSOWebpackPlugin    = require('csso-webpack-plugin').default,
 	  webpack              = require('webpack');

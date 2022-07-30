@@ -15,3 +15,17 @@ String.prototype.format = function() {
 String.prototype.guid = function() {
 
 };
+
+String.prototype.ltrim = function(s) {
+	return this.replace(new RegExp("^" + s + "*"), '');
+};
+String.prototype.rtrim = function(s) {
+	return this.replace(new RegExp(s + "*$"), '');
+};
+
+$.expr[':'].textEquals = $.expr.createPseudo(function(arg) {
+	arg = arg.trim();
+	return function(elem) {
+		return $(elem).text().trim().match("^" + arg + "$");
+	}
+});

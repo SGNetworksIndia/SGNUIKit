@@ -83,7 +83,7 @@ const config = {
 			{
 				test: /\.(js)$/,
 				exclude: /node_modules/,
-				//use: ['babel-loader'],
+				use: ['babel-loader'],
 			},
 			{
 				test: /\.(scss|less|css)$/i,
@@ -137,60 +137,73 @@ const config = {
 	],
 };
 
-const jsConfig = Object.assign({}, config, {
-	name: "js",
-	entry: {
-		// js: glob.sync("./src/js/**/*.js")
-		'SGNUIKit.loader': './src/js/SGNUIKit.loader.js',
-		'SGNUIKit.bundle': './src/js/SGNUIKit.js'
-	},
-	output: {
-		path: BUILD_JS_DIR,
-		filename: '[name].js',
-		libraryTarget: 'umd',
-		library: {
-			type: 'umd'
-		}
-	},
-	optimization: {
-		minimize: false,
-		mergeDuplicateChunks: false,
-		minimizer: [
-			new TerserPlugin({
-				terserOptions: {
-					keep_classnames: true,
-					keep_fnames: true
-				}
-			})
-		]
-	},
-});
-
-const cssConfig = Object.assign({}, config, {
-	name: "css",
-	entry: {
-		//css: glob.sync("./src/css/**/*.css")
-		css: './src/css/SGNUIKit.css'
-	},
-	output: {
-		path: BUILD_CSS_DIR,
-		sourceMapFilename: "SGNUIKit.map.css"
-	},
-	optimization: {
-		minimize: true,
-		splitChunks: {
-			cacheGroups: {
-				css: {
-					name: 'css',
-					test: (m, c, entry = 'css') => m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry,
-					chunks: "all",
-					enforce: true
-				}
+const jsConfig = (env) => {
+	return Object.assign({}, config, {
+		name: "js",
+		entry: {
+			'SGNUIKit.loader': './src/js/SGNUIKit.loader.js',
+			'SGNUIKit.bundle': `./src/js/SGNUIKit-${env.flavor}.js`
+			/*'SGNUIKit.bundle': [
+				'./src/js/i18n/SGNi18n.js',
+				'./src/js/helpers/helpers.js',
+				'./src/css/fonts/FontAwesome6Free/js/all.min.js',
+				'./src/css/fonts/FontAwesome6Free/js/v4-shims.min.js',
+				'./src/js/addons/addons.js',
+				'./src/addons/addons.js',
+				'./src/js/components/components.js',
+			]*/
+		},
+		output: {
+			path: BUILD_JS_DIR,
+			filename: '[name].js',
+			libraryTarget: 'umd',
+			library: {
+				type: 'umd'
 			}
 		},
-		removeEmptyChunks: true
-	}
-});
+		optimization: {
+			minimize: true,
+			mergeDuplicateChunks: false,
+			moduleIds: 'natural',
+			minimizer: [
+				new TerserPlugin({
+					terserOptions: {
+						keep_classnames: true,
+						keep_fnames: true
+					}
+				})
+			]
+		},
+	});
+}
+
+const cssConfig = (env) => {
+	return Object.assign({}, config, {
+		name: "css",
+		entry: {
+			css: `./src/css/SGNUIKit-${env.flavor}.css`
+		},
+		output: {
+			path: BUILD_CSS_DIR,
+			sourceMapFilename: "SGNUIKit.map.css"
+		},
+		optimization: {
+			minimize: true,
+			moduleIds: 'natural',
+			splitChunks: {
+				cacheGroups: {
+					css: {
+						name: 'css',
+						test: (m, c, entry = 'css') => m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry,
+						chunks: "all",
+						enforce: true
+					}
+				}
+			},
+			removeEmptyChunks: true
+		}
+	});
+}
 
 module.exports = [
 	cssConfig,

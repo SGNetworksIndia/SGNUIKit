@@ -3,6 +3,7 @@
 	"version": "1.0.2",
 	"devDependencies": {
 		"babel-loader": "^8.2.5",
+		"css-loader": "^6.7.1",
 		"csso-webpack-plugin": "^2.0.0-beta.3",
 		"eslint": "^8.20.0",
 		"file-loader": "^6.2.0",
@@ -14,6 +15,7 @@
 		"webpack-node-externals": "^3.0.0"
 	},
 	"scripts": {
-		"Build": "webpack --stats-modules-space 999"
+		"Build (Free)": "webpack --env flavor=free --stats-modules-space 999",
+		"Build (Pro)": "webpack --env flavor=pro --stats-modules-space 999"
 	}
 }

@@ -5,10 +5,7 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-import('./DynamicEvents.js');
-import('./string.js');
-
-function logStopArt(stopArt) {
+export function logStopArt(stopArt) {
 	const styles = [
 		'background: linear-gradient(#333, #000)'
 		, 'border: 1px solid #3E0E02'
@@ -22,7 +19,7 @@ function logStopArt(stopArt) {
 	Console.log('%c' + stopArt, styles);
 }
 
-function is_json(str) {
+export function is_json(str) {
 	try {
 		JSON.parse(str);
 	} catch(e) {
@@ -31,7 +28,7 @@ function is_json(str) {
 	return true;
 }
 
-function parse_url(str, component) {
+export function parse_url(str, component) {
 	/*eslint-disable-line camelcase
 	      discuss at: https://locutus.io/php/parse_url/
 	     original by: Steven Levithan (https://blog.stevenlevithan.com)
@@ -123,7 +120,7 @@ function parse_url(str, component) {
 	return uri
 }
 
-function getUrlVars(url) {
+export function getUrlVars(url) {
 	let hash,
 		json   = {},
 		hashes = url.slice(url.indexOf('?') + 1).split('&');
@@ -134,16 +131,16 @@ function getUrlVars(url) {
 	return json;
 }
 
-function getI18nString(key, args) {
+export function getI18nString(key, args) {
 	return i18n.getString(key, args);
 }
 
-function strpos(haystack, needle, offset) {
+export function strpos(haystack, needle, offset) {
 	const i = (haystack + '').indexOf(needle, (offset || 0));
 	return i !== -1;
 }
 
-function numbersOnly(f, e) {
+export function numbersOnly(f, e) {
 	let key,
 		keychar;
 	if(window.event)
@@ -167,19 +164,13 @@ function numbersOnly(f, e) {
 		return false;
 }
 
-$.expr[':'].textEquals = $.expr.createPseudo(function(arg) {
-	arg = arg.trim();
-	return function(elem) {
-		return $(elem).text().trim().match("^" + arg + "$");
-	}
-});
-String.prototype.ltrim = function(s) {
-	return this.replace(new RegExp("^" + s + "*"), '');
-};
-String.prototype.rtrim = function(s) {
-	return this.replace(new RegExp(s + "*$"), '');
-};
-
+window.logStopArt = (stopArt) => logStopArt(stopArt);
+window.is_json = (str) => is_json(str);
+window.parse_url = (str, component) => parse_url(str, component);
+window.getUrlVars = (url) => getUrlVars(url);
+window.getI18nString = (key, args) => getI18nString(key, args);
+window.strpos = (haystack, needle, offset) => strpos(haystack, needle, offset);
+window.numbersOnly = (f, e) => numbersOnly(f, e);
 
 $(document).ready(function() {
 	$.extend({

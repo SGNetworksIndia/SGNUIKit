@@ -5,10 +5,11 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-const path                 = require('path'),
-	  MiniCSSExtractPlugin = require('mini-css-extract-plugin'),
-	  CSSOWebpackPlugin    = require('csso-webpack-plugin').default,
-	  webpack              = require('webpack');
+const path                      = require('path'),
+	  MiniCSSExtractPlugin      = require('mini-css-extract-plugin'),
+	  CSSUrlRelativePlugin      = require('css-url-relative-plugin'),
+	  FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries"),
+	  webpack                   = require('webpack');
 const TerserPlugin = require("terser-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 const SRC_JS_DIR             = path.resolve(__dirname, 'src/js'),
@@ -70,14 +71,6 @@ const config = {
 	externals: {
 		jquery: 'jQuery',
 	}, // in order to ignore all modules in node_modules folder
-	/*externals: [
-		nodeExternals({
-			importType: 'umd'
-		})
-	],
-	externalsPresets: {
-		node: true // in order to ignore built-in modules like path, fs, etc.
-	},*/
 	module: {
 		rules: [
 			{
@@ -86,45 +79,52 @@ const config = {
 				use: ['babel-loader'],
 			},
 			{
-				test: /\.(scss|less|css)$/i,
-				use: [MiniCSSExtractPlugin.loader, "css-loader"]
-			},
-			{
 				test: /\.(png|svg|jpg|jpeg|gif)$/i,
-				//type: "asset/resource",
-				use: [
-					{
-						options: {
-							name: "[name].[ext]",
-							// name: '[hash:8].[ext]',
-							outputPath: '../assets/img'
-						},
-						loader: "file-loader"
-					}
-				]
+				type: "asset/resource",
+				generator: {
+					filename: '../assets/img/[name][ext]',
+				},
 			},
 			{
-				test: /\.(woff|woff2|eot|ttf|otf)$/i,
-				//type: "asset/resource",
+				test: /\.(woff|woff2|eot|ttf|otf)(\?[a-z0-9=.]+)?$/i,
+				type: "asset/resource",
+				generator: {
+					filename: '../assets/fonts/[hash][ext][query]',
+				},
+			},
+			{
+				test: /\.(scss|less|css)$/i,
 				use: [
 					{
+						loader: MiniCSSExtractPlugin.loader,
 						options: {
-							name: '[hash].[ext]',
-							outputPath: '../assets/fonts'
-						},
-						loader: "file-loader"
-					}
+							//publicPath: '../assets/',
+						}
+					},
+					{
+						loader: "css-loader",
+						options: {
+							url: true,
+							sourceMap: true,
+							importLoaders: 2,
+							modules: false,
+							esModule: false,
+						}
+					},
 				]
 			},
 		],
 	},
 	plugins: [
+		new FixStyleOnlyEntriesPlugin(),
 		new MiniCSSExtractPlugin({
 			filename: "SGNUIKit.bundle.css",
 			chunkFilename: "[id].min.css",
 			ignoreOrder: false
 		}),
-		new CSSOWebpackPlugin(),
+		new CSSUrlRelativePlugin({
+			root: '../assets/'
+		}),
 		new webpack.optimize.LimitChunkCountPlugin({
 			maxChunks: 1
 		}),
@@ -185,10 +185,15 @@ const cssConfig = (env) => {
 		},
 		output: {
 			path: BUILD_CSS_DIR,
-			sourceMapFilename: "SGNUIKit.map.css"
+			publicPath: '',
+			sourceMapFilename: "SGNUIKit.map.css",
+			/*assetModuleFilename: (pathData) => {
+				const dir = (pathData.extension)
+				//return `${filepath}/[name].[hash][ext][query]`;
+			},*/
 		},
 		optimization: {
-			minimize: true,
+			minimize: false,
 			moduleIds: 'natural',
 			splitChunks: {
 				cacheGroups: {
@@ -207,6 +212,6 @@ const cssConfig = (env) => {
 
 module.exports = [
 	cssConfig,
-	jsConfig
+	//jsConfig
 ];
 

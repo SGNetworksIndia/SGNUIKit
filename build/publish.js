@@ -38,4 +38,3 @@ const copyRecursiveSync = function(src, dest) {
 
 copyRecursiveSync('src\\js\\SGNUIKit.loader.js', 'dist\\js\\SGNUIKit.loader.js');
 copyRecursiveSync('dist', 'E:\\home\\sgn\\public_html\\cdn\\jquery\\plugins\\SGNetworks\\SGNUIKit\\latest');
-//copyRecursiveSync('src\\js\\SGNUIKit.loader.js', 'E:\\home\\sgn\\public_html\\cdn\\jquery\\plugins\\SGNetworks\\SGNUIKit\\latest\\js\\SGNUIKit.loader.js');

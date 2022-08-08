@@ -18,11 +18,26 @@
 			const $next = $elem.next(elem),
 				  $prev = $elem.prev(elem);
 
-			//console.log($next, $prev);
-			if($next.length > 0)
-				return $next;
-			else if($prev.length > 0)
-				return $prev;
+			if(elem === 'label') {
+				const nodeName = ($elem.prop('nodeName')) ? $elem.prop('nodeName') : $elem[0].nodeName;
+				const $input  = (nodeName === 'input') ? $elem : $_this,
+					  inputID = ($input.attr('id')) ? $input.attr('id') : '',
+					  $label  = ($elem.parent().find(`label[for="${inputID}"]`)) ? $elem.parent().find(`label[for="${inputID}"]`) : '';
+
+				if($label.length > 0) {
+					return $label;
+				} else {
+					if($next.length > 0)
+						return $next;
+					else if($prev.length > 0)
+						return $prev;
+				}
+			} else {
+				if($next.length > 0)
+					return $next;
+				else if($prev.length > 0)
+					return $prev;
+			}
 
 			return undefined;
 		}

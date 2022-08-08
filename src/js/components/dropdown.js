@@ -14,6 +14,11 @@ if(typeof jQuery === "undefined") {
 	$.fn.SGNDropdown = function() {
 		return this.each(function() {
 			const $_this = $(this);
+
+			if(!$_this.parent('li').hasClass('dropdown')) {
+				$_this.parent('li').addClass('dropdown');
+			}
+
 			const $parent = $_this.parent('li.dropdown'),
 				  $child  = $_this.next('ul');
 

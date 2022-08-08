@@ -72,6 +72,15 @@ if(typeof jQuery === "undefined") {
 			$_this.data("topbarWidth", $_this.outerWidth());
 			$_this.data("mainWidth", $("body > main").outerWidth());
 
+			//Listen to the click event
+			$toggler.on('click', function(e) {
+				e.preventDefault();
+				_this.toggle(o.slide);
+			});
+			if(localStorage.getItem(_this.config.keys.sidebarStatus) === _this.config.values.sidebarStatus.open)
+				_this.open(o.slide);
+			else if(localStorage.getItem(_this.config.keys.sidebarStatus) === _this.config.values.sidebarStatus.min)
+				_this.close(o.slide);
 
 			$_this.find('a').each(function() {
 				const $this     = $(this),
@@ -92,17 +101,6 @@ if(typeof jQuery === "undefined") {
 						$li.addClass('active');
 					}
 				}
-
-				//Listen to the click event
-				$toggler.on('click', function(e) {
-					e.preventDefault();
-					_this.toggle(o.slide);
-				});
-				if(localStorage.getItem(_this.config.keys.sidebarStatus) === _this.config.values.sidebarStatus.open)
-					_this.open(o.slide);
-				else if(localStorage.getItem(_this.config.keys.sidebarStatus) === _this.config.values.sidebarStatus.min)
-					_this.close(o.slide);
-
 
 				let containerWidth = ($this.width()),
 					$text          = $this.children('span:nth-child(2)'),

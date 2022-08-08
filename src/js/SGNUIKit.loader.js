@@ -2220,7 +2220,7 @@ if(typeof jQuery === 'undefined') {
 
 
 ;(function(factory) {
-	factory(window.jQuery);
+	factory($);
 })(function(jQuery) {
 	(async function(callback) {
 		const $ = jQuery;
@@ -2545,8 +2545,8 @@ body {
 			//console.log("DOM loaded!", $('body'));
 
 			setTimeout(function() {
-				$.holdReady(false);
-				//$ = jQuery = window.jQuery;
+				jQuery.holdReady(false);
+				$ = jQuery = window.jQuery;
 				//$.holdReady(true);
 				$('body').children('.sgn-preloader').fadeOut(2000, function() {
 					$('body').children('.sgn-preloader').remove();

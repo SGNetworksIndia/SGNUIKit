@@ -90,6 +90,7 @@
 		}
 
 		const init = () => {
+			//region Variables
 			const nodeName = ($_this.prop('nodeName')) ? $_this.prop('nodeName') : $_this[0].nodeName;
 			const typeClass = getTypeClass();
 			let type = (nodeName === 'INPUT') ? $_this.attr('type').toLowerCase() : nodeName.toLowerCase();
@@ -105,6 +106,7 @@
 				$prefix    = sibling('.sgn-input-prefix'),
 				$suffix    = sibling('.sgn-input-suffix'),
 				$helpBlock = sibling('.sgn-form-help-block');
+			//endregion
 
 			if(type === 'switch') {
 				type = 'checkbox';
@@ -443,7 +445,8 @@
 
 			$container.on('sgninput.click', function(e) {
 				const $input = $(this).children('.sgn-form-wrapper').children('.sgn-input-wrapper').children('input.form-control');
-				$input[0].focus();
+				if($input.length > 0)
+					$input[0].focus();
 			});
 
 			$clickableContainer.on('sgniclick', function(e) {

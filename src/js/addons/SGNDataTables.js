@@ -13,14 +13,15 @@ if(typeof jQuery === "undefined") {
 ;(function(window, document, $) {
 	"use strict";
 	/**
-	 * @param msg{string}
-	 * @param block{boolean}
+	 * @param $table
+	 * @param options
 	 */
 	const SGNDataTable = function($table, options) {
 		const plugin = this;
 		const $_this = $table;
 		const $thead = $_this.children('thead'),
 			  $tbody = $_this.children('tbody'),
+
 			  $tfoot = $_this.children('tfoot');
 		let columnCount = 0,
 			$wrapper;
@@ -47,9 +48,27 @@ if(typeof jQuery === "undefined") {
 			return result;
 		}
 
-		const getCellValue = (tr, idx) => tr.text();
+		// const getCellValue = (tr, idx) => tr.text();
 
 		const comparer = (idx, asc) => (a, b) => ((v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2))(getCellValue(asc ? $(a) : $(b), idx), getCellValue(asc ? $(b) : $(a), idx));
+
+		function getCellValue(row, index) {
+			return $(row).children("td").eq(index).text();
+		}
+
+		/*function comparer(index, asc) {
+			return function(a, b) {
+				let val_a = getCellValue(a, index),
+					val_b = getCellValue(b, index);
+
+				val_a = (asc) ? val_a : val_b;
+				val_b = (asc) ? val_b : val_a;
+
+				let result = ($.isNumeric(val_a) && $.isNumeric(val_b)) ? val_a - val_b : val_a.toString().localeCompare(val_b);
+
+				return result;
+			}
+		}*/
 
 		// removes highlighting by replacing each em tag within the specified elements with it's content
 		function removeHighlighting(highlightedElements) {
@@ -107,26 +126,28 @@ if(typeof jQuery === "undefined") {
 			let asc = order;
 			const $ths = $thead.children('tr').children('th');
 
-			$ths.each((i, th) => $(th).on('click', ((elem) => {
-				const $th = $(elem.target);
-
-				const $rows = $tbody.find('tr');
+			$ths.filter(':not(.no-sort)').each((i, th) => $(th).on('click', ((elem) => {
+				const $this = $(elem.target);
+				const column = $this.index(),
+					  $tbody = $table.children('tbody'),
+					  $rows  = $tbody.find('tr').get(),
+					  dir    = ($this.hasClass("sort-asc")) ? "desc" : "asc";
 
 				if($ths.filter('.sort-asc').length > 0 || $ths.filter('.sort-desc').length > 0) {
 					Array.from($rows)
-						 .sort(comparer(Array.from($th.parent().children()).indexOf($th[0]), (asc = this.asc = !this.asc)))
+						 .sort(comparer(Array.from($this.parent().children()).indexOf($this[0]), (asc = this.asc = !this.asc)))
 						 .forEach($tr => $tbody.append($tr));
 				} else {
 					Array.from($rows)
-						 .sort(comparer(Array.from($th.parent().children()).indexOf($th[0]), (asc = this.asc = order)))
+						 .sort(comparer(Array.from($this.parent().children()).indexOf($this[0]), (asc = this.asc = order)))
 						 .forEach($tr => $tbody.append($tr));
 				}
 
 				$ths.removeClass('sort-asc sort-desc');
 				if(!asc)
-					$th.addClass('sort-desc');
+					$this.addClass('sort-desc');
 				else
-					$th.addClass('sort-asc');
+					$this.addClass('sort-asc');
 			})));
 
 			if(!$_this.hasClass('sortable'))
@@ -373,16 +394,17 @@ if(typeof jQuery === "undefined") {
 	}
 
 	/**
-	 * Creates a snackbar with the supplied message
+	 * Initializes a DataTable on the HTML Table with the supplied option
 	 *
-	 * @param msg{string} The message to add to the snackbar
-	 * @param block{boolean} If <b>true</b>, the snackbar will be taken the full-width considering some parameters.
+	 * @param {JSON}[options] A JSON object specifying the options.
+	 *
+	 * @return {jQuery} The jQuery object
 	 */
 	$.fn.SGNDataTable = function(options) {
 		const _this  = this,
 			  $_this = $(_this);
 
-		return this.each(function() {
+		return $_this.each(function() {
 			const $this = $(this);
 
 			const plugin = new SGNDataTable($this, options);
@@ -413,7 +435,7 @@ if(typeof jQuery === "undefined") {
 			searchable: true,
 			skip_search: [5],
 			pagination: true,
-			max_paging: 0
+			max_paging: 20
 		});
 	});
 })(window, document, jQuery);

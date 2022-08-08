@@ -5,7 +5,10 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-import('./CKEditor5/ckeditor.js');
+//import('./CKEditor5/ckeditor.js');
+import {CKSource} from "./CKEditor5/ckeditor";
+
+export default CKSource;
 import('./ContextJS/context.js');
 //import('./DataTables/datatables.min.js');
 import('./datepicker/bootstrap-datepicker.min.js');

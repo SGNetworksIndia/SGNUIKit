@@ -12,7 +12,7 @@
 
 ## REQUIREMENTS
 
-* **SGNUIKit Version**: 1.1.1
+* **SGNUIKit Version**: 1.1.2
 
 ### Core Requirements
 

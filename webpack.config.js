@@ -5,6 +5,8 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
+const debugBuild = true;
+
 const path                      = require('path'),
 	  MiniCSSExtractPlugin      = require('mini-css-extract-plugin'),
 	  CSSUrlRelativePlugin      = require('css-url-relative-plugin'),
@@ -63,10 +65,11 @@ const config = {
 	//devtool: "source-map",
 	resolve: {
 		extensions: [".js", ".css", ".scss", ".less"],
-		/*alias: {
+		alias: {
 			// fix every jQuery to our direct jQuery dependency. Shariff 1.24.1 brings its own jQuery, and it would be included twice without this alias.
-			'jquery': nodeExternals() + '/jquery/ist/jquery.js', //./node_modules/jquery/dist/jquery.js
-		},*/
+			//'jquery': nodeExternals() + '/jquery/ist/jquery.js', //./node_modules/jquery/dist/jquery.js
+			'CKSource': SRC_ADDONS_DIR + '/CKEditor5/ckeditor.js'
+		},
 	},
 	externals: {
 		jquery: 'jQuery',
@@ -128,11 +131,9 @@ const config = {
 		new webpack.optimize.LimitChunkCountPlugin({
 			maxChunks: 1
 		}),
-		/*new webpack.ProvidePlugin({
-			jQuery: 'jquery',
-			$: 'jquery',
-			jquery: 'jquery'
-		}),*/
+		new webpack.ProvidePlugin({
+			CKSource: 'CKSource'
+		}),
 		//new Without([/\.js$/]), // just give a list with regex patterns that should be excluded
 	],
 };
@@ -141,7 +142,7 @@ const jsConfig = (env) => {
 	return Object.assign({}, config, {
 		name: "js",
 		entry: {
-			'SGNUIKit.loader': './src/js/SGNUIKit.loader.js',
+			//'SGNUIKit.loader': './src/js/SGNUIKit.loader.js',
 			'SGNUIKit.bundle': `./src/js/SGNUIKit-${env.flavor}.js`
 			/*'SGNUIKit.bundle': [
 				'./src/js/i18n/SGNi18n.js',
@@ -162,7 +163,7 @@ const jsConfig = (env) => {
 			}
 		},
 		optimization: {
-			minimize: true,
+			minimize: (!debugBuild),
 			mergeDuplicateChunks: false,
 			moduleIds: 'natural',
 			minimizer: [
@@ -193,7 +194,7 @@ const cssConfig = (env) => {
 			},*/
 		},
 		optimization: {
-			minimize: false,
+			minimize: (!debugBuild),
 			moduleIds: 'natural',
 			splitChunks: {
 				cacheGroups: {
@@ -212,6 +213,6 @@ const cssConfig = (env) => {
 
 module.exports = [
 	cssConfig,
-	//jsConfig
+	jsConfig
 ];
 

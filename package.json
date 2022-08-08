@@ -1,6 +1,6 @@
 {
-	"name": "SGNUIKit",
-	"version": "1.1.1",
+	"name": "sgnuikit",
+	"version": "1.1.2",
 	"devDependencies": {
 		"babel-loader": "^8.2.5",
 		"css-loader": "3.4.2",
@@ -16,7 +16,9 @@
 		"webpack-fix-style-only-entries": "^0.6.1"
 	},
 	"scripts": {
-		"Build (Free)": "webpack --env flavor=free --stats-modules-space 999",
-		"Build (Pro)": "webpack --env flavor=pro --stats-modules-space 999"
+		"prebuild": "node .\\build\\clean.js --dir src",
+		"Build (Free)": "npm run prebuild & webpack --env flavor=free --stats-modules-space 999 & npm run postbuild",
+		"Build (Pro)": "npm run prebuild & webpack --env flavor=pro --stats-modules-space 999 & npm run postbuild",
+		"postbuild": "node .\\build\\clean.js --dir dst & node .\\build\\publish.js"
 	}
 }

@@ -11,12 +11,12 @@
 	cursor: pointer;
 }
 
-.sgn-form.sgn-input-file > .sgn-form-wrapper > .sgn-input-wrapper:before {
+.sgn-form.sgn-input-file > .sgn-form-wrapper > .sgn-input-wrapper:after {
 	content: 'Browse';
 	color: inherit;
 	background-color: var(--sgnf-background);
-	padding: var(--padding-xs) var(--padding-md);
-	border-radius: var(--sgn-border-radius-sm) 0 0 var(--sgn-border-radius-sm);
+	padding: var(--padding-sm) var(--padding-md);
+	border-radius: 0 var(--sgn-border-inner-radius-sm) var(--sgn-border-inner-radius-sm) 0;
 	z-index: 0;
 }
 

@@ -102,28 +102,6 @@ if(typeof jQuery === "undefined") {
 
 		let useCapture = false;
 
-		/*if(typeof listener === 'object') {
-			data = listener;
-			if(typeof id === 'function')
-				listener = id;
-		} else if(typeof listener === 'function') {
-			if(typeof id === 'object')
-				data = id;
-		}*/
-
-		/*if(typeof listener === 'function') {
-			listener = listener;
-			if(typeof selector === 'string') {
-				selector = selector;
-				if(typeof data === 'object') {
-					data = data;
-					if(typeof id === 'string') {
-						id = id;
-					}
-				}
-			}
-		}*/
-
 		let tmp = undefined;
 		if(typeof listener === 'function' && typeof selector === 'string' && typeof data === 'object' && typeof id === 'string') {
 
@@ -145,71 +123,71 @@ if(typeof jQuery === "undefined") {
 			id = tmp;
 		}
 
+		const turnOnSingleEvent = ($element, eventData, eventName, create = false) => {
+			const element = $element[0];
+			if(create) {
+				const guid = (id === undefined || id === '') ? GUID() : id;
 
-		return this.each(function() {
-			const $this = $(this);
-			const eventNames = (eventName !== undefined && eventName !== null && eventName !== '') ? eventName.split(' ') : [];
-			//console.log($this, eventName, listener, data);
-			if(eventNames.length > 0) {
-				eventNames.forEach(function(eventName) {
-					if(typeof listener === 'function') {
-						const guid = (id === undefined || id === '') ? GUID() : id;
+				const eventData = {
+					'element': $element,
+					'event': eventName,
+					'handler': listener,
+					'data': data,
+					'guid': guid,
+					'status': 'on'
+				};
 
-						const eventData = {
-							'element': $this,
-							'event': eventName,
-							'handler': listener,
-							'data': data,
-							'guid': guid,
-							'status': 'on'
-						};
+				delegate(element, eventName, selector, listener, useCapture);
+				if(typeof data === 'object') {
+					$.extend(element, data);
+				}
 
-						delegate($this[0], eventName, selector, listener, useCapture);
-						if(typeof data === 'object') {
-							$.extend($this[0], data);
-						}
+				if(element.events === undefined)
+					element.events = {};
 
-						if($this[0].events === undefined)
-							$this[0].events = {};
+				if(!element.events.hasOwnProperty(eventName))
+					element.events[eventName] = {};
 
-						if(!$this[0].events.hasOwnProperty(eventName))
-							$this[0].events[eventName] = {};
-
-						$this[0].events[eventName][guid] = eventData;
-					} else {
-						const eventData = $this.getEventData(eventName, id);
-
-						if(eventData !== undefined) {
-							$.each(eventData, function(i, c) {
-								const name    = c.event,
-									  handler = c.handler,
-									  data    = c.data;
-
-								delegate($this[0], eventName, selector, handler, useCapture);
-								if(typeof data === 'object') {
-									$.extend($this[0], data);
-								}
-								c.status = 'on';
-							});
-						}
-					}
-				});
+				element.events[eventName][guid] = eventData;
 			} else {
-				const eventData = $this.getEventData();
-
 				if(eventData !== undefined) {
 					$.each(eventData, function(i, c) {
 						const name    = c.event,
 							  handler = c.handler,
 							  data    = c.data;
 
-						delegate($this[0], eventName, selector, handler, useCapture);
+						delegate(element, eventName, selector, handler, useCapture);
 						if(typeof data === 'object') {
-							$.extend($this[0], data);
+							$.extend(element, data);
 						}
 						c.status = 'on';
 					});
 				}
+			}
+		}
+		const turnOnEvent = ($element, eventName, create = false) => {
+			if(eventName !== undefined && eventName !== null && eventName !== '') {
+				const eventData = $element.getEventData(eventName, id);
+				turnOnSingleEvent($element, eventData, eventName, create);
+			} else {
+				const eventDatas = $element.getEventData();
+
+				if(eventDatas !== undefined && eventDatas.length > 0) {
+					$.each(eventDatas, function(event, eventData) {
+						turnOnSingleEvent($element, eventData, create);
+					});
+				}
+			}
+		}
+
+		return this.each(function() {
+			const $this = $(this);
+			const eventNames = (eventName !== undefined && eventName !== null && eventName !== '') ? eventName.split(' ') : [];
+
+			if(eventNames.length > 0) {
+				eventNames.forEach(eventName => turnOnEvent($this, eventName, (typeof listener === 'function')));
+			} else {
+				turnOnEvent($this, eventName, false);
 			}
 		});
 	};
@@ -223,35 +201,39 @@ if(typeof jQuery === "undefined") {
 	 * @return {jQuery} The DOM element
 	 */
 	$.fn.off = function(eventName, id) {
+		const turnOffSingleEvent = ($element, eventData) => {
+			if(eventData !== undefined) {
+				$.each(eventData, function(i, c) {
+					const name    = c.event,
+						  handler = c.handler;
+
+					$element[0].removeEventListener(name, handler);
+					c.status = 'off';
+				});
+			}
+		}
+		const turnOffEvent = ($element, eventName, id) => {
+			if(eventName !== undefined && eventName !== null && eventName !== '') {
+				const eventData = $element.getEventData(eventName, id);
+				turnOffSingleEvent($element, eventData);
+			} else {
+				const eventDatas = $element.getEventData();
+
+				if(eventDatas !== undefined && eventDatas.length > 0) {
+					$.each(eventDatas, function(event, eventData) {
+						turnOffSingleEvent($element, eventData);
+					});
+				}
+			}
+		}
+
 		return this.each(function() {
 			const $this = $(this);
 			const eventNames = (eventName !== undefined && eventName !== null && eventName !== '' && eventName.indexOf(' ') !== -1) ? eventName.split(' ') : [];
 			if(eventNames.length > 0) {
-				eventNames.forEach(function(eventName) {
-					const eventData = $this.getEventData(eventName, id);
-
-					if(eventData !== undefined) {
-						$.each(eventData, function(i, c) {
-							const name    = c.event,
-								  handler = c.handler;
-
-							$this[0].removeEventListener(name, handler, true);
-							c.status = 'off';
-						});
-					}
-				});
+				eventNames.forEach(eventName => turnOffEvent($this, eventName, id));
 			} else {
-				const eventData = $this.getEventData();
-
-				if(eventData !== undefined) {
-					$.each(eventData, function(i, c) {
-						const name    = c.event,
-							  handler = c.handler;
-
-						$this[0].removeEventListener(name, handler);
-						c.status = 'off';
-					});
-				}
+				turnOffEvent($this, eventName, id);
 			}
 		});
 	};
@@ -265,37 +247,44 @@ if(typeof jQuery === "undefined") {
 	 * @return {jQuery} The DOM element
 	 */
 	$.fn.terminate = function(eventName, id) {
+		const terminateSingleEvent = ($element, eventData) => {
+			const element = $element[0];
+
+			if(eventData !== undefined) {
+				$.each(eventData, function(i, c) {
+					const name    = c.event,
+						  handler = c.handler;
+
+					element.removeEventListener(name, handler, true);
+					c.status = 'off';
+					delete element.events[eventName][id];
+				});
+			}
+		}
+		const terminateEvent = ($element, eventName) => {
+			const element = $element[0];
+
+			if(eventName !== undefined && eventName !== null && eventName !== '') {
+				const eventData = $element.getEventData(eventName, id);
+				terminateSingleEvent($element, eventData);
+			} else {
+				const eventDatas = $element.getEventData();
+
+				if(eventDatas !== undefined && eventDatas.length > 0) {
+					$.each(eventDatas, function(event, eventData) {
+						terminateSingleEvent($element, eventData);
+					});
+				}
+			}
+		}
+
 		return this.each(function() {
 			const $this = $(this);
 			const eventNames = (eventName !== undefined && eventName !== null && eventName !== '' && eventName.indexOf(' ') !== -1) ? eventName.split(' ') : [];
 			if(eventNames.length > 0) {
-				eventNames.forEach(function(eventName) {
-					const eventData = $this.getEventData(eventName, id);
-
-					if(eventData !== undefined) {
-						$.each(eventData, function(i, c) {
-							const name    = c.event,
-								  handler = c.handler;
-
-							$this[0].removeEventListener(name, handler, true);
-							c.status = 'off';
-							delete $this[0].events[eventName][id];
-						});
-					}
-				});
+				eventNames.forEach(eventName => terminateEvent($this, eventName));
 			} else {
-				const eventData = $this.getEventData();
-
-				if(eventData !== undefined) {
-					$.each(eventData, function(i, c) {
-						const name    = c.event,
-							  handler = c.handler;
-
-						$this[0].removeEventListener(name, handler);
-						c.status = 'off';
-						delete $this[0].events[name];
-					});
-				}
+				terminateEvent($this, eventName);
 			}
 		});
 	};
@@ -310,51 +299,54 @@ if(typeof jQuery === "undefined") {
 	 * @return {jQuery} The DOM element
 	 */
 	$.fn.trigger = function(eventName, data, id) {
+		let useCapture = false;
+
+		const triggerSingleEvent = ($element, eventData) => {
+			const element = $element[0];
+
+			if(eventData !== undefined) {
+				$.each(eventData, function(i, c) {
+					const name    = c.event,
+						  handler = c.handler;
+
+					let event;
+					if(window.CustomEvent) {
+						event = new CustomEvent(name, data);
+					} else {
+						event = document.createEvent('CustomEvent');
+						event.initCustomEvent(name, (!useCapture), true, data);
+					}
+
+					element.dispatchEvent(event);
+				});
+			}
+		}
+		const triggerEvent = ($element, eventName) => {
+			const element = $element[0];
+
+			if(eventName !== undefined && eventName !== null && eventName !== '') {
+				const eventData = $element.getEventData(eventName, id);
+				triggerSingleEvent($element, eventData);
+			} else {
+				const eventDatas = $element.getEventData();
+
+				if(eventDatas !== undefined && eventDatas.length > 0) {
+					$.each(eventDatas, function(event, eventData) {
+						triggerSingleEvent($element, eventData);
+					});
+				}
+			}
+		}
+
 		return this.each(function() {
 			const $this = $(this);
 			eventName = (eventName !== undefined && eventName !== null && eventName !== '' && typeof eventName === 'object') ? eventName.type : eventName;
 
 			const eventNames = (eventName !== undefined && eventName !== null && eventName !== '' && eventName.indexOf(' ') !== -1) ? eventName.split(' ') : [];
-			//console.log($this, eventName, data);
 			if(eventNames.length > 0) {
-				eventNames.forEach(function(eventName) {
-					const eventData = $this.getEventData(eventName, id);
-
-					if(eventData !== undefined) {
-						$.each(eventData, function(i, c) {
-							const name    = c.event,
-								  handler = c.handler;
-
-							let event;
-							if(window.CustomEvent) {
-								event = new CustomEvent(eventName, data);
-							} else {
-								event = document.createEvent('CustomEvent');
-								event.initCustomEvent(eventName, false, true, options);
-							}
-							$this[0].dispatchEvent(event);
-						});
-					}
-				});
+				eventNames.forEach(eventName => triggerEvent($this, eventName));
 			} else {
-				const eventData = $this.getEventData();
-				//console.log($this, eventName, eventData);
-
-				if(eventData !== undefined) {
-					$.each(eventData, function(i, c) {
-						const name    = c.event,
-							  handler = c.handler;
-
-						let event;
-						if(window.CustomEvent) {
-							event = new CustomEvent(eventName, data);
-						} else {
-							event = document.createEvent('CustomEvent');
-							event.initCustomEvent(eventName, true, true, data);
-						}
-						$this[0].dispatchEvent(event);
-					});
-				}
+				triggerEvent($this, eventName);
 			}
 		});
 	};
@@ -383,9 +375,7 @@ if(typeof jQuery === "undefined") {
 					const eventData = eventInfo[eventName];
 
 					if(id !== undefined && eventData[id] !== undefined) {
-						const currentEventData = eventData[id];
-
-						_this = currentEventData;
+						_this = eventData[id];
 					} else {
 						_this = eventData;
 					}

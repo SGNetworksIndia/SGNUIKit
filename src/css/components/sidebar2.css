@@ -267,7 +267,7 @@ nav.sgn-sidebar:not(.sidebar-open) > ul > li.dropdown > ul.submenu > li > a > sp
 nav.sgn-sidebar:not(.sidebar-open) > ul > li.dropdown > ul.submenu > li > a > span:nth-child(3),
 nav.sgn-sidebar:not(.sidebar-open) > ul > li.dropdown > ul.submenu > li > ul.childmenu > li > a > span:nth-child(2),
 nav.sgn-sidebar:not(.sidebar-open) > ul > li.dropdown > ul.submenu > li > ul.childmenu > li > a > span:nth-child(3) {
-	display: none;
+	display: none !important;
 }
 
 nav.sgn-sidebar:not(.sidebar-open) > ul > li.dropdown ul {
@@ -284,7 +284,6 @@ body.with-sidebar:not(.sidebar-open) > header > nav.sgn-navbar {
 }
 
 body.with-sidebar:not(.sidebar-open) > main > footer {
-	/*position: absolute;*/
 	bottom: 0;
 	left: 0;
 	width: 100%;
@@ -304,7 +303,6 @@ body.with-sidebar.sidebar-open > main > footer {
 }
 
 body.with-sidebar.sidebar-open > main > footer {
-	/*position: absolute;*/
 	bottom: 0;
 	left: 0;
 	width: 100%;

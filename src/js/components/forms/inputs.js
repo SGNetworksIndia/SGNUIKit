@@ -104,6 +104,16 @@
 			return result;
 		}
 
+		function click(node) {
+			try {
+				node.dispatchEvent(new MouseEvent('click'))
+			} catch(e) {
+				const evt = document.createEvent('MouseEvents')
+				evt.initMouseEvent('click', true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null)
+				node.dispatchEvent(evt);
+			}
+		}
+
 		const init = () => {
 			//region Variables
 			const nodeName = ($_this.prop('nodeName')) ? $_this.prop('nodeName') : $_this[0].nodeName;
@@ -436,24 +446,14 @@
 
 				$('.sgn-form.sgn-select .form-control').blur();
 				$('.sgn-form.sgn-select.open').removeClass('open');
-				//console.log($wrapper, $input, $this);
 
 				if(!$wrapper.hasClass('active'))
 					$wrapper.removeClass('edited').addClass('active');
 				if($inputGroup.length > 0)
 					$inputGroup.removeClass('edited').addClass('active');
 
-				/*if(!$input.is(':focus'))
-					$input.focus();
-
-				if(!$wrapper.hasClass('sgn-select')) {
-					if(!$input.is(':focus'))
-						$container.removeClass('active');
-					else
-						$wrapper.trigger('sgninput.click');
-				}*/
-
 				$wrapper.trigger('sgninput.click');
+
 				e.preventDefault();
 				return false;
 			});
@@ -487,8 +487,11 @@
 			$input.on('focus', function() {
 				const $container = $(this).parents('.sgn-form');
 
+
 				if(!$container.hasClass('active'))
 					$container.click();
+
+				setTimeout(() => click($(this)[0]), 100);
 
 				$(this).trigger('sgninput.focus');
 			});

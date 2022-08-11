@@ -13,20 +13,6 @@
 		const _this  = element,
 			  $_this = $(_this);
 
-		const sibling = (elem, $elem) => {
-			$elem = ($elem === undefined || $elem === null || $elem === '') ? $_this : $elem;
-			const $next = $elem.next(elem),
-				  $prev = $elem.prev(elem);
-
-			//console.log($next, $prev);
-			if($next.length > 0)
-				return $next;
-			else if($prev.length > 0)
-				return $prev;
-
-			return undefined;
-		}
-
 		function GUID(str) {
 			if(str === undefined || !str.length)
 				str = "" + Math.random() * new Date().getTime() + Math.random();
@@ -63,8 +49,7 @@
 		const getOptionHTML = ($option) => {
 			const guid = `sgn-option-${GUID()}`;
 
-			const v        = $option.val(),
-				  t        = $option.text(),
+			const t        = $option.text(),
 				  disabled = $option.attr('disabled'),
 				  readonly = $option.attr('readonly');
 
@@ -73,9 +58,7 @@
 			$option.attr('aria-describedby', guid);
 			$option.data('describedby', guid);
 
-			let html = `<li class="sgn-option${disabledClass}${readonlyClass}" id="${guid}" value="${guid}"><span class="sgn-option-label" aria-labelledby="${guid}">${t}</span></li>`;
-
-			return html;
+			return `<li class="sgn-option${disabledClass}${readonlyClass}" id="${guid}" value="${guid}"><span class="sgn-option-label" aria-labelledby="${guid}">${t}</span></li>`;
 		}
 
 		const init = () => {
@@ -110,7 +93,6 @@
 
 			$inputWrapper.append(html);
 
-			//console.log($sgnSelectInput,$_this,$container);
 			$sgnSelectInput.SGNInput();
 
 			bindEvents();
@@ -126,73 +108,47 @@
 				$sgnSelect      = $inputWrapper.children('.sgn-select'),
 				$sgnOptions     = $sgnSelect.children('.sgn-option');
 
-			/*$container.on('click', function(e) {
-				const $this = $(this);
-				const $inputGroup = ($this.parents('.crtb-group').length > 0) ? $this.parents('.crtb-group') : $this.parents('.input-group');
-				const $input = $this.children('.sgn-form-wrapper').children('.sgn-input-wrapper').children('input.sgn-select-input');
-
-				$('.sgn-form.sgn-select .form-control').blur();
-				$('.sgn-form.sgn-select.open').removeClass('open');
-				//console.log($_this, $this);
-
-				if(!$this.hasClass('active'))
-					$this.removeClass('edited').addClass('active');
-				if($inputGroup.length > 0)
-					$inputGroup.removeClass('edited').addClass('active');
-
-				if(!$input.is(':focus'))
-					$input.focus();
-
-				if(!$this.hasClass('sgn-select')) {
-					if(!$input.is(':focus'))
-						$container.removeClass('active');
-					else
-						$this.trigger('sgninput.click');
-				}
-			});*/
-
 			$sgnSelectInput.on('focus', function(e) {
+				e.stopPropagation();
 				$('.sgn-form.sgn-select').removeClass('open');
-				//console.log($(this), _this);
-				_this.show();
-			});
-
-			$sgnSelectInput.on('blur', function(e) {
-				_this.hide();
-			});
-
-			$sgnSelect.on('mouseover', function(e) {
 				$sgnSelectInput.off('blur');
+				plugin.show();
 			});
 
-			$sgnSelect.on('mouseout', function(e) {
-				$sgnSelectInput.on('blur');
+			$sgnSelectInput.on('focusout', function(e) {
+				e.stopPropagation();
+				const eot     = e.explicitOriginalTarget,
+					  $eot    = $(eot),
+					  $option = ($eot.hasClass('sgn-option')) ? $eot : $eot.parents('.sgn-option');
+
+				if($option.length <= 0) {
+					plugin.hide();
+					$sgnSelectInput.on('blur').trigger('blur');
+				}
 			});
 
 			$sgnOptions.on('click', function(e) {
-				e.preventDefault();
+				e.stopPropagation();
 				const $this = $(this),
 					  id    = $this.attr('id'),
-					  v     = $this.val(),
 					  t     = $this.children('.sgn-option-label').text();
 
 				$sgnOptions.removeClass('selected').removeAttr('selected').prop('selected', false);
 				$this.addClass('selected').attr('selected', true).prop('selected', true);
 
 				$options.removeAttr('selected').prop('selected', false);
-				//$select.find(`option[aria-describedby="${id}"]`).attr('selected', true).prop('selected', true).change();
 				$select.find(`option[aria-describedby="${id}"]`).attr('selected', true).prop('selected', true);
-				$select.trigger('change');
 
-				//$sgnSelectInput.val(t).change();
-				$sgnSelectInput.val(t).trigger('change');
-				$sgnSelectInput.on('blur');
+				if($this.prop('selected')) {
+					$select.trigger('change');
 
-				_this.hide();
+					$sgnSelectInput.val(t).trigger('change');
+					plugin.hide();
+				}
 			});
 		}
 
-		_this.show = () => {
+		plugin.show = () => {
 			let $container = $_this.parents('.sgn-form.sgn-select');
 
 			if(!$container.hasClass('open')) {
@@ -200,7 +156,7 @@
 			}
 		}
 
-		_this.hide = () => {
+		plugin.hide = () => {
 			let $container = $_this.parents('.sgn-form.sgn-select');
 
 			if($container.hasClass('open')) {
@@ -211,25 +167,60 @@
 		init();
 	}
 
+	/**
+	 * Creates an instance of <b>jQuery.SGNSelect</b> and initiates <b>SGNSelect</b> for the called <b><i><select></i></b> elements.
+	 *
+	 * @return {jQuery.SGNSelect} Returns <b>jQuery.SGNSelect</b> object for method chaining.
+	 */
 	$.fn.SGNSelect = function() {
 		const _this = this;
 
-		return _this.each(function() {
+		_this.each(function() {
 			const $this = $(this),
 				  data  = $this.data('SGNSelect');
 			const plugin = (data === undefined) ? new SGNSelect($this) : data;
 			$this.data('SGNSelect', plugin);
-			/*$this.SGNSelect = plugin;
-			$this[0].SGNSelect = plugin;*/
+
+			$this[0]['SGNSelect'] = plugin;
 		});
+
+
+		/**
+		 * Shows the selected SGNSelect elements (if hidden).
+		 *
+		 * @return {jQuery} Returns <b>jQuery</b> object for DOM chaining.
+		 */
+		$.fn.SGNSelect.show = function() {
+			return _this.each(function() {
+				const $this  = $(this),
+					  plugin = $this.data('SGNSelect');
+				$this.data('SGNSelect', plugin);
+
+				if(plugin !== undefined)
+					plugin.show();
+			});
+		};
+
+		/**
+		 * Hides the selected SGNSelect elements (if shown).
+		 *
+		 * @return {jQuery} Returns <b>jQuery</b> object for DOM chaining.
+		 */
+		$.fn.SGNSelect.hide = function() {
+			return _this.each(function() {
+				const $this  = $(this),
+					  plugin = $this.data('SGNSelect');
+				$this.data('SGNSelect', plugin);
+
+				if(plugin !== undefined)
+					plugin.hide();
+			});
+		};
+
+		return _this;
 	}
 
-	$(document).ready(function() {
-		/*const $inputs = $('select.form-control');
-		$inputs.each(function() {
-			$(this).SGNSelect();
-		});*/
-	});
+	window.SGNSelect = SGNSelect;
 
 	return this;
 })(jQuery, document, window);

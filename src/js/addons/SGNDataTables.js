@@ -21,9 +21,9 @@ if(typeof jQuery === "undefined") {
 		const $_this = $table;
 		const $thead = $_this.children('thead'),
 			  $tbody = $_this.children('tbody'),
-
 			  $tfoot = $_this.children('tfoot');
 		let columnCount = 0,
+			rowCount    = 0,
 			$wrapper;
 		const settings = {
 			sortable: true,
@@ -47,8 +47,6 @@ if(typeof jQuery === "undefined") {
 			}
 			return result;
 		}
-
-		// const getCellValue = (tr, idx) => tr.text();
 
 		const comparer = (idx, asc) => (a, b) => ((v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2))(getCellValue(asc ? $(a) : $(b), idx), getCellValue(asc ? $(b) : $(a), idx));
 
@@ -94,9 +92,9 @@ if(typeof jQuery === "undefined") {
 		function init() {
 			// do the work...
 			columnCount = $thead.children('tr').children('th').length;
+			rowCount = $tbody.find('tr').length;
 
 			$.extend(settings, options);
-
 
 			let $container = $_this.parents('.sgn-table-wrapper');
 			if($container.length <= 0) {
@@ -106,7 +104,7 @@ if(typeof jQuery === "undefined") {
 			$container.wrap(`<div class="sgn-datatable"/>`);
 			$wrapper = $container.parent('.sgn-datatable');
 
-			const order   = (settings.order === 'desc' || settings.order === false) ? false : true,
+			const order   = (!(settings.order === 'desc' || settings.order === false)),
 				  sortCol = (typeof settings.sorted_column === 'number' && settings.sorted_column > 0 && settings.sorted_column <= columnCount && (settings.sorted_column - 1) >= 0) ? (settings.sorted_column - 1) : 0;
 
 			if(settings.sortable || $_this.hasClass('sortable')) {
@@ -116,7 +114,7 @@ if(typeof jQuery === "undefined") {
 			if(settings.searchable || $_this.hasClass('searchable')) {
 				initSearch();
 			}
-			if((settings.pagination || $_this.hasClass('pagination')) && settings.max_paging > 0) {
+			if((settings.pagination || $_this.hasClass('pagination')) && settings.max_paging > 0 && rowCount > settings.max_paging) {
 				initPagination(settings.max_paging);
 				initPagingSize(settings.max_paging);
 			}
@@ -362,32 +360,6 @@ if(typeof jQuery === "undefined") {
 			$thead.children('tr').children('th')[column].click();
 		}
 
-		plugin.show = (duration) => {
-			duration = (duration !== true && !$.isNumeric(duration)) ? undefined : duration;
-			duration = (duration !== true && !$.isNumeric(duration) && duration === undefined) ? 5000 : duration;
-			duration = (duration === true) ? null : duration;
-
-			if($snackbar.length <= 0)
-				init();
-			else {
-				if(!$snackbar.hasClass('show'))
-					$snackbar.addClass('show');
-			}
-
-			if(duration !== null) {
-				setTimeout(function() {
-					plugin.hide();
-				}, duration);
-			}
-		};
-
-		plugin.hide = () => {
-			if($snackbar.length > 0) {
-				if($snackbar.hasClass('show'))
-					$snackbar.removeClass('show');
-			}
-		};
-
 		init();
 
 		return plugin;
@@ -408,20 +380,6 @@ if(typeof jQuery === "undefined") {
 			const $this = $(this);
 
 			const plugin = new SGNDataTable($this, options);
-
-			/**
-			 * Show a built snackbar
-			 */
-			_this.show = function() {
-				plugin.show();
-			}
-
-			/**
-			 * Hide a snackbar
-			 */
-			_this.hide = function() {
-				plugin.hide();
-			}
 		});
 	};
 

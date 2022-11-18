@@ -13,12 +13,18 @@
 		const _this  = element,
 			  $_this = $(_this);
 
-		const sibling = (elem, $elem) => {
+		/**
+		 *
+		 * @param {string} find
+		 * @param {jQuery} $elem
+		 * @return {undefined|jQuery}
+		 */
+		const sibling = (find, $elem) => {
 			$elem = ($elem === undefined || $elem === null || $elem === '') ? $_this : $elem;
-			const $next = $elem.next(elem),
-				  $prev = $elem.prev(elem);
+			const $next = $elem.next(find),
+				  $prev = $elem.prev(find);
 
-			if(elem === 'label') {
+			if(find === 'label') {
 				const nodeName = ($elem.prop('nodeName')) ? $elem.prop('nodeName') : $elem[0].nodeName;
 				const $input  = (nodeName === 'input') ? $elem : $_this,
 					  inputID = ($input.attr('id')) ? $input.attr('id') : '',
@@ -133,9 +139,9 @@
 				$helpBlock = sibling('.sgn-form-help-block');
 			//endregion
 
-			if(type === 'switch') {
-				type = 'checkbox';
-				$input.attr('type', type).addClass('switch');
+			if(type === 'switch' || type === 'toggle') {
+				$input.attr('type', 'checkbox').addClass(type);
+				//type = 'checkbox';
 			}
 
 			const $inputGroup = ($_this.parents('.crtb-group').length > 0) ? $_this.parents('.crtb-group') : $_this.parents('.input-group');
@@ -422,6 +428,133 @@
 
 			if(type === 'select') {
 				$_this.SGNSelect();
+			} else if(type === 'toggle') {
+				$inputWrapper.addClass('toggle');
+				const offTXTAttr = $_this.attr('data-off'),
+					  onTXTAttr  = $_this.attr('data-on');
+				const offTXT = offTXTAttr || 'Off',
+					  onTXT  = onTXTAttr || 'On';
+
+				let $toggleWrapper = sibling('.toggle-switch-bar', $_this);
+				let $toggleLabelWrapper, $toggleTXTOff, $toggleTXTOn, $toggleHandle;
+				if($toggleWrapper) {
+					$toggleLabelWrapper = $toggleWrapper.children('.slider-text');
+					if($toggleLabelWrapper.length === 1) {
+						$toggleTXTOff = $toggleLabelWrapper.children('.sgn-toggle-label-off');
+						$toggleTXTOn = $toggleLabelWrapper.children('.sgn-toggle-label-on');
+					}
+					$toggleHandle = $toggleWrapper.children('.slider-switch');
+				}
+
+				let sliderWrapperHTML = `<div class="slider-wrapper"></div>`;
+				let sliderTXTWrapperHTML = `<div class="toggle-switch-handle"></div>`;
+				let sliderTXTOffHTML = `<span class="sgn-toggle-label-off">${offTXT}</span>`,
+					sliderTXTOnHTML  = `<span class="sgn-toggle-label-on">${onTXT}</span>`;
+				let sliderSwitchHTML = `<div class="slider-switch"></div>`;
+
+				if(offTXTAttr || onTXTAttr) {
+					if($toggleWrapper) {
+						$toggleWrapper.html(sliderTXTWrapperHTML);
+						$toggleLabelWrapper = $toggleWrapper.children('.slider-text');
+						$toggleLabelWrapper.html(sliderTXTOffHTML + sliderTXTOnHTML);
+						$toggleTXTOff = $toggleLabelWrapper.children('.sgn-toggle-label-off');
+						$toggleTXTOn = $toggleLabelWrapper.children('.sgn-toggle-label-on');
+						$toggleWrapper.append(sliderSwitchHTML);
+						$toggleHandle = $toggleWrapper.children('.slider-switch');
+					} else {
+						/*$_this.after(sliderWrapperHTML);
+						$toggleWrapper = $_this.next('.slider-wrapper');
+
+						$toggleWrapper.html(sliderTXTWrapperHTML);
+						$toggleLabelWrapper = $toggleWrapper.children('.slider-text');
+						$toggleLabelWrapper.html(sliderTXTOffHTML + sliderTXTOnHTML);
+						$toggleTXTOff = $toggleLabelWrapper.children('.sgn-toggle-label-off');
+						$toggleTXTOn = $toggleLabelWrapper.children('.sgn-toggle-label-on');
+						$toggleWrapper.append(sliderSwitchHTML);
+						$toggleHandle = $toggleWrapper.children('.slider-switch');*/
+						let html = `
+						<span aria-hidden="true" class="toggle-switch-bar">
+							<span class="toggle-switch-label">
+								${sliderTXTOffHTML}
+								${sliderTXTOnHTML}
+							</span>
+							<span class="toggle-switch-handle" data-off="${offTXT}" data-on="${onTXT}">${offTXT}</span>
+						</span>`;
+
+						$_this.after(html);
+						$toggleWrapper = $_this.next('.toggle-switch-bar');
+						$toggleLabelWrapper = $toggleWrapper.children('.toggle-switch-label');
+						$toggleTXTOff = $toggleLabelWrapper.children('.sgn-toggle-label-off');
+						$toggleTXTOn = $toggleLabelWrapper.children('.sgn-toggle-label-on');
+						$toggleHandle = $toggleWrapper.children('.toggle-switch-handle');
+
+						const offTXTWidth = getTextWidth($toggleTXTOff.text(), {padding: '8px'}),
+							  onTXTWidth  = getTextWidth($toggleTXTOn.text(), {padding: '8px'});
+
+						$_this.data('label-off-width', offTXTWidth);
+						$_this.data('label-on-width', onTXTWidth);
+
+						console.log($toggleTXTOff, $toggleTXTOn);
+						$toggleHandle.width(offTXTWidth);
+						$container.removeClass('toggle-on').addClass('toggle-off');
+					}
+				} else {
+					if($toggleWrapper) {
+						if($toggleLabelWrapper.length === 1) {
+							const $offTXT = $toggleLabelWrapper.children('span:first-child'),
+								  $onTXT  = $toggleLabelWrapper.children('span:last-child');
+							if($offTXT) {
+								if(!$offTXT.hasClass('sgn-toggle-label-off'))
+									$offTXT.addClass('sgn-toggle-label-off');
+								if(!$onTXT.hasClass('sgn-toggle-label-on'))
+									$onTXT.addClass('sgn-toggle-label-on');
+							} else {
+								if($onTXT)
+									$onTXT.before(sliderTXTOffHTML);
+								else
+									$toggleLabelWrapper.html(sliderTXTOffHTML);
+
+								$toggleTXTOff = $toggleLabelWrapper.children('.sgn-toggle-label-off');
+							}
+							if($onTXT) {
+								if(!$onTXT.hasClass('sgn-toggle-label-on'))
+									$onTXT.addClass('sgn-toggle-label-on');
+							} else {
+								if($offTXT)
+									$offTXT.before(sliderTXTOnHTML);
+								else
+									$toggleLabelWrapper.html(sliderTXTOnHTML);
+
+								$toggleTXTOn = $toggleLabelWrapper.children('.sgn-toggle-label-on');
+							}
+
+							if(!$toggleHandle) {
+								$toggleWrapper.append(sliderSwitchHTML);
+								$toggleHandle = $toggleWrapper.children('.slider-switch');
+							}
+						} else {
+							$toggleWrapper.html(sliderTXTWrapperHTML);
+							$toggleLabelWrapper = $toggleWrapper.children('.slider-text');
+							$toggleLabelWrapper.html(sliderTXTOffHTML + sliderTXTOnHTML);
+							$toggleTXTOff = $toggleLabelWrapper.children('.sgn-toggle-label-off');
+							$toggleTXTOn = $toggleLabelWrapper.children('.sgn-toggle-label-on');
+							$toggleWrapper.append(sliderSwitchHTML);
+							$toggleHandle = $toggleWrapper.children('.slider-switch');
+						}
+					} else {
+						$_this.after(sliderWrapperHTML);
+						$toggleWrapper = $_this.next('.slider-wrapper');
+
+						$toggleWrapper.html(sliderTXTWrapperHTML);
+						$toggleLabelWrapper = $toggleWrapper.children('.slider-text');
+						$toggleLabelWrapper.html(sliderTXTOffHTML + sliderTXTOnHTML);
+						$toggleTXTOff = $toggleLabelWrapper.children('.sgn-toggle-label-off');
+						$toggleTXTOn = $toggleLabelWrapper.children('.sgn-toggle-label-on');
+						$toggleWrapper.append(sliderSwitchHTML);
+						$toggleHandle = $toggleWrapper.children('.slider-switch');
+					}
+				}
+				bindEvents();
 			} else {
 				const isSelect = ($_this.hasClass('sgn-select-input'));
 				bindEvents(isSelect);
@@ -444,15 +577,18 @@
 				const $inputGroup = ($wrapper.find('.crtb-group').length > 0) ? $wrapper.find('.crtb-group') : $wrapper.find('.input-group');
 				const $input = $wrapper.children('.sgn-form-wrapper').children('.sgn-input-wrapper').children('input.form-control');
 
-				$('.sgn-form.sgn-select .form-control').blur();
-				$('.sgn-form.sgn-select.open').removeClass('open');
 
-				if(!$wrapper.hasClass('active'))
-					$wrapper.removeClass('edited').addClass('active');
-				if($inputGroup.length > 0)
-					$inputGroup.removeClass('edited').addClass('active');
+				if(!$input.hasClass('toggle')) {
+					$('.sgn-form.sgn-select .form-control').blur();
+					$('.sgn-form.sgn-select.open').removeClass('open');
 
-				$wrapper.trigger('sgninput.click');
+					if(!$wrapper.hasClass('active'))
+						$wrapper.removeClass('edited').addClass('active');
+					if($inputGroup.length > 0)
+						$inputGroup.removeClass('edited').addClass('active');
+
+					$wrapper.trigger('sgninput.click');
+				}
 
 				e.preventDefault();
 				return false;
@@ -502,12 +638,27 @@
 				const v = $this.val();
 				const type = e.type;
 
-				$container.removeClass('active');
+				if($this.hasClass('toggle')) {
+					const $toggleWrapper       = $this.next('.toggle-switch-bar'),
+						  $toggleHandleWrapper = $toggleWrapper.children('.toggle-switch-handle');
+					const offTXTWidth = parseInt($this.data('label-off-width') || 0),
+						  onTXTWidth  = parseInt($this.data('label-on-width') || 0);
 
-				if(v.length > 0)
-					$container.addClass('edited');
+					if($this.prop('checked')) {
+						$toggleHandleWrapper.width(onTXTWidth + 'px');
+						$container.removeClass('toggle-off').addClass('toggle-on');
+					} else {
+						$toggleHandleWrapper.width(offTXTWidth + 'px');
+						$container.removeClass('toggle-on').addClass('toggle-off');
+					}
+				} else {
+					$container.removeClass('active');
 
-				$(this).trigger(`sgninput.${type}`);
+					if(v.length > 0)
+						$container.addClass('edited');
+
+					$(this).trigger(`sgninput.${type}`);
+				}
 			});
 
 			$clickableInput.on('change', function() {

@@ -8,8 +8,8 @@
 .sgn-table-wrapper {
 	border: 1px solid var(--sgn-border-light);
 	border-radius: var(--sgn-border-radius-md);
-	overflow: hidden;
 	margin: var(--margin-md) 0;
+	overflow: auto;
 	position: relative;
 }
 

@@ -1297,4 +1297,5 @@ if(typeof jQuery === "undefined") {
 
 	return $iziToast;
 });
-export const iziToast = window.iziToast;
+
+//export const iziToast = window.iziToast;

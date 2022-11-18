@@ -5,7 +5,7 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-export function logStopArt(stopArt) {
+function logStopArt(stopArt) {
 	const styles = [
 		'background: linear-gradient(#333, #000)'
 		, 'border: 1px solid #3E0E02'
@@ -19,7 +19,7 @@ export function logStopArt(stopArt) {
 	Console.log('%c' + stopArt, styles);
 }
 
-export function is_json(str) {
+function is_json(str) {
 	try {
 		JSON.parse(str);
 	} catch(e) {
@@ -28,7 +28,7 @@ export function is_json(str) {
 	return true;
 }
 
-export function parse_url(str, component) {
+function parse_url(str, component) {
 	/*eslint-disable-line camelcase
 	      discuss at: https://locutus.io/php/parse_url/
 	     original by: Steven Levithan (https://blog.stevenlevithan.com)
@@ -120,7 +120,7 @@ export function parse_url(str, component) {
 	return uri
 }
 
-export function getUrlVars(url) {
+function getUrlVars(url) {
 	let hash,
 		json   = {},
 		hashes = url.slice(url.indexOf('?') + 1).split('&');
@@ -131,16 +131,16 @@ export function getUrlVars(url) {
 	return json;
 }
 
-export function getI18nString(key, args) {
+function getI18nString(key, args) {
 	return i18n.getString(key, args);
 }
 
-export function strpos(haystack, needle, offset) {
+function strpos(haystack, needle, offset) {
 	const i = (haystack + '').indexOf(needle, (offset || 0));
 	return i !== -1;
 }
 
-export function numbersOnly(f, e) {
+function numbersOnly(f, e) {
 	let key,
 		keychar;
 	if(window.event)
@@ -164,6 +164,149 @@ export function numbersOnly(f, e) {
 		return false;
 }
 
+
+/**
+ * This callback type is called `readFileCallback` and is displayed as a global symbol.
+ *
+ * @callback readFileCallback
+ * @param {boolean} error
+ * @param {JSON} data
+ */
+/**
+ *
+ * @param {jQuery} $el - The jQuery reference to HTML file input.
+ * @param {readFileCallback} callback - The callback that handles the response.
+ * @param {JSON} [data] - The form data.
+ * @param {boolean} [stringify=true] - Stringify the finalized form data.
+ */
+function readFile($el, callback, data, stringify = false) {
+	if(typeof data === 'boolean' && typeof stringify === 'object') {
+		const tmpData = data;
+		data = stringify;
+		stringify = tmpData;
+	}
+
+	const reader = new FileReader();
+	const id = $el.attr('name') || $el.attr('id') || 'files';
+	const files = $el[0].files;
+
+	let fdata = {};
+	fdata = $.extend(fdata, data);
+
+	if(files.length > 0) {
+		$.each(files, function(i, c) {
+			const $this = $(this),
+				  file  = $this[0];
+			if(file === undefined) {
+				if(typeof callback === "function")
+					callback(true, fdata);
+			} else {
+				fdata[id] = [];
+				reader.addEventListener("loadend", function() {
+					const obj = {
+						'name': file.name,
+						'lastModified': file.lastModified,
+						'webkitRelativePath': file.webkitRelativePath,
+						'size': file.size,
+						'type': file.type,
+						'data': reader.result.split(",", 2)[1]
+					};
+					const objJSON = JSON.stringify(obj);
+					if(stringify)
+						fdata[id].push(objJSON);
+					else
+						fdata[id].push(obj);
+
+					if(typeof callback === "function")
+						callback(false, fdata);
+				}, false);
+
+				reader.readAsDataURL(file);
+			}
+		});
+	} else {
+		if(typeof callback === "function")
+			callback(true, fdata);
+	}
+}
+
+/**
+ *
+ * @param {JSON} data - The form data to merge.
+ * @param {jQuery} $fileInputs - The jQuery reference to HTML file inputs.
+ * @param {readFileCallback} callback - The callback that handles the response.
+ */
+function mergeFormData(data, $fileInputs, callback) {
+	let fdata = {};
+	fdata = $.extend(fdata, data);
+
+	if($fileInputs.length > 0 && ($.isArray($fileInputs) || $fileInputs instanceof jQuery)) {
+		if($.isArray($fileInputs)) {
+			$fileInputs.forEach((c, i) => {
+				$fileInputs[i].each(function(n) {
+					const $this      = $(this),
+						  $fileInput = $this;
+
+					const name = $fileInput.attr('name') || $fileInput.attr('id');
+					readFile($fileInput, (error, finalData) => {
+						//fdata = finalData;
+						if(typeof callback === "function")
+							callback(error, finalData);
+					}, fdata);
+				});
+			});
+		} else {
+			$fileInputs.each(function() {
+				const $this      = $(this),
+					  $fileInput = $this;
+
+				const name = $fileInput.attr('name') || $fileInput.attr('id');
+				readFile($fileInput, (error, finalData) => {
+					//fdata = finalData;
+					if(typeof callback === "function")
+						callback(error, finalData);
+				}, fdata);
+			});
+		}
+	} else {
+		if(typeof callback === "function")
+			callback(true, fdata);
+	}
+}
+
+/**
+ *
+ * @param {jQuery} $form - The jQuery reference to HTML form element.
+ * @param {readFileCallback} callback - The callback that handles the response.
+ */
+function getFormData($form, callback) {
+	let fd = {};
+
+	if($form.length > 0) {
+		const inputs  = 'input.form-control:not(sgn-select-input):not(sgn-control-search-input), select.form-control, textarea.form-control',
+			  $inputs = $form.find(inputs);
+
+		if($inputs.length > 0) {
+			$inputs.each(function() {
+				const $this    = $(this),
+					  nodeName = ($this.prop('nodeName')) ? $this.prop('nodeName') : $this[0].nodeName,
+					  type     = (nodeName === 'INPUT') ? $this.attr('type').toLowerCase() : nodeName.toLowerCase(),
+					  id       = $this.attr('name') || $this.attr('id'),
+					  v        = (type === 'checkbox' || type === 'radio') ? $this.filter(':checked').val() : (type === 'select') ? $this.find('option:selected').val() : $this.val();
+				if(type === 'file') {
+					mergeFormData(fd, $this, (error, mergedData) => fd = mergedData);
+				} else {
+					fd[id] = v;
+				}
+			});
+
+			if(typeof callback === "function")
+				callback(true, fd);
+		}
+	}
+}
+
+
 window.logStopArt = (stopArt) => logStopArt(stopArt);
 window.is_json = (str) => is_json(str);
 window.parse_url = (str, component) => parse_url(str, component);
@@ -171,6 +314,9 @@ window.getUrlVars = (url) => getUrlVars(url);
 window.getI18nString = (key, args) => getI18nString(key, args);
 window.strpos = (haystack, needle, offset) => strpos(haystack, needle, offset);
 window.numbersOnly = (f, e) => numbersOnly(f, e);
+window.readFile = ($el, callback, data, stringify) => readFile($el, callback, data, stringify);
+window.mergeFormData = (data, $fileInputs, callback) => mergeFormData(data, $fileInputs, callback);
+window.getFormData = ($form, callback) => getFormData($form, callback);
 
 $(document).ready(function() {
 	$.extend({

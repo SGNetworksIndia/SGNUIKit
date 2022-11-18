@@ -117,8 +117,14 @@
 					node.attributes['sgn-input-group-label'].value = process(node.attributes['sgn-input-group-label'].value);
 				if(node.attributes['sgn-input-group-help'] !== undefined)
 					node.attributes['sgn-input-group-help'].value = process(node.attributes['sgn-input-group-help'].value);
+				if(node.attributes['title'] !== undefined)
+					node.attributes['title'].value = process(node.attributes['title'].value);
+				if(node.attributes['data-next-button'] !== undefined)
+					node.attributes['data-next-button'].value = process(node.attributes['data-next-button'].value);
+				if(node.attributes['data-prev-button'] !== undefined)
+					node.attributes['data-prev-button'].value = process(node.attributes['data-prev-button'].value);
 			}
-			if(node.nodeType === 1 && node.nodeName === 'INPUT') {
+			if(node.nodeType === 1 && (node.nodeName === 'INPUT' || node.nodeName === 'TEXTAREA')) {
 				node.placeholder = process(node.placeholder);
 				node.value = process(node.value);
 			}

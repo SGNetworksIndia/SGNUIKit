@@ -1,0 +1,116 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.sgn-form {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	--height: 28px;
+}
+
+.sgn-form,
+.sgn-form > .sgn-form-wrapper,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper > .slider-wrapper,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper > .slider-wrapper > .slider-switch,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper > .slider-wrapper > .slider-text {
+	height: 100%;
+	min-height: var(--height);
+}
+
+.sgn-form.sgn-input-toggle {
+	min-width: 8rem;
+}
+
+.toggle > input {
+	position: absolute;
+	display: flex;
+	height: 100%;
+	width: 100% !important;
+	z-index: 2;
+	opacity: 0;
+}
+
+
+.sgn-form.sgn-input-toggle {
+	border-radius: 20px !important;
+}
+
+.toggle-switch-bar {
+	display: inline-flex;
+	align-items: center;
+	font-size: 0.75rem;
+	height: 32px;
+	line-height: 32px;
+	position: relative;
+	text-indent: 0;
+	-ms-user-select: none;
+	user-select: none;
+	padding: 16px;
+	width: 100%;
+}
+
+.toggle-switch-bar::before {
+	background-color: #A7A9BC;
+	border-color: #A7A9BC;
+	border-radius: 20px;
+	border-style: solid;
+	border-width: 1px;
+	bottom: 0;
+	content: ' ';
+	display: block;
+	left: 0;
+	position: absolute;
+	top: 0;
+	transition: background-color 100ms ease-in, border-color 100ms ease-in, box-shadow 150ms ease-in-out, color 100ms ease-in, left 100ms ease-in, right 100ms ease-in;
+	width: 100%;
+}
+
+.toggle-switch-bar > .toggle-switch-handle {
+	content: '';
+	background-color: #FFF;
+	border-color: #FFF;
+	border-radius: 24px;
+	border-style: solid;
+	border-width: 1px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	left: 4px;
+	padding: 0 8px;
+	height: calc(32px - (4px * 2));
+	width: 24px;
+	/*color: transparent;*/
+	transition: all .3s ease;
+}
+
+.toggle-switch-bar > .toggle-switch-label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: relative;
+	width: 100%;
+}
+
+.toggle-switch-bar > .toggle-switch-label > span {
+	color: #FFF;
+	position: relative;
+	text-align: center;
+	width: auto;
+	transition: all .3s ease;
+	z-index: 0;
+}
+
+.toggle-switch-bar > .toggle-switch-label > .sgn-toggle-label-on {
+	margin-left: var(--margin-xs);
+}
+
+.toggle-switch-bar > .toggle-switch-label > .sgn-toggle-label-off {
+	margin-right: var(--margin-xs);
+}
+

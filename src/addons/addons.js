@@ -6,9 +6,9 @@
  */
 
 //import('./CKEditor5/ckeditor.js');
-import {CKSource} from "./CKEditor5/ckeditor";
-
+import {CKSource} from "./CKEditor5/ckeditor.js";
 export default CKSource;
+
 import('./ContextJS/context.js');
 //import('./DataTables/datatables.min.js');
 import('./datepicker/bootstrap-datepicker.min.js');

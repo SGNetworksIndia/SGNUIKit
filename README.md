@@ -12,13 +12,16 @@
 
 ## REQUIREMENTS
 
-* **SGNUIKit Version**: 1.1.2
+* **Current SGNUIKit Version**: 1.1.3
 
 ### Core Requirements
 
 | Technology | Version | Link                                                                        |
 |------------|---------|-----------------------------------------------------------------------------|
 | jQuery     | 3.6.0   | [https://jquery.com/download/](https://code.jquery.com/jquery-3.6.0.min.js) |
+
+_Note: If the dependencies omitted, it will neither break the features nor impact the performance of
+as it comes built-in with **SGNUIKit** and the built-in dependencies will be used._
 
 ### Web Standards Compatibility (Web 2.0)
 
@@ -50,11 +53,9 @@ App (PWA)_**
 using **_JavaScript_** which be found at [freecodecamp.org/news](https://www.freecodecamp.org/news/build-a-pwa-from-scratch-with-html-css-and-javascript/).
 
 ## KNOWN BUGS
-
 1. Modals are broken
 
 ## UPCOMING FEATURES
-
 There are many features are staged to be implemented in the upcoming releases. The currently planned features awaiting to be implemented are:
 
 1. Drag & Drop Panels/Cards
@@ -63,7 +64,6 @@ There are many features are staged to be implemented in the upcoming releases. T
 4. And many more...
 
 ## CONTRIBUTING
-
 To contribute on the **_SGNUIKit Core_**, send an email on [contribute@sgnuikit.repository.sgnetworks.eu.org](mailto:contribute@sgnuikit.repository.sgnetworks.eu.org) with the following information:
 
 * Your real name

@@ -7,7 +7,7 @@
 
 "use strict";
 
-import {iziToast} from "./iziToast";
+//import {iziToast} from "./iziToast";
 //import('./iziToast.js');
 
 if(typeof jQuery === "undefined") {

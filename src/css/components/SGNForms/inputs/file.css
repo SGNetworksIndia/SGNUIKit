@@ -5,7 +5,6 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-
 .sgn-form.sgn-input-file {
 	flex-direction: row;
 	cursor: pointer;
@@ -18,13 +17,18 @@
 	padding: var(--padding-sm) var(--padding-md);
 	border-radius: 0 var(--sgn-border-inner-radius-sm) var(--sgn-border-inner-radius-sm) 0;
 	z-index: 0;
+	position: absolute;
+	right: 0;
+}
+
+.sgn-form.sgn-input-file > .sgn-form-wrapper > .sgn-input-wrapper > label {
+	z-index: 1;
 }
 
 .sgn-form.sgn-input-file > input,
 .sgn-form.sgn-input-file > .sgn-form-wrapper > .sgn-input-wrapper > input {
 	border: none;
-	margin-left: -5rem;
+	margin-left: 0;
 	z-index: 0;
 	opacity: 0;
 }
-

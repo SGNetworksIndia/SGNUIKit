@@ -4,6 +4,7 @@
 	"devDependencies": {
 		"babel-loader": "^8.2.5",
 		"css-loader": "3.4.2",
+		"css-url-relative-plugin": "^1.1.0",
 		"jquery": "^3.6.0",
 		"mini-css-extract-plugin": "^2.6.1",
 		"sass-loader": "^13.0.2",
@@ -11,14 +12,17 @@
 		"terser-webpack-plugin": "^5.3.3",
 		"webpack": "^5.74.0",
 		"webpack-cli": "^4.10.0",
-		"webpack-node-externals": "^3.0.0",
-		"css-url-relative-plugin": "^1.1.0",
-		"webpack-fix-style-only-entries": "^0.6.1"
+		"webpack-fix-style-only-entries": "^0.6.1",
+		"webpack-node-externals": "^3.0.0"
 	},
 	"scripts": {
 		"prebuild": "node .\\build\\clean.js --dir src",
 		"Build (Free)": "npm run prebuild & webpack --env flavor=free --stats-modules-space 999 & npm run postbuild",
 		"Build (Pro)": "npm run prebuild & webpack --env flavor=pro --stats-modules-space 999 & npm run postbuild",
-		"postbuild": "node .\\build\\clean.js --dir dst & node .\\build\\publish.js"
+		"postbuild": "node .\\build\\clean.js --dir dst & node .\\build\\publish.js",
+		"start": "node .\\demos\\run.js"
+	},
+	"dependencies": {
+		"live-server": "^1.2.2"
 	}
 }

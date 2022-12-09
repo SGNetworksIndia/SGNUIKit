@@ -28,6 +28,7 @@
 	--sgn-border-light: hsl(0, 0%, 85%);
 
 	--sgn-accent-primary: hsl(215, 100%, 48%);
+	--sgn-accent-primary-active: hsl(225, 99%, 57%);
 	--sgn-accent-primary-light: hsl(215, 100%, 68%);
 	--sgn-accent-primary-dark: hsl(215, 100%, 15%);
 	--sgn-accent-primary-text: hsl(0, 0%, 100%);
@@ -63,12 +64,14 @@
 	--sgn-danger-dark: hsl(0, 72%, 33%);
 
 	--sgn-gradient-primary: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 100%);
+	--sgn-gradient-secondary: linear-gradient(to right, var(--sgn-secondary) 0%, var(--sgn-secondary-light) 100%);
 	--sgn-gradient-success: linear-gradient(to right, var(--sgn-success) 0%, var(--sgn-success-light) 100%);
 	--sgn-gradient-info: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 100%);
 	--sgn-gradient-warning: linear-gradient(to right, var(--sgn-warning) 0%, var(--sgn-warning-light) 100%);
 	--sgn-gradient-danger: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-light) 100%);
 
 	--sgn-gradient-primary-double-width: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 50%, var(--sgn-accent-primary) 100%);
+	--sgn-gradient-secondary-double-width: linear-gradient(to right, var(--sgn-secondary) 0%, var(--sgn-secondary-light) 50%, var(--sgn-secondary) 100%);
 	--sgn-gradient-success-double-width: linear-gradient(to right, var(--sgn-success) 0%, var(--sgn-success-light) 50%, var(--sgn-success) 100%);
 	--sgn-gradient-info-double-width: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 50%, var(--sgn-info) 100%);
 	--sgn-gradient-warning-double-width: linear-gradient(to right, var(--sgn-warning) 0%, var(--sgn-warning-light) 50%, var(--sgn-warning) 100%);

@@ -39,7 +39,7 @@ select {
 }
 
 .sgn-form {
-	display: flex;
+	display: inline-flex;
 	flex-direction: column;
 	height: 100%;
 	position: relative;

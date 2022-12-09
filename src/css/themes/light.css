@@ -8,6 +8,7 @@
 :root {
 	--sgn-background: hsl(0, 0%, 100%);
 	--sgn-text-primary: hsl(0, 0%, 10%);
+	--sgn-text-secondary: hsl(0, 0%, 40%);
 
 	--sgn-accent-background: hsl(0, 0%, 100%);
 	--sgn-accent-background-secondary: hsl(0, 0%, 95%);

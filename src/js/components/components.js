@@ -11,4 +11,5 @@ import('./marquee.js');
 import('./modals.js');
 import('./sidebar.js');
 import('./wizard.js');
+import('./tablayout.js');
 

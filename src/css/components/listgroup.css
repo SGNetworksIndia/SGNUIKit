@@ -1,0 +1,27 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+@import "listview.css";
+
+.list-group {
+	border: 0 solid var(--sgn-border-light);
+	border-radius: var(--sgn-border-radius-md);
+	margin: var(--margin-md);
+	overflow: visible;
+	box-shadow: 0 0 var(--sgn-shadow-spread) 0 var(--sgn-shadow-light);
+}
+
+.list-group > .list-group-title {
+	border-radius: var(--sgn-border-radius-md) var(--sgn-border-radius-md) 0 0;
+	background-color: var(--sgn-accent-background-secondary);
+	padding: var(--padding-sm);
+	font-family: var(--sgn-font-default-bold);
+}
+
+.list-group > .list-view > .list-link:last-child {
+	border-radius: 0 0 var(--sgn-border-radius-md) var(--sgn-border-radius-md);
+}

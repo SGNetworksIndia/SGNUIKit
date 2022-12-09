@@ -8,6 +8,7 @@
 :root {
 	--sgn-background: hsl(0, 0%, 0%);
 	--sgn-text-primary: hsl(0, 0%, 100%);
+	--sgn-text-secondary: hsl(0, 0%, 60%);
 
 	--sgn-accent-background: hsl(0, 0%, 0%);
 	--sgn-accent-background-secondary: hsl(0, 0%, 5%);
@@ -40,27 +41,27 @@
 
 	--sgn-primary: hsl(220, 100%, 50%);
 	--sgn-primary-light: hsl(220, 100%, 70%);
-	--sgn-primary-lightest: hsl(220, 100%, 5%);
+	--sgn-primary-lightest: hsl(220, 100%, 95%);
 
 	--sgn-secondary: hsl(230, 15%, 20%);
 	--sgn-secondary-light: hsl(230, 15%, 30%);
-	--sgn-secondary-lightest: hsl(230, 15%, 5%);
+	--sgn-secondary-lightest: hsl(230, 15%, 95%);
 
 	--sgn-success: hsl(130, 100%, 20%);
 	--sgn-success-light: hsl(130, 100%, 60%);
-	--sgn-success-lightest: hsl(130, 100%, 5%);
+	--sgn-success-lightest: hsl(130, 100%, 95%);
 
 	--sgn-info: hsl(190, 100%, 40%);
 	--sgn-info-light: hsl(190, 100%, 60%);
-	--sgn-info-lightest: hsl(190, 100%, 5%);
+	--sgn-info-lightest: hsl(190, 100%, 95%);
 
 	--sgn-warning: hsl(45, 100%, 40%);
 	--sgn-warning-light: hsl(45, 100%, 60%);
-	--sgn-warning-lightest: hsl(45, 100%, 5%);
+	--sgn-warning-lightest: hsl(45, 100%, 95%);
 
 	--sgn-danger: hsl(0, 100%, 50%);
 	--sgn-danger-light: hsl(0, 100%, 60%);
-	--sgn-danger-lightest: hsl(0, 100%, 5%);
+	--sgn-danger-lightest: hsl(0, 100%, 95%);
 	--sgn-danger-dark: hsl(0, 72%, 33%);
 
 	--sgn-gradient-primary: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 100%);

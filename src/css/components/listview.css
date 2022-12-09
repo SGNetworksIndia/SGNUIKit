@@ -1,0 +1,37 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.list-view {
+	display: flex;
+	flex-direction: column;
+}
+
+.list-view > .list-link {
+	border-bottom: 1px solid var(--sgn-border-light);
+	display: block;
+	padding: var(--padding-sm);
+}
+
+.list-view > .list-link:first-child {
+	border-top: 1px solid var(--sgn-border-light);
+}
+
+.list-view.striped > .list-link:nth-child(2n+1) {
+	background-color: var(--sgn-accent-background-secondary);
+}
+
+.list-view.striped.primary > .list-link:nth-child(2n+1) {
+	background-color: var(--sgn-primary-lightest);
+}
+
+.list-view.hover > .list-link:hover {
+	background-color: var(--sgn-accent-background-secondary);
+}
+
+.list-view.primary.hover > .list-link:hover {
+	background-color: var(--sgn-primary-light);
+}

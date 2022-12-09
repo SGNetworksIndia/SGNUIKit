@@ -13,3 +13,34 @@
 @import "paddings.css";
 @import "texts.css";
 @import "marquee.css";
+
+.ov-none {
+	overflow: hidden !important;
+}
+
+.ov-auto {
+	overflow: auto !important;
+}
+
+.ov-scroll {
+	overflow: scroll !important;
+}
+
+.ov-visible {
+	overflow: visible !important;
+}
+
+.ov-vertical {
+	overflow: unset;
+	overflow-y: auto;
+}
+
+.ov-horizontal {
+	overflow: unset;
+	overflow-x: auto;
+}
+
+
+.no-shadow {
+	box-shadow: none !important;
+}

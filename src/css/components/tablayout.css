@@ -1,0 +1,230 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+
+.tab-layout,
+.tab-layout * {
+	--sgn-tab-heading-border-color: var(--sgn-border-light);
+	--sgn-tab-link-bg-color: var(--sgn-accent-background-secondary);
+	--sgn-tab-link-border-color: var(--sgn-tab-heading-border-color);
+	--sgn-tab-link-color: var(--sgn-accent-primary);
+	--sgn-tab-link-hover-color: var(--sgn-accent-primary-dark);
+	--sgn-tab-link-hover-bg-color: var(--sgn-accent-primary-light);
+	--sgn-tab-link-active-color: var(--sgn-tab-link-color);
+	--sgn-tab-link-active-bg-color: var(--sgn-accent-background);
+	--sgn-tab-tab-border-color: var(--sgn-tab-heading-border-color);
+}
+
+.tab-layout {
+	border-radius: var(--sgn-border-radius-md);
+	border: none;
+	overflow: hidden;
+}
+
+.tab-layout > .tab-links {
+	background-color: transparent;
+	border: 1px solid var(--sgn-tab-heading-border-color, var(--sgn-border-light));
+	border-radius: var(--sgn-border-radius-md) var(--sgn-border-radius-md) 0 0;
+	display: inline-flex;
+	justify-content: start;
+	align-items: center;
+	position: relative;
+}
+
+.tab-layout > .tab-links > .tab-link {
+	background-color: var(--sgn-tab-link-bg-color, var(--sgn-accent-background-secondary));
+	color: var(--sgn-tab-link-color, var(--sgn-accent-primary));
+	border-right: 1px solid var(--sgn-tab-link-border-color, var(--sgn-border-light));
+	padding: var(--padding-sm);
+	position: relative;
+}
+
+.tab-layout > .tab-links > .tab-link:first-child {
+	border-radius: var(--sgn-border-radius-md) 0 0 0;
+}
+
+.tab-layout > .tab-links > .tab-link:last-child {
+	border-right: none;
+	border-radius: 0 var(--sgn-border-radius-md) 0 0;
+}
+
+.tab-layout > .tab-links > .tab-link:not(.active):not(.disabled):hover {
+	background-color: var(--sgn-tab-link-hover-bg-color, var(--sgn-accent-background));
+	color: var(--sgn-tab-link-hover-color, var(--sgn-accent-primary));
+}
+
+.tab-layout > .tab-links > .tab-link.active {
+	background-color: var(--sgn-tab-link-active-bg-color, var(--sgn-accent-background));
+	color: var(--sgn-tab-link-active-color, var(--sgn-accent-primary));
+	pointer-events: none;
+}
+
+.tab-layout > .tab-links > .tab-link.active:after {
+	content: '';
+	border-bottom: 1px solid var(--sgn-tab-link-active-bg-color, var(--sgn-accent-background));
+	width: 100%;
+	display: block;
+	position: absolute;
+	left: 0;
+	bottom: -1px;
+	z-index: 1;
+}
+
+.tab-layout > .tab-view {
+	border: 1px solid var(--sgn-tab-tab-border-color, var(--sgn-border-light));
+	border-radius: 0 var(--sgn-border-radius-md) var(--sgn-border-radius-md);
+	position: relative;
+	top: -1px;
+}
+
+.tab-layout > .tab-view > .tab {
+	display: none;
+	padding: var(--padding-sm);
+}
+
+.tab-layout > .tab-view > .tab.active {
+	display: block;
+}
+
+
+.tab-layout.alt {
+	border: 1px solid var(--sgn-tab-heading-border-color, var(--sgn-border-light));
+}
+
+.tab-layout.alt > .tab-links {
+	border: none;
+	border-bottom: 1px solid var(--sgn-tab-heading-border-color, var(--sgn-border-light));
+	display: flex;
+}
+
+.tab-layout.alt > .tab-view {
+	border-radius: 0;
+	border: none;
+}
+
+
+.tab-layout.gradient > .tab-links > .tab-link {
+	background-color: transparent;
+	background-image: var(--sgn-tab-link-bg-color, var(--sgn-accent-background));
+}
+
+.tab-layout.gradient > .tab-links > .tab-link.active {
+	background-color: transparent;
+	background-image: var(--sgn-tab-link-active-bg-color, var(--sgn-accent-background));
+}
+
+
+/*** CONTEXTUAL ***/
+.tab-layout.primary > .tab-links > .tab-link {
+	--sgn-tab-link-bg-color: var(--sgn-primary-lightest);
+	--sgn-tab-link-color: var(--sgn-accent-primary);
+}
+
+.tab-layout.primary > .tab-links > .tab-link:hover {
+	--sgn-tab-link-hover-bg-color: var(--sgn-primary-light);
+	--sgn-tab-link-hover-color: var(--sgn-accent-primary-text);
+}
+
+.tab-layout.primary > .tab-links > .tab-link.active {
+	--sgn-tab-link-active-bg-color: var(--sgn-accent-primary);
+	--sgn-tab-link-active-color: var(--sgn-accent-primary-text);
+}
+
+
+.tab-layout.secondary > .tab-links > .tab-link {
+	--sgn-tab-link-bg-color: var(--sgn-secondary-lightest);
+	--sgn-tab-link-color: var(--sgn-accent-secondary);
+}
+
+.tab-layout.secondary > .tab-links > .tab-link:hover {
+	--sgn-tab-link-hover-bg-color: var(--sgn-secondary-light);
+	--sgn-tab-link-hover-color: var(--sgn-accent-primary-text);
+}
+
+.tab-layout.secondary > .tab-links > .tab-link.active {
+	--sgn-tab-link-active-bg-color: var(--sgn-accent-secondary);
+	--sgn-tab-link-active-color: var(--sgn-accent-primary-text);
+}
+
+
+.tab-layout.success > .tab-links > .tab-link {
+	--sgn-tab-link-bg-color: var(--sgn-success-lightest);
+	--sgn-tab-link-color: var(--sgn-success);
+}
+
+.tab-layout.success > .tab-links > .tab-link:hover {
+	--sgn-tab-link-hover-bg-color: var(--sgn-success-light);
+	--sgn-tab-link-hover-color: var(--sgn-accent-primary-text);
+}
+
+.tab-layout.success > .tab-links > .tab-link.active {
+	--sgn-tab-link-active-bg-color: var(--sgn-success);
+	--sgn-tab-link-active-color: var(--sgn-accent-primary-text);
+}
+
+
+.tab-layout.info > .tab-links > .tab-link {
+	--sgn-tab-link-bg-color: var(--sgn-info-lightest);
+	--sgn-tab-link-color: var(--sgn-info);
+}
+
+.tab-layout.info > .tab-links > .tab-link:hover {
+	--sgn-tab-link-hover-bg-color: var(--sgn-info-light);
+	--sgn-tab-link-hover-color: var(--sgn-accent-primary-text);
+}
+
+.tab-layout.info > .tab-links > .tab-link.active {
+	--sgn-tab-link-active-bg-color: var(--sgn-info);
+	--sgn-tab-link-active-color: var(--sgn-accent-primary-text);
+}
+
+
+.tab-layout.warning > .tab-links > .tab-link {
+	--sgn-tab-link-bg-color: var(--sgn-warning-lightest);
+	--sgn-tab-link-color: var(--sgn-warning);
+}
+
+.tab-layout.warning > .tab-links > .tab-link:hover {
+	--sgn-tab-link-hover-bg-color: var(--sgn-warning-light);
+	--sgn-tab-link-hover-color: var(--sgn-accent-primary-text);
+}
+
+.tab-layout.warning > .tab-links > .tab-link.active {
+	--sgn-tab-link-active-bg-color: var(--sgn-warning);
+	--sgn-tab-link-active-color: var(--sgn-accent-primary-text);
+}
+
+
+.tab-layout.danger > .tab-links > .tab-link {
+	--sgn-tab-link-bg-color: var(--sgn-danger-lightest);
+	--sgn-tab-link-color: var(--sgn-danger);
+}
+
+.tab-layout.danger > .tab-links > .tab-link:hover {
+	--sgn-tab-link-hover-bg-color: var(--sgn-danger-light);
+	--sgn-tab-link-hover-color: var(--sgn-accent-primary-text);
+}
+
+.tab-layout.danger > .tab-links > .tab-link.active {
+	--sgn-tab-link-active-bg-color: var(--sgn-danger);
+	--sgn-tab-link-active-color: var(--sgn-accent-primary-text);
+}
+
+/*** GRADIENT ***/
+.tab-layout.gradient.primary > .tab-links > .tab-link {
+	--sgn-tab-link-bg-color: transparent;
+	--sgn-tab-link-color: var(--sgn-accent-primary);
+}
+
+.tab-layout.gradient.primary > .tab-links > .tab-link:hover {
+	--sgn-tab-link-hover-color: var(--sgn-accent-primary);
+}
+
+.tab-layout.gradient.primary > .tab-links > .tab-link.active {
+	--sgn-tab-link-active-bg-color: var(--sgn-gradient-primary);
+	--sgn-tab-link-active-color: var(--sgn-accent-primary-text);
+}

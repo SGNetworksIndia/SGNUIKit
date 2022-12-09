@@ -34,13 +34,20 @@
 
 .card .card-body {
 	background-color: var(--sgn-accent-background);
+	border-radius: var(--sgn-border-radius-md) var(--sgn-border-radius-md);
 	overflow: auto;
 	padding: var(--padding-md);
 	position: relative;
 }
 
+.card > .card-header ~ .card-body {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
 .card > .card-body:last-child {
-	border-radius: 0 0 var(--sgn-border-radius-md) var(--sgn-border-radius-md);
+	border-bottom-left-radius: var(--sgn-border-radius-md);
+	border-bottom-right-radius: var(--sgn-border-radius-md);
 }
 
 .card > .card-footer {
@@ -50,6 +57,7 @@
 	background-color: var(--sgn-accent-background-secondary);
 	display: flex;
 	justify-content: end;
+	color: var(--sgn-text-secondary);
 }
 
 .card > .card-footer > .btn {
@@ -101,6 +109,18 @@
 .card > .card-body > form > .btn,
 .card > .card-body > form > *:not(.auto-grid) > .btn {
 	margin-bottom: 0;
+}
+
+
+.card > .card-body > .list-group {
+	border-radius: 0;
+	box-shadow: none;
+	margin: 0;
+}
+
+.card > .card-body > .list-group > .list-group-title,
+.card > .card-body > .list-group > .list-view > .list-link:last-child {
+	border-radius: 0;
 }
 
 

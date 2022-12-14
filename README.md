@@ -55,16 +55,11 @@ using **_JavaScript_** which be found at [freecodecamp.org/news](https://www.fre
 ## UPCOMING FEATURES
 There are many features are staged to be implemented in the upcoming releases. The currently planned features awaiting to be implemented are:
 
-1.
-  - [ ] BottomSheets (like Android Material Design)
-2.
-  - [ ] Windows (like desktop windows)
-3.
-  - [ ] File (Image) upload preview (crop)
-4.
-  - [ ] Drag & Drop Panels/Cards
-5.
-  - [ ] Themes
+1. - [ ] BottomSheets (like Android Material Design)
+2. - [ ] Windows (like desktop windows)
+3. - [ ] File (Image) upload preview (crop)
+4. - [ ] Drag & Drop Panels/Cards
+5. - [ ] Themes
 6. And many more...
 
 ## CONTRIBUTING

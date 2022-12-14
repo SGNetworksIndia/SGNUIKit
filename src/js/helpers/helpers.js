@@ -306,6 +306,17 @@ function getFormData($form, callback) {
 	}
 }
 
+/**
+ *
+ * Determine whether a variable is empty
+ *
+ * @param obj Variable to be checked
+ * @returns {boolean} <b>TRUE</b> if the <i>obj</i> does not exist or has a value that is empty but not equal to <i><b>zero</b></i>, <b>FALSE</b> otherwise.
+ */
+function empty(obj) {
+	return (obj !== undefined && obj !== null && obj !== "");
+}
+
 
 window.logStopArt = (stopArt) => logStopArt(stopArt);
 window.is_json = (str) => is_json(str);
@@ -317,6 +328,7 @@ window.numbersOnly = (f, e) => numbersOnly(f, e);
 window.readFile = ($el, callback, data, stringify) => readFile($el, callback, data, stringify);
 window.mergeFormData = (data, $fileInputs, callback) => mergeFormData(data, $fileInputs, callback);
 window.getFormData = ($form, callback) => getFormData($form, callback);
+window.empty = (obj) => empty(obj);
 
 $(document).ready(function() {
 	$.extend({

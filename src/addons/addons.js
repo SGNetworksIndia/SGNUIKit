@@ -7,6 +7,7 @@
 
 //import('./CKEditor5/ckeditor.js');
 import {CKSource} from "./CKEditor5/ckeditor.js";
+
 export default CKSource;
 
 import('./ContextJS/context.js');
@@ -17,8 +18,9 @@ import('./iziToast/iziToast.easy.js');
 //import('./Marquee/marquee.js');
 import('./NavbarTransformIcons/NavbarTransformIcons.js');
 import('./noty/noty.js');
-import('./noty/noty.init.js');
-import('./SGNGeoData/SGNGeoData.js');
+import("./noty/noty.init.js");
+import("./PrismJS/prism.js");
+import("./SGNGeoData/SGNGeoData.js");
 import('./SGNTimePicker/SGNTimePicker.js');
 import('./SweetAlert2/sweetalert2.all.js');
 import('./VelocityJS/velocity.js');

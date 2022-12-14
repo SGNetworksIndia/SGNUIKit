@@ -138,6 +138,7 @@
 .tab-layout.bottom > .tab-links > .tab-link:last-child,
 .tab-layout > .tab-view ~ .tab-links > .tab-link:last-child {
 	border-radius: 0 0 var(--sgn-border-radius-md) 0;
+	border-right: 1px solid var(--sgn-tab-heading-border-color, var(--sgn-border-light));
 }
 
 .tab-layout.bottom > .tab-links > .tab-link:first-child,

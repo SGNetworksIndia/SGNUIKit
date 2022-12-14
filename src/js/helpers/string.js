@@ -17,15 +17,31 @@ String.prototype.guid = function() {
 };
 
 String.prototype.ltrim = function(s) {
-	return this.replace(new RegExp("^" + s + "*"), '');
+	return this.replace(new RegExp("^" + s + "*"), "");
 };
 String.prototype.rtrim = function(s) {
-	return this.replace(new RegExp(s + "*$"), '');
+	return this.replace(new RegExp(s + "*$"), "");
 };
 
-$.expr[':'].textEquals = $.expr.createPseudo(function(arg) {
+/**
+ * Convert a string to HTML entities
+ */
+String.prototype.toHtmlEntities = function() {
+	return escapeHTML(this);
+};
+
+/**
+ * Create string from HTML entities
+ */
+String.fromHtmlEntities = function(string) {
+	return (string + "").replace(/&#\d+;/gm, function(s) {
+		return String.fromCharCode(s.match(/\d+/gm)[0]);
+	});
+};
+
+$.expr[":"].textEquals = $.expr.createPseudo(function(arg) {
 	arg = arg.trim();
 	return function(elem) {
 		return $(elem).text().trim().match("^" + arg + "$");
-	}
+	};
 });

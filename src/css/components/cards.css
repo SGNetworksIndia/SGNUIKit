@@ -249,3 +249,33 @@
 }
 
 
+/*** FIXES ***/
+.card > .card-body .list-group,
+.card > .card-body .list-view {
+	box-shadow: none;
+}
+
+.card > .card-body .tab-layout {
+	box-shadow: none;
+}
+
+.card > .card-body .tab-layout:not(.alt):not(.no-shadow) {
+	margin: 0;
+}
+
+.card > .card-body .tab-layout:not(.alt):not(.no-shadow) > .tab-title {
+	border-width: 1px 1px 0 1px;
+}
+
+.card > .card-body .tab-layout:not(.alt):not(.no-shadow) > .tab-links {
+	display: inline-flex;
+	border-width: 0 0 1px 1px;
+}
+
+.card > .card-body .tab-layout:not(.no-shadow) > .tab-title ~ .tab-view {
+	border-width: 1px;
+	border-radius: 0 0 var(--sgn-border-radius-md) 0;
+}
+
+
+

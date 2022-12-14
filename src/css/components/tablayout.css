@@ -13,7 +13,7 @@
 	--sgn-tab-link-border-color: var(--sgn-tab-heading-border-color);
 	--sgn-tab-link-color: var(--sgn-accent-primary);
 	--sgn-tab-link-hover-color: var(--sgn-accent-primary-dark);
-	--sgn-tab-link-hover-bg-color: var(--sgn-accent-primary-light);
+	--sgn-tab-link-hover-bg-color: var(--sgn-secondary-lightest);
 	--sgn-tab-link-active-color: var(--sgn-tab-link-color);
 	--sgn-tab-link-active-bg-color: var(--sgn-accent-background);
 	--sgn-tab-tab-border-color: var(--sgn-tab-heading-border-color);
@@ -22,7 +22,16 @@
 .tab-layout {
 	border-radius: var(--sgn-border-radius-md);
 	border: none;
+	margin: var(--margin-md);
 	overflow: hidden;
+}
+
+.tab-layout > .tab-title {
+	background-color: var(--sgn-tab-link-bg-color, var(--sgn-accent-background-secondary));
+	padding: var(--padding-sm);
+	border: 1px solid var(--sgn-tab-heading-border-color, var(--sgn-border-light));
+	border-bottom-width: 0;
+	border-radius: var(--sgn-border-radius-md) var(--sgn-border-radius-md) 0 0;
 }
 
 .tab-layout > .tab-links {
@@ -78,7 +87,6 @@
 	border: 1px solid var(--sgn-tab-tab-border-color, var(--sgn-border-light));
 	border-radius: 0 var(--sgn-border-radius-md) var(--sgn-border-radius-md);
 	position: relative;
-	top: -1px;
 }
 
 .tab-layout > .tab-view > .tab {
@@ -90,15 +98,89 @@
 	display: block;
 }
 
+.tab-layout > .tab-title ~ .tab-links {
+	border-radius: 0;
+	border-bottom: 0;
+	width: 100%;
+}
+
+.tab-layout > .tab-title ~ .tab-links > .tab-link:first-child,
+.tab-layout > .tab-title ~ .tab-links > .tab-link:last-child {
+	border-radius: 0;
+}
+
+.tab-layout:not(.alt) > .tab-title ~ .tab-links > .tab-link:last-child {
+	border-right: 1px solid var(--sgn-tab-heading-border-color, var(--sgn-border-light));
+}
+
+.tab-layout > .tab-title ~ .tab-view {
+	border-radius: 0 0 var(--sgn-border-radius-md) var(--sgn-border-radius-md);
+}
+
+
+.tab-layout.bottom > .tab-view {
+	border-radius: 0 0 var(--sgn-border-radius-md) 0;
+}
+
+.tab-layout.bottom > .tab-links,
+.tab-layout > .tab-view ~ .tab-links {
+	width: auto;
+	border-radius: 0 0 var(--sgn-border-radius-md) var(--sgn-border-radius-md);
+	border: 1px solid var(--sgn-tab-heading-border-color, var(--sgn-border-light));
+	border-right-width: 0;
+	top: -1px;
+}
+
+.tab-layout.bottom > .tab-links > .tab-link {
+	border-top: 0;
+}
+
+.tab-layout.bottom > .tab-links > .tab-link:last-child,
+.tab-layout > .tab-view ~ .tab-links > .tab-link:last-child {
+	border-radius: 0 0 var(--sgn-border-radius-md) 0;
+}
+
+.tab-layout.bottom > .tab-links > .tab-link:first-child,
+.tab-layout > .tab-view ~ .tab-links > .tab-link:first-child {
+	border-radius: 0 0 0 var(--sgn-border-radius-md);
+}
+
+.tab-layout.bottom > .tab-links > .tab-link.active:after,
+.tab-layout > .tab-view ~ .tab-links > .tab-link.active:after {
+	bottom: unset;
+	top: -1px;
+}
 
 .tab-layout.alt {
 	border: 1px solid var(--sgn-tab-heading-border-color, var(--sgn-border-light));
+}
+
+.tab-layout.alt > .tab-title {
+	border-width: 0 0 1px 0;
 }
 
 .tab-layout.alt > .tab-links {
 	border: none;
 	border-bottom: 1px solid var(--sgn-tab-heading-border-color, var(--sgn-border-light));
 	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	top: 0;
+}
+
+.tab-layout.alt.bottom > .tab-view {
+	border-bottom: 1px solid var(--sgn-tab-heading-border-color, var(--sgn-border-light));
+}
+
+.tab-layout.alt.bottom > .tab-links {
+	border-width: 0 0 0 0;
+}
+
+.tab-layout.alt > .tab-links > .tab-link {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .tab-layout.alt > .tab-view {
@@ -107,14 +189,50 @@
 }
 
 
-.tab-layout.gradient > .tab-links > .tab-link {
-	background-color: transparent;
-	background-image: var(--sgn-tab-link-bg-color, var(--sgn-accent-background));
+/*** WITH SHADOW ***/
+.tab-layout,
+.tab-layout.shadow {
+	box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
 }
 
-.tab-layout.gradient > .tab-links > .tab-link.active {
-	background-color: transparent;
-	background-image: var(--sgn-tab-link-active-bg-color, var(--sgn-accent-background));
+.tab-layout:not(.no-shadow) > .tab-view {
+	border-radius: 0;
+}
+
+.tab-layout:not(.no-shadow) > .tab-view {
+	border-width: 1px 0 1px 0;
+}
+
+.tab-layout:not(.alt):not(.no-shadow) > .tab-title,
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links {
+	border-width: 0;
+	top: 0;
+}
+
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links {
+	display: flex;
+}
+
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-center > .tab-link:first-child,
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-end > .tab-link:first-child,
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-space-around > .tab-link,
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-space-between > .tab-link,
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-space-evenly > .tab-link {
+	border-left: 1px solid var(--sgn-tab-link-border-color, var(--sgn-border-light));
+}
+
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-start > .tab-link:last-child,
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-left > .tab-link:last-child,
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-space-between > .tab-link:first-child,
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-flex-start > .tab-link:first-child {
+	border-left-width: 0;
+}
+
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-end > .tab-link:last-child,
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-right > .tab-link:last-child,
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-space-between > .tab-link:last-child,
+.tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-flex-end > .tab-link:last-child {
+	border-right-width: 0;
 }
 
 
@@ -215,6 +333,16 @@
 }
 
 /*** GRADIENT ***/
+.tab-layout.gradient > .tab-links > .tab-link {
+	background-color: transparent;
+	background-image: var(--sgn-tab-link-bg-color, var(--sgn-accent-background));
+}
+
+.tab-layout.gradient > .tab-links > .tab-link.active {
+	background-color: transparent;
+	background-image: var(--sgn-tab-link-active-bg-color, var(--sgn-accent-background));
+}
+
 .tab-layout.gradient.primary > .tab-links > .tab-link {
 	--sgn-tab-link-bg-color: transparent;
 	--sgn-tab-link-color: var(--sgn-accent-primary);

@@ -13,6 +13,8 @@
 @import "paddings.css";
 @import "texts.css";
 @import "marquee.css";
+@import "shadows.css";
+@import "shapes.css";
 
 .ov-none {
 	overflow: hidden !important;
@@ -40,7 +42,3 @@
 	overflow-x: auto;
 }
 
-
-.no-shadow {
-	box-shadow: none !important;
-}

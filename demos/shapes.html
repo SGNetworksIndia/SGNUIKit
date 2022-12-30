@@ -1,0 +1,279 @@
+<!--
+  ~ Copyright (c) 2022 SGNetworks. All rights reserved.
+  ~
+  ~ The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+  ~ VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Shapes - SGNUIKit Demo</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script src="/src/js/SGNUIKit.loader.js"></script>
+		<!--<script src="/dist/js/SGNUIKit.loader.js"></script>-->
+		<style>
+			.color-block {
+				background-color: hsl(0, 0%, 80%);
+				display: flex;
+				flex-direction: column;
+				height: 200px;
+				position: relative;
+				text-align: center;
+				width: 200px;
+			}
+
+			.color-block:before {
+				color: hsl(0, 0%, 40%);
+				content: "200x200";
+				margin-bottom: auto !important;
+				margin-top: auto !important;
+			}
+
+			.color-block > .title > * {
+				user-select: all !important;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<div class="sgn-container auto-grid col-5 text-center">
+				<div class="mb-4">
+					<div class="shape-none color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-none</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-circle color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-circle</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-pill color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-pill</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-md color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-md</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-xs color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-xs</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-sm color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-sm</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-top-left color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-top-left</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-left color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-left</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-top-left-md color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-top-left-md</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-left-md color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-left-md</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-top-left-xs color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-top-left-xs</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-left-xs color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-left-xs</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-top-left-sm color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-top-left-sm</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-left-sm color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-left-sm</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-top-right color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-top-right</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-right color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-right</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-top-right-md color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-top-right-md</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-right-md color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-right-md</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-top-right-xs color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-top-right-xs</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-right-xs color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-right-xs</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-top-right-sm color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-top-right-sm</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-right-sm color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-right-sm</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-bottom-left color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-bottom-left</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-left color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-left</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-bottom-left-md color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-bottom-left-md</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-left-md color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-left-md</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-bottom-left-xs color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-bottom-left-xs</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-left-xs color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-left-xs</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-bottom-left-sm color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-bottom-left-sm</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-left-sm color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-left-sm</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-bottom-right color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-bottom-right</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-right color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-right</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-bottom-right-md color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-bottom-right-md</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-right-md color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-right-md</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-bottom-right-xs color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-bottom-right-xs</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-right-xs color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-right-xs</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-bottom-right-sm color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-bottom-right-sm</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="shape-rounded-right-sm color-block z-depth-1-half mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">shape-rounded-right-sm</h6>
+					</div>
+				</div>
+
+			</div>
+		</main>
+	</body>
+</html>

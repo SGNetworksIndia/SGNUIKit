@@ -1,0 +1,92 @@
+<!--
+  ~ Copyright (c) 2022 SGNetworks. All rights reserved.
+  ~
+  ~ The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+  ~ VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Shadows - SGNUIKit Demo</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script src="/src/js/SGNUIKit.loader.js"></script>
+		<style>
+			.color-block {
+				background-color: hsl(0, 0%, 80%);
+				display: flex;
+				flex-direction: column;
+				height: 200px;
+				position: relative;
+				text-align: center;
+				width: 200px;
+			}
+
+			.color-block:before {
+				color: hsl(0, 0%, 40%);
+				content: "200x200";
+				margin-bottom: auto !important;
+				margin-top: auto !important;
+			}
+
+			.color-block > .title > * {
+				user-select: all !important;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<div class="sgn-container auto-grid col-4 text-center">
+				<div class="mb-4">
+					<div class="no-shadow color-block mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">no-shadow</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="z-depth-default color-block mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">z-depth-default</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="z-depth-1 color-block mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">z-depth-1</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="z-depth-1-half color-block mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">z-depth-1-half</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="z-depth-2 color-block mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">z-depth-2</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="z-depth-3 color-block mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">z-depth-3</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="z-depth-4 color-block mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">z-depth-4</h6>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<div class="z-depth-5 color-block mx-auto ov-none">
+						<h6 class="title" sgn-component="marquee">z-depth-5</h6>
+					</div>
+				</div>
+
+			</div>
+		</main>
+	</body>
+</html>

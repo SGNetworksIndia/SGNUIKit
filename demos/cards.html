@@ -1,0 +1,163 @@
+<!--
+  ~ Copyright (c) 2022 SGNetworks. All rights reserved.
+  ~
+  ~ The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+  ~ VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Cards - SGNUIKit Demo</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script src="/src/js/SGNUIKit.loader.js"></script>
+		<script src="/src/addons/PrismJS/prism.js"></script>
+		<!--<script src="/dist/js/SGNUIKit.loader.js"></script>-->
+	</head>
+	<body>
+		<main>
+			<div class="sgn-container auto-grid col-3">
+				<!-- CARD (BASIC) -->
+				<div class="card sgn-code-snippet" sgn-snippet-title="Basic Card">
+					<div class="card-header">Card Heading</div>
+					<div class="card-body">
+						Some quick example text to build on the card title and make up the bulk of the card's content.
+					</div>
+					<div class="card-footer">Card Footer</div>
+				</div>
+
+				<!-- CARD (BASIC & IMAGE-ON-TOP) -->
+				<div class="card sgn-code-snippet" sgn-snippet-title="Basic Card with Image on Top">
+					<img alt="Card image cap" class="card-img-top" src="assets/img/img01.jpg"/>
+					<div class="card-body">
+						<h4 class="card-title"><a>Card title</a></h4>
+						<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					</div>
+				</div>
+
+				<!-- CARD (IMAGE-ON-TOP) -->
+				<div class="card sgn-code-snippet" sgn-snippet-title="Card with Image on Top">
+					<div class="card-header">Card Heading</div>
+					<img alt="Card image cap" class="card-img-top" src="assets/img/img01.jpg"/>
+					<div class="card-body">
+						<h4 class="card-title"><a>Card title</a></h4>
+						<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					</div>
+					<div class="card-footer jc-space-between">
+						<a class="btn danger" href="#">Negative</a>
+						<span>Card Footer</span>
+						<a class="btn success" href="#">Positive</a>
+					</div>
+				</div>
+
+				<!-- CASCADED CARD (REGULAR) -->
+				<div class="card cascade sgn-code-snippet" sgn-snippet-title="Cascaded Card (Regular)">
+					<div class="view cascade overlay">
+						<img alt="Card image cap" class="card-img-top" src="assets/img/img01.jpg"/>
+					</div>
+					<div class="card-body">
+						<h4 class="card-title">Alison Belmont</h4>
+						<h5 class="blue-text pb-2">Graffiti Artist</h5>
+						<p class="card-text">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+					</div>
+				</div>
+
+				<!-- CASCADED CARD (WIDER) -->
+				<div class="card cascade outer sgn-code-snippet" sgn-snippet-title="Cascaded Card (Wider View)">
+					<div class="view cascade overlay">
+						<img alt="Card image cap" class="card-img-top" src="assets/img/img01.jpg"/>
+					</div>
+					<div class="card-body">
+						<h4 class="card-title">Alison Belmont</h4>
+						<h5 class="blue-text pb-2">Graffiti Artist</h5>
+						<p class="card-text">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+					</div>
+				</div>
+
+				<!-- CASCADED CARD (NARROWER) -->
+				<div class="card cascade inner sgn-code-snippet" sgn-snippet-title="Cascaded Card (Narrower View)">
+					<div class="view cascade overlay">
+						<img alt="Card image cap" class="card-img-top" src="assets/img/img01.jpg"/>
+					</div>
+					<div class="card-body">
+						<h4 class="card-title">Alison Belmont</h4>
+						<h5 class="blue-text pb-2">Graffiti Artist</h5>
+						<p class="card-text">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+					</div>
+				</div>
+
+				<!-- CASCADED PANEL (NARROWER) -->
+				<div class="card cascade inner sgn-code-snippet" sgn-snippet-title="Cascaded Panel (Narrower View)">
+					<div class="view cascade purple-gradient card-header">
+						<h2 class="card-title">Ally Cook</h2>
+						<h5 class="">Follow me</h5>
+						<a class="btn floating btn-ic rounded waves-effect waves-light" type="button"><i class="fab fa-facebook-f"></i></a>
+						<a class="btn floating btn-ic rounded waves-effect waves-light" type="button"><i class="fab fa-twitter"></i></a>
+						<a class="btn floating btn-ic rounded waves-effect waves-light" type="button"><i class="fab fa-google-plus-g"></i></a>
+					</div>
+					<div class="card-body text-center">
+						<p class="card-text">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, ex,
+							recusandae. Facere modi sunt, quod quibusdam dignissimos neque rem nihil ratione est placeat vel, natus
+							non quos laudantium veritatis sequi.Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+							suscipit laboriosam, nisi ut aliquid ex ea commodi.
+						</p>
+					</div>
+				</div>
+
+				<!-- CASCADED PANEL (WIDER) -->
+				<div class="card cascade outer sgn-code-snippet" sgn-snippet-title="Cascaded Panel (Wider)">
+					<div class="view cascade peach-gradient card-header">
+						<h2 class="card-title">News Title</h2>
+						<p class="card-subtitle"><i class="fas fa-calendar mr-1"></i>23.12.2022</p>
+					</div>
+					<div class="card-body text-center">
+						<p class="card-text">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, ex minis
+							recusandae. Facere modi sunt, quod quibusdam dignissimos neque rem nihil ratione est placeat vel, natus
+							non quos laudantium veritatis sequi.Ut enim ad minima veniam, quis nostrum.
+						</p>
+						<a class="orange-text d-flex fd-row-r pt-1" href="#">
+							<h5 class="waves-effect waves-light m-0">Read more<i class="fas fa-angle-double-right ml-1"></i></h5>
+						</a>
+					</div>
+				</div>
+
+				<!-- CASCADED PANEL (REGULAR) -->
+				<div class="card cascade sgn-code-snippet" sgn-snippet-title="Cascaded Panel (Regular)">
+					<div class="view cascade blue-gradient card-header">
+						<h2 class="card-title">Marta</h2>
+						<p class="card-subtitle">Deserve for her own card</p>
+					</div>
+					<div class="card-body text-center">
+						<p class="card-text">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, ex,
+							recusandae. Facere modi sunt, quod quibusdam dignissimos neque rem nihil ratione est placeat vel, natus
+							non quos laudantium veritatis sequi.Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+							suscipit laboriosam.
+						</p>
+						<a class="btn tw-ic"><i class="fab fa-twitter"></i></a>
+						<a class="btn li-ic"><i class="fab fa-linkedin-in"></i></a>
+						<a class="btn fb-ic"><i class="fab fa-facebook-f"></i></a>
+						<a class="btn email-ic"><i class="fas fa-envelope"></i></a>
+					</div>
+				</div>
+
+				<!-- CARD (INTERSECTION) -->
+				<div class="card intersection sgn-code-snippet card-md" sgn-snippet-title="Card with Intersection (Testimonial Card)">
+					<div class="view cascade blue-gradient"></div>
+					<div class="intersection mx-auto white">
+						<img alt="Card image cap" class="shape-circle" src="assets/img/img01.jpg"/>
+					</div>
+					<div class="card-body">
+						<h4 class="card-title"><a>Angelina Jolie</a></h4>
+						<hr/>
+						<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					</div>
+				</div>
+
+			</div>
+		</main>
+	</body>
+</html>

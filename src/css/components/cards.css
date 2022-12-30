@@ -9,11 +9,11 @@
 	background-color: transparent;
 	border: 0 solid var(--sgn-border-light);
 	border-radius: var(--sgn-border-radius-md);
+	box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
+	display: flex;
+	flex-direction: column;
 	margin: var(--margin-md);
 	overflow: visible;
-	box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
-	-webkit-box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
-	-moz-box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
 }
 
 .card .card-header {
@@ -28,8 +28,16 @@
 	font-family: var(--sgn-font-default-bold);
 }
 
-.card.sgn-wizard-container .card-header {
-	border-bottom: 0;
+.card > .card-img-top {
+	border-top-left-radius: var(--sgn-border-radius-md);
+	border-top-right-radius: var(--sgn-border-radius-md);
+	width: 100%;
+}
+
+.card > .card-header ~ .card-img-top {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	width: 100%;
 }
 
 .card .card-body {
@@ -38,6 +46,14 @@
 	overflow: auto;
 	padding: var(--padding-md);
 	position: relative;
+}
+
+.card .card-body > .card-title {
+	color: var(--sgn-text-primary);
+}
+
+.card .card-body > .card-text {
+	color: var(--sgn-text-secondary);
 }
 
 .card > .card-header ~ .card-body {
@@ -51,13 +67,13 @@
 }
 
 .card > .card-footer {
-	border-top: 1px solid var(--sgn-border-light);
-	border-radius: 0 0 var(--sgn-border-radius-md) var(--sgn-border-radius-md);
-	padding: var(--padding-sm) var(--padding-md);
 	background-color: var(--sgn-accent-background-secondary);
-	display: flex;
-	justify-content: end;
+	border-radius: 0 0 var(--sgn-border-radius-md) var(--sgn-border-radius-md);
+	border-top: 1px solid var(--sgn-border-light);
 	color: var(--sgn-text-secondary);
+	display: flex;
+	justify-content: start;
+	padding: var(--padding-sm) var(--padding-md);
 }
 
 .card > .card-footer > .btn {
@@ -93,7 +109,7 @@
 .card > .card-body > *:not(.auto-grid) > .sgn-form:first-child,
 .card > .card-body > form > .sgn-form:first-child,
 .card > .card-body > form > *:not(.auto-grid) > .sgn-form:first-child,
-.card > .card-body > .btn
+.card > .card-body > .btn,
 .card > .card-body > *:not(.auto-grid) > .btn,
 .card > .card-body > form > .btn,
 .card > .card-body > form > *:not(.auto-grid) > .btn {
@@ -104,7 +120,7 @@
 .card > .card-body > *:not(.auto-grid) > .sgn-form:last-child,
 .card > .card-body > form > .sgn-form:last-child,
 .card > .card-body > form > *:not(.auto-grid) > .sgn-form:last-child,
-.card > .card-body > .btn
+.card > .card-body > .btn,
 .card > .card-body > *:not(.auto-grid) > .btn,
 .card > .card-body > form > .btn,
 .card > .card-body > form > *:not(.auto-grid) > .btn {
@@ -162,12 +178,94 @@
 }
 
 .card-deck > .card.counter > .card-body > .card-title {
-	color: #999;
+	color: #999999;
 }
 
 .card-deck > .card.counter > .card-icon > svg {
 	font-size: 2.5rem;
 	color: #03a9f4;
+}
+
+
+/*** CASCADED CARDS ***/
+.card.cascade > .view.cascade {
+	border-radius: var(--sgn-border-radius-md);
+	box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
+	z-index: 2;
+}
+
+.card.cascade .card-body {
+	background: var(--sgn-accent-background);
+	background-color: transparent;
+	box-shadow: none;
+	z-index: 1;
+}
+
+.card.cascade.outer {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+.card.cascade.outer .card-body {
+	background: var(--sgn-accent-background);
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
+	margin-left: 4%;
+	margin-right: 4%;
+}
+
+.card.cascade.inner {
+	background: var(--sgn-accent-background);
+	box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
+	margin-top: calc(var(--margin-lg));
+}
+
+.card.cascade.inner > .view {
+	margin-left: 4%;
+	margin-right: 4%;
+	margin-top: calc(.25rem - var(--margin-lg));
+	z-index: 1;
+}
+
+.card.cascade.inner .card-body {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+
+/*** CARD INTERSECTION ***/
+.card.intersection > .view {
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+	border-radius: var(--sgn-border-radius-md);
+	box-shadow: none;
+	min-height: 8rem;
+	overflow: hidden;
+}
+
+.card.intersection > .card-header ~ .view {
+	border-top-left-radius: 0 !important;
+	border-top-right-radius: 0 !important;
+}
+
+.card.intersection > .view ~ .intersection {
+	border: 6px solid var(--sgn-accent-background);
+	border-radius: 50%;
+	height: 10rem;
+	margin-top: -4rem;
+	overflow: hidden;
+	width: 10rem;
+	z-index: 2;
+}
+
+.card.intersection > .view ~ .intersection > img {
+	height: 100%;
+	width: 100%;
+}
+
+.card.intersection > .view ~ .intersection ~ .card-body > *:first-child {
+	margin-top: 0;
 }
 
 
@@ -250,6 +348,46 @@
 
 
 /*** FIXES ***/
+.card > .view.card-header {
+	color: var(--sgn-accent-primary-text);
+	display: inline-block;
+	padding: var(--padding-md) var(--padding-sm);
+	text-align: center;
+	width: auto;
+}
+
+
+.card.intersection.card-sm > .view ~ .intersection {
+	height: 8rem;
+	width: 8rem;
+}
+
+.card.intersection.card-lg > .view {
+	min-height: 12rem;
+}
+
+.card.intersection.card-lg > .view ~ .intersection {
+	height: 14rem;
+	margin-top: -8rem;
+	width: 14rem;
+}
+
+
+.card.intersection.card-xl > .view {
+	min-height: 14rem;
+}
+
+.card.intersection.card-xl > .view ~ .intersection {
+	height: 18rem;
+	margin-top: -8rem;
+	width: 18rem;
+}
+
+
+.card.sgn-wizard-container .card-header {
+	border-bottom: 0;
+}
+
 .card > .card-body .list-group,
 .card > .card-body .list-view {
 	box-shadow: none;
@@ -277,5 +415,13 @@
 	border-radius: 0 0 var(--sgn-border-radius-md) 0;
 }
 
+.card > .view > .btn.floating {
+	background-color: rgba(255, 255, 255, .2);
+	color: var(--sgn-accent-primary-text);
+}
 
+.card > .view > .btn.floating.btn-ic {
+	height: 3rem;
+	width: 3rem;
+}
 

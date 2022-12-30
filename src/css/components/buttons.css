@@ -217,6 +217,21 @@
 	color: var(--sgn-danger);
 }
 
+.btn.floating {
+	align-items: center;
+	box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
+	display: inline-flex;
+	justify-content: center;
+	margin: var(--margin-sm);
+	padding: 0;
+	position: relative;
+}
+
+.btn.floating.btn-ic {
+	height: 3rem;
+	width: 3rem;
+}
+
 .btn.icon {
 	line-height: 1;
 	display: inline-flex;

@@ -12,7 +12,7 @@
 
 ## REQUIREMENTS
 
-* **Current SGNUIKit Version**: 1.1.3
+* **Current SGNUIKit Version**: 1.1.4
 
 ### Core Requirements
 
@@ -33,7 +33,7 @@ as it comes built-in with **SGNUIKit** and the built-in dependencies will be use
 ## INSTALLATION
 
 Download the latest version of **_SGNUIKit_** from:
-[sgnuikit.repository.sgnetworks.eu.org/downloads](https://sgnuikit.repository.sgnetworks.eu.org/downloads/) or
+[sgnuikit.lib.sgnetworks.eu.org/downloads](https://sgnuikit.lib.sgnetworks.eu.org/downloads/) or
 [github.com/SGNetworksIndia/SGNUIKit/releases](https://github.com/SGNetworksIndia/SGNUIKit/releases), and extract the archive on the on any directory you want (preferably, `/assets/vendor/`).
 
 Now add the following line of code `<script src="/assets/vendor/SGNUIKit/js/SGNUIKit.loader.js"></script>` between the `<head></head>` tags. And the rest will be taken care of by the *loader*.
@@ -46,7 +46,7 @@ We recommend you to do this as the main script is larger than **1MB** (approxima
 
 ## DOCUMENTATION
 
-The documentation for **_SGNUIKit_** is available at [sgnuikit.cdn.sgnetworks.eu.org/docs](https://sgnuikit.cdn.sgnetworks.eu.org/docs/) and a tutorial on setting up a **_Progressive Web App (PWA)_**
+The documentation for **_SGNUIKit_** is available at [sgnuikit.lib.sgnetworks.eu.org/docs](https://sgnuikit.lib.sgnetworks.eu.org/docs/) and a tutorial on setting up a **_Progressive Web App (PWA)_**
 using **_JavaScript_** which be found at [freecodecamp.org/news](https://www.freecodecamp.org/news/build-a-pwa-from-scratch-with-html-css-and-javascript/).
 
 ## KNOWN BUGS
@@ -64,7 +64,7 @@ There are many features are staged to be implemented in the upcoming releases. T
 
 ## CONTRIBUTING
 
-To contribute on the **_SGNUIKit Core_**, send an email on [contribute@sgnuikit.cdn.sgnetworks.eu.org](mailto:contribute@sgnuikit.cdn.sgnetworks.eu.org) with the following information:
+To contribute on the **_SGNUIKit Core_**, send an email on [contribute@sgnuikit.lib.sgnetworks.eu.org](mailto:contribute@sgnuikit.lib.sgnetworks.eu.org) with the following information:
 
 * Your real name
 * Your GitHub Username
@@ -73,10 +73,10 @@ To contribute on the **_SGNUIKit Core_**, send an email on [contribute@sgnuikit.
 
 If you are selected, you'll receive an email from the core development team with all the information required to move forward.
 
-Or if you have a new feature which can be added in the `SGNUIKit Core`, just email to [rfc@sgnuikit.cdn.sgnetworks.eu.org](mailto:rfc@sgnuikit.cdn.sgnetworks.eu.org) with your proposal.
+Or if you have a new feature which can be added in the `SGNUIKit Core`, just email to [rfc@sgnuikit.lib.sgnetworks.eu.org](mailto:rfc@sgnuikit.lib.sgnetworks.eu.org) with your proposal.
 
 Or if you found a bug or error which need to be fixed create an issue at [issues](https://github.com/SGNetworksIndia/SGNUIKit/issues) or if you think you can fix the issue, report the bug to
-[bug@sgnuikit.cdn.sgnetworks.eu.org](mailto:bug@sgnuikit.cdn.sgnetworks.eu.org) explaining the issue you found.
+[bug@sgnuikit.lib.sgnetworks.eu.org](mailto:bug@sgnuikit.lib.sgnetworks.eu.org) explaining the issue you found.
 
 ## CREDITS
 

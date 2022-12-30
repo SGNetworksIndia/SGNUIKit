@@ -1,0 +1,174 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.primary-gradient {
+	background-image: var(--sgn-gradient-primary) !important;
+}
+
+.secondary-gradient {
+	background-image: var(--sgn-gradient-secondary) !important;
+}
+
+.success-gradient {
+	background-image: var(--sgn-gradient-success) !important;
+}
+
+.info-gradient {
+	background-image: var(--sgn-gradient-info) !important;
+}
+
+.warning-gradient {
+	background-image: var(--sgn-gradient-warning) !important;
+}
+
+.danger-gradient {
+	background-image: var(--sgn-gradient-danger) !important;
+}
+
+.primary-double-width-gradient {
+	background-image: var(--sgn-gradient-primary-double-width) !important;
+}
+
+.secondary-double-width-gradient {
+	background-image: var(--sgn-gradient-secondary-double-width) !important;
+}
+
+.success-double-width-gradient {
+	background-image: var(--sgn-gradient-success-double-width) !important;
+}
+
+.info-double-width-gradient {
+	background-image: var(--sgn-gradient-info-double-width) !important;
+}
+
+.warning-double-width-gradient {
+	background-image: var(--sgn-gradient-warning-double-width) !important;
+}
+
+.danger-double-width-gradient {
+	background-image: var(--sgn-gradient-danger-double-width) !important;
+}
+
+
+.frozen-dreams-gradient {
+	background-image: linear-gradient(to top, #fdcbf1 0, #fdcbf1 1%, #e6dee9 100%) !important;
+}
+
+.lady-lips-gradient {
+	background-image: linear-gradient(to top, #ff9a9e 0, #fecfef 99%, #fecfef 100%) !important;
+}
+
+.spring-warmth-gradient {
+	background-image: linear-gradient(to top, #fad0c4 0, #ffd1ff 100%) !important;
+}
+
+.amy-crisp-gradient {
+	background-image: linear-gradient(120deg, #a6c0fe 0, #f68084 100%) !important;
+}
+
+.mean-fruit-gradient {
+	background-image: linear-gradient(120deg, #fccb90 0, #d57eeb 100%) !important;
+}
+
+.juicy-peach-gradient {
+	background-image: linear-gradient(to right, #ffecd2 0, #fcb69f 100%) !important;
+}
+
+.warm-flame-gradient {
+	background-image: linear-gradient(45deg, #ff9a9e 0, #fad0c4 99%, #fad0c4 100%) !important;
+}
+
+.young-passion-gradient {
+	background-image: linear-gradient(to right, #ff8177 0, #ff867a 0, #ff8c7f 21%, #f99185 52%, #cf556c 78%, #b12a5b 100%) !important;
+}
+
+.peach-gradient {
+	background: linear-gradient(40deg, #ffd86f, #fc6262) !important;
+}
+
+.sunny-morning-gradient {
+	background-image: linear-gradient(120deg, #f6d365 0, #fda085 100%) !important;
+}
+
+.deep-blue-gradient {
+	background-image: linear-gradient(120deg, #e0c3fc 0, #8ec5fc 100%) !important;
+}
+
+.aqua-gradient {
+	background: linear-gradient(40deg, #2096ff, #05ffa3) !important;
+}
+
+.blue-gradient {
+	background: linear-gradient(40deg, #45cafc, #303f9f) !important;
+}
+
+.dusty-grass-gradient {
+	background-image: linear-gradient(120deg, #d4fc79 0, #96e6a1 100%) !important;
+}
+
+.morpheus-den-gradient {
+	background-image: linear-gradient(to top, #30cfd0 0, #330867 100%) !important;
+}
+
+.near-moon-gradient {
+	background-image: linear-gradient(to top, #5ee7df 0, #b490ca 100%) !important;
+}
+
+.tempting-azure-gradient {
+	background-image: linear-gradient(120deg, #84fab0 0, #8fd3f4 100%) !important;
+}
+
+.winter-neva-gradient {
+	background-image: linear-gradient(120deg, #a1c4fd 0, #c2e9fb 100%) !important;
+}
+
+.rare-wind-gradient {
+	background-image: linear-gradient(to top, #a8edea 0, #fed6e3 100%) !important;
+}
+
+.rainy-ashville-gradient {
+	background-image: linear-gradient(to top, #fbc2eb 0, #a6c1ee 100%) !important;
+}
+
+.night-fade-gradient {
+	background-image: linear-gradient(to top, #a18cd1 0, #fbc2eb 100%) !important;
+}
+
+.purple-gradient {
+	background: linear-gradient(40deg, #ff6ec4, #7873f5) !important;
+}
+
+.ripe-malinka-gradient {
+	background-image: linear-gradient(120deg, #f093fb 0, #f5576c 100%) !important;
+}
+
+.cloudy-knoxville-gradient {
+	background-image: linear-gradient(120deg, #fdfbfb 0, #ebedee 100%) !important;
+}
+
+.heavy-rain-gradient {
+	background-image: linear-gradient(to top, #cfd9df 0, #e2ebf0 100%) !important;
+}
+
+.custom-gradient {
+	background-image: var(--sgn-gradient-custom) !important; !important;
+	--sgn-gradient-custom: radial-gradient(circle at center,
+	hsl(0, 100%, 50%) 0%,
+	hsl(30, 100%, 50%) 10%,
+	hsl(60, 100%, 50%) 20%,
+	hsl(120, 100%, 50%) 30%,
+	hsl(180, 100%, 50%) 40%,
+	hsl(210, 100%, 50%) 50%,
+	hsl(240, 100%, 50%) 60%,
+	hsl(270, 100%, 50%) 70%,
+	hsl(300, 100%, 50%) 80%,
+	hsl(330, 100%, 50%) 90%,
+	hsl(360, 100%, 50%) 100%
+	);
+}
+
+

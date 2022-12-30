@@ -68,6 +68,10 @@ body {
 \tmargin: 0;
 }
 
+.has-preloader {
+\toverflow: hidden !important;
+}
+
 .sgn-preloader {
 \tpadding: 0;
 \twidth: 100%;

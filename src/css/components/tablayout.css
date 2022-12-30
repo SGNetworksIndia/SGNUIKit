@@ -20,8 +20,10 @@
 }
 
 .tab-layout {
-	border-radius: var(--sgn-border-radius-md);
 	border: none;
+	border-radius: var(--sgn-border-radius-md);
+	display: flex;
+	flex-direction: column;
 	margin: var(--margin-md);
 	overflow: hidden;
 }
@@ -73,19 +75,21 @@
 }
 
 .tab-layout > .tab-links > .tab-link.active:after {
-	content: '';
 	border-bottom: 1px solid var(--sgn-tab-link-active-bg-color, var(--sgn-accent-background));
-	width: 100%;
-	display: block;
-	position: absolute;
-	left: 0;
 	bottom: -1px;
+	content: "";
+	display: block;
+	left: 0;
+	position: absolute;
+	width: 100%;
 	z-index: 1;
 }
 
 .tab-layout > .tab-view {
 	border: 1px solid var(--sgn-tab-tab-border-color, var(--sgn-border-light));
 	border-radius: 0 var(--sgn-border-radius-md) var(--sgn-border-radius-md);
+	display: flex;
+	flex-direction: column;
 	position: relative;
 }
 
@@ -95,7 +99,8 @@
 }
 
 .tab-layout > .tab-view > .tab.active {
-	display: block;
+	display: flex;
+	flex-direction: column;
 }
 
 .tab-layout > .tab-title ~ .tab-links {
@@ -234,6 +239,10 @@
 .tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-space-between > .tab-link:last-child,
 .tab-layout:not(.alt):not(.no-shadow) > .tab-links.jc-flex-end > .tab-link:last-child {
 	border-right-width: 0;
+}
+
+.tab-layout > .tab-view {
+	flex: 1;
 }
 
 

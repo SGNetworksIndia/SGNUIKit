@@ -6,9 +6,15 @@
  */
 
 .auto-grid {
+	align-items: flex-start;
 	display: flex;
-	justify-content: space-between;
+	flex-direction: row !important;
 	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.auto-grid.deck {
+	align-items: normal;
 }
 
 .auto-grid > * {
@@ -16,7 +22,7 @@
 }
 
 .auto-grid.col-5 > * {
-	flex: 1 0 20%;
+	flex: 1 0 15%;
 }
 
 .auto-grid.col-4 > * {

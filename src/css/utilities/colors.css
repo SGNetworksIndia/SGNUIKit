@@ -5,6 +5,9 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
+@import "text-colors.css";
+@import "gradients.css";
+
 .sgn-required,
 .sgn-optional {
 	margin-right: var(--margin-xs);
@@ -32,5 +35,22 @@
 
 .text-white {
 	color: hsla(0, 0%, 100%, 1);
+}
+
+
+.tw-ic {
+	color: #55acee !important;
+}
+
+.li-ic {
+	color: #0082ca !important;
+}
+
+.fb-ic {
+	color: #3b5998 !important;
+}
+
+.email-ic {
+	color: #4b515d !important;
 }
 

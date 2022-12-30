@@ -1,0 +1,120 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.primary-text {
+	color: var(--sgn-primary) !important;
+}
+
+.secondary-text {
+	color: var(--sgn-secondary) !important;
+}
+
+.success-text {
+	color: var(--sgn-success) !important;
+}
+
+.info-text {
+	color: var(--sgn-info) !important;
+}
+
+.warning-text {
+	color: var(--sgn-warning) !important;
+}
+
+.danger-text {
+	color: var(--sgn-danger) !important;
+}
+
+
+.black-text {
+	color: #000000 !important;
+}
+
+.light-black-text {
+	color: #333333 !important;
+}
+
+.red-text {
+	color: #f44336 !important;
+}
+
+.pink-text {
+	color: #e91e63 !important
+}
+
+.purple-text {
+	color: #9c27b0 !important;
+}
+
+.deep-purple-text {
+	color: #673ab7 !important;
+}
+
+.indigo-text {
+	color: #3f51b5 !important;
+}
+
+.blue-text {
+	color: #2196f3 !important;
+}
+
+.light-blue-text {
+	color: #03a9f4 !important;
+}
+
+.cyan-text {
+	color: #00bcd4 !important;
+}
+
+.teal-text {
+	color: #009688 !important;
+}
+
+.green-text {
+	color: #4caf50 !important;
+}
+
+.light-green-text {
+	color: #8bc34a !important;
+}
+
+.lime-text {
+	color: #cddc39 !important;
+}
+
+.yellow-text {
+	color: #ffeb3b !important;
+}
+
+.amber-text {
+	color: #ffc107 !important;
+}
+
+.orange-text {
+	color: #ff9800 !important;
+}
+
+.deep-orange-text {
+	color: #ff5722 !important;
+}
+
+.brown-text {
+	color: #795548 !important;
+}
+
+.grey-text {
+	color: #9e9e9e !important;
+}
+
+.blue-grey-text {
+	color: #607d8b !important;
+}
+
+.white-text {
+	color: #ffffff !important;
+}
+

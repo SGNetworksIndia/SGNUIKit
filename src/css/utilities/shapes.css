@@ -1,0 +1,102 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.shape-none {
+	border-radius: 0 !important;
+}
+
+.shape-circle {
+	border-radius: 100% !important;
+}
+
+.shape-pill {
+	border-radius: 50rem !important;
+}
+
+.shape-rounded,
+.shape-rounded-md {
+	border-radius: var(--sgn-border-radius-md) !important;
+}
+
+.shape-rounded-xs {
+	border-radius: var(--sgn-border-radius-xs) !important;
+}
+
+.shape-rounded-sm {
+	border-radius: var(--sgn-border-radius-sm) !important;
+}
+
+.shape-rounded-top-left,
+.shape-rounded-left,
+.shape-rounded-top-left-md,
+.shape-rounded-left-md {
+	border-top-left-radius: var(--sgn-border-radius-md) !important;
+}
+
+.shape-rounded-top-left-xs,
+.shape-rounded-left-xs {
+	border-top-left-radius: var(--sgn-border-radius-xs) !important;
+}
+
+.shape-rounded-top-left-sm,
+.shape-rounded-left-sm {
+	border-top-left-radius: var(--sgn-border-radius-sm) !important;
+}
+
+
+.shape-rounded-top-right,
+.shape-rounded-right,
+.shape-rounded-top-right-md,
+.shape-rounded-right-md {
+	border-top-right-radius: var(--sgn-border-radius-md) !important;
+}
+
+.shape-rounded-top-right-xs,
+.shape-rounded-right-xs {
+	border-top-right-radius: var(--sgn-border-radius-xs) !important;
+}
+
+.shape-rounded-top-right-sm,
+.shape-rounded-right-sm {
+	border-top-right-radius: var(--sgn-border-radius-sm) !important;
+}
+
+
+.shape-rounded-bottom-left,
+.shape-rounded-left,
+.shape-rounded-bottom-left-md,
+.shape-rounded-left-md {
+	border-bottom-left-radius: var(--sgn-border-radius-md) !important;
+}
+
+.shape-rounded-bottom-left-xs,
+.shape-rounded-left-xs {
+	border-bottom-left-radius: var(--sgn-border-radius-xs) !important;
+}
+
+.shape-rounded-bottom-left-sm,
+.shape-rounded-left-sm {
+	border-bottom-left-radius: var(--sgn-border-radius-sm) !important;
+}
+
+
+.shape-rounded-bottom-right,
+.shape-rounded-right,
+.shape-rounded-bottom-right-md,
+.shape-rounded-right-md {
+	border-bottom-right-radius: var(--sgn-border-radius-md) !important;
+}
+
+.shape-rounded-bottom-right-xs,
+.shape-rounded-right-xs {
+	border-bottom-right-radius: var(--sgn-border-radius-xs) !important;
+}
+
+.shape-rounded-bottom-right-sm,
+.shape-rounded-right-sm {
+	border-bottom-right-radius: var(--sgn-border-radius-sm) !important;
+}

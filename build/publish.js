@@ -5,8 +5,22 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-const fs   = require("fs"),
-	  path = require("path");
+const fs     = require("fs"),
+      path   = require("path"),
+      config = require("./config.js");
+const ts = Date.time();
+const vinfo = {
+	"major": config.version.major,
+	"minor": config.version.minor,
+	"patch": config.version.patch,
+	"code": 0,
+	"version": `${config.version.major}.${config.version.minor}.${config.version.patch}`,
+	"timestamp": ts,
+};
+let cdnVInfo;
+const {deleteFolderRecursive} = require("./clean");
+const buffer    = Buffer.from(config.SGNUIKitLoader, "base64"),
+      loaderStr = buffer.toString("utf8");
 
 /**
  * Copy files recursively
@@ -15,9 +29,9 @@ const fs   = require("fs"),
  */
 const copyRecursiveSync = function(src, dest) {
 	const srcExists   = fs.existsSync(src),
-		  destExists  = fs.existsSync(dest),
-		  stats       = srcExists && fs.statSync(src),
-		  isDirectory = srcExists && stats.isDirectory();
+	      destExists  = fs.existsSync(dest),
+	      stats       = srcExists && fs.statSync(src),
+	      isDirectory = srcExists && stats.isDirectory();
 
 	if(isDirectory) {
 		if(!destExists) {
@@ -36,5 +50,22 @@ const copyRecursiveSync = function(src, dest) {
 	}
 };
 
-copyRecursiveSync('src\\js\\SGNUIKit.loader.js', 'dist\\js\\SGNUIKit.loader.js');
-copyRecursiveSync('dist', 'E:\\home\\sgn\\public_html\\cdn\\jquery\\plugins\\SGNetworks\\SGNUIKit\\latest');
+console.info("Creating version info: " + "%cversion.json" + " in " + "%c/dist/" + "...", "font-weight: bold; font-style: italic", "font-weight: bold; font-style: italic");
+fs.writeFileSync("dist/version.json", JSON.stringify(vinfo));
+
+console.info("Creating loader: " + "%cSGNUIKit.loader.js" + " in " + "%c/dist/js/" + "...", "font-weight: bold; font-style: italic", "font-weight: bold; font-style: italic");
+fs.writeFileSync("dist/js/SGNUIKit.loader.js", loaderStr);
+
+try {
+	cdnVInfo = require(`${config.cdn_dir}latest\\version.json`);
+	if(vinfo.version !== cdnVInfo.version) {
+		copyRecursiveSync(`${config.cdn_dir}latest`, `${config.cdn_dir}${cdnVInfo.version}`);
+	} else {
+		console.warn(`The SGNUIKit version %c${cdnVInfo.version} already exists. Cleaning...`, "font-weight: bold; font-style: italic");
+		deleteFolderRecursive(`${config.cdn_dir}latest`);
+	}
+} catch(e) {}
+
+console.info("Publishing to : " + "%cSGN CDN", "font-weight: bold; font-style: italic");
+copyRecursiveSync("dist", `${config.cdn_dir}latest`);
+console.info("Package Published Successfully to " + "%cSGN CDN" + " which could be found at " + "%chttps://cdn.sgnetworks.net/jquery/plugins/SGNetworks/SGNUIKit/latest/", "font-weight: bold; font-style: italic", "font-weight: bold; font-style: italic");

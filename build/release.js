@@ -7,7 +7,7 @@
 
 const fs       = require("fs"),
       archiver = require("archiver"),
-      args     = require("./args.js"),
+      config   = require("./config.js"),
       info     = require("../package.json");
 
 /**
@@ -47,8 +47,8 @@ const createRelease = function(flavor = "free") {
 	archive.finalize().then(r => console.log(`The release '${name}' has been created.`));
 };
 
-if(args.flavor === "free" || args.flavor === "pro") {
-	console.info(`Creating release with build flavor: ${args.flavor}`);
-	createRelease(args.flavor);
+if(config.args.flavor === "free" || config.args.flavor === "pro") {
+	console.info(`Creating release with build flavor: ${config.args.flavor}`);
+	createRelease(config.args.flavor);
 } else
-	console.error(`Failed to create release: Invalid flavor supplied: ${args.flavor}`);
+	console.error(`Failed to create release: Invalid flavor supplied: ${config.args.flavor}`);

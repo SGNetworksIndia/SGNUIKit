@@ -5,8 +5,8 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-const fs = require('fs');
-const args = require('./args.js');
+const fs = require("fs");
+const config = require("./config.js");
 
 function deleteFolderRecursive(path, actualPath) {
 	actualPath = (actualPath === undefined || actualPath === null || actualPath === '') ? path : actualPath;
@@ -33,10 +33,16 @@ function deleteFolderRecursive(path, actualPath) {
 	}
 }
 
-console.log("Cleaning working tree...");
+module.exports = {
+	deleteFolderRecursive,
+};
 
-const dir = (args.dir === 'dst') ? 'E:\\home\\sgn\\public_html\\cdn\\jquery\\plugins\\SGNetworks\\SGNUIKit\\latest' : 'dist';
+const doExec = (config.args.dir === "dst" || config.args.dir === "src");
+const dir = (config.args.dir === "dst") ? `${config.cdn_dir}latest` : "dist";
 
-deleteFolderRecursive(dir);
+if(doExec) {
+	console.log("Cleaning working tree...");
+	deleteFolderRecursive(dir);
+	console.log("Successfully cleaned working tree!");
+}
 
-console.log("Successfully cleaned working tree!");

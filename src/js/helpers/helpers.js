@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -323,9 +323,28 @@ window.getFormData = ($form, callback) => getFormData($form, callback);
  * Determine whether a variable is empty
  *
  * @param obj Variable to be checked
+ * @param {boolean} [checkLength=false] If set to <b>TRUE</b>, this will check for zero-length objects as well.
  * @returns {boolean} <b>TRUE</b> if the <i>obj</i> does not exist or has a value that is empty but not equal to <i><b>zero</b></i>, <b>FALSE</b> otherwise.
  */
-window.empty = (obj) => (obj === undefined || obj === null || obj === "");
+window.empty = (obj, checkLength = false) => (checkLength) ? (obj === undefined || obj === null || obj === "" || (obj.length && obj.length <= 0)) : (obj === undefined || obj === null || obj === "");
+
+/***
+ * Select an object which is not empty from the specified array of objects.
+ *
+ * @param obj The <b>array</b> of objects.
+ *
+ * @returns {jQuery|any} The non-empty object (if any), otherwise <b>undefined</b>.
+ */
+window.select = (...obj) => {
+	if(!empty(obj)) {
+		for(const k in obj) {
+			const o = obj[k];
+
+			if(!empty(o, true))
+				return o;
+		}
+	}
+};
 
 window.escapeHTML = (str) => {
 	const escapeChars = {
@@ -1074,6 +1093,21 @@ $.extend({
 				         return response;
 			         else if(typeof options.error != "function")
 				         return response;
+	         },
+	         select: function(...obj) {
+		         let r;
+		         if(!empty(obj)) {
+			         for(const k in obj) {
+				         const o = obj[k];
+				         if(!empty(o, true)) {
+					         if(r === undefined)
+						         r = $(o);
+					         else
+						         r = $.merge(r, $(o));
+				         }
+			         }
+			         return r;
+		         }
 	         },
          });
 

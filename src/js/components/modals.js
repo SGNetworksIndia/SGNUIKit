@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -17,15 +17,15 @@ if(typeof jQuery === "undefined") {
 		const plugin = this;
 		let $this = $elem;
 
-		const init = function() {
-			const $header = $this.find('.sgn-modal-header'),
-				  $body   = $this.children('.sgn-modal-body'),
-				  $footer = $this.find('.sgn-modal-footer');
-			const $cancelBtn   = $this.find('.sgn-modal-cancelBtn'),
-				  $continueBtn = $this.find('.sgn-modal-continueBtn');
+		const init = () => {
+			const $header = $this.find(".sgn-modal-header"),
+			      $body   = $this.children(".sgn-modal-body"),
+			      $footer = $this.find(".sgn-modal-footer");
+			const $cancelBtn   = $this.find(".sgn-modal-cancelBtn"),
+			      $continueBtn = $this.find(".sgn-modal-continueBtn");
 
 			const cancelBtnHTML   = `<a class="btn btn-text primary sgn-modal-cancelBtn">Cancel</a>`,
-				  continueBtnHTML = `<a class="btn primary sgn-modal-continueBtn">Continue</a>`;
+			      continueBtnHTML = `<a class="btn primary sgn-modal-continueBtn">Continue</a>`;
 
 			let createCancelBtn = false, createContinueBtn = false;
 
@@ -71,90 +71,110 @@ if(typeof jQuery === "undefined") {
 
 		plugin.elem = $this;
 
-		plugin.show = function() {
-			$this.parent('.sgn-modal-wrapper').show().css('display', 'flex');
-			$this.parent('.sgn-modal-wrapper').removeClass('hide').addClass('show');
-		}
+		plugin.show = () => {
+			$this.parent(".sgn-modal-wrapper").show().css("display", "flex");
+			setTimeout(() => $this.parent(".sgn-modal-wrapper").removeClass("hide").addClass("show"), 50);
+		};
 
-		plugin.hide = function() {
-			$this.parent('.sgn-modal-wrapper').removeClass('show').addClass('hide');
-			setTimeout(function() {
-				$this.parent('.sgn-modal-wrapper').hide();
-			}, 400);
-		}
+		plugin.hide = () => {
+			$this.parent(".sgn-modal-wrapper").removeClass("show").addClass("hide");
+			setTimeout(() => $this.parent(".sgn-modal-wrapper").hide(), 400);
+		};
 
-		plugin.remove = function() {
+		plugin.remove = () => {
 			$this.SGNModal.hide();
-			$this.parent('.sgn-modal-wrapper').remove();
+			$this.parent(".sgn-modal-wrapper").remove();
 
-			$this.removeData('SGNModal');
-		}
+			$this.removeData("SGNModal");
+		};
 
-		if($this.data('SGNModal') === undefined)
+		if($this.data("SGNModal") === undefined)
 			init();
 	}
 
 	/*
-	var pluginContainer = $("#divSomeContainer");
-	pluginContainer.MyPlugin();
-	pluginContainer.MyPlugin().DoSomething();
+	 var pluginContainer = $("#divSomeContainer");
+	 pluginContainer.MyPlugin();
+	 pluginContainer.MyPlugin().DoSomething();
+	 */
+
+	/***
+	 * Create a new <b><i>SGNModal</b></i> or reuse the old <b><i>SGNModal</b></i> instance for the specific element.
+	 *
+	 * @returns {jQuery.SGNModal}
+	 * @constructor
 	 */
 	$.fn.SGNModal = function() {
 		const _this = this;
 		const $this = $(_this);
 
-		const init = function() {
-			new SGNModal($this);
-		};
+		const init = () => new SGNModal($this);
 
+		/***
+		 * Show the currently selected <b><i>SGNModal</b></i>.
+		 *
+		 * @returns {jQuery.SGNModal}
+		 */
 		this.show = function() {
-			const plugin = $(this).data('SGNModal');
+			const plugin = $(this).data("SGNModal");
 			if(plugin !== undefined)
 				plugin.show();
 
 			return this;
 		};
 
+		/***
+		 * Hide the currently selected <b><i>SGNModal</b></i>.
+		 *
+		 * @returns {jQuery.SGNModal}
+		 */
 		this.hide = function() {
-			const plugin = $(this).data('SGNModal');
+			const plugin = $(this).data("SGNModal");
 			if(plugin !== undefined)
 				plugin.hide();
 
 			return this;
 		};
 
+		/***
+		 * Completely remove the currently selected <b><i>SGNModal</b></i>.
+		 *
+		 * @returns {jQuery.SGNModal}
+		 */
 		this.remove = function() {
-			const plugin = $(this).data('SGNModal');
+			const plugin = $(this).data("SGNModal");
 			if(plugin !== undefined)
 				plugin.remove();
 
 			return this;
 		};
 
-		if($this.data('SGNModal') === undefined)
+		if($this.data("SGNModal") === undefined)
 			init();
 
 		return this;
 	};
 
-	$(document).ready(function() {
-		const $modals = $('.sgn-modal');
-		const $modalToggle = $('[data-sgn-toggle="modal"], [data-toggle="modal"]');
-		const $modalTarget = $('[data-sgn-target="modal"], [data-target="modal"]');
-		const $modalTargetToggle = $('[data-sgn-modal], [data-modal]');
+	$(function() {
+		const $modals = $(".sgn-modal");
+		const $modalToggle = $("[data-sgn-toggle=\"modal\"], [data-toggle=\"modal\"]");
+		const $modalTarget = $("[data-sgn-target=\"modal\"], [data-target=\"modal\"]");
+		const $modalTargetToggle = $("[sgn-modal], [data-sgn-modal], [data-modal]");
 
 		if($modals.length > 0) {
-			$modals.each(function(i, c) {
+			$modals.each(function() {
 				const $this = $(this);
 				$this.SGNModal();
 			});
 
-			$modalTargetToggle.on('click', function(e) {
+			$modalTargetToggle.on("click", function(e) {
 				e.preventDefault();
-				const t = ($(this).attr('data-sgn-modal') !== undefined) ? $(this).attr('data-sgn-modal') : $(this).attr('data-modal');
+				const t = ($(this).attr("sgn-modal") !== undefined) ? $(this).attr("sgn-modal") : (($(this).attr("data-sgn-modal") !== undefined) ? $(this).attr("data-sgn-modal") : $(this).attr("data-modal"));
 				const $t = $(t);
 				$t.SGNModal().show();
 			});
 		}
 	});
+
+	return this;
 }(window, document, jQuery));

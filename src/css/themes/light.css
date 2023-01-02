@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -7,38 +7,39 @@
 
 :root {
 	--sgn-accent-background: hsl(0, 0%, 100%);
+
 	--sgn-accent-background-secondary: hsl(0, 0%, 95%);
 	--sgn-accent-hud: hsl(0, 0%, 100%);
-
 	--sgn-accent-hud-shade: hsl(215, 100%, 15%);
-	--sgn-accent-primary: hsl(215, 100%, 48%);
-	--sgn-accent-primary-active: hsl(225, 99%, 57%);
+	--sgn-accent-primary: hsl(218, 89%, 51%);
+	--sgn-accent-primary-active: hsl(218, 89%, 31%);
+
+	--sgn-accent-primary-active-dark: hsl(218, 89%, 36%);
 	--sgn-accent-primary-alt: hsl(180, 72%, 52%);
-
-	/*--sgn-bg-light4: hsl(0, 0%, 0%);
-	--sgn-bg-light3: hsl(0, 0%, 0%);
-	--sgn-hud-primary: hsl(0, 0%, 0%);*/
 	--sgn-accent-primary-dark: hsl(215, 100%, 15%);
+
+	--sgn-accent-primary-hover: hsl(218, 89%, 60%);
+	--sgn-accent-primary-inactive: hsl(218, 89%, 70%);
 	--sgn-accent-primary-light: hsl(215, 100%, 68%);
+
 	--sgn-accent-primary-text: hsl(0, 0%, 100%);
-	--sgn-accent-secondary: hsl(226, 15%, 17%);
+	--sgn-accent-secondary: hsl(0, 0%, 30%);
 
+	--sgn-accent-secondary-dark: hsl(0, 0%, 20%);
+	--sgn-accent-secondary-hover: hsl(0, 0%, 90%);
 
-	--sgn-accent-secondary-light: hsl(226, 15%, 30%);
-
+	--sgn-accent-secondary-light: hsl(0, 0%, 30%);
 	--sgn-background: hsl(0, 0%, 100%);
-
 	--sgn-border-light: hsl(0, 0%, 85%);
 	--sgn-danger: hsl(0, 100%, 50%);
 	--sgn-danger-dark: hsl(0, 72%, 33%);
 	--sgn-danger-light: hsl(0, 100%, 70%);
 	--sgn-danger-lightest: hsl(0, 100%, 95%);
+
 	--sgn-gradient-danger: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-light) 100%);
-
 	--sgn-gradient-danger-double-width: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-light) 50%, var(--sgn-danger) 100%);
+
 	--sgn-gradient-info: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 100%);
-
-
 	--sgn-gradient-info-double-width: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 50%, var(--sgn-info) 100%);
 	--sgn-gradient-primary: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 100%);
 	--sgn-gradient-primary-double-width: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 50%, var(--sgn-accent-primary) 100%);
@@ -62,19 +63,27 @@
 	--sgn-secondary: hsl(230, 15%, 20%);
 	--sgn-secondary-light: hsl(230, 15%, 30%);
 	--sgn-secondary-lightest: hsl(230, 15%, 95%);
-	--sgn-semi-transparent-light: hsl(0, 0%, 0%);
 
+	--sgn-semi-transparent-light: hsl(0, 0%, 50%, .5);
 	--sgn-shadow-light: hsla(0, 0%, 0%, .2);
 	--sgn-success: hsl(130, 100%, 20%);
-	--sgn-success-light: hsl(130, 100%, 60%);
+	--sgn-success-light: hsl(130, 50%, 70%);
+
 	--sgn-success-lightest: hsl(130, 100%, 95%);
 	--sgn-text-primary: hsl(0, 0%, 10%);
-	--sgn-text-primary-active: hsl(0, 0%, 0%);
 
-	--sgn-text-secondary: hsl(0, 0%, 45%);
-	--sgn-text-secondary-alt: hsl(0, 0%, 0%);
-	--sgn-text-secondary-light: hsl(0, 0%, 0%);
+	--sgn-text-primary-active: hsl(0, 0%, 30%);
+	--sgn-text-primary-alt: hsl(0, 0%, 40%);
+
+	--sgn-text-primary-inactive: hsla(0, 0%, 60%, 1);
+	--sgn-text-primary-inactive-light: hsla(0, 0%, 85%, 1);
+
+	--sgn-text-secondary: hsl(0, 0%, 40%);
+	--sgn-text-secondary-alt: hsl(0, 0%, 5%);
+
+	--sgn-text-secondary-light: hsl(0, 0%, 100%);
 	--sgn-warning: hsl(45, 100%, 40%);
-	--sgn-warning-light: hsl(45, 100%, 60%);
+
+	--sgn-warning-light: hsl(45, 100%, 70%);
 	--sgn-warning-lightest: hsl(45, 100%, 95%);
 }

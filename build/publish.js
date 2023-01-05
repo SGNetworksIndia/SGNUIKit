@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -15,6 +15,7 @@ const vinfo = {
 	"patch": config.version.patch,
 	"code": 0,
 	"version": `${config.version.major}.${config.version.minor}.${config.version.patch}`,
+	"flavor": "",
 	"timestamp": ts,
 };
 let cdnVInfo;
@@ -49,6 +50,10 @@ const copyRecursiveSync = function(src, dest) {
 		}
 	}
 };
+
+if(config.args.flavor === "free" || config.args.flavor === "pro") {
+	vinfo.flavor = config.args.flavor;
+}
 
 console.info("Creating version info: " + "%cversion.json" + " in " + "%c/dist/" + "...", "font-weight: bold; font-style: italic", "font-weight: bold; font-style: italic");
 fs.writeFileSync("dist/version.json", JSON.stringify(vinfo));

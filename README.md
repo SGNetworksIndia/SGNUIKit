@@ -50,21 +50,23 @@ The documentation for **_SGNUIKit_** is available at [sgnuikit.lib.sgnetworks.eu
 using **_JavaScript_** which be found at [freecodecamp.org/news](https://www.freecodecamp.org/news/build-a-pwa-from-scratch-with-html-css-and-javascript/).
 
 ## KNOWN BUGS
+
 No known bugs till the release.
 
 ## UPCOMING FEATURES
+
 There are many features are staged to be implemented in the upcoming releases. The currently planned features awaiting to be implemented are:
 
 1.
-  - [ ] BottomSheets (like Android Material Design)
+	- [ ] BottomSheets (like Android Material Design)
 2.
-  - [x] Windows (like desktop windows)
+	- [x] Windows (like desktop windows)
 3.
-  - [ ] File (Image) upload preview (crop)
+	- [ ] File (Image) upload preview (crop)
 4.
-  - [x] Drag & Drop Panels/Cards
+	- [x] Drag & Drop Panels/Cards
 5.
-  - [ ] Themes
+	- [ ] Themes
 6. And many more...
 
 ## CONTRIBUTING

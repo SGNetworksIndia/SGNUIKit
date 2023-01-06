@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -8,14 +8,14 @@
 "use strict";
 
 //import {iziToast} from "./iziToast";
-//import('./iziToast.js');
+import("./iziToast.js");
 
 if(typeof jQuery === "undefined") {
 	throw new Error("iziToast.easy requires jQuery");
 }
-if(typeof iziToast === "undefined") {
-	throw new Error("iziToast.easy requires iziToast");
-}
+/*if(typeof iziToast === "undefined") {
+ throw new Error("iziToast.easy requires iziToast");
+ }*/
 
 
 $(function(SGNUIKitConfig) {

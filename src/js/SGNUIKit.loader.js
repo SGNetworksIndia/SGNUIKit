@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -11,6 +11,35 @@
 //import('./addons/addons.js');
 //import('../addons/addons.js');
 
+const SGNUIKit = {
+	isReady: false,
+	components: {},
+	onChangeListener: function(val) {},
+	onReadyListener: function(val) {},
+
+	set component(val) {
+		this.components = val;
+		this.onChangeListener(val);
+	},
+	get component() {
+		return this.components;
+	},
+
+	set ready(val) {
+		this.isReady = val;
+		this.onReadyListener(val);
+	},
+	get ready() {
+		return this.isReady;
+	},
+	setOnChangeListener: function(listener) {
+		this.onChangeListener = listener;
+	},
+	setOnReadyListener: function(listener) {
+		this.onReadyListener = listener;
+	},
+};
+window.SGNUIKit = SGNUIKit;
 
 const until = (predicateFn) => {
 	const poll = (done) => (predicateFn() ? done() : setTimeout(() => poll(done), 500));
@@ -26,7 +55,7 @@ function loop(lightboxImages, index) {
 	if(index === lightboxImages.length) return;
 
 	lightboxImages[index].onload = function() {
-		console.log('image ' + index + ' loaded.');
+		console.log("image " + index + " loaded.");
 		loop(lightboxImages, ++index);
 	};
 }
@@ -34,7 +63,7 @@ function loop(lightboxImages, index) {
 (async function(precallback) {
 	const title = document.title;
 	if(title !== undefined)
-		document.title = 'Loading...';
+		document.title = "Loading...";
 
 	if(window.jQuery)
 		$.holdReady(true);
@@ -246,12 +275,12 @@ body {
 
 
 `;
-		const head  = document.head || document.getElementsByTagName('head')[0],
-			  style = document.createElement('style');
+		const head  = document.head || document.getElementsByTagName("head")[0],
+		      style = document.createElement("style");
 
 		head.appendChild(style);
-		style.type = 'text/css';
-		style.id = 'sgn-uikit-styles';
+		style.type = "text/css";
+		style.id = "sgn-uikit-styles";
 		if(style.styleSheet) {
 			// This is required for IE8 and below.
 			style.styleSheet.cssText = css;
@@ -262,7 +291,7 @@ body {
 	})();
 	(function() {
 		let preloaderElem = document.createElement("div");
-		preloaderElem.className = 'sgn-preloader';
+		preloaderElem.className = "sgn-preloader";
 		let preloader = `\t\t\t<div class="preloader">\n`;
 		//preloader += `\t\t\t\t<img src="<?=$public_imgAssets;?>icons/xsmall.png">\n`;
 		preloader += `\t\t\t\t<div class="spinner">\n`;
@@ -281,40 +310,41 @@ body {
 		preloaderElem.innerHTML = preloader;
 
 		window.onload = function() {
-			document.body.className += ' has-preloader';
+			document.body.className += " has-preloader";
 			document.body.insertBefore(preloaderElem, document.body.firstChild);
-		}
+		};
 	})();
 
-	const currentScript = document.currentScript || document.querySelector('script[src*="SGNUIKit.loader.js"]');
-	const url = currentScript.src.split("/").slice(0, -2).join("/") + '/';
+	const currentScript = document.currentScript || document.querySelector("script[src*=\"SGNUIKit.loader.js\"]");
+	const url = currentScript.src.split("/").slice(0, -2).join("/") + "/";
 	const preload = [
-		'js/i18n/SGNi18n.js'
+		"js/i18n/SGNi18n.js",
 	];
 	/*if(!window.jQuery || jQuery === undefined)
-		preload.push('addons/jQuery/jQuery.min.js');*/
+	 preload.push('addons/jQuery/jQuery.min.js');*/
 
 	let filesloaded = 0;
 	const filestoload = preload.length;
 
 	for(let i = 0; i < filestoload; i++) {
-		const script = document.createElement('script');
+		const script = document.createElement("script");
 		script.src = url + preload[i];
 		script.async = false;
 		script.defer = false;
 		currentScript.after(script);
 		if(i === 0)
-			script.id = 'sgn-preload-end';
+			script.id = "sgn-preload-end";
 
 		/*await new Promise(resolve => {
-			script.onload = function() {
-				filesloaded++;
-				script.onload = null;
-				resolve();
-			};
-		}).then(r => finishLoad());*/
+		 script.onload = function() {
+		 filesloaded++;
+		 script.onload = null;
+		 resolve();
+		 };
+		 }).then(r => finishLoad());*/
 		script.onload = function() {
 			filesloaded++;
+			SGNUIKit.component = {i: preload[i]};
 			script.onload = null;
 			finishLoad();
 		};
@@ -328,22 +358,22 @@ body {
 				resolve();
 			}
 		}).then(function() {
-			import('./helpers/helpers.js');
-			$('head > title').text(title);
-			if(typeof precallback === 'function' && progress === 100)
+			import("./helpers/helpers.js");
+			$("head > title").text(title);
+			if(typeof precallback === "function" && progress === 100)
 				precallback();
 		});
 	}
 })(function() {
 	(async function(callback) {
-		const sgnuikitScript = document.currentScript || document.querySelector('script[src*="SGNUIKit.loader.js"]');
-		const currentScript = document.getElementById('sgn-preload-end') || sgnuikitScript;
+		const sgnuikitScript = document.currentScript || document.querySelector("script[src*=\"SGNUIKit.loader.js\"]");
+		const currentScript = document.getElementById("sgn-preload-end") || sgnuikitScript;
 
 		function getScriptURL() {
 			return sgnuikitScript.src;
 		}
 
-		const url = getScriptURL().split("/").slice(0, -2).join("/") + '/';
+		const url = getScriptURL().split("/").slice(0, -2).join("/") + "/";
 
 		setTimeout(function() {
 			startLoad();
@@ -351,8 +381,8 @@ body {
 
 		function startLoad() {
 			const scripts = [
-				'css/fonts/FontAwesome5Pro/js/all.js',
-				'css/fonts/FontAwesome5Pro/js/v4-shims.js',
+				"css/fonts/FontAwesome5Pro/js/all.js",
+				"css/fonts/FontAwesome5Pro/js/v4-shims.js",
 
 				"addons/CKEditor5/ckeditor.js",
 				"addons/ContextJS/context.js",
@@ -383,20 +413,21 @@ body {
 				"js/addons/SGNCodeSnippet.js",
 			];
 			const styles = [
-				'css/SGNUIKit-pro.css',
+				"css/SGNUIKit-pro.css",
 			];
 			let filesloaded = 0,
-				lastScript  = currentScript;
+			    lastScript  = currentScript;
 			const filestoload = scripts.length + styles.length;
 
 			function loadScript(i) {
 				if(i === scripts.length) return;
 
-				const script = document.createElement('script');
+				const script = document.createElement("script");
 				//script.type = 'text/javascript';
 				script.src = url + scripts[i];
 				script.onload = function() {
 					filesloaded++;
+					SGNUIKit.component = {i: scripts[i]};
 					script.onload = null;
 					//console.log(`LOADED SCRIPT: ${script.src}`, `${i}/${filestoload}`);
 					finishLoad();
@@ -409,8 +440,8 @@ body {
 			function loadStyle(i) {
 				if(i === scripts.length) return;
 
-				const style = document.createElement('link');
-				style.rel = 'stylesheet';
+				const style = document.createElement("link");
+				style.rel = "stylesheet";
 				style.href = url + styles[i];
 				//style.type = 'text/css';
 				style.onload = function() {
@@ -428,18 +459,19 @@ body {
 			async function finishLoad() {
 				const progress = Math.round((filesloaded * 100) / filestoload);
 
-				if(typeof callback === 'function') {
+				if(typeof callback === "function") {
 					callback(filesloaded, filestoload, progress);
 				}
 			}
 		}
 	})(async function(loaded, total, progress) {
 		if(progress === 100) {
-			import('./i18n/SGNi18n.js');
-			import('./components/components.js');
+			import("./i18n/SGNi18n.js");
+			import("./components/components.js");
+			SGNUIKit.ready = true;
 			window.SGNUIKitReady = true;
 
-			const left = document.querySelector('style[data-cke="true"]');
+			const left = document.querySelector("style[data-cke=\"true\"]");
 			if(left !== null)
 				left.parentNode.removeChild(left);
 
@@ -447,9 +479,9 @@ body {
 				$.holdReady(false);
 				jQuery.ready();
 
-				$('body').children('.sgn-preloader').fadeOut(2000, function() {
-					$('body').children('.sgn-preloader').remove();
-					$('body').removeClass('has-preloader');
+				$("body").children(".sgn-preloader").fadeOut(2000, function() {
+					$("body").children(".sgn-preloader").remove();
+					$("body").removeClass("has-preloader");
 				});
 			}, 5000);
 
@@ -459,11 +491,11 @@ body {
 
 
 /*(async() => {
-	console.log("waiting for variable");
-	while(progress < 100) // define the condition as you like
-		await new Promise(resolve => setTimeout(resolve, 1000));
-	console.log("variable is defined");
-})();*/
+ console.log("waiting for variable");
+ while(progress < 100) // define the condition as you like
+ await new Promise(resolve => setTimeout(resolve, 1000));
+ console.log("variable is defined");
+ })();*/
 async function getSGNI18nInstance(callback) {
 	return new Promise((resolve, reject) => {
 		const timeoutHandler = setTimeout(function() {
@@ -479,7 +511,7 @@ async function getSGNI18nInstance(callback) {
 				const c = new SGNi18n();
 
 				/*if(typeof callback === 'function')
-					callback(c);*/
+				 callback(c);*/
 				resolve(c);
 			}
 		}, 100);

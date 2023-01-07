@@ -16,6 +16,38 @@ function logStopArt(stopArt) {
 		, "text-align: center"
 		, "font-weight: bold",
 	].join(";");
+	if(empty(stopArt)) {
+		stopArt = "\n";
+		stopArt += "                                                                                                \n";
+		stopArt += "                                                                                                \n";
+		stopArt += "     SSSSSSSSSSSSSSS           tttt                                                   !!!       \n";
+		stopArt += "   SS:::::::::::::::S       ttt:::t                                                  !!:!!      \n";
+		stopArt += "  S:::::SSSSSS::::::S       t:::::t                                                  !:::!      \n";
+		stopArt += "  S:::::S     SSSSSSS       t:::::t                                                  !:::!      \n";
+		stopArt += "  S:::::S             ttttttt:::::ttttttt        ooooooooooo    ppppp   ppppppppp    !:::!      \n";
+		stopArt += "  S:::::S             t:::::::::::::::::t      oo:::::::::::oo  p::::ppp:::::::::p   !:::!      \n";
+		stopArt += "   S::::SSSS          t:::::::::::::::::t     o:::::::::::::::o p:::::::::::::::::p  !:::!      \n";
+		stopArt += "    SS::::::SSSSS     tttttt:::::::tttttt     o:::::ooooo:::::o pp::::::ppppp::::::p !:::!      \n";
+		stopArt += "      SSS::::::::SS         t:::::t           o::::o     o::::o  p:::::p     p:::::p !:::!      \n";
+		stopArt += "         SSSSSS::::S        t:::::t           o::::o     o::::o  p:::::p     p:::::p !:::!      \n";
+		stopArt += "              S:::::S       t:::::t           o::::o     o::::o  p:::::p     p:::::p !!:!!      \n";
+		stopArt += "              S:::::S       t:::::t    tttttt o::::o     o::::o  p:::::p    p::::::p  !!!       \n";
+		stopArt += "  SSSSSSS     S:::::S       t::::::tttt:::::t o:::::ooooo:::::o  p:::::ppppp:::::::p            \n";
+		stopArt += "  S::::::SSSSSS:::::S       tt::::::::::::::t o:::::::::::::::o  p::::::::::::::::p   !!!       \n";
+		stopArt += "  S:::::::::::::::SS          tt:::::::::::tt  oo:::::::::::oo   p::::::::::::::pp   !!:!!      \n";
+		stopArt += "   SSSSSSSSSSSSSSS              ttttttttttt      ooooooooooo     p::::::pppppppp      !!!       \n";
+		stopArt += "                                                                 p:::::p                        \n";
+		stopArt += "                                                                 p:::::p                        \n";
+		stopArt += "                                                                p:::::::p                       \n";
+		stopArt += "                                                                p:::::::p                       \n";
+		stopArt += "                                                                p:::::::p                       \n";
+		stopArt += "                                                                ppppppppp                       \n";
+		stopArt += "                                                                                                \n";
+		stopArt += "                                                                                                \n";
+		stopArt += "                                                                                                \n";
+		stopArt += "If you are not a developer, please close this panel by pressing F12 or CTRL-SHIFT-I (Windows). If someone told you to paste a block of code here to activate a feature, please don't do that as it may result in a punishable offense.\n";
+	}
+
 	Console.log("%c" + stopArt, styles);
 }
 

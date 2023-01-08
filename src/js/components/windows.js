@@ -929,7 +929,7 @@ if(typeof jQuery === "undefined") {
 	};
 
 	$(function() {
-		const $windowToggles = $.select($("[sgn-window]"), $("[data-sgn-window]"), $("[data-window]"));
+		const $windowToggles = $("[sgn-window], [data-sgn-window], [data-window]");
 		const $windows = $(".sgn-window");
 
 		if($windows.length > 0) {
@@ -938,6 +938,7 @@ if(typeof jQuery === "undefined") {
 				$this.SGNWindow();
 			});
 		}
+
 		if($windowToggles.length > 0) {
 			$windowToggles.each(function() {
 				$(this).on("click", function(e) {

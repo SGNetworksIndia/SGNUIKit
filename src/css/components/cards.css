@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -393,7 +393,7 @@
 	box-shadow: none;
 }
 
-.card > .card-body .tab-layout {
+.card > .card-body .tab-layout:not(.with-shadow):not(.shadow) {
 	box-shadow: none;
 }
 
@@ -401,17 +401,12 @@
 	margin: 0;
 }
 
-.card > .card-body .tab-layout:not(.alt):not(.no-shadow) > .tab-title {
-	border-width: 1px 1px 0 1px;
-}
-
 .card > .card-body .tab-layout:not(.alt):not(.no-shadow) > .tab-links {
 	display: inline-flex;
-	border-width: 0 0 1px 1px;
 }
 
 .card > .card-body .tab-layout:not(.no-shadow) > .tab-title ~ .tab-view {
-	border-width: 1px;
+	/*! border-width: 1px; */
 	border-radius: 0 0 var(--sgn-border-radius-md) 0;
 }
 

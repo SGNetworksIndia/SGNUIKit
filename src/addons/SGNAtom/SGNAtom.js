@@ -446,7 +446,7 @@ class HistoryStack {
  *
  * @constructor
  */
-const SGNAtom = function(elements, options) {
+let SGNAtom = function(elements, options) {
 	const plugin = this;
 	/**
 	 * This callback is called when a state is changed.
@@ -625,17 +625,32 @@ const SGNAtom = function(elements, options) {
 			/*document.onload = function() {
 			 new plugin.SGNAtomCore(elements, plugin.settings);
 			 }*/
-			const core = new plugin.SGNAtomCore(elements, plugin, plugin.settings);
-			plugin.core = core;
-			SGNAtomStates.instance = core;
-			core.setOnCoreReadyListener((isReady) => SGNAtomStates.ready = isReady);
-		} else {
-			window.SGNUIKit.setOnReadyListener(() => {
+			if(!SGNAtomStates.ready) {
 				const core = new plugin.SGNAtomCore(elements, plugin, plugin.settings);
 				plugin.core = core;
 				SGNAtomStates.instance = core;
-				SGNAtomStates.ready = core.isInitialized();
-			});
+				core.setOnCoreReadyListener((isReady) => SGNAtomStates.ready = isReady);
+			}
+		} else {
+			const stack = new Error().stack;
+			//const stacks = stack.split("\n");
+			if(stack.indexOf("set ready") !== -1) {
+				if(!SGNAtomStates.ready) {
+					const core = new plugin.SGNAtomCore(elements, plugin, plugin.settings);
+					plugin.core = core;
+					SGNAtomStates.instance = core;
+					SGNAtomStates.ready = core.isInitialized();
+				}
+			} else {
+				if(!SGNAtomStates.ready) {
+					window.SGNUIKit.setOnReadyListener(() => {
+						const core = new plugin.SGNAtomCore(elements, plugin, plugin.settings);
+						plugin.core = core;
+						SGNAtomStates.instance = core;
+						SGNAtomStates.ready = core.isInitialized();
+					});
+				}
+			}
 		}
 	};
 
@@ -1270,25 +1285,27 @@ body {
 	const hidePreLoader = (transitive = true, callback) => {
 		const loader = document.querySelector(".sgn-preloader");
 
-		if(transitive) {
-			instance.fadeIn(PRELOADER_TRANSITION_DURATION);
-			//console.log(new Error());
-			loader.fadeOut(PRELOADER_TRANSITION_DURATION, () => {
-				loader.remove();
-				document.body.classList.remove("has-preloader");
+		if(loader !== null && loader.length > 0) {
+			if(transitive) {
+				instance.fadeIn(PRELOADER_TRANSITION_DURATION);
+				//console.log(new Error());
+				loader.fadeOut(PRELOADER_TRANSITION_DURATION, () => {
+					loader.remove();
+					document.body.classList.remove("has-preloader");
 
-				if(typeof callback === "function")
-					callback();
-			});
-		} else {
-			instance.fadeIn(0);
-			loader.fadeOut(0, () => {
-				loader.remove();
-				document.body.classList.remove("has-preloader");
+					if(typeof callback === "function")
+						callback();
+				});
+			} else {
+				instance.fadeIn(0);
+				loader.fadeOut(0, () => {
+					loader.remove();
+					document.body.classList.remove("has-preloader");
 
-				if(typeof callback === "function")
-					callback();
-			});
+					if(typeof callback === "function")
+						callback();
+				});
+			}
 		}
 	};
 

@@ -163,8 +163,8 @@ function getUrlVars(url) {
 	return json;
 }
 
-function getI18nString(key, args) {
-	return i18n.getString(key, args);
+function getI18nString(key, fallback, args) {
+	return (i18n !== undefined && i18n instanceof SGNi18n) ? i18n.getString(key, fallback, args) : fallback;
 }
 
 function strpos(haystack, needle, offset) {

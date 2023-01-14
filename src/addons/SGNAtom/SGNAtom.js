@@ -51,6 +51,9 @@ if(typeof HTMLElement.prototype.fadeIn !== "function") {
 						callback(_this);
 				}
 			}, speed / 50);
+		} else {
+			if(typeof callback === "function")
+				callback(_this);
 		}
 	};
 }
@@ -74,6 +77,9 @@ if(typeof HTMLElement.prototype.fadeOut !== "function") {
 						callback(_this);
 				}
 			}, speed / 50);
+		} else {
+			if(typeof callback === "function")
+				callback(_this);
 		}
 	};
 }
@@ -625,6 +631,7 @@ let SGNAtom = function(elements, options) {
 			/*document.onload = function() {
 			 new plugin.SGNAtomCore(elements, plugin.settings);
 			 }*/
+			SGNUIKit.holdPreloader = true;
 			if(!SGNAtomStates.ready) {
 				const core = new plugin.SGNAtomCore(elements, plugin, plugin.settings);
 				plugin.core = core;
@@ -804,6 +811,8 @@ SGNAtom.prototype.SGNAtomCore = function(elements, sgnatom, options) {
 					/*const guid = _plugin.GUID();
 					 plugin.guid = guid;*/
 					c.attr("sgnatom-guid", guid);
+					c.classList.remove("sgn-atom-container");
+					c.classList.add("sgn-atom-container");
 					const obj = SGNAtomCoreStates.instance;
 					obj[guid] = c;
 					SGNAtomCoreStates.instance = obj;
@@ -900,6 +909,8 @@ SGNAtom.prototype.SGNAtomNavigator = function(elements, sgnatomcore, instance_gu
 			})();
 		}
 
+		_plugin.base_dir = getCurrentURLDir();
+
 		let loaders = document.querySelector(".sgn-preloader");
 		if(loaders === null || loaders.length < 1)
 			printPreLoader(false);
@@ -983,7 +994,7 @@ SGNAtom.prototype.SGNAtomNavigator = function(elements, sgnatomcore, instance_gu
 				let historyObject = getHistoryObject(guid);
 				const head = historyObject.head,
 				      body = historyObject.body;
-				console.log(historyObject);
+				//console.log(historyObject);
 
 				showPreLoader(true, () => {
 					if(plugin.options.resetHead) {
@@ -1271,7 +1282,7 @@ body {
 
 	const showPreLoader = (transitive = true, callback) => {
 		let loaders = document.querySelector(".sgn-preloader");
-		if(loaders === null || loaders.length < 1) {
+		if(loaders === null || !loaders instanceof HTMLElement) {
 			loaders = printPreLoader();
 		}
 		if(transitive) {
@@ -1285,10 +1296,9 @@ body {
 	const hidePreLoader = (transitive = true, callback) => {
 		const loader = document.querySelector(".sgn-preloader");
 
-		if(loader !== null && loader.length > 0) {
+		if(loader !== null && loader instanceof HTMLElement) {
 			if(transitive) {
 				instance.fadeIn(PRELOADER_TRANSITION_DURATION);
-				//console.log(new Error());
 				loader.fadeOut(PRELOADER_TRANSITION_DURATION, () => {
 					loader.remove();
 					document.body.classList.remove("has-preloader");
@@ -1345,6 +1355,35 @@ body {
 		$alert.remove();
 	};
 
+	/**
+	 *
+	 * @param {HTMLScriptElement}script
+	 */
+	const executeScript = (script) => {
+		eval(script.innerHTML);
+	};
+
+	/**
+	 *
+	 * @param {HTMLScriptElement[]}scripts
+	 */
+	const executeScripts = (scripts) => {
+		for(let n = 0; n < scripts.length; n++)
+			executeScript(scripts[n]);
+	};
+
+	const getCurrentURLDir = () => {
+		let currUrl = document.URL, newUrl;
+		if(currUrl.charAt(currUrl.length - 1) === '/') {
+			newUrl = currUrl.slice(0, currUrl.lastIndexOf('/'));
+			newUrl = newUrl.slice(0, newUrl.lastIndexOf('/')) + '/';
+		} else {
+			newUrl = currUrl.slice(0, currUrl.lastIndexOf('/')) + '/';
+		}
+
+		return newUrl.replace(/([^:]\/)\/+/g, "$1");
+	}
+
 	plugin.getNavigatorInstance = (guid) => {
 		const instances = SGNAtomNavigatorStates.instance;
 		if(instances.length > 0 && instances.hasOwnProperty(guid)) {
@@ -1353,94 +1392,144 @@ body {
 		return undefined;
 	};
 
+	/***
+	 * @typedef {function(error, data)} loadPageCallback Callback for load page.
+	 *
+	 * @callback loadPageCallback
+	 * @param {boolean} error <b>TRUE</b> if any error encountered during loading the page, <b>FALSE</b> otherwise.
+	 * @param {JSON} data A <b>JSON</b> object (if found).
+	 */
+	/***
+	 * Load a particular page
+	 *
+	 * @param {string} page
+	 * @param {loadPageCallback} [callback]
+	 * @param {boolean} [transitive=ture]
+	 */
 	plugin.load = (page, callback, transitive = true) => {
 		if(page !== undefined && page !== null && page !== "") {
-			showPreLoader(transitive);
-			const url = page;
+			showPreLoader(transitive, () => {
+				const url = page;
+				const origin = window.location.origin;
+				let urlPath = (url.indexOf(origin) !== -1) ? url.replace(origin, "") : url;
+				const cUrlPath = (urlPath === _plugin.defaultPage) ? "/" : urlPath,
+				      cUrl     = new URL(cUrlPath, origin).href;
+				const lUrl = (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')) ? url : `${_plugin.base_dir}${url}`;
 
-			setTimeout(() => {
+				//console.log(lUrl);
+
+				//setTimeout(() => {
 				//debugger;
-				fetch(url, {
+				fetch(lUrl, {
 					credentials: "include",
 					method: "GET", // or 'PUT'
 					headers: {
 						"Content-Type": "text/html",
 					},
-				}).then((response) => response.text())
-				  .then((data) => {
-					  // Initialize the DOM parser
-					  const parser = new DOMParser();
+				}).then((response) => {
+					if(!response.ok) {
+						const code = response.status;
+						//setTimeout(hidePreLoader, PRELOADER_TRANSITION_DURATION + 5000);
+						switch(code) {
+							case 403:
+								showAlert(getI18nString('sgnatom_load_error_403', `Sorry! You don't have the rights to access the page.`));
+								break;
+							case 404:
+								console.log(response, response.status);
+								showAlert(getI18nString('sgnatom_load_error_404', `Failed to load the page. The page couldn't be found.`));
+								break;
+						}
+					}
+					return response.text();
+				}).then((data) => {
+					const parser = new DOMParser();
 
-					  // Parse the text
-					  const doc = parser.parseFromString(data, "text/html");
-					  const head  = doc.querySelector("head"),
-					        title = head.querySelector("title"),
-					        body  = doc.querySelector("body");
+					// Parse the text
+					const doc = parser.parseFromString(data, "text/html");
+					const head  = doc.querySelector("head"),
+					      title = head.querySelector("title"),
+					      body  = doc.querySelector("body");
 
-					  const headChildElems = document.head.children,
-					        headElems      = Array.from(headChildElems);
-					  const newHeadElems = (plugin.options.resetHead) ? [] : rootHeadElements;
+					const headChildElems = document.head.children,
+					      headElems      = Array.from(headChildElems);
+					const newHeadElems = (plugin.options.resetHead) ? [] : rootHeadElements;
 
-					  if(plugin.options.resetHead) {
-						  headElems.forEach((c) => {
-							  if(!isNodeExists(rootHeadElements, c) && c.nodeName !== "TITLE") {
-								  document.head.removeChild(c);
-							  }
-						  });
-					  } else {
-						  //document.head.innerHTML = null;
-						  //document.head.innerHTML += rootHeadElementsHTML;
-					  }
+					if(plugin.options.resetHead) {
+						headElems.forEach((c) => {
+							if(!isNodeExists(rootHeadElements, c) && c.nodeName !== "TITLE") {
+								document.head.removeChild(c);
+							}
+						});
+					} else {
+						//document.head.innerHTML = null;
+						//document.head.innerHTML += rootHeadElementsHTML;
+					}
 
-					  const sgnatomScript = document.currentScript || document.querySelector("script[src*=\"SGNAtom.js\"]") || document.querySelector("script[src*=\"SGNAtom.min.js\"]");
-					  Array.from(head.children).forEach((item) => {
-						  if(!isNodeExists(rootHeadElements, item) && item.nodeName !== "TITLE") {
-							  document.head.append(item);
-							  newHeadElems.push(item);
-						  }
-					  });
-					  let headHTML = "";
-					  newHeadElems.forEach((c) => {
-						  headHTML += `${c.outerHTML}\n`;
-					  });
+					const sgnatomScript = document.currentScript || document.querySelector("script[src*=\"SGNAtom.js\"]") || document.querySelector("script[src*=\"SGNAtom.min.js\"]");
+					Array.from(head.children).forEach((item) => {
+						if(!isNodeExists(rootHeadElements, item) && item.nodeName !== "TITLE") {
+							document.head.append(item);
+							newHeadElems.push(item);
+						}
+					});
+					let headHTML = "";
+					newHeadElems.forEach((c) => {
+						headHTML += `${c.outerHTML}\n`;
+					});
 
-					  document.title = (title !== undefined && title !== null) ? title.innerText : document.title;
-					  instance.innerHTML = body.innerHTML;
+					const scripts = doc.querySelectorAll('script');
+					if(scripts.length > 0) {
+						scripts.forEach((script) => {
+							if(!script.hasAttribute('src')) {
+								//console.log(script);
+								executeScript(script);
+							}
+						});
+					}
 
-					  const elems = document.querySelectorAll("a, button");
+					const srcs = doc.querySelectorAll('*[src], *[href]');
+					if(srcs.length > 0) {
+						srcs.forEach((el) => {
+							if(el.hasAttribute('src')) {
+								const src = el.getAttribute('src').replace(/([^:]\/)\/+/g, "$1");
+								el.src = (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('//')) ? src : `${_plugin.base_dir}${src}`;
+							}
+							if(el.hasAttribute('href')) {
+								const src = el.getAttribute('href').replace(/([^:]\/)\/+/g, "$1");
+								el.href = (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('//')) ? src : `${_plugin.base_dir}${src}`;
+							}
+						});
+					}
 
+					document.title = (title !== undefined && title !== null) ? title.innerText : document.title;
+					instance.innerHTML = body.innerHTML;
 
-					  const origin = window.location.origin;
-					  let urlPath = (url.indexOf(origin) !== -1) ? url.replace(origin, "") : url;
-					  urlPath = (urlPath === _plugin.defaultPage) ? "/" : urlPath;
-					  const cUrl = new URL(urlPath, origin).href;
+					const elems = document.querySelectorAll("a, button, .clickable");
 
-					  const historyObjectGUID = _plugin.GUID();
-					  const stateObj = {
-						  "title": document.title,
-						  "guid": historyObjectGUID,
-					  };
-					  const historyObject = new HistoryObject(cUrl, stateObj, document.title, new HistoryNodeObject([doc]), new HistoryNodeObject(newHeadElems), new HistoryNodeObject([body]), historyObjectGUID);
-					  const historyStack = setHistoryStack(historyObject);
-					  const historySggtack = getHistoryObject(historyObjectGUID);
+					const historyObjectGUID = _plugin.GUID();
+					const stateObj = {
+						"title": document.title,
+						"guid": historyObjectGUID,
+					};
+					const historyObject = new HistoryObject(cUrl, stateObj, document.title, new HistoryNodeObject([doc]), new HistoryNodeObject(newHeadElems), new HistoryNodeObject([body]), historyObjectGUID);
+					const historyStack = setHistoryStack(historyObject);
+					const historyStackObject = getHistoryObject(historyObjectGUID);
 
-					  setupNavigator(elems, !defaultPageLoaded);
-					  defaultPageLoaded = true;
-					  if(typeof callback === "function")
-						  callback(false, data);
-				  })
-				  .catch((error) => {
-					  if(_plugin.debugMode) {
-						  console.error("Error:", error);
-					  }
-					  if(_plugin.showErrors) {
-						  showAlert("Failed to load the page!");
-					  }
-					  if(typeof callback === "function")
-						  callback(true, error);
-				  })
-				  .finally(() => hidePreLoader());
-			}, (transitive ? PRELOADER_TRANSITION_DURATION + 1000 : 0));
+					setupNavigator(elems, !defaultPageLoaded);
+					defaultPageLoaded = true;
+					if(typeof callback === "function")
+						callback(false, data);
+				}).catch((error) => {
+					if(_plugin.debugMode) {
+						console.error("Error:", error);
+					}
+					if(_plugin.showErrors) {
+						showAlert("Failed to load the page!");
+					}
+					if(typeof callback === "function")
+						callback(true, error);
+				}).finally(() => hidePreLoader());
+			});
 		}
 	};
 
@@ -1524,4 +1613,4 @@ SGNAtom.create.prototype.with = function(element, options) {
 };
 
 window.SGNAtom = SGNAtom;
-export default SGNAtom;
+//export default SGNAtom;

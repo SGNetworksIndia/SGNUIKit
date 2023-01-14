@@ -9,9 +9,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>SGNUIKit Demos</title>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-		<script src="/src/js/SGNUIKit.loader.js"></script>
+		<title>SGNAtom :: SGNUIKit Demos</title>
 	</head>
 	<body>
 		<main>
@@ -44,16 +42,14 @@
 								<a class="list-link" href="shadows.html">Shadows</a>
 							</div>
 						</div>
-						<div class="list-group">
-							<div class="list-group-title">Addons</div>
-							<div class="list-view">
-								<a class="list-link" href="atom.html">SGNAtom</a>
-							</div>
-						</div>
 					</div>
-					<div class="card-footer jc-center">Copyright &copy; SGNetworks 2023. All rights reserved.</div>
+					<div class="card-footer jc-center">Copyright &copy; SGNetworks 2022. All rights reserved.</div>
 				</div>
 			</div>
 		</main>
+		<script>
+			console.log('well');
+			$(() => $('main').on('hover', () => console.log('well2')));
+		</script>
 	</body>
 </html>

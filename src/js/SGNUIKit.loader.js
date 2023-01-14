@@ -13,30 +13,108 @@
 
 const SGNUIKit = {
 	isReady: false,
+	isPreloaderHeld: false,
 	components: {},
-	onChangeListener: function(val) {},
-	onReadyListener: function(val) {},
+	onChangeListener: [],
+	onReadyListener: [],
 
-	set component(val) {
-		this.components = val;
-		this.onChangeListener(val);
+	/**
+	 * This callback is called when a component is loaded/removed or the status of readiness is changed.
+	 *
+	 * @callback SGNUIKitChangeCallback
+	 * @param {string} state The name of the state which is changed.
+	 * @param {boolean|JSON} value The value of the state which is changed.
+	 * @param {JSON} components The <b><i>JSON</i></b> object of loaded <b>SGNUIKit</b> components, or an empty <b><i>JSON</i></b> object if no components loaded.
+	 */
+	/**
+	 * This callback is called when <b>SGNUIKit</b> is ready.
+	 *
+	 * @callback SGNUIKitReadyCallback
+	 * @param {boolean} isReady the status of readiness of <b>SGNUIKit</b>.
+	 */
+
+	/**
+	 * Add a loaded <b>SGNUIKit</b> component.
+	 *
+	 * @param {JSON} value The <b><i>JSON</i></b> object of the loaded <b>SGNUIKit</b> component.
+	 */
+	set component(value) {
+		if(value === undefined || value === null || value === "")
+			value = {};
+		Object.assign(this.components, value);
+
+		this.onChangeListener.forEach((listener) => listener("components", value, this.components));
 	},
+
+	/**
+	 * Get the list of loaded <b>SGNUIKit</b> components.
+	 *
+	 * @return {object} The <b><i>JSON</i></b> object of loaded <b>SGNUIKit</b> components, or an empty <b><i>JSON</i></b> object if no components loaded.
+	 */
 	get component() {
 		return this.components;
 	},
 
-	set ready(val) {
-		this.isReady = val;
-		this.onReadyListener(val);
+	/**
+	 * Set the status of readiness of <b>SGNUIKit</b>.
+	 *
+	 * @param {boolean} isReady The the status of readiness of <b>SGNUIKit</b>.
+	 */
+	set ready(isReady) {
+		this.isReady = isReady;
+		this.onChangeListener.forEach((listener) => listener("ready", this.isReady));
+
+		if(isReady)
+			this.onReadyListener.forEach((listener) => listener(isReady));
 	},
+
+	/**
+	 * Get the status of readiness of <b>SGNUIKit</b>.
+	 *
+	 * @return {boolean} <b><i>TRUE</i></b> if <b>SGNUIKit</b> is ready, <b><i>FALSE</i></b> otherwise.
+	 */
 	get ready() {
 		return this.isReady;
 	},
-	setOnChangeListener: function(listener) {
-		this.onChangeListener = listener;
+
+	/**
+	 * Hold the <b>SGNUIKit</b> preloader even after  <b>SGNUIKit</b> has finished loading the components.
+	 *
+	 * @param {boolean} hold The the status of readiness of <b>SGNUIKit</b>.
+	 */
+	set holdPreloader(hold) {
+		this.isPreloaderHeld = hold;
+		this.onChangeListener.forEach((listener) => listener("holdPreloader", this.isPreloaderHeld));
 	},
+
+	/**
+	 * Get the status of readiness of <b>SGNUIKit</b>.
+	 *
+	 * @return {boolean} <b><i>TRUE</i></b> if <b>SGNUIKit</b> is ready, <b><i>FALSE</i></b> otherwise.
+	 */
+	get holdPreloader() {
+		return this.isPreloaderHeld;
+	},
+
+	/**
+	 * Set the handler for <b>SGNUIKit</b> <b><i>OnChange</i></b> event, which will be triggered when a component is loaded/removed or the status of readiness is changed.
+	 *
+	 * @param {SGNUIKitChangeCallback}listener
+	 */
+	setOnChangeListener: function(listener) {
+		this.onChangeListener.push(listener);
+	},
+
+	/**
+	 * Set the handler for <b>SGNUIKit</b> <b><i>OnReady</i></b> event, which will be triggered when the <b>SGNUIKit</b> is ready.
+	 *
+	 * @param {SGNUIKitReadyCallback}listener
+	 */
 	setOnReadyListener: function(listener) {
-		this.onReadyListener = listener;
+		this.onReadyListener.push(listener);
+
+		if(this.ready)
+			this.onReadyListener.forEach((listener) => listener(this.ready));
 	},
 };
 window.SGNUIKit = SGNUIKit;
@@ -60,7 +138,7 @@ function loop(lightboxImages, index) {
 	};
 }
 
-(async function(precallback) {
+(async precallback => {
 	const title = document.title;
 	if(title !== undefined)
 		document.title = "Loading...";
@@ -289,7 +367,7 @@ body {
 		}
 		//console.log(style);
 	})();
-	(function() {
+	(() => {
 		let preloaderElem = document.createElement("div");
 		preloaderElem.className = "sgn-preloader";
 		let preloader = `\t\t\t<div class="preloader">\n`;
@@ -365,7 +443,7 @@ body {
 		});
 	}
 })(function() {
-	(async function(callback) {
+	(callback => {
 		const sgnuikitScript = document.currentScript || document.querySelector("script[src*=\"SGNUIKit.loader.js\"]");
 		const currentScript = document.getElementById("sgn-preload-end") || sgnuikitScript;
 
@@ -375,9 +453,7 @@ body {
 
 		const url = getScriptURL().split("/").slice(0, -2).join("/") + "/";
 
-		setTimeout(function() {
-			startLoad();
-		}, 5000);
+		setTimeout(startLoad, 5000);
 
 		function startLoad() {
 			const scripts = [
@@ -395,6 +471,7 @@ body {
 				"addons/noty/noty.js",
 				"addons/noty/noty.init.js",
 				"addons/PrismJS/prism.js",
+				"addons/SGNAtom/SGNAtom.js",
 				"addons/SGNGeoData/SGNGeoData.js",
 				"addons/SGNTimePicker/SGNTimePicker.js",
 				"addons/SweetAlert2/sweetalert2.all.js",
@@ -456,7 +533,7 @@ body {
 			loadScript(0);
 			loadStyle(0);
 
-			async function finishLoad() {
+			function finishLoad() {
 				const progress = Math.round((filesloaded * 100) / filestoload);
 
 				if(typeof callback === "function") {
@@ -464,7 +541,7 @@ body {
 				}
 			}
 		}
-	})(async function(loaded, total, progress) {
+	})((loaded, total, progress) => {
 		if(progress === 100) {
 			import("./i18n/SGNi18n.js");
 			import("./components/components.js");
@@ -479,9 +556,15 @@ body {
 				$.holdReady(false);
 				jQuery.ready();
 
-				$("body").children(".sgn-preloader").fadeOut(2000, function() {
-					$("body").children(".sgn-preloader").remove();
-					$("body").removeClass("has-preloader");
+				SGNUIKit.setOnChangeListener((prop, value) => {
+					if(prop === 'holdPreloader' && !value) {
+						const $body = $("body");
+
+						$body.children(".sgn-preloader").fadeOut(2000, function() {
+							$body.children(".sgn-preloader").remove();
+							$body.removeClass("has-preloader");
+						});
+					}
 				});
 			}, 5000);
 

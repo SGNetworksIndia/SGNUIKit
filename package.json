@@ -31,9 +31,12 @@
 	},
 	"scripts": {
 		"prebuild": "node .\\build\\clean.js --dir src",
-		"Build (Free)": "npm run prebuild & webpack --env flavor=free --stats-modules-space 999 & npm run postbuild --flavor free & node .\\build\\release.js --flavor free",
-		"Build (Pro)": "npm run prebuild & webpack --env flavor=pro --stats-modules-space 999 & npm run postbuild --flavor pro & node .\\build\\release.js --flavor pro",
+		"BuildFree": "npm run prebuild & webpack --env flavor=free --stats-modules-space 999",
+		"BuildPro": "npm run prebuild & webpack --env flavor=pro --stats-modules-space 999",
 		"postbuild": "node .\\build\\publish.js",
+		"ReleaseFree": "npm run BuildFree & npm run postbuild --flavor free & node .\\build\\release.js --flavor free",
+		"ReleasePro": "npm run BuildPro & npm run postbuild --flavor pro & node .\\build\\release.js --flavor pro",
+		"Release": "npm run ReleaseFree & npm run ReleasePro",
 		"start": "node .\\demos\\run.js"
 	}
 }

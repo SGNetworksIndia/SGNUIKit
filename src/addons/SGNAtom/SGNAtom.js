@@ -446,7 +446,7 @@ class HistoryStack {
  * Creates new instance of <b><i>SGNAtom</i></b> identified by element
  *
  * @param {HTMLElement|NodeList} elements The element to use as <b><i>SGNAtom</i></b> container.
- * @param {{core: {defaultPage: String}, navigator: {elements: HTMLElement|NodeList, resetHead: Boolean }}}[options] A <b><i>JSON</i></b> object of supported options to override default functionalities.
+ * @param {{core: {defaultPage: String}, navigator: {elements: HTMLElement|NodeList, resetHead: Boolean, interceptErrors: Boolean, showErrors: Boolean }}}[options] A <b><i>JSON</i></b> object of supported options to override default functionalities.
 
  * @return {SGNAtom} An instance of <b><i>SGNAtom</i></b>.
  *
@@ -616,6 +616,8 @@ let SGNAtom = function(elements, options) {
 		"navigator": {
 			"elements": "a, button",
 			"resetHead": true,
+			"showErrors": true,
+			"interceptErrors": true
 		},
 	};
 	plugin.settings = Object.assign(plugin.settings, options);
@@ -873,7 +875,7 @@ SGNAtom.prototype.SGNAtomCore = function(elements, sgnatom, options) {
  * @param {HTMLElement|NodeList} elements The element to use as <b><i>SGNAtom</i></b> container.
  * @param {SGNAtom.SGNAtomCore} sgnatomcore The instance of <b><i>SGNAtom</i></b>.
  * @param {string} instance_guid The <b><i>GUID</i></b> of the <b><i>SGNAtom</i></b> instance.
- * @param {{elements: HTMLElement|NodeList, resetHead: Boolean}}[options] A <b><i>JSON</i></b> object of supported options to override default functionalities.
+ * @param {{elements: HTMLElement|NodeList, resetHead: Boolean, interceptErrors: Boolean}}[options] A <b><i>JSON</i></b> object of supported options to override default functionalities.
 
  * @return {SGNAtom} An instance of <b><i>SGNAtom</i></b>.
  *
@@ -895,6 +897,7 @@ SGNAtom.prototype.SGNAtomNavigator = function(elements, sgnatomcore, instance_gu
 	const PRELOADER_TRANSITION_DURATION = 1000;
 	const SGNAtomNavigatorStates = _plugin.SGNAtomStates;
 	const rootHeadElements = Array.from(document.head.children);
+	const dom = document;
 	let defaultPageLoaded = false;
 
 	plugin.name = pluginName;
@@ -1342,7 +1345,7 @@ body {
 		});
 		instance.appendChild($div);
 
-		$div.fadeIn(5000, () => hideAlert($div));
+		$div.fadeIn(10000, () => hideAlert($div));
 
 		return $div;
 	};
@@ -1373,15 +1376,13 @@ body {
 	};
 
 	const getCurrentURLDir = () => {
-		let currUrl = document.URL, newUrl;
-		if(currUrl.charAt(currUrl.length - 1) === '/') {
-			newUrl = currUrl.slice(0, currUrl.lastIndexOf('/'));
-			newUrl = newUrl.slice(0, newUrl.lastIndexOf('/')) + '/';
-		} else {
-			newUrl = currUrl.slice(0, currUrl.lastIndexOf('/')) + '/';
-		}
+		const urls     = new URL(document.URL),
+		      origin   = `${urls.origin}/`,
+		      location = window.location.pathname,
+		      path     = location.substring(0, location.lastIndexOf("/"));
 
-		return newUrl.replace(/([^:]\/)\/+/g, "$1");
+		const dir = path.substring(path.lastIndexOf("/") + 1);
+		return `${origin}${dir}/`.replace(/([^:]\/)\/+/g, "$1");
 	}
 
 	plugin.getNavigatorInstance = (guid) => {
@@ -1417,9 +1418,8 @@ body {
 				const lUrl = (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')) ? url : `${_plugin.base_dir}${url}`;
 
 				//console.log(lUrl);
+				//showAlert(getI18nString('sgnatom_load_error_403', `Sorry! You don't have the rights to access the page.`));
 
-				//setTimeout(() => {
-				//debugger;
 				fetch(lUrl, {
 					credentials: "include",
 					method: "GET", // or 'PUT'
@@ -1427,98 +1427,104 @@ body {
 						"Content-Type": "text/html",
 					},
 				}).then((response) => {
-					if(!response.ok) {
-						const code = response.status;
-						//setTimeout(hidePreLoader, PRELOADER_TRANSITION_DURATION + 5000);
-						switch(code) {
-							case 403:
-								showAlert(getI18nString('sgnatom_load_error_403', `Sorry! You don't have the rights to access the page.`));
-								break;
-							case 404:
-								console.log(response, response.status);
-								showAlert(getI18nString('sgnatom_load_error_404', `Failed to load the page. The page couldn't be found.`));
-								break;
+					if(plugin.options.interceptErrors) {
+						if(!response.ok) {
+							const code = response.status;
+							hidePreLoader();
+							switch(code) {
+								case 403:
+									//showAlert(getI18nString('sgnatom_load_error_403', `Sorry! You don't have the rights to access the page.`));
+									break;
+								case 404:
+									//window.alert(getI18nString('sgnatom_load_error_404', `Failed to load the page. The page couldn't be found.`));
+									//console.log(response, response.status);
+									//showAlert(getI18nString('sgnatom_load_error_404', `Failed to load the page. The page couldn't be found.`));
+									break;
+							}
+							return;
 						}
 					}
 					return response.text();
 				}).then((data) => {
-					const parser = new DOMParser();
+					if(typeof data !== 'undefined') {
+						const parser = new DOMParser();
 
-					// Parse the text
-					const doc = parser.parseFromString(data, "text/html");
-					const head  = doc.querySelector("head"),
-					      title = head.querySelector("title"),
-					      body  = doc.querySelector("body");
+						// Parse the text
+						const doc = parser.parseFromString(data, "text/html");
+						const head  = doc.querySelector("head"),
+						      title = head.querySelector("title"),
+						      body  = doc.querySelector("body");
 
-					const headChildElems = document.head.children,
-					      headElems      = Array.from(headChildElems);
-					const newHeadElems = (plugin.options.resetHead) ? [] : rootHeadElements;
+						const headChildElems = document.head.children,
+						      headElems      = Array.from(headChildElems);
+						const newHeadElems = (plugin.options.resetHead) ? [] : rootHeadElements;
 
-					if(plugin.options.resetHead) {
-						headElems.forEach((c) => {
-							if(!isNodeExists(rootHeadElements, c) && c.nodeName !== "TITLE") {
-								document.head.removeChild(c);
-							}
-						});
-					} else {
-						//document.head.innerHTML = null;
-						//document.head.innerHTML += rootHeadElementsHTML;
-					}
-
-					const sgnatomScript = document.currentScript || document.querySelector("script[src*=\"SGNAtom.js\"]") || document.querySelector("script[src*=\"SGNAtom.min.js\"]");
-					Array.from(head.children).forEach((item) => {
-						if(!isNodeExists(rootHeadElements, item) && item.nodeName !== "TITLE") {
-							document.head.append(item);
-							newHeadElems.push(item);
+						if(plugin.options.resetHead) {
+							headElems.forEach((c) => {
+								if(!isNodeExists(rootHeadElements, c) && c.nodeName !== "TITLE") {
+									document.head.removeChild(c);
+								}
+							});
+						} else {
+							//document.head.innerHTML = null;
+							//document.head.innerHTML += rootHeadElementsHTML;
 						}
-					});
-					let headHTML = "";
-					newHeadElems.forEach((c) => {
-						headHTML += `${c.outerHTML}\n`;
-					});
 
-					const scripts = doc.querySelectorAll('script');
-					if(scripts.length > 0) {
-						scripts.forEach((script) => {
-							if(!script.hasAttribute('src')) {
-								//console.log(script);
-								executeScript(script);
+						const sgnatomScript = document.currentScript || document.querySelector("script[src*=\"SGNAtom.js\"]") || document.querySelector("script[src*=\"SGNAtom.min.js\"]");
+						Array.from(head.children).forEach((item) => {
+							if(!isNodeExists(rootHeadElements, item) && item.nodeName !== "TITLE") {
+								document.head.append(item);
+								newHeadElems.push(item);
 							}
 						});
-					}
-
-					const srcs = doc.querySelectorAll('*[src], *[href]');
-					if(srcs.length > 0) {
-						srcs.forEach((el) => {
-							if(el.hasAttribute('src')) {
-								const src = el.getAttribute('src').replace(/([^:]\/)\/+/g, "$1");
-								el.src = (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('//')) ? src : `${_plugin.base_dir}${src}`;
-							}
-							if(el.hasAttribute('href')) {
-								const src = el.getAttribute('href').replace(/([^:]\/)\/+/g, "$1");
-								el.href = (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('//')) ? src : `${_plugin.base_dir}${src}`;
-							}
+						let headHTML = "";
+						newHeadElems.forEach((c) => {
+							headHTML += `${c.outerHTML}\n`;
 						});
+
+						const scripts = doc.querySelectorAll('script');
+						if(scripts.length > 0) {
+							scripts.forEach((script) => {
+								if(!script.hasAttribute('src')) {
+									//console.log(script);
+									executeScript(script);
+								}
+							});
+						}
+
+						const srcs = doc.querySelectorAll('*[src], *[href]');
+						if(srcs.length > 0) {
+							srcs.forEach((el) => {
+								if(el.hasAttribute('src')) {
+									const src = el.getAttribute('src').replace(/([^:]\/)\/+/g, "$1");
+									el.src = (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('//')) ? src : `${_plugin.base_dir}${src}`;
+								}
+								if(el.hasAttribute('href')) {
+									const src = el.getAttribute('href').replace(/([^:]\/)\/+/g, "$1");
+									el.href = (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('//')) ? src : `${_plugin.base_dir}${src}`;
+								}
+							});
+						}
+
+						document.title = (title !== undefined && title !== null) ? title.innerText : document.title;
+						instance.innerHTML = body.innerHTML;
+
+						const elems = document.querySelectorAll("a, button, .clickable");
+
+						const historyObjectGUID = _plugin.GUID();
+						const stateObj = {
+							"title": document.title,
+							"guid": historyObjectGUID,
+						};
+						const historyObject = new HistoryObject(cUrl, stateObj, document.title, new HistoryNodeObject([doc]), new HistoryNodeObject(newHeadElems), new HistoryNodeObject([body]), historyObjectGUID);
+						const historyStack = setHistoryStack(historyObject);
+						const historyStackObject = getHistoryObject(historyObjectGUID);
+
+						setupNavigator(elems, !defaultPageLoaded);
+						defaultPageLoaded = true;
+						if(typeof callback === "function")
+							callback(false, data);
 					}
-
-					document.title = (title !== undefined && title !== null) ? title.innerText : document.title;
-					instance.innerHTML = body.innerHTML;
-
-					const elems = document.querySelectorAll("a, button, .clickable");
-
-					const historyObjectGUID = _plugin.GUID();
-					const stateObj = {
-						"title": document.title,
-						"guid": historyObjectGUID,
-					};
-					const historyObject = new HistoryObject(cUrl, stateObj, document.title, new HistoryNodeObject([doc]), new HistoryNodeObject(newHeadElems), new HistoryNodeObject([body]), historyObjectGUID);
-					const historyStack = setHistoryStack(historyObject);
-					const historyStackObject = getHistoryObject(historyObjectGUID);
-
-					setupNavigator(elems, !defaultPageLoaded);
-					defaultPageLoaded = true;
-					if(typeof callback === "function")
-						callback(false, data);
 				}).catch((error) => {
 					if(_plugin.debugMode) {
 						console.error("Error:", error);
@@ -1549,7 +1555,7 @@ body {
  * Creates new instance of <b><i>SGNAtom</i></b> identified by element
  *
  * @param {HTMLElement|NodeList|string} element The element to use as <b><i>SGNAtom</i></b> container.
- * @param {{core: {defaultPage: String}, navigator: {resetHead: Boolean, showErrors: Boolean, debugMode: Boolean}}}[options] A <b><i>JSON</i></b> object of supported options to override default functionalities.
+ * @param {{core: {defaultPage: String}, navigator: {resetHead: Boolean, debugMode: Boolean, interceptErrors: Boolean, showErrors: Boolean}}}[options] A <b><i>JSON</i></b> object of supported options to override default functionalities.
 
  * @return {SGNAtom.create} An instance of <b><i>SGNAtom.create</i></b>.
  */
@@ -1573,7 +1579,7 @@ SGNAtom.create = function(element, options) {
  * Creates new instance of <b><i>SGNAtomNavigator</i></b> identified by element
  *
  * @param {HTMLElement|NodeList|string} element The element to use as navigator for <b><i>SGNAtom</i></b> supported by <b><i>SGNAtomNavigator</i></b>.
- * @param {{resetHead: Boolean, showErrors: Boolean, debugMode: Boolean}}[options] A <b><i>JSON</i></b> object of supported options to override default functionalities.
+ * @param {{resetHead: Boolean, debugMode: Boolean, interceptErrors: Boolean, showErrors: Boolean}}[options] A <b><i>JSON</i></b> object of supported options to override default functionalities.
  *
  * @return {SGNAtom.create} An instance of <b><i>SGNAtom.create</i></b>.
  */

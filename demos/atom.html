@@ -15,9 +15,9 @@
 		<script src="/src/js/SGNUIKit.loader.js"></script>
 	</head>
 	<body>
-		<div id="sgn-atom-root" sgnatom-home="atom_index.html"></div>
+		<div id="sgn-atom-root" sgnatom-home="atom.index.html"></div>
 		<script>
-			SGNUIKit.setOnReadyListener((isReady) => ((el) => SGNAtom.create(el).with('a', {resetHead: true, showErrors: true}))('#sgn-atom-root'));
+			SGNUIKit.setOnReadyListener((isReady) => ((el) => SGNAtom.create(el).with('a', {resetHead: true, showErrors: true, interceptErrors: true}))('#sgn-atom-root'));
 		</script>
 	</body>
 </html>

@@ -15,7 +15,7 @@ const vinfo = {
 	"patch": config.version.patch,
 	"code": 0,
 	"version": `${config.version.major}.${config.version.minor}.${config.version.patch}`,
-	"flavor": "",
+	"flavor": config.args.flavor || 'free',
 	"timestamp": ts,
 };
 let cdnVInfo;

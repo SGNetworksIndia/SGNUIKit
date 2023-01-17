@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -51,7 +51,7 @@
 			return _this;
 		}
 
-		this.getString = (key, ...args) => {
+		this.getString = (key, fallback, ...args) => {
 			if(this.language.hasOwnProperty(key)) {
 				let value = (args !== undefined && args !== null) ? _this.language[key].format(...args) : _this.language[key];
 				if(regex.test(value)) {
@@ -65,7 +65,7 @@
 				}
 				return value;
 			} else {
-				return `${key}_not_defined`;
+				return (!empty(fallback)) ? fallback : `${key}_not_defined`;
 			}
 		}
 

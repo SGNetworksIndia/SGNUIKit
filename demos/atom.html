@@ -1,0 +1,23 @@
+<!--
+  ~ Copyright (c) 2022-2023 SGNetworks. All rights reserved.
+  ~
+  ~ The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+  ~ VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>SGNAtom :: SGNUIKit Demos</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<!--<script src="/dist/js/SGNUIKit.loader.js"></script>-->
+		<script src="/src/js/SGNUIKit.loader.js"></script>
+	</head>
+	<body>
+		<div id="sgn-atom-root" sgnatom-home="atom.index.html"></div>
+		<script>
+			SGNUIKit.setOnReadyListener((isReady) => ((el) => SGNAtom.create(el).with('a', {resetHead: true, showErrors: true, interceptErrors: true}))('#sgn-atom-root'));
+		</script>
+	</body>
+</html>

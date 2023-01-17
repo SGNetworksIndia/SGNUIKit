@@ -20,7 +20,6 @@
 		"css-loader": "3.4.2",
 		"css-url-relative-plugin": "^1.1.0",
 		"jquery": "^3.6.3",
-		"live-server": "^1.2.2",
 		"mini-css-extract-plugin": "^2.6.1",
 		"sass-loader": "^13.0.2",
 		"style-loader": "^3.3.1",

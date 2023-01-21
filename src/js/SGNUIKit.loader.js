@@ -2480,6 +2480,7 @@ body {
 				"addons/noty/noty.init.js",
 				"addons/PrismJS/prism.js",
 				"addons/SGNAtom/SGNAtom.js",
+				"addons/SGNFullPage/SGNFullPage.js",
 				"addons/SGNGeoData/SGNGeoData.js",
 				"addons/SGNTimePicker/SGNTimePicker.js",
 				"addons/SweetAlert2/sweetalert2.all.js",
@@ -2560,23 +2561,40 @@ body {
 			if(left !== null)
 				left.parentNode.removeChild(left);
 
-			setTimeout(function() {
-				$.holdReady(false);
-				jQuery.ready();
 
-				SGNUIKit.setOnChangeListener((prop, value) => {
-					if(prop === 'holdPreloader' && !value) {
-						const $body = $("body");
-
-						$body.children(".sgn-preloader").fadeOut(2000, function() {
-							$body.children(".sgn-preloader").remove();
-							$body.removeClass("has-preloader");
-						});
-					}
-				});
-			}, 5000);
-
+			/*setTimeout(function() {
+			 $.holdReady(false);
+			 jQuery.ready();
+			 }, 5000);*/
 		}
+
+
+		SGNUIKit.setOnChangeListener((prop, value) => {
+			const $body = $("body");
+
+			if(prop === 'holdPreloader') {
+				if(!value) {
+					$.holdReady(false);
+					jQuery.ready();
+
+					$body.children(".sgn-preloader").fadeOut(2000, function() {
+						$body.children(".sgn-preloader").remove();
+						$body.removeClass("has-preloader");
+					});
+				}
+			} else {
+				if(prop === 'ready' && !SGNUIKit.holdPreloader) {
+					//console.log(prop, value);
+					$.holdReady(false);
+					jQuery.ready();
+
+					$body.children(".sgn-preloader").fadeOut(2000, function() {
+						$body.children(".sgn-preloader").remove();
+						$body.removeClass("has-preloader");
+					});
+				}
+			}
+		});
 	});
 });
 

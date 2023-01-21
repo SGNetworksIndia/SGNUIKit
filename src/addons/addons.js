@@ -21,6 +21,7 @@ import('./noty/noty.js');
 import("./noty/noty.init.js");
 import("./PrismJS/prism.js");
 import("./SGNAtom/SGNAtom.js");
+import("./SGNFullPage/SGNFullPage.js");
 import("./SGNGeoData/SGNGeoData.js");
 import('./SGNTimePicker/SGNTimePicker.js');
 import('./SweetAlert2/sweetalert2.all.js');

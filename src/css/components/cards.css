@@ -24,7 +24,7 @@
 	padding: var(--padding-sm) var(--padding-md);
 	border-bottom: 1px solid var(--sgn-border-light);
 	border-radius: var(--sgn-border-radius-md) var(--sgn-border-radius-md) 0 0;
-	background-color: var(--sgn-accent-background-secondary);
+	background-color: var(--sgn-secondary-lightest);
 	font-family: var(--sgn-font-default-bold);
 }
 
@@ -139,6 +139,10 @@
 	border-radius: 0;
 }
 
+.card > .card-body > .list-group:last-child > .list-view:last-child > .list-link:last-child {
+	border-bottom-width: 0;
+}
+
 
 /*** CARD DECK ***/
 .card-deck {
@@ -236,8 +240,6 @@
 
 /*** CARD INTERSECTION ***/
 .card.intersection > .view {
-	border-bottom-left-radius: 0 !important;
-	border-bottom-right-radius: 0 !important;
 	border-radius: var(--sgn-border-radius-md);
 	box-shadow: none;
 	min-height: 8rem;
@@ -300,7 +302,8 @@
 }
 
 .card.secondary > .card-header {
-	background-image: linear-gradient(to right, hsl(0, 0%, 50%) 0%, hsl(0, 0%, 80%) 100%);
+	/* background-image: linear-gradient(to right, hsl(0, 0%, 50%) 0%, hsl(0, 0%, 80%) 100%); */
+	background-image: var(--sgn-gradient-secondary);
 	color: var(--sgn-accent-primary-text);
 }
 

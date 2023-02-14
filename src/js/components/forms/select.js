@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -11,14 +11,15 @@
 	const SGNSelect = function(element) {
 		const plugin = this;
 		const _this  = element,
-			  $_this = $(_this);
+		      $_this = $(_this);
+		const TRANSITION_DURATION = 400;
 
 		function GUID(str) {
 			if(str === undefined || !str.length)
 				str = "" + Math.random() * new Date().getTime() + Math.random();
 
 			let c = 0,
-				r = "";
+			    r = "";
 
 			for(let i = 0; i < str.length; i++)
 				c = (c + (str.charCodeAt(i) * (i + 1) - 1)) & 0xfffffffffffff;
@@ -43,28 +44,31 @@
 
 		/**
 		 * @param $option{jQuery} The name or space-separated name of events to bind to the context or DOM element.
+		 * @param selected{boolean} Specifies if the current option is selected or not.
 		 *
 		 * @return {string} The generated HTML string.
 		 */
-		const getOptionHTML = ($option) => {
+		const getOptionHTML = ($option, selected = false) => {
 			const guid = `sgn-option-${GUID()}`;
 
 			const t        = $option.text(),
-				  disabled = $option.attr('disabled'),
-				  readonly = $option.attr('readonly');
+			      disabled = $option.attr('disabled'),
+			      readonly = $option.attr('readonly');
+			selected = selected || ($option.prop('selected') || $option.attr('selected'));
 
-			const disabledClass = (disabled) ? 'disabled' : '',
-				  readonlyClass = (readonly) ? 'readonly' : '';
+			const disabledClass = (disabled) ? ' disabled' : '',
+			      readonlyClass = (readonly) ? ' readonly' : '',
+			      selectedClass = (selected) ? ' selected' : '';
 			$option.attr('aria-describedby', guid);
 			$option.data('describedby', guid);
 
-			return `<li class="sgn-option${disabledClass}${readonlyClass}" id="${guid}" value="${guid}"><span class="sgn-option-label" aria-labelledby="${guid}">${t}</span></li>`;
+			return `<li class="sgn-option${disabledClass}${readonlyClass}${selectedClass}" id="${guid}" value="${guid}"><span class="sgn-option-label" aria-labelledby="${guid}">${t}</span></li>`;
 		}
 
 		const init = () => {
 			let $container    = $_this.parents('.sgn-form.sgn-select'),
-				$formWrapper  = $container.children('.sgn-form-wrapper'),
-				$inputWrapper = $formWrapper.children('.sgn-input-wrapper');
+			    $formWrapper  = $container.children('.sgn-form-wrapper'),
+			    $inputWrapper = $formWrapper.children('.sgn-input-wrapper');
 
 			$_this.hide();
 
@@ -75,19 +79,26 @@
 			const guid = `sgn-select-${GUID()}`;
 
 			let $container    = $_this.parents('.sgn-form.sgn-select'),
-				$formWrapper  = $container.children('.sgn-form-wrapper'),
-				$inputWrapper = $formWrapper.children('.sgn-input-wrapper');
+			    $formWrapper  = $container.children('.sgn-form-wrapper'),
+			    $inputWrapper = $formWrapper.children('.sgn-input-wrapper');
 			let $sgnSelectInput = `<input type="text" class="form-control sgn-select-input" aria-labelledby="${guid}" />`;
 
 			$_this.attr('aria-describedby', guid).data('describedby', guid);
 			$inputWrapper.append($sgnSelectInput);
 			$sgnSelectInput = $inputWrapper.children('input.sgn-select-input');
 
-			const $options = $_this.find('option');
+			const $options        = $_this.find('option'),
+			      $optionSelected = ($options.filter(':selected').length > 0) ? $options.filter(':selected') : $options.first();
+			$optionSelected.addClass('selected').attr('selected', true).prop('selected', true);
 
 			let html = `<ul class="sgn-select" id="${guid}">`;
-			$options.each(function() {
-				html += getOptionHTML($(this));
+			$options.each(function(i) {
+				const $this    = $(this),
+				      t        = $this.text(),
+				      selected = ($this.attr('selected') || $this.prop('selected')) || (i === 0);
+				html += getOptionHTML($this, selected);
+				if(selected)
+					$sgnSelectInput.val(t).trigger('change');
 			});
 			html += `</ul>`;
 
@@ -98,19 +109,25 @@
 			bindEvents();
 		}
 
+		const setSelected = ($sgnOptions, $option) => {
+			$sgnOptions.removeClass('selected').removeAttr('selected').prop('selected', false);
+			$option.addClass('selected').attr('selected', true).prop('selected', true);
+		}
+
 		const bindEvents = () => {
 			let $container    = $_this.parents('.sgn-form.sgn-select'),
-				$formWrapper  = $container.children('.sgn-form-wrapper'),
-				$inputWrapper = $formWrapper.children('.sgn-input-wrapper');
+			    $formWrapper  = $container.children('.sgn-form-wrapper'),
+			    $inputWrapper = $formWrapper.children('.sgn-input-wrapper');
 			let $select         = $inputWrapper.children('select.form-control'),
-				$options        = $select.find('option'),
-				$sgnSelectInput = $inputWrapper.children('input.sgn-select-input'),
-				$sgnSelect      = $inputWrapper.children('.sgn-select'),
-				$sgnOptions     = $sgnSelect.children('.sgn-option');
+			    $options        = $select.find('option'),
+			    $sgnSelectInput = $inputWrapper.children('input.sgn-select-input'),
+			    $sgnSelect      = $inputWrapper.children('.sgn-select'),
+			    $sgnOptions     = $sgnSelect.children('.sgn-option');
 
 			$sgnSelectInput.on('focus', function(e) {
 				e.stopPropagation();
-				$('.sgn-form.sgn-select').removeClass('open');
+				if(!$(this).parents('.sgn-form.sgn-select').hasClass('open'))
+					$('.sgn-form.sgn-select').removeClass('open');
 				$sgnSelectInput.off('blur');
 				plugin.show();
 			});
@@ -118,8 +135,8 @@
 			$sgnSelectInput.on('focusout', function(e) {
 				e.stopPropagation();
 				const eot     = e.explicitOriginalTarget,
-					  $eot    = $(eot),
-					  $option = ($eot.hasClass('sgn-option')) ? $eot : $eot.parents('.sgn-option');
+				      $eot    = $(eot),
+				      $option = ($eot.hasClass('sgn-option')) ? $eot : $eot.parents('.sgn-option');
 
 				if($option.length <= 0) {
 					plugin.hide();
@@ -130,8 +147,8 @@
 			$sgnOptions.on('click', function(e) {
 				e.stopPropagation();
 				const $this = $(this),
-					  id    = $this.attr('id'),
-					  t     = $this.children('.sgn-option-label').text();
+				      id    = $this.attr('id'),
+				      t     = $this.children('.sgn-option-label').text();
 
 				$sgnOptions.removeClass('selected').removeAttr('selected').prop('selected', false);
 				$this.addClass('selected').attr('selected', true).prop('selected', true);
@@ -149,18 +166,51 @@
 		}
 
 		plugin.show = () => {
-			let $container = $_this.parents('.sgn-form.sgn-select');
+			let $container       = $_this.parents('.sgn-form.sgn-select'),
+			    $parentContainer = $container.parents('.sgn-form'), // If SGNSelect is a pre/suffix to a SGNForm component
+			    $formWrapper     = $container.children('.sgn-form-wrapper'),
+			    $inputWrapper    = $formWrapper.children('.sgn-input-wrapper'),
+			    $sgnSelect       = $inputWrapper.children('.sgn-select');
+
+			$sgnSelect.removeClass('hidden');
+
+			if($parentContainer.length > 0) {
+				if(!$parentContainer.hasClass('sgn-select-open')) {
+					$parentContainer.addClass('sgn-select-open');
+				}
+			}
 
 			if(!$container.hasClass('open')) {
 				$container.addClass('open');
+				setTimeout(() => {
+					if(!$sgnSelect.hasClass('open')) {
+						$sgnSelect.addClass('open');
+					}
+				}, 50);
 			}
 		}
 
 		plugin.hide = () => {
-			let $container = $_this.parents('.sgn-form.sgn-select');
+			let $container       = $_this.parents('.sgn-form.sgn-select'),
+			    $parentContainer = $container.parents('.sgn-form'), // If SGNSelect is a pre/suffix to a SGNForm component
+			    $formWrapper     = $container.children('.sgn-form-wrapper'),
+			    $inputWrapper    = $formWrapper.children('.sgn-input-wrapper'),
+			    $sgnSelect       = $inputWrapper.children('.sgn-select');
 
-			if($container.hasClass('open')) {
-				$container.removeClass('open');
+			if($sgnSelect.hasClass('open')) {
+				$sgnSelect.removeClass('open');
+				setTimeout(() => {
+					$sgnSelect.addClass('hidden');
+
+					if($container.hasClass('open')) {
+						$container.removeClass('open');
+					}
+					if($parentContainer.length > 0) {
+						if($parentContainer.hasClass('sgn-select-open')) {
+							$parentContainer.removeClass('sgn-select-open');
+						}
+					}
+				}, TRANSITION_DURATION);
 			}
 		}
 
@@ -177,7 +227,7 @@
 
 		_this.each(function() {
 			const $this = $(this),
-				  data  = $this.data('SGNSelect');
+			      data  = $this.data('SGNSelect');
 			const plugin = (data === undefined) ? new SGNSelect($this) : data;
 			$this.data('SGNSelect', plugin);
 
@@ -193,7 +243,7 @@
 		$.fn.SGNSelect.show = function() {
 			return _this.each(function() {
 				const $this  = $(this),
-					  plugin = $this.data('SGNSelect');
+				      plugin = $this.data('SGNSelect');
 				$this.data('SGNSelect', plugin);
 
 				if(plugin !== undefined)
@@ -209,7 +259,7 @@
 		$.fn.SGNSelect.hide = function() {
 			return _this.each(function() {
 				const $this  = $(this),
-					  plugin = $this.data('SGNSelect');
+				      plugin = $this.data('SGNSelect');
 				$this.data('SGNSelect', plugin);
 
 				if(plugin !== undefined)

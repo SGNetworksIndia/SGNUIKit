@@ -5,22 +5,24 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
+@import "containers.css";
 @import "preloaders.css";
-@import "sidebar2.css";
-@import "navbar.css";
-@import "tables.css";
-@import "cards.css";
-@import "modals.css";
 @import "buttons.css";
-@import "SGNForms/SGNForms.css";
-@import "snackbar.css";
-@import "progressbars.css";
-@import "SGNLoadingDialog.css";
+@import "cards.css";
 @import "code.css";
 @import "ellipsify.css";
 @import "listgroup.css";
+@import "modals.css";
+@import "navbar.css";
+@import "progressbars.css";
+@import "sections.css";
+@import "SGNForms/SGNForms.css";
+@import "SGNLoadingDialog.css";
+@import "sidebar2.css";
+@import "snackbar.css";
 @import "tablayout.css";
+@import "tables.css";
 @import "views.css";
-@import "wizard.css";
 @import "windows.css";
+@import "wizard.css";
 

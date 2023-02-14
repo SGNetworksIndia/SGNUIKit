@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -12,4 +12,75 @@
 .sgn-placeholder-container > .sgn-placeholder-text {
 	font-size: 4rem;
 	line-height: 1;
+}
+
+.text-uppercase {
+	text-transform: uppercase !important;
+}
+
+.text-lowercase {
+	text-transform: lowercase !important;
+}
+
+.text-capitalize {
+	text-transform: capitalize !important;
+}
+
+.text-transform-none {
+	text-transform: none !important;
+}
+
+
+.text-align-left {
+	text-align: left !important;
+}
+
+.text-align-center {
+	text-align: center !important;
+}
+
+.text-align-right {
+	text-align: right !important;
+}
+
+.text-align-start {
+	text-align: start !important;
+}
+
+.text-align-end {
+	text-align: end !important;
+}
+
+.text-align-justify {
+	text-align: justify !important;
+}
+
+.text-align-justify-all {
+	text-align: justify-all !important;
+}
+
+.text-align-match-parent {
+	text-align: match-parent !important;
+}
+
+.text-align-inherit {
+	text-align: inherit !important;
+}
+
+.text-align-initial {
+	text-align: initial !important;
+}
+
+.text-align-revert {
+	text-align: revert !important;
+}
+
+.text-align-unset {
+	text-align: unset !important;
+}
+
+
+.gradient-text {
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
 }

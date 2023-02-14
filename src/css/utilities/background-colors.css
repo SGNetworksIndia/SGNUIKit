@@ -1,0 +1,99 @@
+/*
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.bg-black {
+	background-color: var(--black) !important;
+}
+
+.bg-grey {
+	background-color: var(--grey) !important;
+}
+
+.bg-cod-grey {
+	background-color: var(--cod-grey) !important;
+}
+
+.bg-all-black {
+	background-color: var(--all-black) !important;
+}
+
+.bg-eerie-black {
+	background-color: var(--eerie-black) !important;
+}
+
+.bg-filmpro-black {
+	background-color: var(--filmpro-black) !important;
+}
+
+.bg-mine-shaft {
+	background-color: var(--mine-shaft) !important;
+}
+
+.bg-jet {
+	background-color: var(--jet) !important;
+}
+
+.bg-davy-grey {
+	background-color: var(--davy-grey) !important;
+}
+
+.bg-granite-gray {
+	background-color: var(--granite-gray) !important;
+}
+
+.bg-dim-gray {
+	background-color: var(--dim-gray) !important;
+}
+
+.bg-sonic-silver {
+	background-color: var(--sonic-silver) !important;
+}
+
+.bg-gray {
+	background-color: var(--gray) !important;
+}
+
+.bg-spanish-gray {
+	background-color: var(--spanish-gray) !important;
+}
+
+.bg-quick-silver {
+	background-color: var(--quick-silver) !important;
+}
+
+.bg-dark-gray-x11 {
+	background-color: var(--dark-gray-x11) !important;
+}
+
+.bg-silver-chalice {
+	background-color: var(--silver-chalice) !important;
+}
+
+.bg-gray-x11-gray {
+	background-color: var(--gray-x11-gray) !important;
+}
+
+.bg-silver {
+	background-color: var(--silver) !important;
+}
+
+.bg-light-gray {
+	background-color: var(--light-gray) !important;
+}
+
+.bg-gainsboro {
+	background-color: var(--gainsboro) !important;
+}
+
+.bg-cultured {
+	background-color: var(--cultured) !important;
+}
+
+.bg-white {
+	background-color: var(--white) !important;
+}
+

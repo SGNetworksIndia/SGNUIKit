@@ -1,0 +1,160 @@
+<!--
+  ~ Copyright (c) 2022-2023 SGNetworks. All rights reserved.
+  ~
+  ~ The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+  ~ VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Grids - SGNUIKit Demo</title>
+		<script src="/src/js/SGNUIKit.loader.js"></script>
+		<!--<script src="/dist/js/SGNUIKit.loader.js"></script>-->
+		<style>
+			.row * {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: "Arial", sans-serif;
+				font-size: 1.1em;
+			}
+
+			.row {
+				margin-top: 5px;
+			}
+
+			.row > [class^="col-"] {
+				/* background-color: #ef5350; */
+				background-image: var(--purple-gradient);
+				padding: 3%;
+				border-radius: 2rem;
+				text-align: right;
+				color: white;
+				box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19) !important;
+				transition: background-color 1s;
+			}
+
+			.row > [class^="col-"]:nth-child(2n):hover {
+				/* background-color: #42a5f5; */
+				background-image: var(--blue-gradient);
+			}
+
+			.row > [class^="col-"]:nth-child(2n+1):hover {
+				/* background-color: #66bb6a; */
+				background-image: var(--aqua-gradient);
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<div class="sgn-container p-0">
+				<!--<div class="sgn-code-snippets" sgn-snippet-title="1/12 Grid">
+					<div class="row sgn-code-snippet" sgn-snippet-lang="html" sgn-snippet-preview-tab="true">
+						<div class="col-1">1/12</div>
+						<div class="col-1">1/12</div>
+						<div class="col-1">1/12</div>
+						<div class="col-1">1/12</div>
+						<div class="col-1">1/12</div>
+						<div class="col-1">1/12</div>
+						<div class="col-1">1/12</div>
+						<div class="col-1">1/12</div>
+						<div class="col-1">1/12</div>
+						<div class="col-1">1/12</div>
+						<div class="col-1">1/12</div>
+						<div class="col-1">1/12</div>
+					</div>
+					<div class="sgn-code-snippet" sgn-snippet-lang="css">
+						.row {
+							width: 100%;
+							display: flex;
+							flex-wrap: wrap;
+						}
+
+						.col-1 {
+							width: 8.33333%;
+						}
+					</div>
+					<div class="sgn-code-snippet" sgn-snippet-lang="js">
+						$(function() {
+							const $snippets = $(".sgn-code-snippet");
+							$snippets.SGNCodeSnippet();
+						});
+					</div>
+				</div>-->
+
+				<div class="row sgn-code-snippet" sgn-snippet-title="1/12 Grid">
+					<div class="col-1">1/12</div>
+					<div class="col-1">1/12</div>
+					<div class="col-1">1/12</div>
+					<div class="col-1">1/12</div>
+					<div class="col-1">1/12</div>
+					<div class="col-1">1/12</div>
+					<div class="col-1">1/12</div>
+					<div class="col-1">1/12</div>
+					<div class="col-1">1/12</div>
+					<div class="col-1">1/12</div>
+					<div class="col-1">1/12</div>
+					<div class="col-1">1/12</div>
+				</div>
+
+				<div class="row sgn-code-snippet" sgn-snippet-title="2/12 Grid">
+					<div class="col-2">2/12</div>
+					<div class="col-2">2/12</div>
+					<div class="col-2">2/12</div>
+					<div class="col-2">2/12</div>
+					<div class="col-2">2/12</div>
+					<div class="col-2">2/12</div>
+				</div>
+
+				<div class="row sgn-code-snippet" sgn-snippet-title="3/12 Grid">
+					<div class="col-3">3/12</div>
+					<div class="col-3">3/12</div>
+					<div class="col-3">3/12</div>
+					<div class="col-3">3/12</div>
+				</div>
+
+				<div class="row sgn-code-snippet" sgn-snippet-title="4/12 Grid">
+					<div class="col-4">4/12</div>
+					<div class="col-4">4/12</div>
+					<div class="col-4">4/12</div>
+				</div>
+
+				<div class="row sgn-code-snippet" sgn-snippet-title="6/12 Grid">
+					<div class="col-6">6/12</div>
+					<div class="col-6">6/12</div>
+				</div>
+
+				<div class="row sgn-code-snippet" sgn-snippet-title="7/12 Grid">
+					<div class="col-5">5/12</div>
+					<div class="col-7">7/12</div>
+				</div>
+
+				<div class="row sgn-code-snippet" sgn-snippet-title="8/12 Grid">
+					<div class="col-4">4/12</div>
+					<div class="col-8">8/12</div>
+				</div>
+
+				<div class="row sgn-code-snippet" sgn-snippet-title="9/12 Grid">
+					<div class="col-3">3/12</div>
+					<div class="col-9">9/12</div>
+				</div>
+
+				<div class="row sgn-code-snippet" sgn-snippet-title="10/12 Grid">
+					<div class="col-2">2/12</div>
+					<div class="col-10">10/12</div>
+				</div>
+
+				<div class="row sgn-code-snippet" sgn-snippet-title="10/12 Grid">
+					<div class="col-1">1/12</div>
+					<div class="col-11">11/12</div>
+				</div>
+
+				<div class="row sgn-code-snippet" sgn-snippet-title="12/12 Grid">
+					<div class="col-12">12/12</div>
+				</div>
+			</div>
+		</main>
+	</body>
+</html>

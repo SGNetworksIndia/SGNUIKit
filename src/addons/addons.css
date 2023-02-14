@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -16,6 +16,7 @@
 @import "noty/themes/relax.css" all and (prefers-color-scheme: light);
 @import "noty/themes/metroui.css" all and (prefers-color-scheme: dark);
 @import "PrismJS/prism.css";
+@import "SGNFullPage/SGNFullPage.css";
 @import "SGNTimePicker/SGNTimePicker.min.css" all and (prefers-color-scheme: light);
 @import "SweetAlert2/sweetalert2.min.css";
 

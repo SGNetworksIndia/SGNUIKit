@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -54,9 +54,11 @@ if(typeof jQuery === "undefined") {
 	/**
 	 * Binds an event dynamically for the DOM element or turns onan event identified by <b>event name</b> and <b>id</b>.<br>If <b>eventName</b> is not specified, every bind events will be turned on.
 	 *
-	 * @param {string}[eventName=null] The name or space-separated name of events to bind to the context or DOM element.<p>If not specified, every turned-off events will be turned on.</p>
-	 * @param {string}[listener=null] The name of the function or an asynchronous function callback to handle the event(s). (not required if <b>eventName</b> is not specified).
-	 * @param {string}[id=null] An unique event identifier to distinguish the event from other listeners of same types.<p>If not specified, only the events of the same type identified by <b>eventName</b> will be turned on.</p>
+	 * @param {string} [eventName=null] The name or space-separated name of events to bind to the context or DOM element.<p>If not specified, every turned-off events will be turned on.</p>
+	 * @param {function} [listener=null] The name of the function or an asynchronous function callback to handle the event(s). (not required if <b>eventName</b> is not specified).
+	 * @param {string|null} [selector=null]
+	 * @param {{}|[]|null} [data=null]
+	 * @param {string|null} [id=null] An unique event identifier to distinguish the event from other listeners of same types.<p>If not specified, only the events of the same type identified by <b>eventName</b> will be turned on.</p>
 	 *
 	 * @return {jQuery} The DOM element
 	 */
@@ -110,17 +112,31 @@ if(typeof jQuery === "undefined") {
 			listener = selector;
 			selector = tmp;
 		} else if(typeof listener === 'string' && typeof selector === 'object' && typeof data === 'function' && typeof id === 'string') {
+			// $(element).on('event', '.selector', listener(){}, 'id', {data})
 			tmp = data;
 			data = selector;
 			selector = listener;
 			listener = tmp;
 		} else if(typeof listener === 'string' && typeof selector === 'function' && typeof data === 'string' && typeof id === 'object') {
+			// $(element).on('event', '.selector', listener(){}, 'id', {data})
 			tmp = listener;
 			listener = selector;
 			selector = tmp;
 			tmp = data;
 			data = id;
 			id = tmp;
+		} else if(typeof listener === 'function' && typeof selector === 'string' && typeof data === 'string' && typeof id === 'object') {
+			// $(element).on('event', '.selector', listener(){}, 'id', {data})
+			tmp = listener;
+			listener = selector;
+			selector = tmp;
+			tmp = data;
+			data = id;
+			id = tmp;
+		} else if(typeof listener === 'function' && typeof selector === 'string' && typeof data === 'undefined' && typeof id === 'undefined') {
+			// $(element).on('event', listener(){}, 'id')
+			id = selector;
+			selector = data = undefined;
 		}
 
 		const turnOnSingleEvent = ($element, eventData, eventName, create = false) => {
@@ -151,17 +167,29 @@ if(typeof jQuery === "undefined") {
 				element.events[eventName][guid] = eventData;
 			} else {
 				if(eventData !== undefined) {
-					$.each(eventData, function(i, c) {
-						const name    = c.event,
-							  handler = c.handler,
-							  data    = c.data;
+					if(eventData.hasOwnProperty('guid')) {
+						const name    = eventData.event,
+						      handler = eventData.handler,
+						      data    = eventData.data;
 
 						delegate(element, eventName, selector, handler, useCapture);
 						if(typeof data === 'object') {
 							$.extend(element, data);
 						}
-						c.status = 'on';
-					});
+						eventData.status = 'on';
+					} else {
+						$.each(eventData, function(i, c) {
+							const name    = c.event,
+							      handler = c.handler,
+							      data    = c.data;
+
+							delegate(element, eventName, selector, handler, useCapture);
+							if(typeof data === 'object') {
+								$.extend(element, data);
+							}
+							c.status = 'on';
+						});
+					}
 				}
 			}
 		}
@@ -170,11 +198,11 @@ if(typeof jQuery === "undefined") {
 				const eventData = $element.getEventData(eventName, id);
 				turnOnSingleEvent($element, eventData, eventName, create);
 			} else {
-				const eventDatas = $element.getEventData();
+				const eventData = $element.getEventData();
 
-				if(eventDatas !== undefined && eventDatas.length > 0) {
-					$.each(eventDatas, function(event, eventData) {
-						turnOnSingleEvent($element, eventData, create);
+				if(eventData !== undefined && eventData.length > 0) {
+					$.each(eventData, function(event, eventDatum) {
+						turnOnSingleEvent($element, eventDatum, create);
 					});
 				}
 			}
@@ -203,13 +231,21 @@ if(typeof jQuery === "undefined") {
 	$.fn.off = function(eventName, id) {
 		const turnOffSingleEvent = ($element, eventData) => {
 			if(eventData !== undefined) {
-				$.each(eventData, function(i, c) {
-					const name    = c.event,
-						  handler = c.handler;
+				if(eventData.hasOwnProperty('guid')) {
+					const name    = eventData.event,
+					      handler = eventData.handler;
 
 					$element[0].removeEventListener(name, handler);
-					c.status = 'off';
-				});
+					eventData.status = 'off';
+				} else {
+					$.each(eventData, function(i, c) {
+						const name    = c.event,
+						      handler = c.handler;
+
+						$element[0].removeEventListener(name, handler);
+						c.status = 'off';
+					});
+				}
 			}
 		}
 		const turnOffEvent = ($element, eventName, id) => {
@@ -217,11 +253,11 @@ if(typeof jQuery === "undefined") {
 				const eventData = $element.getEventData(eventName, id);
 				turnOffSingleEvent($element, eventData);
 			} else {
-				const eventDatas = $element.getEventData();
+				const eventData = $element.getEventData();
 
-				if(eventDatas !== undefined && eventDatas.length > 0) {
-					$.each(eventDatas, function(event, eventData) {
-						turnOffSingleEvent($element, eventData);
+				if(eventData !== undefined && eventData.length > 0) {
+					$.each(eventData, function(event, eventDatum) {
+						turnOffSingleEvent($element, eventDatum);
 					});
 				}
 			}

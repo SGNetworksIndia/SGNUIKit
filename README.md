@@ -12,7 +12,8 @@
 
 ## REQUIREMENTS
 
-* **Current SGNUIKit Version**: 1.2.1
+
+**Current SGNUIKit Version**: 1.2.1
 
 ### Core Requirements
 

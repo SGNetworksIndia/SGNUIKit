@@ -1,23 +1,23 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-.sgn-form {
+.sgn-form.sgn-input-toggle {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	--height: 28px;
 }
 
-.sgn-form,
-.sgn-form > .sgn-form-wrapper,
-.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper,
-.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper > .slider-wrapper,
-.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper > .slider-wrapper > .slider-switch,
-.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper > .slider-wrapper > .slider-text {
+.sgn-form.sgn-input-toggle,
+.sgn-form.sgn-input-toggle > .sgn-form-wrapper,
+.sgn-form.sgn-input-toggle > .sgn-form-wrapper > .sgn-input-wrapper,
+.sgn-form.sgn-input-toggle > .sgn-form-wrapper > .sgn-input-wrapper > .slider-wrapper,
+.sgn-form.sgn-input-toggle > .sgn-form-wrapper > .sgn-input-wrapper > .slider-wrapper > .slider-switch,
+.sgn-form.sgn-input-toggle > .sgn-form-wrapper > .sgn-input-wrapper > .slider-wrapper > .slider-text {
 	height: 100%;
 	min-height: var(--height);
 }
@@ -55,13 +55,13 @@
 }
 
 .toggle-switch-bar::before {
-	background-color: #A7A9BC;
-	border-color: #A7A9BC;
+	background-color: #a7a9bc;
+	border-color: #a7a9bc;
 	border-radius: 20px;
 	border-style: solid;
 	border-width: 1px;
 	bottom: 0;
-	content: ' ';
+	content: " ";
 	display: block;
 	left: 0;
 	position: absolute;
@@ -71,9 +71,9 @@
 }
 
 .toggle-switch-bar > .toggle-switch-handle {
-	content: '';
-	background-color: #FFF;
-	border-color: #FFF;
+	content: "";
+	background-color: #ffffff;
+	border-color: #ffffff;
 	border-radius: 24px;
 	border-style: solid;
 	border-width: 1px;
@@ -98,7 +98,7 @@
 }
 
 .toggle-switch-bar > .toggle-switch-label > span {
-	color: #FFF;
+	color: #ffffff;
 	position: relative;
 	text-align: center;
 	width: auto;

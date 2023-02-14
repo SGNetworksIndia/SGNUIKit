@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -11,12 +11,23 @@ if(typeof jQuery === "undefined") {
 
 ;(function(window, document, $) {
 	"use strict";
-	$.fn.marquee = function(duration = 5000, direction = "left") {
+
+	/***
+	 *
+	 * @param {number} [duration=5000]
+	 * @param {"left"|"right"|"top"|"bottom"} [direction='left']
+	 * @param {boolean} [force=false] If <b>TRUE</b>, the marquee will be generated regardless of the necessity.
+	 * @return {jQuery}
+	 */
+	$.fn.marquee = function(duration = 5000, direction = "left", force = false) {
 		const directions = [
 			"left", "right",
 			"top", "bottom",
 		];
-		duration = (!$.isNumeric(duration)) ? 5000 : duration;
+		const isDurationSpecified = ($.isNumeric(duration));
+		const sdir  = direction,
+		      stime = duration;
+		duration = (!isDurationSpecified) ? 5000 : duration;
 		direction = ($.inArray(direction, directions) !== -1) ? direction : "left";
 
 		const getTextWidth = (text, $elem, styles) => {
@@ -56,9 +67,7 @@ if(typeof jQuery === "undefined") {
 
 			return width;
 		};
-		const uint = (n) => {
-			return Math.sqrt(Math.pow(n, 2));
-		};
+		const uint = (n) => Math.sqrt(Math.pow(n, 2));
 
 		return this.each(function() {
 			const $this = $(this);
@@ -66,42 +75,50 @@ if(typeof jQuery === "undefined") {
 			    uspeed = (!empty($this.attr("sgn-marquee-speed"))) ? $this.attr("sgn-marquee-speed") : $this.attr("data-marquee-speed"),
 			    udir   = (!empty($this.attr("sgn-marquee-direction"))) ? $this.attr("sgn-marquee-direction") : $this.attr("data-marquee-direction");
 			uspeed = ($.isNumeric(uspeed)) ? uspeed : 10;
-			udir = (!empty(udir) && $.inArray(udir, directions) !== -1) ? udir : direction;
 
-			const containerWidth = ($this.width()),
-			      textWidth      = (getTextWidth($this.text(), $this)),
-			      boxWidth       = (textWidth + containerWidth);
+			const textWidth       = (getTextWidth($this.text(), $this)),
+			      containerWidth  = ($this.width() < textWidth) ? $this.width() : $this.parent().width(),
+			      containerHeight = ($this.height() < textWidth) ? $this.height() : $this.parent().height(),
+			      boxWidth        = (textWidth + containerWidth);
+			direction = (textWidth > containerHeight && empty(sdir)) ? 'top' : direction;
+			udir = (!empty(udir) && $.inArray(udir, directions) !== -1) ? udir : direction;
 			let distance, time;
 			/*
 			 Time = (Distance / Speed)
 			 Speed = (Distance / Time)
 			 Duration = (Speed * Distance)
 			 */
-			distance = uint((textWidth) / (containerWidth));
+			distance = (udir === 'top' || udir === 'bottom') ? uint((textWidth) / (containerHeight)) : uint((textWidth) / (containerWidth));
 			time = uint(uspeed * distance);
 			time = Math.round(time);
 			time = ($.isNumeric(utime)) ? utime : time;
 			time = ($.isNumeric(time)) ? time : duration;
+			time = (isDurationSpecified) ? duration : time;
+			const dirClass = (udir === 'top' || udir === 'bottom') ? 'vertical' : 'horizontal';
 
-			if(textWidth > containerWidth) {
+			if(force || (textWidth > containerWidth || textWidth > containerHeight)) {
 				$this.wrapInner("<div class=\"sgn-marquee\"/>");
 				const $marquee = $this.children(".sgn-marquee");
 				$marquee.clone(true).appendTo($this);
 				const $marquees = $this.children(".sgn-marquee");
 
-				$this.wrapInner("<div class=\"sgn-marquee-wrapper\"/>");
+				$this.wrapInner(`<div class="sgn-marquee-wrapper"/>`);
 
 				if(!$this.hasClass("has-marquee"))
 					$this.addClass("has-marquee");
+
+				$this.addClass(dirClass);
 
 				$marquees.css("animation-name", `marquee-${udir}`);
 				$marquees.css("animation-duration", `${time}s`);
 			}
 		});
 	};
-	$(function() {
+
+	SUKR(() => {
 		const $elem = $("[sgn-component=\"marquee\"], [data-component=\"marquee\"]");
 		const $marquees = ($elem.length > 0) ? $elem : $(".marquee");
+
 		$marquees.marquee();
 	});
 })(window, document, jQuery);

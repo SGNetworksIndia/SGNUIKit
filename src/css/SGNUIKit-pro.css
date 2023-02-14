@@ -115,6 +115,65 @@ main > .sgn-center-container {
 	flex: 1;
 }
 
+.user-offline {
+	overflow: hidden;
+}
+
+.user-offline > * {
+	filter: grayscale(1);
+}
+
+.user-offline > .overlay {
+	width: 100%;
+	height: 100%;
+	opacity: 1;
+	position: absolute;
+	z-index: 9999;
+	background-color: hsla(0, 0%, 0%, .9);
+	overflow: hidden;
+	filter: none !important;
+	transition: opacity, background-color .5s linear;
+}
+
+.user-offline > .overlay.blackout {
+	background-color: hsla(0, 0%, 0%, 1);
+}
+
+.user-offline > .overlay,
+.user-offline > .overlay > .offline-msg {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.5rem;
+}
+
+.user-offline > .overlay > .offline-msg > .title,
+.user-offline > .overlay > .offline-msg > .msg {
+	transition: color .5s linear;
+}
+
+.user-offline > .overlay > .offline-msg > .msg {
+	color: var(--sgn-secondary, hsl(230, 0%, 30%));
+}
+
+.user-offline > .overlay > .offline-msg > .error,
+.user-offline > .overlay > .offline-msg > .title {
+	color: var(--sgn-danger, hsl(0, 100%, 50%));
+}
+
+.user-offline > .overlay > .offline-msg > .success {
+	color: var(--sgn-success, hsl(130, 100%, 20%));
+}
+
+.user-offline > .overlay > .offline-msg > .info {
+	color: var(--sgn-info, hsl(190, 100%, 40%));
+}
+
+.user-offline > .overlay > .offline-msg > .warning {
+	color: var(--sgn-warning, hsl(45, 100%, 40%));
+}
+
 :root, [class^="sgn-"], [class^="sgn-"] * {
 	--sgn-border-radius-inner-diff: .2rem;
 	--sgn-border-radius-xs: .2rem;

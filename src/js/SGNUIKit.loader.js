@@ -5,12 +5,69 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
+/**
+ * Performs the specified action for each element in an object.
+ *
+ * @param {Object} obj
+ * @param {(value:any, key:string)=>void} callback A function that accepts up to three arguments. forEach calls the <b><i>callback</i></b> function one time for each element in the object.
+ */
+const forEach = (obj, callback) => {
+	let value;
+	//context = context || this;  //apply the function to 'this' by default
+
+	for(const key in obj) {
+		if(key !== 'length' && obj.hasOwnProperty(key)) {  //to rule out inherited properties
+			value = obj[key];
+			if(typeof callback === 'function')
+				callback(value, key);
+		}
+	}
+}
+
+/**
+ * Appends new elements to the end of an object, and returns the new length of the object.
+ * @param {Object} obj
+ * @param {...any} items New elements to add to the object.
+ */
+const push = (obj, ...items) => {
+	let k = obj.length || 0;
+
+	items.forEach((value) => {
+		obj[k] = value;
+		k++;
+		obj.length = k;
+	});
+}
+
 const SGNUIKit = {
 	isReady: false,
+	isInit: false,
 	isPreloaderHeld: false,
+	configs: {
+		'urls': {
+			'api': {
+				'geonames': 'https://secure.geonames.org/',
+				'osm': 'https://nominatim.openstreetmap.org/'
+			},
+		},
+		'api': {
+			'geonames': '' //username
+		},
+		'geocoding': {
+			'defaultAPI': 'osm'
+		}
+	},
 	components: {},
-	onChangeListener: [],
-	onReadyListener: [],
+	onChangeListener: {},
+	onInitListener: {},
+	onReadyListener: {},
+	callCounts: {
+		'init': 0,
+		'ready': 0,
+		'config': 0,
+		'component': 0,
+		'holdPreloader': 0,
+	},
 
 	/**
 	 * This callback is called when a component is loaded/removed or the status of readiness is changed.
@@ -30,14 +87,39 @@ const SGNUIKit = {
 	/**
 	 * Add a loaded <b>SGNUIKit</b> component.
 	 *
-	 * @param {JSON} value The <b><i>JSON</i></b> object of the loaded <b>SGNUIKit</b> component.
+	 * @param {{}} config The <b><i>JSON</i></b> object of the <b>SGNUIKit</b> configuration options.
+	 */
+	set config(config) {
+		if(config !== undefined && config !== null && config !== "") {
+			this.configs = new SGNUKConfig(config);
+			this.callCounts.config++;
+
+			forEach(this.onChangeListener, (listener) => listener("config", config, this.configs));
+		}
+	},
+
+	/**
+	 * Get the list of loaded <b>SGNUIKit</b> components.
+	 *
+	 * @return {Object} The <b><i>JSON</i></b> object of loaded <b>SGNUIKit</b> components, or an empty <b><i>JSON</i></b> object if no components loaded.
+	 */
+	get config() {
+		return this.configs;
+	},
+
+	/**
+	 * Add a loaded <b>SGNUIKit</b> component.
+	 *
+	 * @param {{}} value The <b><i>JSON</i></b> object of the loaded <b>SGNUIKit</b> component.
 	 */
 	set component(value) {
-		if(value === undefined || value === null || value === "")
-			value = {};
-		Object.assign(this.components, value);
+		if(value !== undefined && value !== null && value !== "") {
+			Object.assign(this.components, value);
+			this.callCounts.component++;
 
-		this.onChangeListener.forEach((listener) => listener("components", value, this.components));
+			forEach(this.onChangeListener, (listener) => listener("components", value, this.components));
+			//this.onChangeListener.forEach((listener) => listener("components", value, this.components));
+		}
 	},
 
 	/**
@@ -50,16 +132,51 @@ const SGNUIKit = {
 	},
 
 	/**
+	 * Check if a <b>SGNUIKit</b> component is loaded.
+	 *
+	 * @param {string|number} id The <i>ID</i> of the <b>SGNUIKit</b> component to check.
+	 */
+	isComponentLoaded: function(id) {
+		return this.components.hasOwnProperty(id);
+	},
+
+	/**
+	 * Set the status of readiness of <b>SGNUIKit</b>.
+	 *
+	 * @param {boolean} isInit The the status of readiness of <b>SGNUIKit</b>.
+	 */
+	set init(isInit) {
+		this.isInit = isInit;
+		this.callCounts.init++;
+		forEach(this.onChangeListener, (listener) => listener("init", this.isInit));
+
+		if(isInit)
+			forEach(this.onInitListener, (listener) => listener(isInit));
+	},
+
+	/**
+	 * Get the status of readiness of <b>SGNUIKit</b>.
+	 *
+	 * @return {boolean} <b><i>TRUE</i></b> if <b>SGNUIKit</b> is ready, <b><i>FALSE</i></b> otherwise.
+	 */
+	get init() {
+		return this.isInit;
+	},
+
+	/**
 	 * Set the status of readiness of <b>SGNUIKit</b>.
 	 *
 	 * @param {boolean} isReady The the status of readiness of <b>SGNUIKit</b>.
 	 */
 	set ready(isReady) {
 		this.isReady = isReady;
-		this.onChangeListener.forEach((listener) => listener("ready", this.isReady));
+		this.callCounts.ready++;
+		forEach(this.onChangeListener, (listener) => listener("ready", this.isReady));
+		//this.onChangeListener.forEach((listener) => listener("ready", this.isReady));
 
 		if(isReady)
-			this.onReadyListener.forEach((listener) => listener(isReady));
+			forEach(this.onReadyListener, (listener) => listener(isReady));
+		//this.onReadyListener.forEach((listener) => listener(isReady));
 	},
 
 	/**
@@ -78,7 +195,9 @@ const SGNUIKit = {
 	 */
 	set holdPreloader(hold) {
 		this.isPreloaderHeld = hold;
-		this.onChangeListener.forEach((listener) => listener("holdPreloader", this.isPreloaderHeld));
+		this.callCounts.holdPreloader++;
+		forEach(this.onChangeListener, (listener) => listener("holdPreloader", this.isPreloaderHeld));
+		//this.onChangeListener.forEach((listener) => listener("holdPreloader", this.isPreloaderHeld));
 	},
 
 	/**
@@ -94,21 +213,46 @@ const SGNUIKit = {
 	 * Set the handler for <b>SGNUIKit</b> <b><i>OnChange</i></b> event, which will be triggered when a component is loaded/removed or the status of readiness is changed.
 	 *
 	 * @param {SGNUIKitChangeCallback}listener
+	 * @param {string|number}[id=undefined]
 	 */
-	setOnChangeListener: function(listener) {
-		this.onChangeListener.push(listener);
+	setOnChangeListener: function(listener, id) {
+		if(typeof id !== 'string' || $.isNumeric(id))
+			this.onChangeListener[id] = listener;
+		else
+			push(this.onChangeListener, listener);
 	},
 
 	/**
 	 * Set the handler for <b>SGNUIKit</b> <b><i>OnReady</i></b> event, which will be triggered when the <b>SGNUIKit</b> is ready.
 	 *
 	 * @param {SGNUIKitReadyCallback}listener
+	 * @param {string|number}[id=undefined]
 	 */
-	setOnReadyListener: function(listener) {
-		this.onReadyListener.push(listener);
+	setOnInitListener: function(listener, id) {
+		if(typeof id !== 'string' || $.isNumeric(id))
+			this.onInitListener[id] = listener;
+		else
+			push(this.onInitListener, listener);
+
+		if(this.init)
+			forEach(this.onInitListener, (listener) => listener(this.isInit));
+	},
+
+	/**
+	 * Set the handler for <b>SGNUIKit</b> <b><i>OnReady</i></b> event, which will be triggered when the <b>SGNUIKit</b> is ready.
+	 *
+	 * @param {SGNUIKitReadyCallback}listener
+	 * @param {string|number}[id=undefined]
+	 */
+	setOnReadyListener: function(listener, id) {
+		if(typeof id !== 'string' || $.isNumeric(id))
+			this.onReadyListener[id] = listener;
+		else
+			push(this.onReadyListener, listener);
 
 		if(this.ready)
-			this.onReadyListener.forEach((listener) => listener(this.ready));
+			forEach(this.onReadyListener, (listener) => listener(this.isReady));
+		//this.onReadyListener.forEach((listener) => listener(this.ready));
 	},
 };
 window.SGNUIKit = SGNUIKit;
@@ -2127,6 +2271,160 @@ if(typeof jQuery === 'undefined') {
 	});
 }
 
+const SUKRInstances = {
+	instances: {},
+	onChangeListener: {},
+	onCreateListener: {},
+
+	/**
+	 * Add a loaded <b>SGNUIKit</b> component.
+	 *
+	 * @param {{}} value The <b><i>JSON</i></b> object of the loaded <b>SGNUIKit</b> component.
+	 */
+	set instance(value) {
+		if(value === undefined || value === null || value === "")
+			value = {};
+		push(this.instances, value);
+
+		//console.log(SGNUIKit);
+
+		forEach(this.onChangeListener, (listener) => listener(value, this.instances));
+		//SGNUIKit.setOnReadyListener(() => forEach(this.onCreateListener, (listener) => listener(this.instances)), 'sgn-ukr-create-listener');
+	},
+
+	/**
+	 * Get the list of loaded <b>SGNUIKit</b> components.
+	 *
+	 * @return {object} The <b><i>JSON</i></b> object of loaded <b>SGNUIKit</b> components, or an empty <b><i>JSON</i></b> object if no components loaded.
+	 */
+	get instance() {
+		return this.instances;
+	},
+	/**
+	 * Set the handler for <b>SGNUIKit</b> <b><i>OnChange</i></b> event, which will be triggered when a component is loaded/removed or the status of readiness is changed.
+	 *
+	 * @param {(newInstance:{}, instances:{})=>void}listener
+	 * @param {string|number}[id=undefined]
+	 */
+	setOnChangeListener: function(listener, id) {
+		if(typeof id !== 'string' || $.isNumeric(id))
+			this.onChangeListener[id] = listener;
+		else
+			push(this.onChangeListener, listener);
+
+		forEach(this.onChangeListener, (listener) => listener('', this.instances));
+	},
+
+	/**
+	 * Set the handler for <b>SGNUIKit</b> <b><i>OnChange</i></b> event, which will be triggered when a component is loaded/removed or the status of readiness is changed.
+	 *
+	 * @param {(newInstance:{}, instances:{})=>void}listener
+	 * @param {string|number}[id=undefined]
+	 */
+	setOnCreateListener: function(listener, id) {
+		if(typeof id !== 'string' || $.isNumeric(id))
+			this.onCreateListener[id] = listener;
+		else
+			push(this.onCreateListener, listener);
+
+		SGNUIKit.setOnReadyListener(() => forEach(this.onCreateListener, (listener) => listener(this.instances)), 'sgn-ukr-create-listener');
+	},
+};
+
+/***
+ * SUKR (SGNUIKit Ready) callback is used to determine if the page is loaded and ready to use. It combines internal <b>SGNUIKit</b> ready events as well as jQuery `$(function(){})` callback.
+ * <br>
+ * <b>NOTE:</b> If <b><i>SGNAtom</b></i> is used then, the <b><i>SUKR</b></i> callback will be called after the <b><i>DOM</b></i> is ready and the <i>Default Page</i> is loaded by <b><i>SGNAtom</b></i>.
+ *
+ * @param {(value:boolean)=>void} callback
+ */
+window.SUKR = (callback) => {
+	const SUKRinit = function() {
+		const plugin = this;
+		plugin.onReadyListener = {};
+
+		const callerStack = getStack()[0],
+		      caller      = `${callerStack.file.name}.${callerStack.signature}:${callerStack.line}:${callerStack.column}` || null;
+
+		if(caller)
+			plugin.onReadyListener[caller] = callback;
+		else
+			push(plugin.onReadyListener, callback);
+
+		plugin.trigger = () => {
+			forEach(plugin.onReadyListener, (listener) => listener(true));
+		}
+	}
+
+	const getStack = (search = null) => {
+		const regex = /^(<?(\w+)(\.(\w+))?>?)? ?([a-zA-Z0-9*/<]+)? ?@?(https?:\/\/[a-z\d-_]+\.?[a-z\d-_]+[^\s:"]+):(\d+):?(\d+)?$/;
+		const errors = [],
+		      stack  = (new Error()).stack;
+
+		//console.log(stack);
+
+		function getFilenameAndExtension(path) {
+			if(path !== undefined) {
+				const filenameextension = path.replace(/^.*[\\\/]/, ''),
+				      filename          = filenameextension.substring(0, filenameextension.lastIndexOf('.')),
+				      ext               = filenameextension.split('.').pop();
+
+				return {
+					'name': filename,
+					'ext': ext
+				};
+			}
+			return {
+				'name': '',
+				'ext': ''
+			};
+		}
+
+		stack.split("\n").forEach((v, i) => {
+			const match = v.match(regex);
+			let val;
+			if(match !== null) {
+				if(v.startsWith('@')) {
+					val = {
+						"signature": "<anonymous>",
+						"class": match[2],
+						"function": "<anonymous>",
+						"url": match[6],
+						"line": match[7],
+						"column": match[8],
+						'str': v,
+						'file': getFilenameAndExtension(match[6]),
+					};
+				} else {
+					val = {
+						"signature": match[1],
+						"class": match[2],
+						"function": match[4],
+						"url": match[6],
+						"line": match[7],
+						"column": match[8],
+						'str': v,
+						'file': getFilenameAndExtension(match[6]),
+					};
+				}
+			}
+			if(search !== undefined && search !== null) {
+				if(v.indexOf(search) !== -1)
+					errors.push(val);
+			} else {
+				if(val !== undefined && val !== '' && val.signature !== 'getStack' && val.signature !== 'SUKRinit' && val.signature !== 'SUKR' && val.signature !== 'window.SUKR')
+					errors.push(val);
+			}
+		});
+		if(search !== undefined && search !== null)
+			return (errors.length > 0) ? errors[0] : null;
+		else
+			return errors;
+	};
+
+	SUKRInstances.instance = new SUKRinit();
+};
+
 const until = (predicateFn) => {
 	const poll = (done) => (predicateFn() ? done() : setTimeout(() => poll(done), 500));
 	return new Promise(poll);
@@ -2137,25 +2435,53 @@ async function pause(v) {
 		await new Promise(resolve => setTimeout(resolve, 1000));
 }
 
-function loop(lightboxImages, index) {
-	if(index === lightboxImages.length) return;
 
-	lightboxImages[index].onload = function() {
-		console.log("image " + index + " loaded.");
-		loop(lightboxImages, ++index);
-	};
+const loop = (arr, fn, busy, err, i = 0) => {
+	const body = (ok, er) => {
+		try {
+			const r = fn(arr[i], i, arr);
+			r && r.then ? r.then(ok).catch(er) : ok(r)
+		} catch(e) {er(e)}
+	}
+	const next = (ok, er) => () => loop(arr, fn, ok, er, ++i)
+	const run = (ok, er) => i < arr.length ? new Promise(body).then(next(ok, er)).catch(er) : ok()
+	return busy ? run(busy, err) : new Promise(run)
 }
 
-(async precallback => {
-	const title = document.title;
-	if(title !== undefined)
-		document.title = "Loading...";
+/***
+ * @return {SGNUKConfig}
+ */
+const SGNUKConfig = function(config) {
+	const plugin = this;
+	const _defaults = {
+		'urls': {
+			'api': {
+				'geonames': 'https://secure.geonames.org/',
+				'osm': 'https://nominatim.openstreetmap.org/'
+			},
+		}
+	}
+	plugin.config = {
+		'api': {
+			'geonames': undefined //username
+		},
+		'geocoding': {
+			'defaultAPI': 'osm'
+		}
+	}
 
-	if(window.jQuery)
-		$.holdReady(true);
+	const init = () => {
+		plugin.config = Object.assign(plugin.config, config);
+		plugin.config = Object.assign(plugin.config, _defaults);
+	}
 
-	(() => {
-		const css = `/*
+	init();
+
+	return plugin;
+};
+
+((callback) => {
+	const css = `/*
  * Copyright (c) 2022 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
@@ -2181,10 +2507,12 @@ function loop(lightboxImages, index) {
 
 body {
 \tmargin: 0;
+\tdisplay: none;
 }
 
 .has-preloader {
 \toverflow: hidden !important;
+\display: block;
 }
 
 .sgn-preloader {
@@ -2219,8 +2547,8 @@ body {
 
 
 .sgn-preloader > .preloader > img {
-\twidth: 100%;
-\theight: 100%;
+\twidth: calc(var(--sgn-preloader-circles-width) + ((var(--sgn-preloader-stripes-width) + var(--sgn-preloader-circles-margin)) * 2));
+\theight: calc(var(--sgn-preloader-circles-height) + (var(--sgn-preloader-stripes-width) + var(--sgn-preloader-circles-margin)));
 \tmargin: var(--sgn-preloader-circles-margin);
 \tdisplay: flex;
 \tjustify-content: center;
@@ -2228,6 +2556,7 @@ body {
 \tposition: relative;
 \ttop: 50%;
 \tleft: 50%;
+\tanimation: spin 4s ease-in-out forwards infinite;
 }
 .sgn-preloader > .preloader > .spinner > img {
 \twidth: calc(var(--sgn-preloader-circles-width));
@@ -2359,111 +2688,293 @@ body {
 \t}
 }
 
+@keyframes pulse {
+\tfrom {
+\t\ttransform: scale(.8);
+\t}
+\tto {
+\t\ttransform: scale(1);
+\t}
+}
+
+@keyframes spin {
+\t0% {
+\t\ttransform: rotateY(0deg);
+\t}
+\t50% {
+\t\ttransform: rotateY(180deg);
+\t}
+\t100% {
+\t\ttransform: rotateY(360deg);
+\t}
+}
 
 `;
-		const head  = document.head || document.getElementsByTagName("head")[0],
-		      style = document.createElement("style");
-
-		head.appendChild(style);
-		style.type = "text/css";
-		style.id = "sgn-uikit-styles";
-		if(style.styleSheet) {
-			// This is required for IE8 and below.
-			style.styleSheet.cssText = css;
-		} else {
-			style.appendChild(document.createTextNode(css));
-		}
-		//console.log(style);
-	})();
-	(() => {
-		let preloaderElem = document.createElement("div");
-		preloaderElem.className = "sgn-preloader";
-		let preloader = `\t\t\t<div class="preloader">\n`;
-		//preloader += `\t\t\t\t<img src="<?=$public_imgAssets;?>icons/xsmall.png">\n`;
-		preloader += `\t\t\t\t<div class="spinner">\n`;
-		preloader += `\t\t\t\t\t<i></i>\n`;
-		preloader += `\t\t\t\t\t<i></i>\n`;
-		preloader += `\t\t\t\t\t<i></i>\n`;
-		preloader += `\t\t\t\t\t<i></i>\n`;
-		preloader += `\t\t\t\t\t<i></i>\n`;
-		preloader += `\t\t\t\t\t<i></i>\n`;
-		preloader += `\t\t\t\t\t<i></i>\n`;
-		preloader += `\t\t\t\t\t<i></i>\n`;
-		preloader += `\t\t\t\t</div>\n`;
-		preloader += `\t\t\t</div>\n`;
-		preloader += `\t\t</div>\n`;
-
-		preloaderElem.innerHTML = preloader;
-
-		window.onload = function() {
-			document.body.className += " has-preloader";
-			document.body.insertBefore(preloaderElem, document.body.firstChild);
-		};
-	})();
-
+	const head  = document.head || document.getElementsByTagName("head")[0],
+	      style = document.createElement("style");
 	const currentScript = document.currentScript || document.querySelector("script[src*=\"SGNUIKit.loader.js\"]");
-	const url = currentScript.src.split("/").slice(0, -2).join("/") + "/";
-	const preload = [
-		"js/i18n/SGNi18n.js",
-	];
-	/*if(!window.jQuery || jQuery === undefined)
-	 preload.push('addons/jQuery/jQuery.min.js');*/
 
-	let filesloaded = 0;
-	const filestoload = preload.length;
+	head.appendChild(style);
+	style.type = "text/css";
+	style.id = "sgn-uikit-styles";
+	if(style.styleSheet) {
+		// This is required for IE8 and below.
+		style.styleSheet.cssText = css;
+	} else {
+		style.appendChild(document.createTextNode(css));
+	}
+	let preloaderElem = document.createElement("div");
+	preloaderElem.className = "sgn-preloader";
+	let preloader = `\t\t\t<div class="preloader">\n`;
+	const icon = currentScript.getAttribute('sgn-ui-kit-loader-icon');
+	if(icon !== undefined)
+		preloader += `\t\t\t\t<img src="${icon}" alt="ICON">\n`;
+	preloader += `\t\t\t\t<div class="spinner">\n`;
+	preloader += `\t\t\t\t\t<i></i>\n`;
+	preloader += `\t\t\t\t\t<i></i>\n`;
+	preloader += `\t\t\t\t\t<i></i>\n`;
+	preloader += `\t\t\t\t\t<i></i>\n`;
+	preloader += `\t\t\t\t\t<i></i>\n`;
+	preloader += `\t\t\t\t\t<i></i>\n`;
+	preloader += `\t\t\t\t\t<i></i>\n`;
+	preloader += `\t\t\t\t\t<i></i>\n`;
+	preloader += `\t\t\t\t</div>\n`;
+	preloader += `\t\t\t</div>\n`;
+	preloader += `\t\t</div>\n`;
 
-	for(let i = 0; i < filestoload; i++) {
-		const script = document.createElement("script");
-		script.src = url + preload[i];
-		script.async = false;
-		script.defer = false;
-		currentScript.after(script);
-		if(i === 0)
-			script.id = "sgn-preload-end";
+	preloaderElem.innerHTML = preloader;
 
-		/*await new Promise(resolve => {
-		 script.onload = function() {
-		 filesloaded++;
-		 script.onload = null;
-		 resolve();
-		 };
-		 }).then(r => finishLoad());*/
-		script.onload = function() {
-			filesloaded++;
-			SGNUIKit.component = {i: preload[i]};
-			script.onload = null;
-			finishLoad();
+	window.onload = function() {
+		document.body.classList.add("has-preloader");
+		document.body.insertBefore(preloaderElem, document.body.firstChild);
+
+		if(typeof callback === 'function')
+			callback();
+	};
+})(() => {
+	function getFilenameAndExtension(path) {
+		if(path !== undefined) {
+			const filenameextension = path.replace(/^.*[\\\/]/, ''),
+			      filename          = filenameextension.substring(0, filenameextension.lastIndexOf('.')),
+			      ext               = filenameextension.split('.').pop();
+
+			return {
+				'name': filename,
+				'ext': ext
+			};
+		}
+		return {
+			'name': '',
+			'ext': ''
 		};
 	}
 
-	async function finishLoad() {
-		let progress = Math.round((filesloaded * 100) / filestoload);
+	if(typeof HTMLElement.prototype.attr !== "function") {
+		HTMLElement.prototype.attr = function(name, value) {
+			if(value === undefined) {
+				return this.getAttribute(name);
+			} else
+				this.setAttribute(name, value);
+		};
+	}
 
-		await new Promise(resolve => {
-			if(filesloaded >= filestoload) {
-				resolve();
+	if(typeof HTMLElement.prototype.fadeIn !== "function") {
+		HTMLElement.prototype.fadeIn = function(speed, callback) {
+			let _this = this;
+			speed = (typeof speed !== "number") ? 2000 : speed;
+
+			if(!_this.style.opacity) {
+				_this.style.opacity = (speed > 0) ? 0 : 1;
 			}
-		}).then(function() {
-			import("./helpers/helpers.js");
-			$("head > title").text(title);
+
+			if(speed > 0) {
+				const inInterval = setInterval(function() {
+					_this.style.opacity = Number(_this.style.opacity) + 0.02;
+					if(_this.style.opacity >= 1) {
+						clearInterval(inInterval);
+
+						if(typeof callback === "function")
+							callback(_this);
+					}
+				}, speed / 50);
+			} else {
+				if(typeof callback === "function")
+					callback(_this);
+			}
+		};
+	}
+
+	if(typeof HTMLElement.prototype.fadeOut !== "function") {
+		HTMLElement.prototype.fadeOut = function(speed, callback) {
+			let _this = this;
+			speed = (typeof speed !== "number") ? 2000 : speed;
+
+			if(!_this.style.opacity) {
+				_this.style.opacity = (speed > 0) ? 1 : 0;
+			}
+
+			if(speed > 0) {
+				const outInterval = setInterval(function() {
+					_this.style.opacity -= 0.02;
+					if(_this.style.opacity <= 0) {
+						clearInterval(outInterval);
+
+						if(typeof callback === "function")
+							callback(_this);
+					}
+				}, speed / 50);
+			} else {
+				if(typeof callback === "function")
+					callback(_this);
+			}
+		};
+	}
+
+	(async precallback => {
+		const title = document.title;
+		if(title !== undefined)
+			document.title = "Loading...";
+
+		if(window.jQuery)
+			$.holdReady(true);
+
+		const currentScript = document.currentScript || document.querySelector("script[src*=\"SGNUIKit.loader.js\"]");
+		const url = currentScript.src.split("/").slice(0, -2).join("/") + "/";
+		const preload = [
+			"js/i18n/SGNi18n.js",
+		];
+		/*if(!window.jQuery || jQuery === undefined)
+		 preload.push('addons/jQuery/jQuery.min.js');*/
+
+		let filesloaded = 0;
+		const filestoload = preload.length;
+
+		for(let i = 0; i < filestoload; i++) {
+			const component = preload[i],
+			      src       = url + component,
+			      name      = 'js_' + getFilenameAndExtension(component).name;
+			const obj = {};
+			obj[name] = component;
+
+			if(!SGNUIKit.isComponentLoaded(name)) {
+				const script = document.createElement("script");
+				script.src = src;
+				script.async = false;
+				script.defer = false;
+				currentScript.after(script);
+				if(i === 0)
+					script.id = "sgn-preload-end";
+
+				/*await new Promise(resolve => {
+				 script.onload = function() {
+				 filesloaded++;
+				 script.onload = null;
+				 resolve();
+				 };
+				 }).then(r => finishLoad());*/
+				script.onload = function() {
+					filesloaded++;
+					SGNUIKit.component = obj;
+					script.onload = null;
+					finishLoad();
+				};
+			} else {
+				filesloaded++;
+				await finishLoad();
+			}
+		}
+
+		let progress = 0;
+
+		async function finishLoad() {
+			progress = Math.round((filesloaded * 100) / filestoload);
+
+			await new Promise(resolve => {
+				if(filesloaded >= filestoload) {
+					resolve();
+				}
+			}).then(function() {
+				import("./helpers/helpers.js");
+				$("head > title").text(title);
+				if(typeof precallback === "function" && progress === 100)
+					precallback();
+			});
+		}
+
+		window.addEventListener('offline', (e) => {
+			const getI18nString = (k, m) => m;
+			//if(typeof getI18nString !== 'function')
+			const $body = $('body');
+			let offlineErrorMsg = (SGNUIKit.ready) ? getI18nString('sgn_uikit_error_user_offline_msg', `Sorry! You are currently offline. You'll be able to access the application once your internet connection is restored.`) : getI18nString('sgn_uikit_user_offline_loading_interrupted_msg', `Sorry! Initial loading is interrupted. The application will continue to load once your internet connection is restored.`);
+			if(progress < 100)
+				offlineErrorMsg = getI18nString('sgn_uikit_user_offline_preload_failed_msg', `Hooray! Your internet connection is restored, but it has broken the application's preload process, please reload the page to fix it.`);
+			const offlineErrorHeading = getI18nString('txt_no_internet', `No Internet!`);
+
+			let overlayElem = document.createElement("div");
+			overlayElem.className = "overlay blackout";
+			let preloader = `\t\t<div class="offline-msg">\n`;
+			preloader += `\t\t\t<h2 class="title error">${offlineErrorHeading}</h2>\n`;
+			preloader += `\t\t\t<div class="msg">${offlineErrorMsg}</div>\n`;
+			preloader += `\t\t</div>\n`;
+
+			overlayElem.innerHTML = preloader;
+			$('.sgn-preloader').fadeOut(1000);
+			$body.removeClass('has-preloader').addClass('user-offline');
+			document.body.insertBefore(overlayElem, document.body.firstChild);
+
+			//overlayElem = document.querySelector(".sgn-preloader");
+			overlayElem = $(".user-offline > .overlay");
+
+			if(overlayElem.length > 0) {
+				overlayElem.fadeIn(1000);
+			}
+		});
+		window.addEventListener('online', (e) => {
+			const getI18nString = (k, m) => m;
+			//if(typeof getI18nString !== 'function')
+			let onlineMsg = (SGNUIKit.ready) ? getI18nString('sgn_uikit_user_online_msg', `Hooray! Your internet connection is restored, you'll now be able to access the application shortly.`) : getI18nString('sgn_uikit_user_online_loading_interrupted_msg', `Hooray! Your internet connection is restored, the application will resume to load shortly.`);
+			if(progress < 100)
+				onlineMsg = getI18nString('sgn_uikit_user_online_preload_failed_msg', `Hooray! Your internet connection is restored, but it has broken the application's preload process, please reload the page to fix it.`);
+			const onlineHeading = getI18nString('txt_internet_connection_restored', `Internet Connection Restored!`);
+
+			//const overlayElem = document.querySelector(".overlay");
+			const $overlayElem = $(".user-offline > .overlay");
+			const $heading = $overlayElem.find('.title'),
+			      $msg     = $overlayElem.find('.msg');
+			let MSG_TIMEOUT = 10000;
+			if(typeof $.SGNSnackbar === 'function') {
+				MSG_TIMEOUT = 50;
+				$.SGNSnackbar(onlineMsg).show();
+			} else {
+				$heading.html(onlineHeading).removeClass('error').addClass('success');
+				$msg.html(onlineMsg);
+			}
+
+			if($overlayElem.length > 0) {
+				setTimeout(() => {
+					$('.sgn-preloader').fadeIn(1000);
+					$overlayElem.fadeOut(1000, () => {
+						$overlayElem.remove();
+						document.body.classList.remove("user-offline");
+						$('body').addClass('has-preloader');
+					});
+				}, MSG_TIMEOUT);
+			}
+
 			if(typeof precallback === "function" && progress === 100)
 				precallback();
 		});
-	}
-})(function() {
-	(callback => {
-		const sgnuikitScript = document.currentScript || document.querySelector("script[src*=\"SGNUIKit.loader.js\"]");
-		const currentScript = document.getElementById("sgn-preload-end") || sgnuikitScript;
+	})(function() {
+		(async callback => {
+			const sgnuikitScript = document.currentScript || document.querySelector("script[src*=\"SGNUIKit.loader.js\"]");
+			const currentScript = document.getElementById("sgn-preload-end") || sgnuikitScript;
 
-		function getScriptURL() {
-			return sgnuikitScript.src;
-		}
+			function getScriptURL() {
+				return sgnuikitScript.src;
+			}
 
-		const url = getScriptURL().split("/").slice(0, -2).join("/") + "/";
+			const url = getScriptURL().split("/").slice(0, -2).join("/") + "/";
 
-		setTimeout(startLoad, 5000);
-
-		function startLoad() {
 			const scripts = [
 				"css/fonts/FontAwesome5Pro/js/all.js",
 				"css/fonts/FontAwesome5Pro/js/v4-shims.js",
@@ -2479,6 +2990,7 @@ body {
 				"addons/noty/noty.js",
 				"addons/noty/noty.init.js",
 				"addons/PrismJS/prism.js",
+				"addons/SGNLoaders/SGNLoaders.js",
 				"addons/SGNAtom/SGNAtom.js",
 				"addons/SGNFullPage/SGNFullPage.js",
 				"addons/SGNGeoData/SGNGeoData.js",
@@ -2497,114 +3009,232 @@ body {
 				"js/addons/SGNSnackbar.js",
 				"js/addons/SGNDataTables.js",
 				"js/addons/SGNCodeSnippet.js",
+
+				"js/components/dropdown.js",
+				"js/components/marquee.js",
+				"js/components/modals.js",
+				"js/components/sidebar.js",
+				"js/components/tablayout.js",
+				"js/components/windows.js",
+				"js/components/wizard.js",
+				"js/components/forms/select.js",
+				"js/components/forms/inputs.js",
 			];
 			const styles = [
 				"css/SGNUIKit-pro.css",
 			];
-			let filesloaded = 0,
-			    lastScript  = currentScript;
-			const filestoload = scripts.length + styles.length;
+			let scriptsLoaded = 0, stylesLoaded = 0, loaded = 0,
+			    lastScript                                  = currentScript;
+			const totalScripts = scripts.length, totalStyles = styles.length, total = totalScripts + totalStyles;
 
-			function loadScript(i) {
+			const loadScript = i => new Promise((resolve, reject) => {
 				if(i === scripts.length) return;
 
-				const script = document.createElement("script");
-				//script.type = 'text/javascript';
-				script.src = url + scripts[i];
-				script.onload = function() {
-					filesloaded++;
-					SGNUIKit.component = {i: scripts[i]};
-					script.onload = null;
-					//console.log(`LOADED SCRIPT: ${script.src}`, `${i}/${filestoload}`);
+				const component = scripts[i],
+				      src       = url + component,
+				      name      = 'js_' + getFilenameAndExtension(component).name;
+				const obj = {};
+				obj[name] = component;
+
+				if(!SGNUIKit.isComponentLoaded(name)) {
+					const script = document.createElement("script");
+					//script.type = 'text/javascript';
+					script.src = src;
+					lastScript.after(script);
+					lastScript = lastScript.nextElementSibling || currentScript;
+
+					script.onload = async function() {
+						SGNUIKit.component = obj;
+						script.onload = null;
+						scriptsLoaded++;
+						loaded++;
+
+						if(scriptsLoaded === totalScripts)
+							resolve(i);
+						else
+							resolve(loadScript(++i));
+					};
+				} else {
+					scriptsLoaded++;
+					loaded++;
+
+					if(scriptsLoaded === totalScripts)
+						resolve(i);
+					else
+						resolve(loadScript(++i));
+				}
+			});
+
+			const loadStyle = i => new Promise((resolve, reject) => {
+				if(i === styles.length) return;
+
+				const component = styles[i],
+				      src       = url + component,
+				      name      = 'css_' + getFilenameAndExtension(component).name;
+				const obj = {};
+				obj[name] = component;
+
+				if(!SGNUIKit.isComponentLoaded(name)) {
+					const style = document.createElement("link");
+					style.rel = "stylesheet";
+					style.href = src;
+					//style.type = 'text/css';
+					currentScript.after(style);
+					style.onload = async function() {
+						SGNUIKit.component = obj;
+						style.onload = null;
+						stylesLoaded++;
+						loaded++;
+
+						if(stylesLoaded === totalStyles)
+							resolve(i);
+						else
+							resolve(loadStyle(++i));
+					};
+				} else {
+					stylesLoaded++;
+					loaded++;
+
+					if(stylesLoaded === totalStyles)
+						resolve(i);
+					else
+						resolve(loadStyle(++i));
+				}
+			});
+
+			(() => {
+				const startLoad = new Promise(async function(resolve) {
+					await loadStyle(0);
+					await loadScript(0);
+					if(loaded === total)
+						resolve();
+				});
+
+				startLoad.then(() => {
 					finishLoad();
-					loadScript(++i);
-				};
-				lastScript.after(script);
-				lastScript = lastScript.nextElementSibling || currentScript;
+				});
+			})();
+
+
+			/*function finishLoad() {
+			 const progress = Math.round((loaded * 100) / total);
+
+			 if(typeof callback === "function") {
+			 callback(loaded, total, progress);
+			 }
+			 }*/
+
+			async function finishLoad() {
+				const progress = Math.round((loaded * 100) / total);
+
+				await new Promise(resolve => {
+					if(loaded === total) {
+						resolve();
+					}
+				}).then(function() {
+					if(typeof callback === "function")
+						callback(loaded, total, progress);
+				});
 			}
+		})((loaded, total, progress) => {
+			if(progress === 100) {
+				SGNUIKit.init = true;
 
-			function loadStyle(i) {
-				if(i === scripts.length) return;
+				const styles = document.querySelector("style#sgn-uikit-styles");
+				const left = document.querySelector("style[data-cke=\"true\"]");
+				if(left !== null)
+					left.parentNode.removeChild(left);
+				if(styles !== null)
+					styles.parentNode.removeChild(styles);
 
-				const style = document.createElement("link");
-				style.rel = "stylesheet";
-				style.href = url + styles[i];
-				//style.type = 'text/css';
-				style.onload = function() {
-					filesloaded++;
-					style.onload = null;
-					finishLoad();
-					loop(++i);
-				};
-				currentScript.after(style);
-			}
-
-			loadScript(0);
-			loadStyle(0);
-
-			function finishLoad() {
-				const progress = Math.round((filesloaded * 100) / filestoload);
-
-				if(typeof callback === "function") {
-					callback(filesloaded, filestoload, progress);
-				}
-			}
-		}
-	})((loaded, total, progress) => {
-		if(progress === 100) {
-			import("./i18n/SGNi18n.js");
-			import("./components/components.js");
-			SGNUIKit.ready = true;
-			window.SGNUIKitReady = true;
-
-			const left = document.querySelector("style[data-cke=\"true\"]");
-			if(left !== null)
-				left.parentNode.removeChild(left);
-
-
-			/*setTimeout(function() {
-			 $.holdReady(false);
-			 jQuery.ready();
-			 }, 5000);*/
-		}
-
-
-		SGNUIKit.setOnChangeListener((prop, value) => {
-			const $body = $("body");
-
-			if(prop === 'holdPreloader') {
-				if(!value) {
-					$.holdReady(false);
-					jQuery.ready();
-
-					$body.children(".sgn-preloader").fadeOut(2000, function() {
-						$body.children(".sgn-preloader").remove();
-						$body.removeClass("has-preloader");
-					});
-				}
-			} else {
-				if(prop === 'ready' && !SGNUIKit.holdPreloader) {
-					//console.log(prop, value);
-					$.holdReady(false);
-					jQuery.ready();
-
-					$body.children(".sgn-preloader").fadeOut(2000, function() {
-						$body.children(".sgn-preloader").remove();
-						$body.removeClass("has-preloader");
-					});
-				}
+				$.holdReady(false);
+				jQuery.ready();
 			}
 		});
 	});
+
+	(() => {
+		const finalize = (holdPreloader = false) => {
+			const $body = $("body");
+
+			/***
+			 *
+			 * @type {Object<SGNAtom>}
+			 */
+			const sgnatoms = SGNAtom.getInstance();
+
+			sgnatoms.setOnCreateListener((sgnatoms) => {
+				if(sgnatoms.length > 0) {
+					for(const guid in sgnatoms) {
+						const sgnatom = sgnatoms[guid];
+
+						if(sgnatom instanceof SGNAtom) {
+							sgnatom.SGNAtomStates.setOnReadyListener((isReady) => {
+								if(isReady) {
+									const navigator = sgnatom.core.navigator;
+									navigator.setOnPageLoadListener((url, code) => {
+										if(code === 200 || code === 201 || code === 202) {
+											SGNUIKit.ready = true;
+											SUKRInstances.setOnCreateListener((instances) => {
+												forEach(instances, inst => inst.trigger());
+											});
+
+											if(!holdPreloader) {
+												$body.children(".sgn-preloader").fadeOut(2000, function() {
+													$body.children(".sgn-preloader").remove();
+													$body.removeClass("has-preloader");
+												});
+											}
+										}
+									});
+								}
+							});
+						}
+					}
+				} else {
+
+					/*SUKRInstances.setOnCreateListener((instances) => {
+					 //console.log(instances);
+					 forEach(instances, inst => {
+					 inst.trigger();
+					 });
+					 });*/
+
+					SUKRInstances.setOnChangeListener((instance, instances) => {
+						//console.log(instances);
+						forEach(instances, inst => {
+							inst.trigger();
+						});
+					});
+					window.SGNUIKitReady = true;
+					SGNUIKit.ready = true;
+					if(SGNUIKit.ready) {
+						if(!holdPreloader) {
+							$body.children(".sgn-preloader").fadeOut(2000, function() {
+								$body.children(".sgn-preloader").remove();
+								$body.removeClass("has-preloader");
+							});
+						}
+					}
+				}
+			});
+		}
+
+		SGNUIKit.setOnChangeListener((prop, value) => {
+			if(prop === 'holdPreloader') {
+				if(SGNUIKit.init && !value) {
+					finalize(true);
+				}
+			} else {
+				if(prop === 'init' && value) {
+					finalize(false);
+				}
+			}
+		}, 'sgn-uk-prop-change-listener');
+	})();
 });
 
 
-/*(async() => {
- console.log("waiting for variable");
- while(progress < 100) // define the condition as you like
- await new Promise(resolve => setTimeout(resolve, 1000));
- console.log("variable is defined");
- })();*/
 async function getSGNI18nInstance(callback) {
 	return new Promise((resolve, reject) => {
 		const timeoutHandler = setTimeout(function() {

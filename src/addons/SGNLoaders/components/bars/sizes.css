@@ -1,0 +1,52 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/********************SGN BARS SIZES********************/
+.sgn-loader > .sgn-bar.sgn-loader-xxxs,
+.sgn-loader > .sgn-bar.sgn-loader-xxxs > .bar {
+	height: 4px;
+}
+
+.sgn-loader > .sgn-bar.sgn-loader-xxs,
+.sgn-loader > .sgn-bar.sgn-loader-xxs > .bar {
+	height: 6px;
+}
+
+.sgn-loader > .sgn-bar.sgn-loader-xs,
+.sgn-loader > .sgn-bar.sgn-loader-xs > .bar {
+	height: 8px;
+}
+
+.sgn-loader > .sgn-bar.sgn-loader-sm,
+.sgn-loader > .sgn-bar.sgn-loader-sm > .bar {
+	height: 10px;
+}
+
+.sgn-loader > .sgn-bar.sgn-loader-md,
+.sgn-loader > .sgn-bar.sgn-loader-md > .bar {
+	height: 12px;
+}
+
+.sgn-loader > .sgn-bar.sgn-loader-lg,
+.sgn-loader > .sgn-bar.sgn-loader-lg > .bar {
+	height: 14px;
+}
+
+.sgn-loader > .sgn-bar.sgn-loader-xl,
+.sgn-loader > .sgn-bar.sgn-loader-xl > .bar {
+	height: 16px;
+}
+
+.sgn-loader > .sgn-bar.sgn-loader-xxl,
+.sgn-loader > .sgn-bar.sgn-loader-xxl > .bar {
+	height: 18px;
+}
+
+.sgn-loader > .sgn-bar.sgn-loader-xxxl,
+.sgn-loader > .sgn-bar.sgn-loader-xxxl > .bar {
+	height: 20px;
+}

@@ -1,0 +1,43 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/********************SGN SPINNERS BORDERS********************/
+.sgn-loader > .sgn-spinner.sgn-loader-border-xxxs:before {
+	border-width: 1px !important;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-border-xxs:before {
+	border-width: 2px !important;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-border-xs:before {
+	border-width: 4px !important;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-border-sm:before {
+	border-width: 6px !important;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-border-md:before {
+	border-width: 8px !important;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-border-lg:before {
+	border-width: 10px !important;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-border-xl:before {
+	border-width: 12px !important;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-border-xxl:before {
+	border-width: 14px !important;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-border-xxxl:before {
+	border-width: 16px !important;
+}

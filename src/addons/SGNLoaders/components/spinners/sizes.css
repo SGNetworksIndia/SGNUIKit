@@ -1,0 +1,52 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/********************SGN SPINNERS SIZES********************/
+.sgn-loader > .sgn-spinner.sgn-loader-xxxs:before {
+	height: 20px;
+	width: 20px;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-xxs:before {
+	height: 30px;
+	width: 30px;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-xs:before {
+	height: 40px;
+	width: 40px;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-sm:before {
+	height: 60px;
+	width: 60px;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-md:before {
+	height: 80px;
+	width: 80px;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-lg:before {
+	height: 100px;
+	width: 100px;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-xl:before {
+	height: 120px;
+	width: 120px;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-xxl:before {
+	height: 130px;
+	width: 130px;
+}
+
+.sgn-loader > .sgn-spinner.sgn-loader-xxxl:before {
+	height: 140px;
+	width: 140px;
+}

@@ -1,0 +1,169 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/********************SGN BARS SPEEDS********************/
+/**********STRIPES LEFT**********/
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-1x > .bar {
+	animation-name: sgn-bar-stripes-left-1x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-2x > .bar {
+	animation-name: sgn-bar-stripes-left-2x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-3x > .bar {
+	animation-name: sgn-bar-stripes-left-3x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-4x > .bar {
+	animation-name: sgn-bar-stripes-left-4x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-5x > .bar {
+	animation-name: sgn-bar-stripes-left-5x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-6x > .bar {
+	animation-name: sgn-bar-stripes-left-6x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-7x > .bar {
+	animation-name: sgn-bar-stripes-left-7x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-8x > .bar {
+	animation-name: sgn-bar-stripes-left-8x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-9x > .bar {
+	animation-name: sgn-bar-stripes-left-9x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-10x > .bar {
+	animation-name: sgn-bar-stripes-left-10x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-11x > .bar {
+	animation-name: sgn-bar-stripes-left-11x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-12x > .bar {
+	animation-name: sgn-bar-stripes-left-12x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-13x > .bar {
+	animation-name: sgn-bar-stripes-left-13x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-14x > .bar {
+	animation-name: sgn-bar-stripes-left-14x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-15x > .bar {
+	animation-name: sgn-bar-stripes-left-15x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-16x > .bar {
+	animation-name: sgn-bar-stripes-left-16x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-17x > .bar {
+	animation-name: sgn-bar-stripes-left-17x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-18x > .bar {
+	animation-name: sgn-bar-stripes-left-18x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-19x > .bar {
+	animation-name: sgn-bar-stripes-left-19x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left.sgn-bar-speed-20x > .bar {
+	animation-name: sgn-bar-stripes-left-20x;
+}
+
+/**********STRIPES RIGHT**********/
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-1x > .bar {
+	animation-name: sgn-bar-stripes-right-1x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-2x > .bar {
+	animation-name: sgn-bar-stripes-right-2x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-3x > .bar {
+	animation-name: sgn-bar-stripes-right-3x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-4x > .bar {
+	animation-name: sgn-bar-stripes-right-4x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-5x > .bar {
+	animation-name: sgn-bar-stripes-right-5x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-6x > .bar {
+	animation-name: sgn-bar-stripes-right-6x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-7x > .bar {
+	animation-name: sgn-bar-stripes-right-7x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-8x > .bar {
+	animation-name: sgn-bar-stripes-right-8x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-9x > .bar {
+	animation-name: sgn-bar-stripes-right-9x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-10x > .bar {
+	animation-name: sgn-bar-stripes-right-10x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-11x > .bar {
+	animation-name: sgn-bar-stripes-right-11x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-12x > .bar {
+	animation-name: sgn-bar-stripes-right-12x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-13x > .bar {
+	animation-name: sgn-bar-stripes-right-13x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-14x > .bar {
+	animation-name: sgn-bar-stripes-right-14x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-15x > .bar {
+	animation-name: sgn-bar-stripes-right-15x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-16x > .bar {
+	animation-name: sgn-bar-stripes-right-16x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-17x > .bar {
+	animation-name: sgn-bar-stripes-right-17x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-18x > .bar {
+	animation-name: sgn-bar-stripes-right-18x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-19x > .bar {
+	animation-name: sgn-bar-stripes-right-19x;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right.sgn-bar-speed-20x > .bar {
+	animation-name: sgn-bar-stripes-right-20x;
+}

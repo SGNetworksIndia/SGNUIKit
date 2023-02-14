@@ -1,0 +1,47 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/********************SGN BARS DELAYS********************/
+.sgn-loader > .sgn-bar.sgn-bar-delay-1x > .bar {
+	animation-duration: 1s;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-delay-2x > .bar {
+	animation-duration: 2s;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-delay-3x > .bar {
+	animation-duration: 3s;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-delay-4x > .bar {
+	animation-duration: 4s;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-delay-5x > .bar {
+	animation-duration: 5s;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-delay-6x > .bar {
+	animation-duration: 6s;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-delay-7x > .bar {
+	animation-duration: 7s;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-delay-8x > .bar {
+	animation-duration: 8s;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-delay-9x > .bar {
+	animation-duration: 9s;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-delay-10x > .bar {
+	animation-duration: 10s;
+}

@@ -20,6 +20,7 @@ import('./NavbarTransformIcons/NavbarTransformIcons.js');
 import('./noty/noty.js');
 import("./noty/noty.init.js");
 import("./PrismJS/prism.js");
+import("./SGNLoaders/SGNLoaders.js");
 import("./SGNAtom/SGNAtom.js");
 import("./SGNFullPage/SGNFullPage.js");
 import("./SGNGeoData/SGNGeoData.js");

@@ -1,0 +1,31 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/********************SGN BARS ANIMATIONS********************/
+.sgn-loader > .sgn-bar.sgn-bar-animation-ease > .bar {
+	animation-timing-function: ease;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-animation-easein > .bar {
+	animation-timing-function: ease-in;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-animation-easeinout > .bar {
+	animation-timing-function: ease-in-out;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-animation-easeout > .bar {
+	animation-timing-function: ease-out;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-animation-linear > .bar {
+	animation-timing-function: linear;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-animation-revert > .bar {
+	animation-timing-function: revert;
+}

@@ -507,6 +507,8 @@ let SGNAtom = function(elements, options) {
 		 */
 		set coreReady(isReady) {
 			this.isCoreReady = isReady;
+			this.ready = (this.isCoreReady && this.navigatorReady);
+
 			this.onChangeListener.forEach((listener) => listener("isCoreReady", isReady));
 
 			if(isReady)
@@ -525,6 +527,7 @@ let SGNAtom = function(elements, options) {
 		 */
 		set navigatorReady(isReady) {
 			this.isNavigatorReady = isReady;
+			this.ready = (this.isCoreReady && this.navigatorReady);
 
 			this.onChangeListener.forEach((listener) => listener("isNavigatorReady", isReady));
 
@@ -543,7 +546,8 @@ let SGNAtom = function(elements, options) {
 		 * @param {SGNAtom|SGNAtom.SGNAtomCore|SGNAtom[]|SGNAtom.SGNAtomCore[]}value
 		 */
 		set instance(value) {
-			this.instances = value;
+			const guid = value.guid;
+			this.instances[guid] = value;
 
 			this.onChangeListener.forEach((listener) => listener("instances", value));
 			this.onInstanceChangeListener.forEach((listener) => listener(value));
@@ -580,6 +584,7 @@ let SGNAtom = function(elements, options) {
 		 */
 		setOnCoreReadyListener: function(listener) {
 			this.onCoreReadyListener.push(listener);
+			this.ready = (this.isCoreReady && this.navigatorReady);
 
 			if(this.coreReady)
 				this.onCoreReadyListener.forEach((listener) => listener(this.coreReady));
@@ -591,6 +596,7 @@ let SGNAtom = function(elements, options) {
 		 */
 		setOnNavigatorReadyListener: function(listener) {
 			this.onNavigatorReadyListener.push(listener);
+			this.ready = (this.isCoreReady && this.navigatorReady);
 
 			if(this.navigatorReady)
 				this.onNavigatorReadyListener.forEach((listener) => listener(this.navigatorReady));
@@ -601,6 +607,7 @@ let SGNAtom = function(elements, options) {
 		 * @param {SGNAtomStatesReadyCallback}listener
 		 */
 		setOnReadyListener: function(listener) {
+			this.ready = (this.isCoreReady && this.navigatorReady);
 			this.onReadyListener.push(listener);
 
 			if(this.coreReady && this.navigatorReady)
@@ -622,40 +629,48 @@ let SGNAtom = function(elements, options) {
 	};
 	plugin.settings = Object.assign(plugin.settings, options);
 	plugin.SGNAtomStates = SGNAtomStates;
+	SGNAtom.prototype.SGNAtomStates = SGNAtomStates;
+	plugin.guid = undefined;
+
 	/**
 	 *
 	 * @type {SGNAtom.SGNAtomCore}
+	 * @type {SGNAtom.SGNAtomNavigator}
 	 */
-	plugin.core = undefined;
 
 	const init = () => {
 		if(!window.SGNUIKit) {
 			/*document.onload = function() {
 			 new plugin.SGNAtomCore(elements, plugin.settings);
 			 }*/
-			SGNUIKit.holdPreloader = true;
 			if(!SGNAtomStates.ready) {
 				const core = new plugin.SGNAtomCore(elements, plugin, plugin.settings);
 				plugin.core = core;
-				SGNAtomStates.instance = core;
-				core.setOnCoreReadyListener((isReady) => SGNAtomStates.ready = isReady);
+
+				core.setOnCoreReadyListener((isReady) => {
+					SGNAtomStates.ready = isReady;
+					plugin.guid = plugin.GUID();
+					SGNAtomStates.instance = core;
+				});
 			}
 		} else {
+			SGNUIKit.holdPreloader = true;
 			const stack = new Error().stack;
-			//const stacks = stack.split("\n");
 			if(stack.indexOf("set ready") !== -1) {
 				if(!SGNAtomStates.ready) {
 					const core = new plugin.SGNAtomCore(elements, plugin, plugin.settings);
 					plugin.core = core;
-					SGNAtomStates.instance = core;
+					plugin.guid = plugin.GUID();
+					SGNAtomStates.instance = plugin;
 					SGNAtomStates.ready = core.isInitialized();
 				}
 			} else {
 				if(!SGNAtomStates.ready) {
-					window.SGNUIKit.setOnReadyListener(() => {
+					window.SGNUIKit.setOnInitListener(() => {
 						const core = new plugin.SGNAtomCore(elements, plugin, plugin.settings);
 						plugin.core = core;
-						SGNAtomStates.instance = core;
+						plugin.guid = plugin.GUID();
+						SGNAtomStates.instance = plugin;
 						SGNAtomStates.ready = core.isInitialized();
 					});
 				}
@@ -768,6 +783,48 @@ let SGNAtom = function(elements, options) {
 
 	return plugin.prototype;
 };
+SGNAtom.instances = {
+	instances: {},
+	onChangeListener: [],
+	onCreateListener: [],
+
+	/**
+	 * @returns {SGNAtom}
+	 */
+	get instance() {
+		let ins = this;
+		return ins.instances;
+	},
+
+	/**
+	 * @param {SGNAtom}sgnAtom
+	 */
+	set instance(sgnAtom) {
+		const guid = sgnAtom.guid;
+		this[guid] = this.instances[guid] = sgnAtom;
+		this['length'] = this.instances['length'] = Object.keys(this.instances).length;
+
+		this.onChangeListener.forEach((listener) => listener(this.instances));
+	},
+
+	/**
+	 *
+	 * @param {SGNAtomStatesInstanceChangeCallback}listener
+	 */
+	setOnChangeListener: function(listener) {
+		this.onChangeListener.push(listener);
+		//this.onChangeListener.forEach((listener) => listener(this));
+	},
+
+	/**
+	 *
+	 * @param {SGNAtomStatesInstanceChangeCallback}listener
+	 */
+	setOnCreateListener: function(listener) {
+		this.onCreateListener.push(listener);
+		$(() => this.onCreateListener.forEach((listener) => listener(this.instances)));
+	},
+};
 
 /**
  * Creates new instance of <b><i>SGNAtomCore</i></b> identified by element
@@ -776,7 +833,7 @@ let SGNAtom = function(elements, options) {
  * @param {SGNAtom} sgnatom The instance of <b><i>SGNAtom</i></b>.
  * @param {{defaultPage: String}}[options] A <b><i>JSON</i></b> object of supported options to override default functionalities.
 
- * @return {SGNAtom|SGNAtom.SGNAtomCore} An instance of <b><i>SGNAtom</i></b>.
+ * @return {SGNAtom.SGNAtomCore|SGNAtom} An instance of <b><i>SGNAtom</i></b>.
  *
  * @constructor
  */
@@ -790,10 +847,11 @@ SGNAtom.prototype.SGNAtomCore = function(elements, sgnatom, options) {
 
 	const pluginName = "SGNAtomCore";
 	const isInternalCall = _plugin.isExistsOnStack("SGNAtom.create");
-	const instances = {};
 	const SGNAtomCoreStates = _plugin.SGNAtomStates;
 	const guid = _plugin.GUID();
+	plugin.instances = {};
 	plugin.name = pluginName;
+	plugin.navigator = undefined;
 	plugin.guid = guid;
 	plugin.defaultPage = "";
 	plugin.options = _plugin.settings.core;
@@ -815,10 +873,10 @@ SGNAtom.prototype.SGNAtomCore = function(elements, sgnatom, options) {
 					c.attr("sgnatom-guid", guid);
 					c.classList.remove("sgn-atom-container");
 					c.classList.add("sgn-atom-container");
-					const obj = SGNAtomCoreStates.instance;
-					obj[guid] = c;
-					SGNAtomCoreStates.instance = obj;
-					instances[guid] = c;
+					plugin.instances[guid] = c;
+					/*const obj = SGNAtomCoreStates.instance;
+					 obj[guid] = c;
+					 SGNAtomCoreStates.instance = obj;*/
 
 					if(home !== undefined && home !== null && home !== "") {
 						plugin.options.defaultPage = plugin.defaultPage = home;
@@ -850,22 +908,22 @@ SGNAtom.prototype.SGNAtomCore = function(elements, sgnatom, options) {
 	};
 
 	plugin.getInstance = (guid) => {
-		/*const instances = SGNAtomStates.instance;*/
-		//console.log(instances, guid);
-		if(instances.hasOwnProperty(guid)) {
-			return instances[guid];
+		if(plugin.instances.hasOwnProperty(guid)) {
+			return plugin.instances[guid];
 		}
 		return undefined;
 	};
 
 	plugin.isInitialized = () => {
-		return SGNAtomCoreStates.isReady;
+		return SGNAtomCoreStates.isCoreReady;
 	};
 
 	if(elements !== undefined && elements !== null)
 		init();
 
 	//return plugin.prototype.SGNAtomCore.prototype;
+	sgnatom.core = plugin;
+
 	return plugin;
 };
 
@@ -877,7 +935,7 @@ SGNAtom.prototype.SGNAtomCore = function(elements, sgnatom, options) {
  * @param {string} instance_guid The <b><i>GUID</i></b> of the <b><i>SGNAtom</i></b> instance.
  * @param {{elements: HTMLElement|NodeList, resetHead: Boolean, interceptErrors: Boolean}}[options] A <b><i>JSON</i></b> object of supported options to override default functionalities.
 
- * @return {SGNAtom} An instance of <b><i>SGNAtom</i></b>.
+ * @return {SGNAtom.SGNAtomNavigator|SGNAtom} An instance of <b><i>SGNAtom</i></b>.
  *
  * @constructor
  */
@@ -889,7 +947,6 @@ SGNAtom.prototype.SGNAtomNavigator = function(elements, sgnatomcore, instance_gu
 	};
 	const pluginName = "SGNAtomNavigator";
 	const instance = _plugin.getInstance(instance_guid);
-	const instances = {};
 	/**
 	 *
 	 * @type {number}
@@ -898,11 +955,91 @@ SGNAtom.prototype.SGNAtomNavigator = function(elements, sgnatomcore, instance_gu
 	const SGNAtomNavigatorStates = _plugin.SGNAtomStates;
 	const rootHeadElements = Array.from(document.head.children);
 	const dom = document;
-	let defaultPageLoaded = false;
+	const forEach = (obj, callback) => {
+		let value;
+		//context = context || this;  //apply the function to 'this' by default
+
+		for(const key in obj) {
+			if(key !== 'length' && obj.hasOwnProperty(key)) {  //to rule out inherited properties
+				value = obj[key];
+				if(typeof callback === 'function')
+					callback(value, key);
+			}
+		}
+	}
+	const push = (obj, ...items) => {
+		let k = obj.length || 0;
+
+		items.forEach((value, index) => {
+			obj[k] = value;
+			k++;
+			obj.length = k;
+		});
+	};
+	const SGNANEventsListeners = {
+		onPageLoadListeners: {},
+		onChangeListener: {},
+		onCreateListener: {},
+
+		/**
+		 * Add a loaded <b>SGNUIKit</b> component.
+		 *
+		 * @param {(url:string, code:number)=>void} value The <b><i>JSON</i></b> object of the loaded <b>SGNUIKit</b> component.
+		 */
+		set onPageLoadListener(value) {
+			if(value !== undefined && value !== null && value !== "") {
+				push(this.onPageLoadListeners, value);
+			}
+
+			forEach(this.onChangeListener, listener => listener(value, this.onPageLoadListeners));
+		},
+
+		/**
+		 * Get the list of loaded <b>SGNUIKit</b> components.
+		 *
+		 * @return {object} The <b><i>JSON</i></b> object of loaded <b>SGNUIKit</b> components, or an empty <b><i>JSON</i></b> object if no components loaded.
+		 */
+		get onPageLoadListener() {
+			return this.onPageLoadListeners;
+		},
+
+		/**
+		 * Set the handler for <b>SGNUIKit</b> <b><i>OnChange</i></b> event, which will be triggered when a component is loaded/removed or the status of readiness is changed.
+		 *
+		 * @param {(newOnPageLoadListener:function|null, onPageLoadListeners:{})=>void}listener
+		 * @param {string|number}[id=undefined]
+		 */
+		setOnChangeListener: function(listener, id) {
+			if(typeof id !== 'string' || $.isNumeric(id))
+				this.onChangeListener[id] = listener;
+			else
+				push(this.onChangeListener, listener);
+
+			forEach(this.onChangeListener, (listener) => listener(null, this.onPageLoadListeners));
+		},
+
+		/**
+		 * Set the handler for <b>SGNUIKit</b> <b><i>OnChange</i></b> event, which will be triggered when a component is loaded/removed or the status of readiness is changed.
+		 *
+		 * @param {(newInstance:{}, instances:{})=>void}listener
+		 * @param {string|number}[id=undefined]
+		 */
+		setOnCreateListener: function(listener, id) {
+			if(typeof id !== 'string' || $.isNumeric(id))
+				this.onCreateListener[id] = listener;
+			else
+				push(this.onCreateListener, listener);
+
+			SGNUIKit.setOnReadyListener(() => forEach(this.onCreateListener, (listener) => listener(this.onPageLoadListeners)), 'sgnan-create-listener');
+		},
+	};
+	let defaultPageLoaded = false, previousLoadedPage = false, currentlyLoadingPage = false;
 
 	plugin.name = pluginName;
 	plugin.options = _plugin.settings.navigator;
 	plugin.options = Object.assign(plugin.options, options);
+	plugin.options.onPageLoadListener = [];
+	plugin.instances = {};
 
 	const init = () => {
 		if(!window.SGNUIKit) {
@@ -918,8 +1055,55 @@ SGNAtom.prototype.SGNAtomNavigator = function(elements, sgnatomcore, instance_gu
 		if(loaders === null || loaders.length < 1)
 			printPreLoader(false);
 		if(_plugin.defaultPage !== undefined && _plugin.defaultPage !== null && _plugin.defaultPage !== "")
-			setTimeout(() => plugin.load(_plugin.defaultPage, null, false), PRELOADER_TRANSITION_DURATION + 1000);
+			setTimeout(() => plugin.load(_plugin.defaultPage, null, false), 100);
 		SGNAtomNavigatorStates.isNavigatorReady = true;
+		window.addEventListener('offline', (e) => {
+			console.log('offline');
+			hidePreLoader();
+			let msg = `Sorry! You are currently offline. You'll be able to access the application once your internet connection is restored.`;
+			if(currentlyLoadingPage)
+				msg = `Sorry! You are currently offline. You'll be able to access the application and the page <b>${currentlyLoadingPage}</b> will load once your internet connection is restored.`;
+			const offlineErrorMsg = getI18nString('sgn_atom_error_user_offline_msg', msg);
+			const offlineErrorHeading = getI18nString('txt_no_internet', `No Internet!`);
+
+			let overlayElem = document.createElement("div");
+			overlayElem.className = "overlay";
+			//overlayElem.attr("style", "opacity: 0;");
+			let preloader = `\t\t<div class="offline-msg">\n`;
+			preloader += `\t\t\t<h2 class="title danger-text">${offlineErrorHeading}</h2>\n`;
+			preloader += `\t\t\t<div class="msg text-secondary">${offlineErrorMsg}</div>\n`;
+			preloader += `\t\t</div>\n`;
+
+			overlayElem.innerHTML = preloader;
+
+			document.body.className += " user-offline";
+			document.body.insertBefore(overlayElem, document.body.firstChild);
+
+			overlayElem = document.querySelector(".overlay");
+
+			if(overlayElem !== null && overlayElem instanceof HTMLElement) {
+				overlayElem.fadeIn(PRELOADER_TRANSITION_DURATION);
+			}
+		});
+		window.addEventListener('online', (e) => {
+			console.log('online');
+			let msg = `Hooray! Your internet connection is restored, you'll now be able to access the application shortly.`;
+			if(currentlyLoadingPage)
+				msg = `Hooray! Your internet connection is restored, the page <b>${currentlyLoadingPage}</b> will load shortly.`;
+			const onlineMsg = getI18nString('sgn_atom_user_online_msg', msg);
+			const overlayElem = document.querySelector(".overlay");
+			$.SGNSnackbar(onlineMsg).show();
+
+			if(overlayElem !== null && overlayElem instanceof HTMLElement) {
+				overlayElem.fadeOut(PRELOADER_TRANSITION_DURATION, () => {
+					overlayElem.remove();
+					document.body.classList.remove("user-offline");
+				});
+			}
+			if(currentlyLoadingPage) {
+				plugin.load(currentlyLoadingPage);
+			}
+		});
 		//SGNAtomNavigatorStates.ready = (SGNAtomNavigatorStates.isCoreReady && SGNAtomNavigatorStates.isNavigatorReady);
 	};
 
@@ -933,10 +1117,11 @@ SGNAtom.prototype.SGNAtomNavigator = function(elements, sgnatomcore, instance_gu
 				const guid = _plugin.GUID();
 				plugin.guid = guid;
 				c.attr("sgnatom-navigator-guid", guid);
-				const obj = SGNAtomNavigatorStates.instance;
-				obj[guid] = c;
-				instances[guid] = c;
-				SGNAtomNavigatorStates.instance = obj;
+
+				plugin.instances[guid] = c;
+				/*const obj = SGNAtomNavigatorStates.instance;
+				 obj[guid] = c;
+				 SGNAtomNavigatorStates.instance = obj;*/
 				if(firstInit) {
 					SGNAtomNavigatorStates.isNavigatorReady = true;
 					defaultPageLoaded = true;
@@ -1383,14 +1568,31 @@ body {
 
 		const dir = path.substring(path.lastIndexOf("/") + 1);
 		return `${origin}${dir}/`.replace(/([^:]\/)\/+/g, "$1");
-	}
+	};
+
+	const getPageFullURL = (url) => {
+		const origin = window.location.origin;
+		let urlPath = (url.indexOf(origin) !== -1) ? url.replace(origin, "") : url;
+		const cUrlPath = (urlPath === _plugin.defaultPage) ? "/" : urlPath,
+		      cUrl     = new URL(cUrlPath, origin).href;
+
+		return (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')) ? url : `${_plugin.base_dir}${url}`;
+	};
 
 	plugin.getNavigatorInstance = (guid) => {
-		const instances = SGNAtomNavigatorStates.instance;
-		if(instances.length > 0 && instances.hasOwnProperty(guid)) {
-			return instances[guid];
+		if(plugin.instances.length > 0 && plugin.instances.hasOwnProperty(guid)) {
+			return plugin.instances[guid];
 		}
 		return undefined;
+	};
+
+	/***
+	 *
+	 * @param {function} onPageLoadListener
+	 */
+	plugin.setOnPageLoadListener = (onPageLoadListener) => {
+		plugin.options.onPageLoadListener.push(onPageLoadListener);
+		SGNANEventsListeners.onPageLoadListener = onPageLoadListener;
 	};
 
 	/***
@@ -1409,133 +1611,151 @@ body {
 	 */
 	plugin.load = (page, callback, transitive = true) => {
 		if(page !== undefined && page !== null && page !== "") {
-			showPreLoader(transitive, () => {
-				const url = page;
-				const origin = window.location.origin;
-				let urlPath = (url.indexOf(origin) !== -1) ? url.replace(origin, "") : url;
-				const cUrlPath = (urlPath === _plugin.defaultPage) ? "/" : urlPath,
-				      cUrl     = new URL(cUrlPath, origin).href;
-				const lUrl = (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')) ? url : `${_plugin.base_dir}${url}`;
+			currentlyLoadingPage = page;
+			const url = getPageFullURL(currentlyLoadingPage);
 
-				//console.log(lUrl);
-				//showAlert(getI18nString('sgnatom_load_error_403', `Sorry! You don't have the rights to access the page.`));
+			if(navigator.onLine) {
+				showPreLoader(transitive, () => {
+					let code     = 0,
+					    response = undefined;
+					//console.log(url);
+					//showAlert(getI18nString('sgnatom_load_error_403', `Sorry! You don't have the rights to access the page.`));
 
-				fetch(lUrl, {
-					credentials: "include",
-					method: "GET", // or 'PUT'
-					headers: {
-						"Content-Type": "text/html",
-					},
-				}).then((response) => {
-					if(plugin.options.interceptErrors) {
-						if(!response.ok) {
-							const code = response.status;
-							hidePreLoader();
-							switch(code) {
-								case 403:
-									//showAlert(getI18nString('sgnatom_load_error_403', `Sorry! You don't have the rights to access the page.`));
-									break;
-								case 404:
-									//window.alert(getI18nString('sgnatom_load_error_404', `Failed to load the page. The page couldn't be found.`));
-									//console.log(response, response.status);
-									//showAlert(getI18nString('sgnatom_load_error_404', `Failed to load the page. The page couldn't be found.`));
-									break;
+					fetch(url, {
+						credentials: "include",
+						method: "GET", // or 'PUT'
+						headers: {
+							"Content-Type": "text/html",
+						},
+					}).then((r) => {
+						response = r;
+						code = response.status;
+
+						if(plugin.options.interceptErrors) {
+							if(!response.ok) {
+								hidePreLoader();
+								switch(code) {
+									case 403:
+										//showAlert(getI18nString('sgnatom_load_error_403', `Sorry! You don't have the rights to access the page.`));
+										break;
+									case 404:
+										//window.alert(getI18nString('sgnatom_load_error_404', `Failed to load the page. The page couldn't be found.`));
+										//console.log(response, response.status);
+										//showAlert(getI18nString('sgnatom_load_error_404', `Failed to load the page. The page couldn't be found.`));
+										break;
+								}
+								return;
 							}
-							return;
 						}
-					}
-					return response.text();
-				}).then((data) => {
-					if(typeof data !== 'undefined') {
-						const parser = new DOMParser();
+						return response.text();
+					}).then((data) => {
+						if(typeof data !== 'undefined') {
+							const parser = new DOMParser();
 
-						// Parse the text
-						const doc = parser.parseFromString(data, "text/html");
-						const head  = doc.querySelector("head"),
-						      title = head.querySelector("title"),
-						      body  = doc.querySelector("body");
+							// Parse the text
+							const doc = parser.parseFromString(data, "text/html");
+							const head  = doc.querySelector("head"),
+							      title = head.querySelector("title"),
+							      body  = doc.querySelector("body");
 
-						const headChildElems = document.head.children,
-						      headElems      = Array.from(headChildElems);
-						const newHeadElems = (plugin.options.resetHead) ? [] : rootHeadElements;
+							const headChildElems = document.head.children,
+							      headElems      = Array.from(headChildElems);
+							const newHeadElems = (plugin.options.resetHead) ? [] : rootHeadElements;
 
-						if(plugin.options.resetHead) {
-							headElems.forEach((c) => {
-								if(!isNodeExists(rootHeadElements, c) && c.nodeName !== "TITLE") {
-									document.head.removeChild(c);
-								}
-							});
-						} else {
-							//document.head.innerHTML = null;
-							//document.head.innerHTML += rootHeadElementsHTML;
-						}
-
-						const sgnatomScript = document.currentScript || document.querySelector("script[src*=\"SGNAtom.js\"]") || document.querySelector("script[src*=\"SGNAtom.min.js\"]");
-						Array.from(head.children).forEach((item) => {
-							if(!isNodeExists(rootHeadElements, item) && item.nodeName !== "TITLE") {
-								document.head.append(item);
-								newHeadElems.push(item);
+							if(plugin.options.resetHead) {
+								headElems.forEach((c) => {
+									if(!isNodeExists(rootHeadElements, c) && c.nodeName !== "TITLE") {
+										document.head.removeChild(c);
+									}
+								});
+							} else {
+								//document.head.innerHTML = null;
+								//document.head.innerHTML += rootHeadElementsHTML;
 							}
-						});
-						let headHTML = "";
-						newHeadElems.forEach((c) => {
-							headHTML += `${c.outerHTML}\n`;
-						});
 
-						const scripts = doc.querySelectorAll('script');
-						if(scripts.length > 0) {
-							scripts.forEach((script) => {
-								if(!script.hasAttribute('src')) {
-									//console.log(script);
-									executeScript(script);
+							const sgnatomScript = document.currentScript || document.querySelector("script[src*=\"SGNAtom.js\"]") || document.querySelector("script[src*=\"SGNAtom.min.js\"]");
+							Array.from(head.children).forEach((item) => {
+								if(!isNodeExists(rootHeadElements, item) && item.nodeName !== "TITLE") {
+									document.head.append(item);
+									newHeadElems.push(item);
 								}
 							});
-						}
-
-						const srcs = doc.querySelectorAll('*[src], *[href]');
-						if(srcs.length > 0) {
-							srcs.forEach((el) => {
-								if(el.hasAttribute('src')) {
-									const src = el.getAttribute('src').replace(/([^:]\/)\/+/g, "$1");
-									el.src = (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('//')) ? src : `${_plugin.base_dir}${src}`;
-								}
-								if(el.hasAttribute('href')) {
-									const src = el.getAttribute('href').replace(/([^:]\/)\/+/g, "$1");
-									el.href = (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('//')) ? src : `${_plugin.base_dir}${src}`;
-								}
+							let headHTML = "";
+							newHeadElems.forEach((c) => {
+								headHTML += `${c.outerHTML}\n`;
 							});
+
+							const scripts = doc.querySelectorAll('script');
+							if(scripts.length > 0) {
+								scripts.forEach((script) => {
+									if(!script.hasAttribute('src')) {
+										//console.log(script);
+										executeScript(script);
+									}
+								});
+							}
+
+							const srcs = doc.querySelectorAll('*[src], *[href]');
+							if(srcs.length > 0) {
+								srcs.forEach((el) => {
+									if(el.hasAttribute('src')) {
+										const src = el.getAttribute('src').replace(/([^:]\/)\/+/g, "$1");
+										el.src = (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('//')) ? src : `${_plugin.base_dir}${src}`;
+									}
+									if(el.hasAttribute('href')) {
+										const src = el.getAttribute('href').replace(/([^:]\/)\/+/g, "$1");
+										el.href = (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('//')) ? src : `${_plugin.base_dir}${src}`;
+									}
+								});
+							}
+
+							document.title = (title !== undefined && title !== null) ? title.innerText : document.title;
+							instance.innerHTML = body.innerHTML;
+
+							const elems = document.querySelectorAll("a, button, .clickable");
+
+							const historyObjectGUID = _plugin.GUID();
+							const stateObj = {
+								"title": document.title,
+								"guid": historyObjectGUID,
+							};
+							const historyObject = new HistoryObject(cUrl, stateObj, document.title, new HistoryNodeObject([doc]), new HistoryNodeObject(newHeadElems), new HistoryNodeObject([body]), historyObjectGUID);
+							const historyStack = setHistoryStack(historyObject);
+							const historyStackObject = getHistoryObject(historyObjectGUID);
+
+							setupNavigator(elems, !defaultPageLoaded);
+							defaultPageLoaded = true;
+
+							if(typeof callback === "function")
+								callback(false, data);
 						}
-
-						document.title = (title !== undefined && title !== null) ? title.innerText : document.title;
-						instance.innerHTML = body.innerHTML;
-
-						const elems = document.querySelectorAll("a, button, .clickable");
-
-						const historyObjectGUID = _plugin.GUID();
-						const stateObj = {
-							"title": document.title,
-							"guid": historyObjectGUID,
-						};
-						const historyObject = new HistoryObject(cUrl, stateObj, document.title, new HistoryNodeObject([doc]), new HistoryNodeObject(newHeadElems), new HistoryNodeObject([body]), historyObjectGUID);
-						const historyStack = setHistoryStack(historyObject);
-						const historyStackObject = getHistoryObject(historyObjectGUID);
-
-						setupNavigator(elems, !defaultPageLoaded);
-						defaultPageLoaded = true;
+					}).catch((error) => {
+						if(_plugin.debugMode) {
+							console.error("Error:", error);
+						}
+						if(_plugin.showErrors) {
+							showAlert("Failed to load the page!");
+						}
 						if(typeof callback === "function")
-							callback(false, data);
-					}
-				}).catch((error) => {
-					if(_plugin.debugMode) {
-						console.error("Error:", error);
-					}
-					if(_plugin.showErrors) {
-						showAlert("Failed to load the page!");
-					}
-					if(typeof callback === "function")
-						callback(true, error);
-				}).finally(() => hidePreLoader());
-			});
+							callback(true, error);
+					}).finally((e) => {
+						switch(code) {
+							case 200:
+								previousLoadedPage = currentlyLoadingPage;
+								currentlyLoadingPage = false;
+								if(plugin.options.onPageLoadListener.length > 0) {
+									plugin.options.onPageLoadListener.forEach(listener => listener(url, 200));
+								}
+								SGNANEventsListeners.setOnChangeListener((newListener, onPageLoadListeners) => {
+									if(newListener !== null)
+										newListener(url, 200);
+								}, 'sgnatom-page-load-event-listener');
+								break;
+						}
+						hidePreLoader();
+					});
+				});
+			}
 		}
 	};
 
@@ -1571,6 +1791,10 @@ SGNAtom.create = function(element, options) {
 	             document.querySelectorAll(element);
 
 	_this.create.prototype.sgnAtom = new SGNAtom(elem, options);
+	/*const guid = _this.create.prototype.sgnAtom.guid;
+	 SGNAtom.instances[guid] = _this.create.prototype.sgnAtom;
+	 SGNAtom.instances['length'] = Object.keys(SGNAtom.instances).length;*/
+	SGNAtom.instances.instance = _this.create.prototype.sgnAtom;
 
 	return _this.create.prototype;
 };
@@ -1616,6 +1840,20 @@ SGNAtom.create.prototype.with = function(element, options) {
 	 }*/
 
 	return _this;
+};
+
+/***
+ *
+ * @param {string} [guid]
+ *
+ * @return {Object<SGNAtom>}
+ */
+SGNAtom.getInstance = function(guid) {
+	const instances = SGNAtom.instances;
+	if(instances.hasOwnProperty(guid)) {
+		return instances[guid];
+	}
+	return SGNAtom.instances;
 };
 
 window.SGNAtom = SGNAtom;

@@ -6,84 +6,99 @@
  */
 
 :root {
-	--sgn-accent-background: hsl(0, 0%, 100%);
+	--sgn-background: hsl(0, 0%, 100%);
+	--sgn-background-primary: hsl(0, 0%, 95%);
+	--sgn-background-primary-dark: hsl(0, 0%, 90%);
+	--sgn-background-primary-darker: hsl(0, 0%, 85%);
 
+	--sgn-accent-background: hsl(0, 0%, 100%);
 	--sgn-accent-background-secondary: hsl(0, 0%, 95%);
+
 	--sgn-accent-hud: hsl(0, 0%, 100%);
 	--sgn-accent-hud-shade: hsl(215, 100%, 15%);
-	--sgn-accent-primary: hsl(218, 89%, 51%);
-	--sgn-accent-primary-active: hsl(218, 89%, 31%);
 
+	--sgn-accent-primary: hsl(218, 89%, 50%);
+	--sgn-accent-primary-active: hsl(218, 89%, 30%);
 	--sgn-accent-primary-active-dark: hsl(218, 89%, 36%);
 	--sgn-accent-primary-alt: hsl(180, 72%, 52%);
 	--sgn-accent-primary-dark: hsl(215, 100%, 15%);
-
-	--sgn-accent-primary-hover: hsl(218, 89%, 60%);
+	--sgn-accent-primary-hover: hsl(218, 89%, 40%);
 	--sgn-accent-primary-inactive: hsl(218, 89%, 70%);
 	--sgn-accent-primary-light: hsl(215, 100%, 68%);
-
 	--sgn-accent-primary-text: hsl(0, 0%, 100%);
-	--sgn-accent-secondary: hsl(0, 0%, 30%);
 
-	--sgn-accent-secondary-dark: hsl(0, 0%, 20%);
-	--sgn-accent-secondary-hover: hsl(0, 0%, 90%);
-
+	--sgn-accent-secondary: hsl(0, 0%, 20%);
+	--sgn-accent-secondary-alt: hsl(0, 0%, 10%);
+	--sgn-accent-secondary-active: hsl(0, 0%, 5%);
 	--sgn-accent-secondary-light: hsl(0, 0%, 30%);
-	--sgn-background: hsl(0, 0%, 100%);
-	--sgn-border-light: hsl(0, 0%, 85%);
-	--sgn-danger: hsl(0, 100%, 50%);
-	--sgn-danger-dark: hsl(0, 72%, 33%);
-	--sgn-danger-light: hsl(0, 100%, 70%);
-	--sgn-danger-lightest: hsl(0, 100%, 95%);
+	--sgn-accent-secondary-hover: hsl(0, 0%, 15%);
 
-	--sgn-gradient-danger: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-light) 100%);
-	--sgn-gradient-danger-double-width: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-light) 50%, var(--sgn-danger) 100%);
-
-	--sgn-gradient-info: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 100%);
-	--sgn-gradient-info-double-width: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 50%, var(--sgn-info) 100%);
-	--sgn-gradient-primary: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 100%);
-	--sgn-gradient-primary-double-width: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 50%, var(--sgn-accent-primary) 100%);
-
-	--sgn-gradient-secondary: linear-gradient(to right, var(--sgn-secondary) 0%, var(--sgn-secondary-light) 100%);
-	--sgn-gradient-secondary-double-width: linear-gradient(to right, var(--sgn-secondary) 0%, var(--sgn-secondary-light) 50%, var(--sgn-secondary) 100%);
-	--sgn-gradient-success: linear-gradient(to right, var(--sgn-success) 0%, var(--sgn-success-light) 100%);
-
-	--sgn-gradient-success-double-width: linear-gradient(to right, var(--sgn-success) 0%, var(--sgn-success-light) 50%, var(--sgn-success) 100%);
-	--sgn-gradient-warning: linear-gradient(to right, var(--sgn-warning) 0%, var(--sgn-warning-light) 100%);
-	--sgn-gradient-warning-double-width: linear-gradient(to right, var(--sgn-warning) 0%, var(--sgn-warning-light) 50%, var(--sgn-warning) 100%);
-
-	--sgn-info: hsl(190, 100%, 40%);
-	--sgn-info-light: hsl(190, 100%, 60%);
-	--sgn-info-lightest: hsl(190, 100%, 95%);
-
-	--sgn-primary: hsl(220, 100%, 50%);
-	--sgn-primary-light: hsl(220, 100%, 70%);
-	--sgn-primary-lightest: hsl(220, 100%, 95%);
-
-	--sgn-secondary: hsl(230, 15%, 20%);
-	--sgn-secondary-light: hsl(230, 15%, 30%);
-	--sgn-secondary-lightest: hsl(230, 15%, 95%);
-
-	--sgn-semi-transparent-light: hsl(0, 0%, 50%, .5);
-	--sgn-shadow-light: hsla(0, 0%, 0%, .2);
-	--sgn-success: hsl(130, 100%, 20%);
-	--sgn-success-light: hsl(130, 50%, 70%);
-
-	--sgn-success-lightest: hsl(130, 100%, 95%);
 	--sgn-text-primary: hsl(0, 0%, 10%);
-
 	--sgn-text-primary-active: hsl(0, 0%, 30%);
 	--sgn-text-primary-alt: hsl(0, 0%, 40%);
-
 	--sgn-text-primary-inactive: hsla(0, 0%, 60%, 1);
 	--sgn-text-primary-inactive-light: hsla(0, 0%, 85%, 1);
 
 	--sgn-text-secondary: hsl(0, 0%, 40%);
 	--sgn-text-secondary-alt: hsl(0, 0%, 5%);
-
 	--sgn-text-secondary-light: hsl(0, 0%, 100%);
-	--sgn-warning: hsl(45, 100%, 40%);
 
+	--sgn-border-light: hsl(0, 0%, 85%);
+	--sgn-shadow-light: hsla(0, 0%, 0%, .2);
+	--sgn-shadow-darker: hsla(0, 0%, 0%, .5);
+	--sgn-semi-transparent-light: hsl(0, 0%, 50%, .5);
+
+	--sgn-primary: hsl(220, 90%, 50%);
+	--sgn-primary-dark: hsl(220, 90%, 40%);
+	--sgn-primary-darker: hsl(220, 90%, 30%);
+	--sgn-primary-light: hsl(220, 89%, 70%);
+	--sgn-primary-lightest: hsl(220, 89%, 95%);
+
+	--sgn-secondary: hsl(0, 0%, 30%);
+	--sgn-secondary-dark: hsl(0, 0%, 20%);
+	--sgn-secondary-darker: hsl(0, 0%, 10%);
+	--sgn-secondary-light: hsl(0, 0%, 80%);
+	--sgn-secondary-lightest: hsl(0, 0%, 95%);
+
+	--sgn-info: hsl(190, 100%, 40%);
+	--sgn-info-dark: hsl(190, 100%, 30%);
+	--sgn-info-darker: hsl(190, 100%, 20%);
+	--sgn-info-light: hsl(190, 100%, 60%);
+	--sgn-info-lightest: hsl(190, 100%, 95%);
+
+	--sgn-success: hsl(130, 100%, 20%);
+	--sgn-success-dark: hsl(130, 100%, 15%);
+	--sgn-success-darker: hsl(130, 100%, 10%);
+	--sgn-success-light: hsl(130, 50%, 70%);
+	--sgn-success-lightest: hsl(130, 100%, 95%);
+
+	--sgn-warning: hsl(45, 100%, 40%);
+	--sgn-warning-dark: hsl(45, 100%, 30%);
+	--sgn-warning-darker: hsl(45, 100%, 20%);
 	--sgn-warning-light: hsl(45, 100%, 70%);
 	--sgn-warning-lightest: hsl(45, 100%, 95%);
+
+	--sgn-danger: hsl(0, 100%, 50%);
+	--sgn-danger-dark: hsl(0, 70%, 40%);
+	--sgn-danger-darker: hsl(0, 70%, 30%);
+	--sgn-danger-light: hsl(0, 100%, 70%);
+	--sgn-danger-lightest: hsl(0, 100%, 95%);
+
+	--sgn-gradient-primary: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 100%);
+	--sgn-gradient-primary-double-width: linear-gradient(to right, var(--sgn-accent-primary) 0%, var(--sgn-accent-primary-alt) 50%, var(--sgn-accent-primary) 100%);
+
+	--sgn-gradient-secondary: linear-gradient(to right, var(--sgn-accent-secondary-alt) 0%, var(--sgn-accent-secondary-light) 100%);
+	--sgn-gradient-secondary-double-width: linear-gradient(to right, var(--sgn-accent-secondary-alt) 0%, var(--sgn-accent-secondary-light) 50%, var(--sgn-accent-secondary-alt) 100%);
+
+	--sgn-gradient-info: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 100%);
+	--sgn-gradient-info-double-width: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 50%, var(--sgn-info) 100%);
+
+	--sgn-gradient-success: linear-gradient(to right, var(--sgn-success) 0%, var(--sgn-success-light) 100%);
+	--sgn-gradient-success-double-width: linear-gradient(to right, var(--sgn-success) 0%, var(--sgn-success-light) 50%, var(--sgn-success) 100%);
+
+	--sgn-gradient-warning: linear-gradient(to right, var(--sgn-warning) 0%, var(--sgn-warning-light) 100%);
+	--sgn-gradient-warning-double-width: linear-gradient(to right, var(--sgn-warning) 0%, var(--sgn-warning-light) 50%, var(--sgn-warning) 100%);
+
+	--sgn-gradient-danger: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-light) 100%);
+	--sgn-gradient-danger-double-width: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-light) 50%, var(--sgn-danger) 100%);
 }

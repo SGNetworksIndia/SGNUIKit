@@ -1,0 +1,62 @@
+<!--
+  ~ Copyright (c) 2022-2023 SGNetworks. All rights reserved.
+  ~
+  ~ The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+  ~ VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Forms - SGNUIKit Demo</title>
+		<script sgn-ui-kit-loader-icon="assets/img/icon.png" src="/src/js/SGNUIKit.loader.js"></script>
+		<!--<script src="/dist/js/SGNUIKit.loader.js"></script>-->
+	</head>
+	<body>
+		<main>
+			<div class="sgn-container auto-grid col-3">
+				<!-- CARD (BASIC) -->
+				<form action="" method="post">
+					<div class="sgn-input-prefix">
+						<select class="form-control" name="t">
+							<option selected value="1">Property</option>
+							<option value="2">Vacant Land</option>
+						</select>
+					</div>
+					<input class="form-control" name="q" placeholder="Enter your location" type="text">
+					<div class="sgn-input-suffix">
+						<button class="btn primary">Search</button>
+					</div>
+				</form>
+
+				<!-- CARD (BASIC) -->
+				<form action="" method="post">
+					<div class="sgn-inline-form">
+						<div class="sgn-input-prefix inline">
+							<select class="form-control" name="t">
+								<option selected value="1">Property</option>
+								<option value="2">Vacant Land</option>
+							</select>
+						</div>
+						<input class="form-control" name="q" placeholder="Enter your location" type="text">
+						<button class="btn primary">Search</button>
+					</div>
+				</form>
+
+				<!-- CARD (BASIC) -->
+				<form action="" method="post">
+					<label for="fp-cms-listings-property-create-bathroom">Bathrooms</label>
+					<input class="form-control" id="fp-cms-listings-property-create-bathroom" max="11" min="0" name="bathroom" required sgn-input-help="This room is usually used to take a bath or shower. Sometimes the facilities of a W.C are also present in this room." type="number" value="0">
+
+					<label for="fp-cms-listings-property-create-washroom">Suggestion</label>
+					<input
+							class="form-control searchable" id="fp-cms-listings-property-create-washroom" max="11" min="0" name="washroom" readonly required sgn-input-help="This room is used for the toilet, having a bath or shower, brushing the teeth, and washing the face. In some cases, the facilities of this room are usually present in the bathroom."
+							sgn-input-suggestions="geolocation" type="text" value="1"
+					>
+				</form>
+
+			</div>
+		</main>
+	</body>
+</html>

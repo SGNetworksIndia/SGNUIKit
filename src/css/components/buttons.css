@@ -137,6 +137,16 @@ button.primary:not(.outline):not(.gradient):hover,
 	color: var(--sgn-text-secondary-light);
 }
 
+input[type=button].primary:not(.outline):not(.gradient):active,
+input[type=submit].primary:not(.outline):not(.gradient):active,
+input[type=reset].primary:not(.outline):not(.gradient):active,
+input[type=file].primary:not(.outline):not(.gradient):active,
+button.primary:not(.outline):not(.gradient):active,
+.btn.primary:not(.outline):not(.gradient):active {
+	background-color: var(--sgn-accent-primary-active);
+	color: var(--sgn-text-secondary-light);
+}
+
 input[type=button].secondary:not(.outline):not(.gradient):hover,
 input[type=submit].secondary:not(.outline):not(.gradient):hover,
 input[type=reset].secondary:not(.outline):not(.gradient):hover,
@@ -144,7 +154,17 @@ input[type=file].secondary:not(.outline):not(.gradient):hover,
 button.secondary:not(.outline):not(.gradient):hover,
 .btn.secondary:not(.outline):not(.gradient):hover {
 	background-color: var(--sgn-accent-secondary-hover);
-	color: var(--sgn-accent-secondary-dark);
+	color: var(--sgn-text-secondary-light);
+}
+
+input[type=button].secondary:not(.outline):not(.gradient):active,
+input[type=submit].secondary:not(.outline):not(.gradient):active,
+input[type=reset].secondary:not(.outline):not(.gradient):active,
+input[type=file].secondary:not(.outline):not(.gradient):active,
+button.secondary:not(.outline):not(.gradient):active,
+.btn.secondary:not(.outline):not(.gradient):active {
+	background-color: var(--sgn-accent-secondary-active);
+	color: var(--sgn-text-secondary-light);
 }
 
 input[type=button].success:not(.outline):not(.gradient):hover,
@@ -153,7 +173,17 @@ input[type=reset].success:not(.outline):not(.gradient):hover,
 input[type=file].success:not(.outline):not(.gradient):hover,
 button.success:not(.outline):not(.gradient):hover,
 .btn.success:not(.outline):not(.gradient):hover {
-	background-color: var(--sgn-success-light);
+	background-color: var(--sgn-success-dark);
+	color: var(--sgn-text-secondary-light);
+}
+
+input[type=button].success:not(.outline):not(.gradient):active,
+input[type=submit].success:not(.outline):not(.gradient):active,
+input[type=reset].success:not(.outline):not(.gradient):active,
+input[type=file].success:not(.outline):not(.gradient):active,
+button.success:not(.outline):not(.gradient):active,
+.btn.success:not(.outline):not(.gradient):active {
+	background-color: var(--sgn-success-darker);
 	color: var(--sgn-text-secondary-light);
 }
 
@@ -163,7 +193,17 @@ input[type=reset].info:not(.outline):not(.gradient):hover,
 input[type=file].info:not(.outline):not(.gradient):hover,
 button.info:not(.outline):not(.gradient):hover,
 .btn.info:not(.outline):not(.gradient):hover {
-	background-color: var(--sgn-info-light);
+	background-color: var(--sgn-info-dark);
+	color: var(--sgn-text-secondary-light);
+}
+
+input[type=button].info:not(.outline):not(.gradient):active,
+input[type=submit].info:not(.outline):not(.gradient):active,
+input[type=reset].info:not(.outline):not(.gradient):active,
+input[type=file].info:not(.outline):not(.gradient):active,
+button.info:not(.outline):not(.gradient):active,
+.btn.info:not(.outline):not(.gradient):active {
+	background-color: var(--sgn-info-darker);
 	color: var(--sgn-text-secondary-light);
 }
 
@@ -173,7 +213,17 @@ input[type=reset].warning:not(.outline):not(.gradient):hover,
 input[type=file].warning:not(.outline):not(.gradient):hover,
 button.warning:not(.outline):not(.gradient):hover,
 .btn.warning:not(.outline):not(.gradient):hover {
-	background-color: var(--sgn-warning-light);
+	background-color: var(--sgn-warning-dark);
+	color: var(--sgn-text-secondary-light);
+}
+
+input[type=button].warning:not(.outline):not(.gradient):active,
+input[type=submit].warning:not(.outline):not(.gradient):active,
+input[type=reset].warning:not(.outline):not(.gradient):active,
+input[type=file].warning:not(.outline):not(.gradient):active,
+button.warning:not(.outline):not(.gradient):active,
+.btn.warning:not(.outline):not(.gradient):active {
+	background-color: var(--sgn-warning-darker);
 	color: var(--sgn-text-secondary-light);
 }
 
@@ -183,7 +233,17 @@ input[type=reset].danger:not(.outline):not(.gradient):hover,
 input[type=file].danger:not(.outline):not(.gradient):hover,
 button.danger:not(.outline):not(.gradient):hover,
 .btn.danger:not(.outline):not(.gradient):hover {
-	background-color: var(--sgn-danger-light);
+	background-color: var(--sgn-danger-dark);
+	color: var(--sgn-text-secondary-light);
+}
+
+input[type=button].danger:not(.outline):not(.gradient):active,
+input[type=submit].danger:not(.outline):not(.gradient):active,
+input[type=reset].danger:not(.outline):not(.gradient):active,
+input[type=file].danger:not(.outline):not(.gradient):active,
+button.danger:not(.outline):not(.gradient):active,
+.btn.danger:not(.outline):not(.gradient):active {
+	background-color: var(--sgn-danger-darker);
 	color: var(--sgn-text-secondary-light);
 }
 
@@ -276,19 +336,19 @@ button.btn-text:hover,
 }
 
 .btn.gradient.success {
-	background-image: linear-gradient(to right, var(--sgn-success) 0%, var(--sgn-success-light) 50%, var(--sgn-success) 100%);
+	background-image: linear-gradient(to right, var(--sgn-success) 0%, var(--sgn-success-dark) 50%, var(--sgn-success) 100%);
 }
 
 .btn.gradient.info {
-	background-image: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-light) 50%, var(--sgn-info) 100%);
+	background-image: linear-gradient(to right, var(--sgn-info) 0%, var(--sgn-info-dark) 50%, var(--sgn-info) 100%);
 }
 
 .btn.gradient.warning {
-	background-image: linear-gradient(to right, var(--sgn-warning) 0%, var(--sgn-warning-light) 50%, var(--sgn-warning) 100%);
+	background-image: linear-gradient(to right, var(--sgn-warning) 0%, var(--sgn-warning-dark) 50%, var(--sgn-warning) 100%);
 }
 
 .btn.gradient.danger {
-	background-image: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-light) 50%, var(--sgn-danger) 100%);
+	background-image: linear-gradient(to right, var(--sgn-danger) 0%, var(--sgn-danger-dark) 50%, var(--sgn-danger) 100%);
 }
 
 .btn.gradient:hover {
@@ -354,6 +414,31 @@ button.btn-text:hover,
 	background-color: var(--sgn-danger);
 }
 
+.btn.outline:active {
+	color: var(--sgn-accent-primary-text);
+	background-color: var(--sgn-accent-secondary-active);
+}
+
+.btn.outline.primary:active {
+	background-color: var(--sgn-accent-primary-active);
+}
+
+.btn.outline.success:active {
+	background-color: var(--sgn-success-darker);
+}
+
+.btn.outline.info:active {
+	background-color: var(--sgn-info-darker);
+}
+
+.btn.outline.warning:active {
+	background-color: var(--sgn-warning-darker);
+}
+
+.btn.outline.danger:active {
+	background-color: var(--sgn-danger-darker);
+}
+
 
 .btn.filled {
 	background-color: var(--sgn-accent-secondary);
@@ -414,6 +499,30 @@ button.btn-text:hover,
 
 .btn.filled.danger:hover {
 	color: var(--sgn-danger);
+}
+
+.btn.filled:active {
+	background-color: transparent;
+}
+
+.btn.filled.primary:active {
+	color: var(--sgn-accent-primary-active);
+}
+
+.btn.filled.success:active {
+	color: var(--sgn-success-darker);
+}
+
+.btn.filled.info:active {
+	color: var(--sgn-info-darker);
+}
+
+.btn.filled.warning:active {
+	color: var(--sgn-warning-darker);
+}
+
+.btn.filled.danger:active {
+	color: var(--sgn-danger-darker);
 }
 
 

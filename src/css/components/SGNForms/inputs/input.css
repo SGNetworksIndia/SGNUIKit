@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -40,8 +40,12 @@ select {
 
 .sgn-form {
 	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	flex-direction: column;
-	height: 100%;
+	min-height: 100%;
+	max-height: 100%;
+	width: 100%;
 	position: relative;
 	margin: var(--margin-md) 0;
 }
@@ -50,8 +54,28 @@ select {
 	border-radius: var(--sgn-border-radius-sm);
 	border: 1px solid var(--sgnf-border);
 	transition: border-width .3s linear, border-color .3s linear;
+}
+
+.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch):not(.sgn-select) {
 	cursor: text;
 	overflow: hidden;
+}
+
+.sgn-form.disabled {
+	cursor: not-allowed !important;
+}
+
+.sgn-form.disabled > .sgn-form-wrapper > .sgn-input-wrapper > .form-control,
+.sgn-form.disabled > .sgn-form-wrapper > .sgn-input-wrapper > label,
+.sgn-form.disabled > .sgn-input-autocomplete-box > li {
+	color: var(--sgnf-accent-disabled);
+	pointer-events: none !important;
+}
+
+.sgn-form.readonly > .sgn-form-wrapper > .sgn-input-wrapper > .form-control,
+.sgn-form.readonly > .sgn-form-wrapper > .sgn-input-wrapper > label,
+.sgn-form.readonly > .sgn-input-autocomplete-box > li {
+	color: var(--sgnf-accent-readonly);
 }
 
 .sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch):not(.disabled):not([disabled]):hover {
@@ -70,8 +94,15 @@ select {
 .sgn-form > .sgn-form-wrapper > .sgn-input-wrapper {
 	display: flex;
 	align-items: center;
-	width: 100%;
 	position: relative;
+	width: 100%;
+	min-height: 100%;
+	max-height: 100%;
+}
+
+.sgn-form > .sgn-form-wrapper {
+	justify-content: stretch;
+	align-items: stretch;
 }
 
 .sgn-form > label,
@@ -112,6 +143,8 @@ select {
 .sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch) > .sgn-form-wrapper > .sgn-input-wrapper > select {
 	border: none;
 	border-radius: var(--sgn-border-radius-sm);
+	min-height: 100%;
+	max-height: 100%;
 }
 
 .sgn-form > .sgn-form-wrapper > .sgn-input-prefix,
@@ -119,6 +152,10 @@ select {
 	background-color: var(--sgnf-background);
 	padding: var(--padding-sm) var(--padding-sm);
 	color: var(--sgnf-accent-inactive);
+	min-height: 100%;
+	max-height: 100%;
+	display: flex;
+	justify-content: stretch;
 }
 
 .sgn-form > .sgn-form-wrapper > .sgn-input-prefix {
@@ -131,9 +168,26 @@ select {
 	border-radius: 0 var(--sgn-border-radius-sm) var(--sgn-border-radius-sm) 0;
 }
 
+.sgn-form > .sgn-form-wrapper > .sgn-input-prefix > .sgn-form,
+.sgn-form > .sgn-form-wrapper > .sgn-input-suffix > .sgn-form {
+	margin: 0;
+}
+
+.sgn-form > .sgn-form-wrapper > .sgn-input-prefix > .sgn-form.sgn-select,
+.sgn-form > .sgn-form-wrapper > .sgn-input-suffix > .sgn-form.sgn-select {
+	z-index: 9999;
+	cursor: pointer;
+}
+
+.sgn-form > .sgn-form-wrapper > .sgn-input-prefix > .sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select-input,
+.sgn-form > .sgn-form-wrapper > .sgn-input-suffix > .sgn-form.sgn-select > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-select-input {
+	z-index: 0;
+	cursor: pointer;
+}
+
 .sgn-form > .sgn-form-help-block {
 	line-height: 1;
-	background-color: var(--sgnf-background);
+	background-color: var(--sgnf-background-inactive-light);
 	color: var(--sgnf-accent-inactive);
 	font-size: .8rem;
 	display: flex;
@@ -156,21 +210,71 @@ select {
 	position: relative;
 }
 
-.sgn-form > .sgn-form-help-block.has-marquee > .sgn-marquee-wrapper,
-.sgn-form > .sgn-form-help-block.has-marquee > .js-marquee-wrapper {
+.sgn-form > .sgn-form-help-block.has-marquee > .sgn-marquee-wrapper {
 	position: absolute;
 	font-size: inherit;
 }
 
-.sgn-form > .sgn-form-help-block.has-marquee > .sgn-marquee-wrapper > .sgn-marquee,
-.sgn-form > .sgn-form-help-block.has-marquee > .js-marquee-wrapper > .js-marquee {
+.sgn-form > .sgn-form-help-block.has-marquee > .sgn-marquee-wrapper > .sgn-marquee {
 	padding: 0 20%;
 	font-size: inherit;
 }
 
 
-.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).active,
-.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).edited,
+.sgn-form > .sgn-input-autocomplete-box {
+	padding: 0;
+	opacity: 0;
+	pointer-events: none;
+	width: 100%;
+	max-height: 280px;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: start;
+	transition: border-width, border-color .3s linear;
+}
+
+.sgn-form > .sgn-input-autocomplete-box > li {
+	list-style: none;
+	padding: var(--padding-sm) var(--padding-sm);
+	display: none;
+	width: 100%;
+	cursor: pointer;
+	border-radius: var(--sgn-border-radius-sm);
+	color: var(--sgn-secondary);
+}
+
+.sgn-form.autocomplete-active > .sgn-input-autocomplete-box {
+	padding: var(--padding-sm) var(--padding-sm);
+	opacity: 1;
+	pointer-events: auto;
+	border-top: 1px solid var(--sgnf-border);
+}
+
+.sgn-form.autocomplete-active > .sgn-input-autocomplete-box > li {
+	display: block;
+	border-radius: var(--sgn-border-radius-sm);
+	transition: background-color .5s linear;
+}
+
+.sgn-form.autocomplete-active > .sgn-input-autocomplete-box > li:hover {
+	background-color: var(--sgn-background-primary-dark);
+	transition: background-color .3s linear;
+}
+
+.sgn-form.disabled.autocomplete-active > .sgn-input-autocomplete-box,
+.sgn-form.readonly.autocomplete-active > .sgn-input-autocomplete-box {
+	cursor: not-allowed !important;
+}
+
+.sgn-form.readonly.autocomplete-active > .sgn-input-autocomplete-box > li {
+	pointer-events: none;
+}
+
+
+.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch):not(.sgn-select).active,
+.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch):not(.sgn-select).edited,
 fieldset.active,
 fieldset.edited {
 	border-width: 3px;
@@ -186,6 +290,77 @@ fieldset.edited {
 .sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).edited > .sgn-form-wrapper > .sgn-input-suffix {
 	border-radius: 0 calc(var(--sgn-border-radius-sm) - .2rem) calc(var(--sgn-border-radius-sm) - .2rem) 0;
 }
+
+.sgn-form > .sgn-input-prefix.prefix-input,
+.sgn-form > .sgn-input-suffix.prefix-input {
+	flex: 1 1 50%;
+}
+
+
+.sgn-form > .sgn-form-wrapper > .sgn-input-overlay,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-prefix > .sgn-input-overlay-prefix,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-suffix > .sgn-input-overlay-suffix {
+	color: var(--sgn-text-secondary);
+	font-size: 1.5rem;
+}
+
+.sgn-form > .sgn-form-wrapper > .sgn-input-overlay {
+	position: absolute;
+	top: 50%;
+	bottom: 50%;
+	right: var(--padding-xs);
+	transform: translateY(-50%);
+}
+
+.sgn-form > .sgn-form-wrapper > .sgn-input-overlay.prefix,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-prefix > .sgn-input-overlay-prefix {
+	right: unset;
+	left: var(--padding-xs);
+}
+
+.sgn-form > .sgn-form-wrapper.has-input-overlay-prefix > .sgn-input-wrapper > .sgn-input-overlay,
+.sgn-form > .sgn-form-wrapper.has-input-overlay-suffix > .sgn-input-wrapper > .sgn-input-overlay,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-prefix > .sgn-input-overlay-prefix,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-suffix > .sgn-input-overlay-suffix {
+	color: var(--sgn-text-secondary);
+	position: relative;
+	margin: 0 var(--margin-sm);
+	font-size: 1.5rem;
+}
+
+.sgn-form > .sgn-form-wrapper.has-input-overlay-prefix > .sgn-input-wrapper > .form-control,
+.sgn-form > .sgn-form-wrapper.has-input-overlay-suffix > .sgn-input-wrapper > .form-control,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-prefix > .form-control,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-suffix > .form-control {
+	padding-right: 0;
+}
+
+.sgn-form > .sgn-form-wrapper > .sgn-input-overlay.interactive,
+.sgn-form > .sgn-form-wrapper > .sgn-input-overlay-prefix.interactive,
+.sgn-form > .sgn-form-wrapper > .sgn-input-overlay-suffix.interactive,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-prefix > .sgn-input-overlay-prefix.interactive,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-suffix > .sgn-input-overlay-suffix.interactive {
+	cursor: pointer;
+	z-index: 2;
+	transition: color .3s linear;
+}
+
+.sgn-form > .sgn-form-wrapper > .sgn-input-overlay.interactive:hover,
+.sgn-form > .sgn-form-wrapper > .sgn-input-overlay-prefix.interactive:hover,
+.sgn-form > .sgn-form-wrapper > .sgn-input-overlay-suffix.interactive:hover,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-prefix > .sgn-input-overlay-prefix.interactive:hover,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-suffix > .sgn-input-overlay-suffix.interactive:hover {
+	color: var(--sgn-accent-secondary);
+}
+
+.sgn-form > .sgn-form-wrapper > .sgn-input-overlay.interactive:active,
+.sgn-form > .sgn-form-wrapper > .sgn-input-overlay-prefix.interactive:active,
+.sgn-form > .sgn-form-wrapper > .sgn-input-overlay-suffix.interactive:active,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-prefix > .sgn-input-overlay-prefix.interactive:active,
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-suffix > .sgn-input-overlay-suffix.interactive:active {
+	color: var(--sgn-accent-secondary-active);
+}
+
 
 .sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).active > label,
 .sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).edited > label,
@@ -220,26 +395,28 @@ fieldset.edited {
 }
 
 
-.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).active,
-fieldset.active {
+.sgn-form:not(.disabled):not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).active,
+.sgn-form:not(.disabled).autocomplete-active.active > .sgn-input-autocomplete-box,
+fieldset:not(.disabled).active {
 	border-color: var(--sgnf-accent-active);
 }
 
-.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).active > label,
-.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).active > .sgn-form-wrapper > .sgn-input-wrapper > label,
-fieldset.active > legend {
+.sgn-form:not(.disabled):not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).active > label,
+.sgn-form:not(.disabled):not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).active > .sgn-form-wrapper > .sgn-input-wrapper > label,
+fieldset:not(.disabled).active > legend {
 	color: var(--sgnf-accent-active);
 	z-index: 2;
 }
 
-.sgn-form.active > .sgn-form-help-block,
-.sgn-form.active > .sgn-form-wrapper > .sgn-form-help-block {
+.sgn-form:not(.disabled).active > .sgn-form-help-block,
+.sgn-form:not(.disabled).active > .sgn-form-wrapper > .sgn-form-help-block {
 	background-color: var(--sgnf-background-active-light);
 	color: var(--sgnf-accent-active);
 }
 
 
-.sgn-form.valid,
+.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).valid,
+.sgn-form.autocomplete-active.valid > .sgn-input-autocomplete-box,
 fieldset.valid {
 	border-color: var(--sgnf-accent-valid);
 }
@@ -258,6 +435,7 @@ fieldset.valid {
 
 
 .sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).invalid,
+.sgn-form.autocomplete-active.invalid > .sgn-input-autocomplete-box,
 fieldset.invalid {
 	border-color: var(--sgnf-accent-invalid);
 }

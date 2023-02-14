@@ -1,10 +1,11 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
+@import "background-colors.css";
 @import "text-colors.css";
 @import "gradients.css";
 
@@ -19,22 +20,6 @@
 
 .sgn-optional {
 	color: var(--sgn-success);
-}
-
-.text-primary {
-	color: var(--sgn-accent-primary);
-}
-
-.text-secondary {
-	color: var(--sgn-accent-secondary);
-}
-
-.text-black {
-	color: hsla(0, 0%, 0%, 1);
-}
-
-.text-white {
-	color: hsla(0, 0%, 100%, 1);
 }
 
 
@@ -54,3 +39,29 @@
 	color: #4b515d !important;
 }
 
+
+:root {
+	--black: hsl(0, 0%, 0%);
+	--grey: hsl(0, 0%, 1%);
+	--cod-grey: hsl(0, 0%, 4%);
+	--all-black: hsl(0, 0%, 9%);
+	--eerie-black: hsl(0, 0%, 11%);
+	--filmpro-black: hsl(0, 0%, 16%);
+	--mine-shaft: hsl(0, 0%, 20%);
+	--jet: hsl(0, 0%, 20%);
+	--davy-grey: hsl(0, 0%, 33%);
+	--granite-gray: hsl(0, 0%, 40%);
+	--dim-gray: hsl(0, 0%, 41%);
+	--sonic-silver: hsl(0, 0%, 46%);
+	--gray: hsl(0, 0%, 50%);
+	--spanish-gray: hsl(0, 0%, 60%);
+	--quick-silver: hsl(0, 0%, 65%);
+	--dark-gray-x11: hsl(0, 0%, 66%);
+	--silver-chalice: hsl(0, 0%, 67%);
+	--gray-x11-gray: hsl(0, 0%, 75%);
+	--silver: hsl(0, 0%, 75%);
+	--light-gray: hsl(0, 0%, 83%);
+	--gainsboro: hsl(0, 0%, 86%);
+	--cultured: hsl(0, 0%, 96%);
+	--white: hsl(0, 0%, 100%);
+}

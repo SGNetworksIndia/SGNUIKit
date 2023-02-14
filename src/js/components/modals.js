@@ -155,7 +155,7 @@ if(typeof jQuery === "undefined") {
 		return this;
 	};
 
-	$(function() {
+	SUKR(() => {
 		const $modals = $(".sgn-modal");
 		const $modalToggle = $("[data-sgn-toggle=\"modal\"], [data-toggle=\"modal\"]");
 		const $modalTarget = $("[data-sgn-target=\"modal\"], [data-target=\"modal\"]");

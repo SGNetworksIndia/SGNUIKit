@@ -33,9 +33,8 @@
 		"prebuild": "node .\\build\\clean.js --dir src",
 		"BuildFree": "npm run prebuild & webpack --env flavor=free --stats-modules-space 999",
 		"BuildPro": "npm run prebuild & webpack --env flavor=pro --stats-modules-space 999",
-		"postbuild": "node .\\build\\publish.js",
-		"ReleaseFree": "npm run BuildFree & npm run postbuild --flavor free & node .\\build\\release.js --flavor free",
-		"ReleasePro": "npm run BuildPro & npm run postbuild --flavor pro & node .\\build\\release.js --flavor pro",
+		"ReleaseFree": "npm run BuildFree & node .\\build\\publish.js --flavor free & node .\\build\\release.js --flavor free",
+		"ReleasePro": "npm run BuildPro & node .\\build\\publish.js --flavor pro & node .\\build\\release.js --flavor pro",
 		"Release": "npm run ReleaseFree & npm run ReleasePro",
 		"start": "node .\\demos\\run.js"
 	}

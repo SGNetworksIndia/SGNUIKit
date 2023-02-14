@@ -1,0 +1,164 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/********************SGN LOADER ALIGNERS********************/
+.sgn-loader-aligner {
+	position: absolute;
+}
+
+.sgn-loader-align-left {
+	left: 0%;
+	transform: translate3d(0, 0%, 0);
+}
+
+.sgn-loader-align-center {
+	left: 50%;
+	transform: translate3d(-50%, 0, 0);
+}
+
+.sgn-loader-align-right {
+	text-align: right;
+}
+
+.sgn-loader-align-top {
+	top: 0%;
+	transform: translate3d(0, 0%, 0);
+}
+
+.sgn-loader-align-middle {
+	top: 50%;
+	transform: translate3d(0, -50%, 0);
+}
+
+.sgn-loader-align-bottom {
+	top: 100%;
+	transform: translate3d(0, -100%, 0);
+}
+
+
+.sgn-loader-aligner-type-absolute {
+	position: absolute;
+}
+
+.sgn-loader-aligner-type-relative {
+	position: relative;
+}
+
+.sgn-loader-aligner-type-flex {
+	display: flex;
+	height: 100%;
+}
+
+
+.sgn-loader-aligner-type-flex.sgn-loader-aligner-top_left {
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+.sgn-loader-aligner-type-flex.sgn-loader-aligner-top_center {
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.sgn-loader-aligner-type-flex.sgn-loader-aligner-top_right {
+	align-items: flex-start;
+	justify-content: flex-end;
+}
+
+.sgn-loader-aligner-type-flex.sgn-loader-aligner-middle_left {
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.sgn-loader-aligner-type-flex.sgn-loader-aligner-middle_center {
+	align-items: center;
+	justify-content: center;
+}
+
+.sgn-loader-aligner-type-flex.sgn-loader-aligner-middle_right {
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.sgn-loader-aligner-type-flex.sgn-loader-aligner-bottom_left {
+	align-items: flex-end;
+	justify-content: flex-start;
+}
+
+.sgn-loader-aligner-type-flex.sgn-loader-aligner-bottom_center {
+	align-items: flex-end;
+	justify-content: center;
+}
+
+.sgn-loader-aligner-type-flex.sgn-loader-aligner-bottom_right {
+	align-items: flex-end;
+	justify-content: flex-end;
+}
+
+
+.sgn-loader-aligner-type-absolute.sgn-loader-aligner-top_left,
+.sgn-loader-aligner-type-relative.sgn-loader-aligner-top_left {
+	top: 0%;
+	left: 0%;
+	transform: translate3d(-0%, -0%, 0);
+}
+
+.sgn-loader-aligner-type-absolute.sgn-loader-aligner-top_center,
+.sgn-loader-aligner-type-relative.sgn-loader-aligner-top_center {
+	top: 0%;
+	left: 50%;
+	transform: translate3d(-50%, -0%, 0);
+}
+
+.sgn-loader-aligner-type-absolute.sgn-loader-aligner-top_right,
+.sgn-loader-aligner-type-relative.sgn-loader-aligner-top_right {
+	top: 0%;
+	left: 100%;
+	transform: translate3d(-100%, -0%, 0);
+}
+
+.sgn-loader-aligner-type-absolute.sgn-loader-aligner-middle_left,
+.sgn-loader-aligner-type-relative.sgn-loader-aligner-middle_left {
+	top: 50%;
+	left: 0%;
+	transform: translate3d(-0%, -50%, 0);
+}
+
+.sgn-loader-aligner-type-absolute.sgn-loader-aligner-middle_center,
+.sgn-loader-aligner-type-relative.sgn-loader-aligner-middle_center {
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%, -50%, 0);
+}
+
+.sgn-loader-aligner-type-absolute.sgn-loader-aligner-middle_right,
+.sgn-loader-aligner-type-relative.sgn-loader-aligner-middle_right {
+	top: 50%;
+	left: 100%;
+	transform: translate3d(-100%, -50%, 0);
+}
+
+.sgn-loader-aligner-type-absolute.sgn-loader-aligner-bottom_left,
+.sgn-loader-aligner-type-relative.sgn-loader-aligner-bottom_left {
+	top: 100%;
+	left: 0%;
+	transform: translate3d(-0%, -100%, 0);
+}
+
+.sgn-loader-aligner-type-absolute.sgn-loader-aligner-bottom_center,
+.sgn-loader-aligner-type-relative.sgn-loader-aligner-bottom_center {
+	top: 100%;
+	left: 50%;
+	transform: translate3d(-50%, -100%, 0);
+}
+
+.sgn-loader-aligner-type-absolute.sgn-loader-aligner-bottom_right,
+.sgn-loader-aligner-type-relative.sgn-loader-aligner-bottom_right {
+	top: 100%;
+	left: 100%;
+	transform: translate3d(-100%, -100%, 0);
+}

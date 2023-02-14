@@ -1,0 +1,387 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/********************SGN BARS KEYFRAMES********************/
+/**********STRIPES LEFT**********/
+@keyframes sgn-bar-stripes-left {
+	0% {
+		background-position: 1rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-1x {
+	0% {
+		background-position: 1rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-2x {
+	0% {
+		background-position: 2rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-3x {
+	0% {
+		background-position: 3rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-4x {
+	0% {
+		background-position: 4rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-5x {
+	0% {
+		background-position: 5rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-6x {
+	0% {
+		background-position: 6rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-7x {
+	0% {
+		background-position: 7rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-8x {
+	0% {
+		background-position: 8rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-9x {
+	0% {
+		background-position: 9rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-10x {
+	0% {
+		background-position: 10rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-11x {
+	0% {
+		background-position: 11rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-12x {
+	0% {
+		background-position: 12rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-13x {
+	0% {
+		background-position: 13rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-14x {
+	0% {
+		background-position: 14rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-15x {
+	0% {
+		background-position: 15rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-16x {
+	0% {
+		background-position: 16rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-17x {
+	0% {
+		background-position: 17rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-18x {
+	0% {
+		background-position: 18rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-19x {
+	0% {
+		background-position: 19rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-left-20x {
+	0% {
+		background-position: 20rem 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+/**********STRIPES RIGHT**********/
+@keyframes sgn-bar-stripes-right {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 1rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-1x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 1rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-2x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 2rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-3x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 3rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-4x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 4rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-5x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 5rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-6x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 6rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-7x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 7rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-8x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 8rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-9x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 9rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-10x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 10rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-11x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 11rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-12x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 12rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-13x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 13rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-14x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 14rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-15x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 15rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-16x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 16rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-17x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 17rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-18x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 18rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-19x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 19rem 0;
+	}
+}
+
+@keyframes sgn-bar-stripes-right-20x {
+	0% {
+		background-position: 0rem 0;
+	}
+	100% {
+		background-position: 20rem 0;
+	}
+}

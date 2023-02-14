@@ -13,14 +13,31 @@
 	--sgn-fp-nav-active-size: 12px;
 }
 
+.sgn-fullpage-active > .sgn-atom-container > main > .sgn-container,
+.sgn-fullpage-active > main > .sgn-container,
+.sgn-fullpage {
+	flex: 1 0 100%;
+}
+
 .sgn-fullpage,
 .sgn-fullpage > section,
 .sgn-fullpage > .section {
 	height: 100vh;
 }
 
-.sgn-fullpage {
+.sgn-fullpage.fade > section,
+.sgn-fullpage.fade > .section,
+.sgn-fullpage > section.fade,
+.sgn-fullpage > .section.fade {
+	opacity: 0;
+	transition: opacity 2s ease-in-out;
+}
 
+.sgn-fullpage.fade > section.active,
+.sgn-fullpage.fade > .section.active,
+.sgn-fullpage > section.fade.active,
+.sgn-fullpage > .section.fade.active {
+	opacity: 1;
 }
 
 .sgn-fullpage > section.sgn-fp-slides,

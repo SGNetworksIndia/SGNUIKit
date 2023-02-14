@@ -11,7 +11,6 @@
 		<meta charset="UTF-8">
 		<title>FullPage Addon - SGNUIKit Demo</title>
 		<script src="/src/js/SGNUIKit.loader.js"></script>
-		<!--<script src="/dist/js/SGNUIKit.loader.js"></script>-->
 		<style>
 			.color-block {
 				background-color: hsl(0, 0%, 80%);
@@ -35,7 +34,7 @@
 			}
 		</style>
 	</head>
-	<body class="sgn-fullpage-active">
+	<body>
 		<main>
 			<div class="sgn-fullpage text-white">
 				<div class="section blue-gradient d-flex container-center">Section-1</div>
@@ -53,9 +52,17 @@
 			</div>
 		</main>
 		<script>
-			SGNUIKit.setOnReadyListener((isReady) => {
+			/*$(function() {
+			 const $fullpages = $(".sgn-fullpage");
+			 console.log('Test:', $fullpages);
 
-			});
+			 if($fullpages.length > 0) {
+			 $fullpages.each(function() {
+			 const $this = $(this);
+			 $this.SGNFullPage();
+			 });
+			 }
+			 });*/
 		</script>
 	</body>
 </html>

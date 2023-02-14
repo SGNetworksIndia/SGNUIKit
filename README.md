@@ -12,13 +12,13 @@
 
 ## REQUIREMENTS
 
-* **Current SGNUIKit Version**: 1.1.4
+* **Current SGNUIKit Version**: 1.1.5
 
 ### Core Requirements
 
 | Technology | Version | Link                                                                        |
 |------------|---------|-----------------------------------------------------------------------------|
-| jQuery     | 3.6.0   | [https://jquery.com/download/](https://code.jquery.com/jquery-3.6.0.min.js) |
+| jQuery     | 3.6.3   | [https://jquery.com/download/](https://code.jquery.com/jquery-3.6.0.min.js) |
 
 _Note: If the dependencies omitted, it will neither break the features nor impact the performance of
 as it comes built-in with **SGNUIKit** and the built-in dependencies will be used._

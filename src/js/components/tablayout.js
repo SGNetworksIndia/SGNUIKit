@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
@@ -72,8 +72,8 @@ if(typeof jQuery === "undefined") {
 		});
 	};
 
-	$(function() {
-		const $tab = ($('[sgn-component="tab"]').length > 0) ? $('[sgn-component="tab"]') : (($('[data-component="tab"]').length > 0) ? $('[data-component="tab"]') : $('.tab-layout'));
+	SUKR(() => {
+		const $tab = $('[sgn-component="tab"], [sgn-component="tab"], [data-component="tab"]') || $('.tab-layout');
 		$tab.SGNTabLayout();
 	});
 })(window, document, jQuery);

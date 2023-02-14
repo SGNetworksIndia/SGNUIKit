@@ -1,0 +1,35 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/********************SGN SPINNERS ANIMATIONS********************/
+.sgn-loader > .sgn-spinner.sgn-spinner-animation-ease:before {
+	animation-timing-function: ease;
+}
+
+.sgn-loader > .sgn-spinner.sgn-spinner-animation-easein:before {
+	animation-timing-function: ease-in;
+}
+
+.sgn-loader > .sgn-spinner.sgn-spinner-animation-easeinout:before {
+	animation-timing-function: ease-in-out;
+}
+
+.sgn-loader > .sgn-spinner.sgn-spinner-animation-easeout:before {
+	animation-timing-function: ease-out;
+}
+
+.sgn-loader > .sgn-spinner.sgn-spinner-animation-steps:before {
+	animation-timing-function: steps;
+}
+
+.sgn-loader > .sgn-spinner.sgn-spinner-animation-stepstart:before {
+	animation-timing-function: step-start;
+}
+
+.sgn-loader > .sgn-spinner.sgn-spinner-animation-stepend:before {
+	animation-timing-function: step-end;
+}

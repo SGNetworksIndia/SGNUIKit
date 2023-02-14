@@ -1,0 +1,84 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+@import url("speeds.css");
+@import url("animations.css");
+@import url("sizes.css");
+@import url("borders.css");
+
+.sgn-loader > .sgn-spinner:before {
+	content: "";
+	box-sizing: border-box;
+	display: inline-block;
+	animation-name: sgn-spinner;
+	animation-duration: .6s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	border-radius: 50%;
+	height: 30px;
+	width: 30px;
+	margin: 0;
+	padding: 0;
+}
+
+/********************SGN SPINNERS********************/
+.sgn-loader > .sgn-spinner-default:before {
+	border: 2px solid #f3f3f3;
+	border-top: 2px solid #3498db;
+	animation-duration: 2s;
+}
+
+.sgn-loader > .sgn-spinner-black:before {
+	border: 2px solid #cccccc;
+	border-top-color: #333333;
+}
+
+.sgn-loader > .sgn-spinner-black-inverse:before {
+	border: 2px solid #333333;
+	border-top-color: #cccccc;
+}
+
+.sgn-loader > .sgn-spinner-white:before {
+	border: 2px solid #222222;
+	border-top-color: #ffffff;
+}
+
+.sgn-loader > .sgn-spinner-white-inverse:before {
+	border: 2px solid #ffffff;
+	border-top-color: #222222;
+}
+
+.sgn-loader > .sgn-spinner-neon:before {
+	border: 1px solid #cccccc;
+	border-top-color: #0077dd;
+}
+
+.sgn-loader > .sgn-spinner-trimmed:before {
+	border: 1px solid transparent;
+	border-top-color: #0077dd;
+	border-bottom-color: #0077dd;
+	animation-duration: .8s;
+	animation-timing-function: ease;
+}
+
+.sgn-loader > .sgn-spinner-nimbus:before {
+	border-top: 4px solid #0077dd;
+	border-right: 4px solid transparent;
+}
+
+.sgn-loader > .sgn-spinner-colour:before {
+	border: 1px solid #ff66ff;
+	border-top-color: #00ee00;
+	border-right-color: #00dddd;
+	border-bottom-color: #ff9900;
+}
+
+
+/********************SGN SPINNERS KEYFRAMES********************/
+@keyframes sgn-spinner {
+	to { transform: rotate(360deg); }
+}

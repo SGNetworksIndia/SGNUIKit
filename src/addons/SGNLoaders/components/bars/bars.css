@@ -1,0 +1,100 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+@import url("animations.css");
+@import url("delays.css");
+@import url("sizes.css");
+@import url("speeds.css");
+@import url("keyframes.css");
+/* @import url('borders.css'); */
+.sgn-loader > .sgn-bar {
+	box-shadow: none;
+	position: relative;
+	display: block;
+	width: 100%;
+	height: .25rem;
+	overflow: hidden;
+	margin-bottom: 0rem;
+	background-color: #eeeeee;
+	border-radius: .25rem;
+}
+
+.sgn-loader > .sgn-bar > .bar {
+	box-shadow: none;
+	height: .25rem;
+	border-radius: 0;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	-ms-flex-pack: center;
+	justify-content: center;
+	text-align: center;
+	white-space: nowrap;
+	transition: width 2s ease-in-out;
+	background-size: 1rem 1rem;
+	color: #ffffff;
+	background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+}
+
+/********************SGN BARS STRIPES********************/
+.sgn-loader > .sgn-bar.sgn-bar-stripes-left > .bar {
+	animation: sgn-bar-stripes-left 1s linear infinite;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-stripes-right > .bar {
+	animation: sgn-bar-stripes-right 1s linear infinite;
+}
+
+/********************SGN BARS********************/
+.sgn-loader > .sgn-bar.sgn-bar-default > .bar {
+	background-color: #0d47a1;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-black > .bar {
+	background-color: #000000;
+	background-image: linear-gradient(45deg, rgba(120, 120, 120, .15) 25%, transparent 25%, transparent 50%, rgba(120, 120, 120, .15) 50%, rgba(120, 120, 120, .15) 75%, transparent 75%, transparent);
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-black-inverse > .bar {
+	background-color: #000000;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-white > .bar {
+	background-color: #ffffff;
+	background-image: linear-gradient(45deg, rgba(0, 0, 0, .15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, .15) 50%, rgba(0, 0, 0, .15) 75%, transparent 75%, transparent);
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-white-inverse > .bar {
+	background-color: #ffffff;
+	background-image: linear-gradient(45deg, rgba(0, 0, 0, .5) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, .5) 50%, rgba(0, 0, 0, .5) 75%, transparent 75%, transparent);
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-neon > .bar {
+	background-color: #0077dd;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-colour > .bar {
+	background-color: #ff66ff;
+	background-image: linear-gradient(45deg, rgba(0, 0, 14, 1) 25%, transparent 25%, transparent 50%, rgba(0, 13, 13, 1) 50%, rgba(0, 0, 249, 1) 75%, transparent 75%, transparent);
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-green > .bar {
+	background-color: #00c851;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-cyan > .bar {
+	background-color: #33b5e5;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-yellow > .bar {
+	background-color: #ffbb33;
+}
+
+.sgn-loader > .sgn-bar.sgn-bar-red > .bar {
+	background-color: #ff3547;
+}

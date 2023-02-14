@@ -526,6 +526,123 @@ window.unescapeHTML = (str) => {
 	});
 };
 
+window.getGeolocation = (e, element, callback) => {
+	const options = {
+		enableHighAccuracy: true,
+		timeout: 5000,
+		maximumAge: 0
+	};
+
+	if(e instanceof Event)
+		e.preventDefault();
+
+	let $elem = e;
+	if(e instanceof EventTarget || e instanceof HTMLElement || e instanceof jQuery)
+		$elem = $(e);
+	else if(e instanceof Event)
+		$elem = $(e.target);
+	const $sgnInput = $elem.parents('.sgn-input-wrapper');
+	if($sgnInput.length > 0) {
+		$elem = $sgnInput.children('.form-control');
+	}
+	$elem.showLoader();
+
+	if(typeof element === 'string') {
+		element = $(element);
+	}
+
+	navigator.geolocation.getCurrentPosition((pos) => {
+		const coordinates = pos.coords,
+		      timestamp   = pos.timestamp;
+		const latitude         = coordinates.latitude,
+		      longitude        = coordinates.longitude,
+		      accuracy         = coordinates.accuracy, // in meters
+		      altitude         = coordinates.altitude,
+		      altitudeAccuracy = coordinates.altitudeAccuracy,
+		      heading          = coordinates.heading,
+		      speed            = coordinates.speed;
+		const coords = `${latitude}, ${longitude}`;
+
+		const defaultAPI = SGNUIKit.config.geocoding.defaultAPI;
+
+		if(defaultAPI === 'osm' || defaultAPI === 'geonames') {
+			const apiBase = SGNUIKit.config.urls.api[defaultAPI],
+			      apiURL  = (defaultAPI === 'geonames') ? `${apiBase}countryCode` : `${apiBase}reverse`,
+			      apiKey  = (defaultAPI === 'geonames') ? SGNUIKit.config.api.geonames : '';
+			const opt = (defaultAPI === 'geonames') ? {
+				lat: latitude,
+				lon: longitude,
+				type: 'JSON',
+				username: apiKey || 'demo'
+			} : {
+				lat: latitude,
+				lon: longitude,
+				format: 'json',
+			};
+			$.getJSON(apiURL, opt, function(result) {
+				//console.log(result);
+				if(defaultAPI === 'osm') {
+					const address  = result.address,
+					      location = result.display_name;
+					result = Object.assign(result, {'position': coordinates});
+					setLocation(coords, result, location);
+				} else {
+					result = Object.assign(result, {'position': coordinates});
+					setLocation(coords, result, location);
+				}
+			});
+		} else {
+			setLocation(coords, coordinates);
+		}
+
+		/*console.log('Your current position is:');
+		 console.log(`Latitude : ${coordinates.latitude}`);
+		 console.log(`Longitude: ${coordinates.longitude}`);
+		 console.log(`More or less ${coordinates.accuracy} meters.`);*/
+	}, (error) => {
+		const code    = error.code,
+		      message = error.message,
+		      timeout = (options.timeout / 1000);
+
+		console.warn(`GEOLOCATION: ERROR(${code}): ${message}`);
+
+		const msg = (code === GeolocationPositionError.PERMISSION_DENIED) ? getI18nString('sgn_geolocation_error_permission_denied', message) :
+		            (code === GeolocationPositionError.POSITION_UNAVAILABLE) ? getI18nString('sgn_geolocation_error_position_unavailable', message) :
+		            (code === GeolocationPositionError.TIMEOUT) ? getI18nString('sgn_geolocation_error_request_timeout', message, `${timeout} seconds`) : message;
+
+		if($.SGNSnackbar !== undefined) {
+			$.SGNSnackbar(msg);
+		}
+		if(typeof callback === 'function') {
+			callback(true, error);
+		}
+	}, options);
+
+	const setLocation = (coordinates, position, location) => {
+		if(element instanceof HTMLElement || element instanceof jQuery) {
+			element = (element instanceof jQuery) ? $(element)[0] : element;
+			const $element = $(element);
+
+			if(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+				if(element instanceof HTMLTextAreaElement)
+					$element.text(location).data('sgn-user-location', coordinates).trigger('change');
+				else {
+					const type = ($element.attr('type') || 'text').toLowerCase();
+
+					if(type !== 'checkbox' && type !== 'radio' && type !== 'toggle' && type !== 'switch')
+						$element.val(location).data('sgn-user-location', coordinates).trigger('change');
+				}
+			}
+		}
+
+		if(typeof callback === 'function') {
+			callback(false, coordinates, position);
+		} else {
+			$elem.hideLoader();
+		}
+	}
+}
+
 $(document).ready(function() {
 	$.extend({
 		NMAjax: function(options) {
@@ -647,23 +764,39 @@ $(document).ready(function() {
 				$(this).removeAttr("disabled");
 			});
 		},
-		showLoader: function(alignWithFlex = true, classes) {
-			classes = (classes) ? "nm-loader-align-flex " + classes : "nm-loader-align-flex";
-			if(classes === undefined) {
-				this.addClass("nm-loader");
-				this.html("<div class='nm-spinner'><div class='nm-icon'><img src='" + QTConfig.urls.root.global + "icons/medium.png' alt=''/></div><div class='spinner'></div></div>");
-			} else {
-				this.data("nm-loader-classes", classes);
-				this.addClass("nm-loader " + classes);
-				this.html("<div class='nm-spinner " + classes + "'><div class='nm-icon'><img src='" + QTConfig.urls.root.global + "icons/medium.png' alt=''/></div><div class='spinner'></div></div>");
-			}
+		/*showLoader: function(alignWithFlex = true, classes) {
+		 classes = (classes) ? "nm-loader-align-flex " + classes : "nm-loader-align-flex";
+		 if(classes === undefined) {
+		 this.addClass("nm-loader");
+		 this.html("<div class='nm-spinner'><div class='nm-icon'><img src='" + QTConfig.urls.root.global + "icons/medium.png' alt=''/></div><div class='spinner'></div></div>");
+		 } else {
+		 this.data("nm-loader-classes", classes);
+		 this.addClass("nm-loader " + classes);
+		 this.html("<div class='nm-spinner " + classes + "'><div class='nm-icon'><img src='" + QTConfig.urls.root.global + "icons/medium.png' alt=''/></div><div class='spinner'></div></div>");
+		 }
+		 },
+		 hideLoader: function() {
+		 const classes = this.data("nm-loader-classes");
+		 if(classes !== undefined)
+		 this.removeClass("nm-loader " + classes);
+		 this.removeClass("nm-loader");
+		 this.find(".nm-spinner").remove();
+		 },*/
+		showLoader: function() {
+			const $this = $(this);
+			const $sgnInput = ($this.hasClass('sgn-input-wrapper')) ? $this : $this.parents('.sgn-input-wrapper');
+			if($sgnInput.length > 0) {
+				$sgnInput.children('.form-control').SGNInput().showLoader();
+			} else
+				$this.SGNSpinner().showLoader();
 		},
 		hideLoader: function() {
-			const classes = this.data("nm-loader-classes");
-			if(classes !== undefined)
-				this.removeClass("nm-loader " + classes);
-			this.removeClass("nm-loader");
-			this.find(".nm-spinner").remove();
+			const $this = $(this);
+			const $sgnInput = ($this.hasClass('sgn-input-wrapper')) ? $this : $this.parents('.sgn-input-wrapper');
+			if($sgnInput.length > 0) {
+				$sgnInput.children('.form-control').SGNInput().hideLoader();
+			} else
+				$this.SGNSpinner().hideLoader();
 		},
 		showBackdropLoader: function(options) {
 			let $this = this;
@@ -718,18 +851,18 @@ $(document).ready(function() {
 		disable: function() {
 			return this.each(function() {
 				$(this).attr("disabled", true).addClass("disabled");
-				$(this).parents(".md-form").addClass("disabled");
+				$(this).parents(".sgn-form").addClass("disabled");
 			});
 		},
 		enable: function() {
 			return this.each(function() {
-				if($(this).prop("nodeName") === "SELECT" && $(this).hasClass("mdb-select")) {
+				if($(this).prop("nodeName") === "SELECT" && $(this).hasClass("sgn-select")) {
 					if($(this).is(":disabled")) {
 						$(this).removeAttr("disabled").removeClass("disabled");
 					}
 				} else
 					$(this).removeAttr("disabled").removeClass("disabled");
-				$(this).parents(".md-form").removeClass("disabled");
+				$(this).parents(".sgn-form").removeClass("disabled");
 			});
 		},
 		postLoad: function(url, callback) {
@@ -757,212 +890,6 @@ $(document).ready(function() {
 			});
 		},
 	});
-});
-$.fn.extend({
-	showButtonSpinner: function(keepText = false, style) {
-		style = (style) ? " style=\"" + style + "\"" : "";
-		return this.each(function() {
-			$(this).data("sgn-spinner-text", $(this).html());
-			$(this).attr("disabled", true).addClass("disabled loading");
-			const width  = $(this).width(),
-			      height = $(this).height();
-
-			if(keepText)
-				$(this).html("<i class=\"fas fa-spinner fa-spin\"" + style + "></i> " + $(this).text());
-			else
-				$(this).html("<i class=\"fas fa-spinner fa-spin\"" + style + "></i>");
-
-
-			$(this).width(width).height(height);
-		});
-	},
-	hideButtonSpinner: function() {
-		return this.each(function() {
-			$(this).children("fa-spin").remove();
-			$(this).html($(this).data("sgn-spinner-text"));
-			$(this).removeAttr("disabled").removeClass("disabled loading");
-		});
-	},
-	showButtonDone: function(keepText = false, style) {
-		style = (style) ? " style=\"" + style + "\"" : "";
-		return this.each(function() {
-			$(this).hideButtonSpinner();
-			$(this).data("sghcl-cms-spinner-text", $(this).html());
-			$(this).attr("disabled", true).addClass("disabled");
-			if(keepText)
-				$(this).html("<i class=\"fas fa-check\"" + style + "></i> " + $(this).text());
-			else
-				$(this).html("<i class=\"fas fa-check\"" + style + "></i>");
-		});
-	},
-	hideButtonDone: function() {
-		return this.each(function() {
-			$(this).children("fa-check").remove();
-			$(this).html($(this).data("sghcl-cms-spinner-text"));
-			$(this).removeAttr("disabled").removeClass("disabled");
-		});
-	},
-	showButtonFailed: function(keepText = false) {
-		return this.each(function() {
-			$(this).data("nm-failed-text", $(this).text());
-			$(this).attr("disabled", true).addClass("disabled");
-			if(keepText)
-				$(this).html("<i class=\"fas fa-times\"></i> " + $(this).text());
-			else
-				$(this).html("<i class=\"fas fa-times\"></i>");
-		});
-	},
-	hideButtonFailed: function() {
-		return this.each(function() {
-			$(this).children("fa-times").remove();
-			$(this).html($(this).data("nm-failed-text"));
-			$(this).removeAttr("disabled").removeClass("disabled");
-		});
-	},
-	showInputSpinner: function(keepText = false, style) {
-		style = (style) ? " style=\"" + style + "\"" : "";
-		return this.each(function() {
-			const $this = $(this);
-			if($this.parents(".md-form").length > 0) {
-				$this.data("ctpl-spinner-text", $this.html());
-				$this.attr("disabled", true);
-				const $container   = $this.parents(".md-form").find(".sgngf-input-container"),
-				      $iccontainer = $this.parents(".md-form").find(".sgngf-input-addon");
-				if(!$iccontainer.find(".fa-spin").length) {
-					if(keepText)
-						$container.before("<div class=\"sgngf-input-addon ctpl-loader\"><i class=\"fas fa-spinner fa-spin\"" + style + "></i> " + $(this).text() + "</div>");
-					else
-						$container.before("<div class=\"sgngf-input-addon ctpl-loader\"><i class=\"fas fa-spinner fa-spin\"" + style + "></i></div>");
-				}
-			} else {
-				$(this).data("nm-spinner-text", $this.html());
-				$(this).attr("disabled", true);
-				if(!$(this).parent().find(".fa-spin").length) {
-					if(keepText)
-						$(this).after("<i class=\"fas fa-spinner fa-spin ctpl-loader\"" + style + "></i> " + $(this).text());
-					else
-						$(this).after("<i class=\"fas fa-spinner fa-spin ctpl-loader\"" + style + "></i>");
-				}
-			}
-		});
-	},
-	hideInputSpinner: function() {
-		return this.each(function() {
-			const $this = $(this).parent();
-			$this.find(".fa-spin").remove();
-			//$(this).html($(this).data('nm-spinner-text'));
-			$(this).removeAttr("disabled");
-		});
-	},
-	showLoader: function(alignWithFlex = true, classes) {
-		classes = (classes) ? "nm-loader-align-flex " + classes : "nm-loader-align-flex";
-		if(classes === undefined) {
-			this.addClass("nm-loader");
-			this.html("<div class='nm-spinner'><div class='nm-icon'><img src='" + QTConfig.urls.root.global + "icons/medium.png' alt=''/></div><div class='spinner'></div></div>");
-		} else {
-			this.data("nm-loader-classes", classes);
-			this.addClass("nm-loader " + classes);
-			this.html("<div class='nm-spinner " + classes + "'><div class='nm-icon'><img src='" + QTConfig.urls.root.global + "icons/medium.png' alt=''/></div><div class='spinner'></div></div>");
-		}
-	},
-	hideLoader: function() {
-		const classes = this.data("nm-loader-classes");
-		if(classes !== undefined)
-			this.removeClass("nm-loader " + classes);
-		this.removeClass("nm-loader");
-		this.find(".nm-spinner").remove();
-	},
-	showBackdropLoader: function(options) {
-		let $this = this;
-		let append  = (typeof options.append !== "boolean") ? true : options.append,
-		    classes = (options.classes !== undefined) ? options.classes : undefined,
-		    padding = (typeof options.padding !== "string") ? undefined : options.padding,
-		    //margin  = (typeof options.margin !== 'string') ? undefined : options.margin,
-		    styles  = (typeof options.styles !== "object") ? "" : options.styles;
-
-		this.addClass("sghcl-backdrop-loader-container");
-		let html;
-		let width  = this.width(),
-		    height = this.height(),
-		    left   = 0,
-		    top    = 0;
-
-		if(padding !== undefined) {
-			width = "calc(100% - (" + padding + " * 2))";
-			height = "calc(100% - (" + padding + " * 2))";
-			left = padding;
-			top = padding;
-
-			styles += "width: " + width + "; height: " + height + "; left: " + left + "; top: " + top + ";";
-		}
-
-		if(classes === undefined) {
-			html = "<div class=\"sghcl-backdrop-loader\" style=\"" + styles + "\"><div class=\"sghcl-backdrop-loader-spinner default\"></div></div>";
-		} else {
-			this.data("sghclbdl-loader-classes", classes);
-			html = "<div class=\"sghcl-backdrop-loader\" style=\"" + styles + "\"><div class=\"sghcl-backdrop-loader-spinner " + classes + "\"></div></div>";
-		}
-
-		console.log(this);
-		if(append)
-			this.append(html);
-		else
-			this.html(html);
-
-		setTimeout(function() {
-			$this.find(".sghcl-backdrop-loader").addClass("fadein");
-		}, 1000);
-	},
-	hideBackdropLoader: function() {
-		const $this = $(this);
-		//const classes = this.data('sghclbdl-loader-classes');
-		this.removeClass("sghcl-backdrop-loader-container");
-		this.find(".sghcl-backdrop-loader").addClass("fadeout");
-		setTimeout(function() {
-			$this.find(".sghcl-backdrop-loader").remove();
-		}, 1100);
-	},
-	disable: function() {
-		return this.each(function() {
-			$(this).attr("disabled", true).addClass("disabled");
-			$(this).parents(".md-form").addClass("disabled");
-		});
-	},
-	enable: function() {
-		return this.each(function() {
-			if($(this).prop("nodeName") === "SELECT" && $(this).hasClass("mdb-select")) {
-				if($(this).is(":disabled")) {
-					$(this).removeAttr("disabled").removeClass("disabled");
-				}
-			} else
-				$(this).removeAttr("disabled").removeClass("disabled");
-			$(this).parents(".md-form").removeClass("disabled");
-		});
-	},
-	postLoad: function(url, callback) {
-		this.each(function() {
-			const $this = $(this);
-			$.ajax({
-				type: "POST",
-				url: url,
-				data: getUrlVars(url),
-				success: function(d) {
-					$this.html(d);
-					if(typeof callback == "function")
-						callback(d);
-				},
-			});
-		});
-	},
-	SGNLoad: function(url, callback) {
-		return this.each(function() {
-			const $this = $(this);
-			$this.load(url, function(d) {
-				if(typeof callback == "function")
-					callback(d);
-			});
-		});
-	},
 });
 $.extend({
 	/**

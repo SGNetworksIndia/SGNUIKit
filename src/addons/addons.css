@@ -16,6 +16,7 @@
 @import "noty/themes/relax.css" all and (prefers-color-scheme: light);
 @import "noty/themes/metroui.css" all and (prefers-color-scheme: dark);
 @import "PrismJS/prism.css";
+@import "SGNLoaders/SGNLoaders.css";
 @import "SGNFullPage/SGNFullPage.css";
 @import "SGNTimePicker/SGNTimePicker.min.css" all and (prefers-color-scheme: light);
 @import "SweetAlert2/sweetalert2.min.css";

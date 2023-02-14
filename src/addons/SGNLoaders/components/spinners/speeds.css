@@ -1,0 +1,27 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/********************SGN SPINNERS SPEEDS********************/
+.sgn-loader > .sgn-spinner.sgn-spinner-1x:before {
+	animation-duration: 1s;
+}
+
+.sgn-loader > .sgn-spinner.sgn-spinner-2x:before {
+	animation-duration: 2s;
+}
+
+.sgn-loader > .sgn-spinner.sgn-spinner-3x:before {
+	animation-duration: 3s;
+}
+
+.sgn-loader > .sgn-spinner.sgn-spinner-4x:before {
+	animation-duration: 4s;
+}
+
+.sgn-loader > .sgn-spinner.sgn-spinner-5x:before {
+	animation-duration: 5s;
+}

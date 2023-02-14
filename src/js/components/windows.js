@@ -928,7 +928,7 @@ if(typeof jQuery === "undefined") {
 		return this;
 	};
 
-	$(function() {
+	SUKR(() => {
 		const $windowToggles = $("[sgn-window], [data-sgn-window], [data-window]");
 		const $windows = $(".sgn-window");
 

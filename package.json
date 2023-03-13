@@ -19,7 +19,7 @@
 		"babel-loader": "^9.1.2",
 		"css-loader": "6.7.3",
 		"css-url-relative-plugin": "^1.1.0",
-		"jquery": "^3.6.3",
+		"jquery": "^3.6.4",
 		"mini-css-extract-plugin": "^2.6.1",
 		"sass-loader": "^13.2.0",
 		"style-loader": "^3.3.1",

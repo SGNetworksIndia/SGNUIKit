@@ -1,28 +1,32 @@
 /*
- * Copyright (c) 2022 SGNetworks. All rights reserved.
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
  *
  * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-const debugBuild = true;
 
-const path                      = require('path'),
-	  MiniCSSExtractPlugin      = require('mini-css-extract-plugin'),
-	  CSSUrlRelativePlugin      = require('css-url-relative-plugin'),
-	  FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries"),
-	  webpack                   = require('webpack');
+const MiniCSSExtractPlugin      = require('mini-css-extract-plugin'),
+      CSSUrlRelativePlugin      = require('css-url-relative-plugin'),
+      FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries"),
+      webpack                   = require('webpack');
 const TerserPlugin = require("terser-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
+const {constants, functions, terserOptions, licenseOptions} = require("./build/config");
+const {args, buildFlavor, pluginName} = constants;
+const {copyRecursiveSync, fs, path, hasha} = functions;
 const SRC_JS_DIR             = path.resolve(__dirname, 'src/js'),
-	  SRC_CSS_DIR            = path.resolve(__dirname, 'src/css'),
-	  SRC_ADDONS_DIR         = path.resolve(__dirname, 'src/addons'),
-	  BUILD_DIR              = path.resolve(__dirname, 'dist'),
-	  BUILD_CSS_DIR          = path.resolve(__dirname, 'dist/css'),
-	  BUILD_JS_DIR           = path.resolve(__dirname, 'dist/js'),
-	  BUILD_ASSETS_DIR       = path.resolve(__dirname, 'dist/assets'),
-	  BUILD_IMG_ASSETS_DIR   = path.resolve(__dirname, 'dist/assets/img'),
-	  BUILD_FONTS_ASSETS_DIR = path.resolve(__dirname, 'dist/assets/fonts');
+      SRC_CSS_DIR            = path.resolve(__dirname, 'src/css'),
+      SRC_ADDONS_DIR         = path.resolve(__dirname, 'src/addons'),
+      BUILD_DIR              = path.resolve(__dirname, 'dist'),
+      BUILD_CSS_DIR          = path.resolve(__dirname, 'dist/css'),
+      BUILD_JS_DIR           = path.resolve(__dirname, 'dist/js'),
+      BUILD_ASSETS_DIR       = path.resolve(__dirname, 'dist/assets'),
+      BUILD_IMG_ASSETS_DIR   = path.resolve(__dirname, 'dist/assets/img'),
+      BUILD_FONTS_ASSETS_DIR = path.resolve(__dirname, 'dist/assets/fonts');
+
+const debugBuild = (args.mode === 'development') || false;
+
 
 function recursiveIssuer(m) {
 	if(m.issuer)
@@ -40,17 +44,16 @@ class Without {
 
 	apply(compiler) {
 		compiler.hooks.emit.tapAsync("MiniCssExtractPluginCleanup", (compilation, callback) => {
-			Object.keys(compilation.assets)
-				  .filter(asset => {
-					  let match = false,
-						  i     = this.patterns.length;
-					  while(i--) {
-						  if(this.patterns[i].test(asset)) {
-							  match = true;
-						  }
-					  }
-					  return match;
-				  }).forEach(asset => {
+			Object.keys(compilation.assets).filter(asset => {
+				let match = false,
+				    i     = this.patterns.length;
+				while(i--) {
+					if(this.patterns[i].test(asset)) {
+						match = true;
+					}
+				}
+				return match;
+			}).forEach(asset => {
 				delete compilation.assets[asset];
 			});
 
@@ -59,28 +62,30 @@ class Without {
 	}
 }
 
+if(debugBuild) {
+	console.info("Building SGNUIKit for 'Development' environment...");
+} else {
+	console.info("Building SGNUIKit for 'Production' environment...");
+}
+
 const config = {
-	mode: "production", // "production" | "development" | "none"
-	target: 'web',
+	mode: (!debugBuild) ? "production" : "development", // "production" | "development" | "none"
+	target: ['web'],
 	//devtool: "source-map",
 	resolve: {
 		extensions: [".js", ".css", ".scss", ".less"],
-		alias: {
-			// fix every jQuery to our direct jQuery dependency. Shariff 1.24.1 brings its own jQuery, and it would be included twice without this alias.
-			//'jquery': nodeExternals() + '/jquery/ist/jquery.js', //./node_modules/jquery/dist/jquery.js
-			'CKSource': SRC_ADDONS_DIR + '/CKEditor5/ckeditor.js'
-		},
 	},
 	externals: {
-		jquery: 'jQuery',
+		'CKSource': 'CKSource'
 	}, // in order to ignore all modules in node_modules folder
+
 	module: {
 		rules: [
-			{
-				test: /\.(js)$/,
-				exclude: /node_modules/,
-				use: ['babel-loader'],
-			},
+			/*{
+			 test: /\.(js)$/,
+			 exclude: /node_modules/,
+			 use: ['babel-loader'],
+			 },*/
 			{
 				test: /\.(png|svg|jpg|jpeg|gif)$/i,
 				type: "asset/resource",
@@ -131,49 +136,56 @@ const config = {
 		new webpack.optimize.LimitChunkCountPlugin({
 			maxChunks: 1
 		}),
-		new webpack.ProvidePlugin({
-			CKSource: 'CKSource'
-		}),
+		/*new webpack.ProvidePlugin({
+		 CKSource: 'CKSource'
+		 }),*/
 		//new Without([/\.js$/]), // just give a list with regex patterns that should be excluded
 	],
+	stats: {
+		warnings: false
+	}
 };
 
 const jsConfig = (env) => {
 	return Object.assign({}, config, {
 		name: "js",
 		entry: {
-			//'SGNUIKit.loader': './src/js/SGNUIKit.loader.js',
-			'SGNUIKit.bundle': `./src/js/SGNUIKit-${env.flavor}.js`
-			/*'SGNUIKit.bundle': [
-				'./src/js/i18n/SGNi18n.js',
-				'./src/js/helpers/helpers.js',
-				'./src/css/fonts/FontAwesome6Free/js/all.min.js',
-				'./src/css/fonts/FontAwesome6Free/js/v4-shims.min.js',
-				'./src/js/addons/addons.js',
-				'./src/addons/addons.js',
-				'./src/js/components/components.js',
-			]*/
+			'SGNUIKit.bundle': `./src/js/${env.flavor}.js`
 		},
 		output: {
 			path: BUILD_JS_DIR,
 			filename: '[name].js',
 			libraryTarget: 'umd',
 			library: {
-				type: 'umd'
-			}
+				type: 'module',
+			},
+			libraryExport: 'default',
+			module: true
 		},
 		optimization: {
-			minimize: (!debugBuild),
-			mergeDuplicateChunks: false,
-			moduleIds: 'natural',
-			minimizer: [
-				new TerserPlugin({
-					terserOptions: {
-						keep_classnames: true,
-						keep_fnames: true
-					}
-				})
-			]
+			minimize: (debugBuild),
+			mergeDuplicateChunks: true,
+			concatenateModules: true,
+			usedExports: true,
+			moduleIds: 'named',
+			runtimeChunk: true,
+			/*minimizer: [
+			 new TerserPlugin({
+			 sourceMap: true,
+			 terserOptions: {
+			 output: {
+			 // Preserve add-on license comments.
+			 comments: /^!/
+			 },
+			 keep_classnames: true,
+			 keep_fnames: true
+			 },
+			 extractComments: false
+			 })
+			 ]*/
+		},
+		experiments: {
+			outputModule: true
 		},
 	});
 }
@@ -189,9 +201,9 @@ const cssConfig = (env) => {
 			publicPath: '',
 			sourceMapFilename: "SGNUIKit.map.css",
 			/*assetModuleFilename: (pathData) => {
-				const dir = (pathData.extension)
-				//return `${filepath}/[name].[hash][ext][query]`;
-			},*/
+			 const dir = (pathData.extension)
+			 //return `${filepath}/[name].[hash][ext][query]`;
+			 },*/
 		},
 		optimization: {
 			minimize: (!debugBuild),
@@ -212,7 +224,7 @@ const cssConfig = (env) => {
 }
 
 module.exports = [
-	cssConfig,
+	//cssConfig,
 	jsConfig
 ];
 

@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------
-               The SGN CS License, version 1.0
+               The SGN CS License, version 1.1
 Copyright (c) 2022 SGNetworks. All rights reserved.
 ----------------------------------------------------------------------
 
@@ -23,14 +23,14 @@ is permitted provided that the following conditions are met:
   3. Distributions of products or websites created using SGNUIKit must
      retain the following acknowledgment:
      "This product is created using SGNUIKit, freely available from
-     <https://www.sgnuikit.repository.sgnetworks.eu.org.eu.org/download/>" or the official logo of
-     SGNUIKit and a link to <https://www.sgnuikit.repository.sgnetworks.eu.org.eu.org/download/>.
+     <https://www.sgnuikit.lib.sgnetworks.eu.org/download/>" or the official logo of
+     SGNUIKit and a link to <https://www.sgnuikit.lib.sgnetworks.eu.org/download/>.
 
 
-THIS SOFTWARE IS PROVIDED BY THE CERAMIC DEVELOPMENT TEAM ``AS IS``
+THIS SOFTWARE IS PROVIDED BY THE SGNUIKIT DEVELOPMENT TEAM ``AS IS``
 AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
 TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE CERAMIC
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE SGNUIKIT
 DEVELOPMENT TEAM OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
 INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -45,7 +45,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 This software consists of voluntary contributions made by many
 individuals on behalf of the SGNUIKit Group.
 
-The SGNUIKit Group can be contacted via Email at group@sgnuikit.repository.sgnetworks.eu.org.eu.org.
+The SGNUIKit Group can be contacted via Email at group@sgnuikit.lib.sgnetworks.eu.org
 
 For more information on the SGNUIKit Group and the SGNUIKit project,
-please see <https://www.sgnuikit.repository.sgnetworks.eu.org.eu.org>.
+please see <https://www.sgnuikit.lib.sgnetworks.eu.org>.

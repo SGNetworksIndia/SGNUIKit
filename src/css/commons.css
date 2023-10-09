@@ -1,0 +1,29 @@
+/*
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+:root, [class^="sgn-"], [class^="sgn-"] * {
+	--sgn-border-radius-inner-diff: .2rem;
+	--sgn-border-radius-xs: .2rem;
+	--sgn-border-radius-sm: .5rem;
+	--sgn-border-radius-md: 1rem;
+	--sgn-border-inner-radius-xs: calc(var(--sgn-border-radius-xs) - 0rem);
+	--sgn-border-inner-radius-sm: calc(var(--sgn-border-radius-sm) - var(--sgn-border-radius-inner-diff));
+	--sgn-border-inner-radius-md: calc(var(--sgn-border-radius-md) - var(--sgn-border-radius-inner-diff));
+
+	--sgn-shadow-spread: 1rem;
+
+	--sgn-backdrop-blur-intensity: 5px;
+
+	--font-size-default: 1rem;
+	--font-size-xs: .5rem;
+	--font-size-sm: .8rem;
+	--font-size-md: 1.2rem;
+	--font-size-lg: 1.5rem;
+	--font-size-xl: 2rem;
+
+	--sgn-box-shadow-default: 0 0 1rem 0 var(--sgn-shadow-light);
+}

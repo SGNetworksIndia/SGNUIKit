@@ -1,0 +1,203 @@
+/*
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+@import "commons.css";
+@import "themes/light.css" all and (prefers-color-scheme: light);
+@import "themes/dark.css" all and (prefers-color-scheme: dark);
+@import "elements.css";
+@import "../addons/addons.css";
+@import "components/components.css";
+@import "addons/addons.css";
+@import "utilities/utilities.css";
+@import "fonts/fonts-pro.css";
+@import "fonts/font-sizes.css";
+@import "pages/pages.css";
+@import "responsive.css";
+
+/*:root,
+main,
+.sgn-atom-container {
+	scrollbar-width: none !important;
+}*/
+
+* {
+	scrollbar-width: thin !important;
+	/*scrollbar-color: var(--sgn-primary-light) var(--sgn-primary-dark);*/
+	scroll-behavior: smooth;
+	user-select: none;
+}
+
+*,
+::before,
+::after {
+	box-sizing: border-box;
+}
+
+*:before,
+*:after {
+	font-family: var(--sgn-font-fa);
+}
+
+html, body {
+	overflow: hidden;
+}
+
+body {
+	/* min-width: 100vh; */
+	min-height: 100vh;
+	max-height: 100vh;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	color: var(--sgn-text-primary);
+	font-family: var(--sgn-font-roboto-regular);
+	font-size: var(--font-size-default);
+	background-color: var(--sgn-background);
+	line-height: 1.3;
+}
+
+body,
+body * {
+	transition-property: background, background-color, background-image, border-color, border-left-color, border-top-color, border-right-color, border-bottom-color, box-shadow;
+	transition-duration: .2s;
+	transition-timing-function: linear;
+}
+
+body * {
+	color: inherit;
+}
+
+body a {
+	cursor: pointer;
+	color: var(--sgn-accent-primary);
+	text-decoration: none;
+}
+
+body a.disabled {
+	color: var(--sgn-accent-primary-inactive);
+	pointer-events: none;
+}
+
+body a:not(.disabled):hover {
+	color: var(--sgn-accent-primary-hover);
+}
+
+body.with-sidebar > main {
+	min-width: calc(100% - var(--sgn-sidebar-width));
+}
+
+pre,
+code,
+pre > code > .line-numbers-rows,
+pre > code > .line-numbers-rows > span {
+	line-height: 1.5 !important;
+}
+
+.sgn-atom-container {
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+main {
+	overflow: auto;
+	position: relative;
+}
+
+main, main > .sgn-container:not(.container):not(.container-fluid) {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+
+	transition-property: width, margin-left;
+	transition-duration: .5s, .5s;
+}
+
+main > .sgn-container:not(.container):not(.container-fluid) {
+	min-width: 100%;
+	padding: var(--padding-md) var(--padding-xl);
+}
+
+main > .sgn-center-container:not(.container):not(.container-fluid) {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	margin: auto;
+	flex: 1;
+}
+
+main > .sgn-container,
+main > .sgn-center-container {
+	flex: 1;
+	padding: var(--padding-md);
+}
+
+main > *:not(.sgn-container):not(.sgn-center-container):not(.sgn-atom-container):not(.container):not(.container-fluid):not(.require-full-width):not(.sgn-fullpage):not(header):not(nav):not(footer) {
+	max-width: fit-content;
+}
+
+.user-offline {
+	overflow: hidden;
+}
+
+.user-offline > * {
+	filter: grayscale(1);
+}
+
+.user-offline > .overlay {
+	width: 100%;
+	height: 100%;
+	opacity: 1;
+	position: absolute;
+	z-index: 9999;
+	background-color: hsla(0, 0%, 0%, .9);
+	overflow: hidden;
+	filter: none !important;
+	transition: opacity, background-color .5s linear;
+}
+
+.user-offline > .overlay.blackout {
+	background-color: hsla(0, 0%, 0%, 1);
+}
+
+.user-offline > .overlay,
+.user-offline > .overlay > .offline-msg {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.5rem;
+}
+
+.user-offline > .overlay > .offline-msg > .title,
+.user-offline > .overlay > .offline-msg > .msg {
+	transition: color .5s linear;
+}
+
+.user-offline > .overlay > .offline-msg > .msg {
+	color: var(--sgn-secondary, hsl(230, 0%, 30%));
+}
+
+.user-offline > .overlay > .offline-msg > .error,
+.user-offline > .overlay > .offline-msg > .title {
+	color: var(--sgn-danger, hsl(0, 100%, 50%));
+}
+
+.user-offline > .overlay > .offline-msg > .success {
+	color: var(--sgn-success, hsl(130, 100%, 20%));
+}
+
+.user-offline > .overlay > .offline-msg > .info {
+	color: var(--sgn-info, hsl(190, 100%, 40%));
+}
+
+.user-offline > .overlay > .offline-msg > .warning {
+	color: var(--sgn-warning, hsl(45, 100%, 40%));
+}

@@ -1,0 +1,50 @@
+{{#each releases}}
+	# {{title}}
+	###### [{{isoDate}}]
+
+	{{! lit commits with feature: in message, use feature: or Feature: }}
+	{{#commit-list
+			commits
+			heading='### Features'
+			message='(Added: )|(added: )|(ADDED: )'
+			exclude='(break: )|(Break: )|(Improved: )|(improved: )|(IMPROVED: )|(Updated: )|(updated: )|(UPDATED: )|(Fixed: )|(fixed: )|(FIXED: )'}}
+		* {{subject}} ([`{{shorthash}}`]({{href}}))
+	{{/commit-list}}
+
+	{{! lit commits with feature: in message, use feature: or Feature: }}
+	{{#commit-list
+			commits
+			heading='### Updates'
+			message='(updated: )|(Updated: )|(UPDATED: )'
+			exclude='(break: )|(Break: )|(Improved: )|(improved: )|(IMPROVED: )|(Added: )|(added: )|(ADDED: )|(Fixed: )|(fixed: )|(FIXED: )'}}
+		* {{subject}} ([`{{shorthash}}`]({{href}}))
+	{{/commit-list}}
+
+	{{! lit commits with feature: in message, use feature: or Feature: }}
+	{{#commit-list
+			commits
+			heading='### Improvements'
+			message='(improved: )|(Improved: )|(IMPROVED: )'
+			exclude='(break: )|(Break: )|(Updated: )|(updated: )|(UPDATED: )|(Added: )|(added: )|(ADDED: )|(Fixed: )|(fixed: )|(FIXED: )'}}
+		* {{subject}} ([`{{shorthash}}`]({{href}}))
+	{{/commit-list}}
+
+	{{! use fix: or Fix: }}
+	{{#commit-list
+			commits
+			heading='### Fixes'
+			message='(fix: )|(Fix: )|(FIXED: )'
+			exclude='(break: )|(Break: )|(Improved: )|(improved: )|(IMPROVED: )|(Updated: )|(updated: )|(UPDATED: )|(Added: )|(added: )|(ADDED: )'}}
+		* {{subject}} ([`{{shorthash}}`]({{href}}))
+	{{/commit-list}}
+
+	{{! user break: or Break: }}
+	{{#commit-list
+			commits
+			heading='### Breaking changes'
+			message='(break: )|(Break: )'
+			exclude='(Improved: )|(improved: )|(IMPROVED: )|(Updated: )|(updated: )|(UPDATED: )|(Added: )|(added: )|(ADDED: )|(Fixed: )|(fixed: )|(FIXED: )'}}
+		* {{subject}} ([`{{shorthash}}`]({{href}}))
+	{{/commit-list}}
+
+{{/each}}

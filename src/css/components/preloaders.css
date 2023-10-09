@@ -7,14 +7,39 @@
 
 .has-preloader,
 .has-preloader * {
+	--sgn-background: #ffffff;
 	--sgn-preloader-stripes-width: 6px;
 	--sgn-preloader-circles-width: 44px;
 	--sgn-preloader-circles-height: 22px;
 	--sgn-preloader-circles-margin: 1px;
 	--sgn-preloader-circles-radius: 6px;
+	--sgn-preloader-progress-track-color: rgba(0, 0, 0, .1);
+	--sgn-preloader-progress-color: rgba(93, 49, 145, 1);
+	--sgn-preloader-text-color: hsla(0, 0%, 0%, .4);
 }
 
-.sgn-preloader {
+@media all and (prefers-color-scheme: dark) {
+	.has-preloader,
+	.has-preloader * {
+		--sgn-background: #000000;
+		--sgn-preloader-progress-track-color: rgba(255, 255, 255, .1);
+		--sgn-preloader-text-color: hsla(0, 0%, 100%, .4);
+	}
+}
+
+body {
+	margin: 0;
+	display: none;
+}
+
+.has-preloader {
+	overflow: hidden !important;
+	\display: block;
+}
+
+.sgnuk-preloader.spinner,
+.sgnuk-preloader.indeterminate,
+.sgnuk-preloader.determinate {
 	padding: 0;
 	width: 100%;
 	height: 100%;
@@ -26,15 +51,178 @@
 	z-index: 999999;
 }
 
+.sgnuk-preloader.indeterminate,
+.sgnuk-preloader.determinate {
+	--sgn-preloader-progress-size: ${progressSize} px;
+	--sgn-preloader-progress-radius: calc((var(--sgn-preloader-progress-size) / 2) - 2px);
+	--sgn-preloader-progress-circumference: calc(2 * 3.14 * var(--sgn-preloader-progress-radius));
+}
 
-.sgn-preloader > .preloader {
+.sgnuk-preloader.determinate > .preloader,
+.sgnuk-preloader.indeterminate > .preloader {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: var(--sgn-preloader-text-color);
+}
+
+.sgnuk-preloader > .preloader > .sgn-loader-progress-info {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: .3rem;
+	margin-top: 1rem;
+}
+
+.sgnuk-preloader > .preloader > .sgn-loader-progress-info > .name {
+	font-weight: bold;
+}
+
+.sgnuk-preloader > .preloader > .sgn-loader-progress-info > .progress {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: .2rem;
+	background-color: inherit;
+}
+
+.sgnuk-preloader > .preloader > .sgn-loader-progress-info > .progress:before {
+	content: "(";
+}
+
+.sgnuk-preloader > .preloader > .sgn-loader-progress-info > .progress:after {
+	content: ")";
+}
+
+.sgnuk-preloader.determinate > .preloader > svg,
+.sgnuk-preloader.indeterminate > .preloader > svg {
+	position: relative;
+	width: var(--sgn-preloader-progress-size);
+	height: var(--sgn-preloader-progress-size);
+	font-size: calc(var(--sgn-preloader-progress-size) / 4);
+}
+
+.sgnuk-preloader.determinate > .preloader > svg {
+	transform: rotate(-90deg);
+}
+
+.sgnuk-preloader.determinate > .preloader > svg > circle,
+.sgnuk-preloader.indeterminate > .preloader > svg > circle {
+	fill: transparent;
+	stroke-width: 4;
+	stroke-linecap: round;
+	r: var(--sgn-preloader-progress-radius);
+	cx: calc(var(--sgn-preloader-progress-radius) + 2px);
+	cy: calc(var(--sgn-preloader-progress-radius) + 2px);
+	stroke-dasharray: var(--sgn-preloader-progress-circumference);
+}
+
+.sgnuk-preloader.determinate > .preloader > svg > circle:first-of-type,
+.sgnuk-preloader.indeterminate > .preloader > svg > circle:first-of-type {
+	stroke: var(--sgn-preloader-progress-track-color);
+	stroke-dashoffset: 0;
+}
+
+.sgnuk-preloader.determinate > .preloader > svg > circle:nth-child(3),
+.sgnuk-preloader.indeterminate > .preloader > svg > circle:nth-child(3) {
+	stroke: var(--sgn-preloader-progress-color);
+}
+
+.sgnuk-preloader.determinate > .preloader > svg > text,
+.sgnuk-preloader.indeterminate > .preloader > svg > text {
+	transform: rotate(90deg);
+	font-weight: bold;
+	text-anchor: middle;
+	dominant-baseline: central;
+	fill: var(--sgn-preloader-text-color);
+	transition: opacity .5s linear;
+}
+
+.sgnuk-preloader.determinate > .preloader > svg > text:first-child,
+.sgnuk-preloader.determinate > .preloader > svg > text:last-child {
+	font-size: calc(var(--sgn-preloader-progress-size) / 7);
+	opacity: .6;
+}
+
+.sgnuk-preloader.indeterminate > .preloader > svg {
+	animation: determinate-rotate 2s linear infinite;
+}
+
+.sgnuk-preloader.indeterminate > .preloader > svg > circle {
+	stroke-miterlimit: 10;
+}
+
+.sgnuk-preloader.indeterminate > .preloader > svg > circle:nth-child(3) {
+	stroke-dasharray: 1, var(--sgn-preloader-progress-circumference);
+	stroke-dashoffset: 0;
+	animation: dash 1.5s ease-in-out infinite;
+}
+
+.sgnuk-preloader.indeterminate.colourful > .preloader > svg > circle:nth-child(3) {
+	stroke-dasharray: 1, var(--sgn-preloader-progress-circumference);
+	stroke-dashoffset: 0;
+	animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+}
+
+.sgnuk-preloader.indeterminate > .preloader > svg > text {
+	/*display: none;*/ opacity: 0;
+}
+
+@keyframes determinate-rotate {
+	100% {
+		transform: rotate(360deg);
+
+	}
+}
+
+@keyframes dash {
+	0% {
+		stroke-dasharray: 1, var(--sgn-preloader-progress-circumference);
+		stroke-dashoffset: 0;
+	}
+	50% {
+		stroke-dasharray: calc(44 * var(--sgn-preloader-progress-circumference) / 100), var(--sgn-preloader-progress-circumference);
+		stroke-dashoffset: calc(0px - (50 * var(--sgn-preloader-progress-circumference) / 100));
+
+	}
+	100% {
+		stroke-dasharray: calc(44 * var(--sgn-preloader-progress-circumference) / 100), var(--sgn-preloader-progress-circumference);
+		stroke-dashoffset: calc(0px - (90 * var(--sgn-preloader-progress-circumference) / 100));
+
+	}
+}
+
+@keyframes color {
+	100%, 0% {
+		stroke: #d62d20;
+
+	}
+	40% {
+		stroke: #0057e7;
+
+	}
+	66% {
+		stroke: #008744;
+
+	}
+	80%,
+	90% {
+		stroke: #ffa700;
+
+	}
+}
+
+
+.sgnuk-preloader.spinner > .preloader {
 	position: relative;
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
 }
 
-.sgn-preloader > .preloader > .spinner {
+.sgnuk-preloader.spinner > .preloader > .spinner {
 	animation: rotate 10s infinite linear;
 	position: relative;
 	display: inline-flex;
@@ -45,7 +233,7 @@
 }
 
 
-.sgn-preloader > .preloader > img {
+.sgnuk-preloader.spinner > .preloader > img {
 	width: calc(var(--sgn-preloader-circles-width) + ((var(--sgn-preloader-stripes-width) + var(--sgn-preloader-circles-margin)) * 2));
 	height: calc(var(--sgn-preloader-circles-height) + (var(--sgn-preloader-stripes-width) + var(--sgn-preloader-circles-margin)));
 	margin: var(--sgn-preloader-circles-margin);
@@ -58,13 +246,13 @@
 	animation: spin 4s ease-in-out forwards infinite;
 }
 
-.sgn-preloader > .preloader > .spinner > img {
+.sgnuk-preloader.spinner > .preloader > .spinner > img {
 	width: calc(var(--sgn-preloader-circles-width));
 	height: calc(var(--sgn-preloader-circles-width));
 	margin: var(--sgn-preloader-circles-margin);
 }
 
-.sgn-preloader > .preloader > .spinner > i {
+.sgnuk-preloader.spinner > .preloader > .spinner > i {
 	animation: rotate 3s infinite cubic-bezier(0.09, 0.6, 0.8, 0.03);
 	transform-origin: 50% 100% 0;
 	position: absolute;
@@ -77,7 +265,7 @@
 	border-bottom: none;
 }
 
-.sgn-preloader > .preloader > .spinner > i:nth-child(1) {
+.sgnuk-preloader.spinner > .preloader > .spinner > i:nth-child(1) {
 	-moz-animation-timing-function: cubic-bezier(0.09, 0.3, 0.12, 0.03);
 	-webkit-animation-timing-function: cubic-bezier(0.09, 0.3, 0.12, 0.03);
 	animation-timing-function: cubic-bezier(0.09, 0.3, 0.12, 0.03);
@@ -90,7 +278,7 @@
 	border-top-right-radius: calc((var(--sgn-preloader-circles-width) + ((var(--sgn-preloader-stripes-width) + var(--sgn-preloader-circles-margin)) * 2) * 1) + var(--sgn-preloader-circles-radius));
 }
 
-.sgn-preloader > .preloader > .spinner > i:nth-child(2) {
+.sgnuk-preloader.spinner > .preloader > .spinner > i:nth-child(2) {
 	-moz-animation-timing-function: cubic-bezier(0.09, 0.6, 0.24, 0.03);
 	-webkit-animation-timing-function: cubic-bezier(0.09, 0.6, 0.24, 0.03);
 	animation-timing-function: cubic-bezier(0.09, 0.6, 0.24, 0.03);
@@ -103,7 +291,7 @@
 	border-top-right-radius: calc((var(--sgn-preloader-circles-width) + ((var(--sgn-preloader-stripes-width) + var(--sgn-preloader-circles-margin)) * 2) * 2) + var(--sgn-preloader-circles-radius));
 }
 
-.sgn-preloader > .preloader > .spinner > i:nth-child(3) {
+.sgnuk-preloader.spinner > .preloader > .spinner > i:nth-child(3) {
 	-moz-animation-timing-function: cubic-bezier(0.09, 0.9, 0.36, 0.03);
 	-webkit-animation-timing-function: cubic-bezier(0.09, 0.9, 0.36, 0.03);
 	animation-timing-function: cubic-bezier(0.09, 0.9, 0.36, 0.03);
@@ -116,7 +304,7 @@
 	border-top-right-radius: calc((var(--sgn-preloader-circles-width) + ((var(--sgn-preloader-stripes-width) + var(--sgn-preloader-circles-margin)) * 2) * 2) + var(--sgn-preloader-circles-radius));
 }
 
-.sgn-preloader > .preloader > .spinner > i:nth-child(4) {
+.sgnuk-preloader.spinner > .preloader > .spinner > i:nth-child(4) {
 	-moz-animation-timing-function: cubic-bezier(0.09, 1.2, 0.48, 0.03);
 	-webkit-animation-timing-function: cubic-bezier(0.09, 1.2, 0.48, 0.03);
 	animation-timing-function: cubic-bezier(0.09, 1.2, 0.48, 0.03);
@@ -129,7 +317,7 @@
 	border-top-right-radius: calc((var(--sgn-preloader-circles-width) + ((var(--sgn-preloader-stripes-width) + var(--sgn-preloader-circles-margin)) * 2) * 3) + var(--sgn-preloader-circles-radius));
 }
 
-.sgn-preloader > .preloader > .spinner > i:nth-child(5) {
+.sgnuk-preloader.spinner > .preloader > .spinner > i:nth-child(5) {
 	-moz-animation-timing-function: cubic-bezier(0.09, 1.5, 0.6, 0.03);
 	-webkit-animation-timing-function: cubic-bezier(0.09, 1.5, 0.6, 0.03);
 	animation-timing-function: cubic-bezier(0.09, 1.5, 0.6, 0.03);
@@ -142,7 +330,7 @@
 	border-top-right-radius: calc((var(--sgn-preloader-circles-width) + ((var(--sgn-preloader-stripes-width) + var(--sgn-preloader-circles-margin)) * 2) * 4) + var(--sgn-preloader-circles-radius));
 }
 
-.sgn-preloader > .preloader > .spinner > i:nth-child(6) {
+.sgnuk-preloader.spinner > .preloader > .spinner > i:nth-child(6) {
 	-moz-animation-timing-function: cubic-bezier(0.09, 1.8, 0.72, 0.03);
 	-webkit-animation-timing-function: cubic-bezier(0.09, 1.8, 0.72, 0.03);
 	animation-timing-function: cubic-bezier(0.09, 1.8, 0.72, 0.03);
@@ -155,7 +343,7 @@
 	border-top-right-radius: calc((var(--sgn-preloader-circles-width) + ((var(--sgn-preloader-stripes-width) + var(--sgn-preloader-circles-margin)) * 2) * 5) + var(--sgn-preloader-circles-radius));
 }
 
-.sgn-preloader > .preloader > .spinner > i:nth-child(7) {
+.sgnuk-preloader.spinner > .preloader > .spinner > i:nth-child(7) {
 	-moz-animation-timing-function: cubic-bezier(0.09, 2.1, 0.84, 0.03);
 	-webkit-animation-timing-function: cubic-bezier(0.09, 2.1, 0.84, 0.03);
 	animation-timing-function: cubic-bezier(0.09, 2.1, 0.84, 0.03);
@@ -168,7 +356,7 @@
 	border-top-right-radius: calc((var(--sgn-preloader-circles-width) + ((var(--sgn-preloader-stripes-width) + var(--sgn-preloader-circles-margin)) * 2) * 6) + var(--sgn-preloader-circles-radius));
 }
 
-.sgn-preloader > .preloader > .spinner > i:nth-child(8) {
+.sgnuk-preloader.spinner > .preloader > .spinner > i:nth-child(8) {
 	-moz-animation-timing-function: cubic-bezier(0.09, 2.4, 0.96, 0.03);
 	-webkit-animation-timing-function: cubic-bezier(0.09, 2.4, 0.96, 0.03);
 	animation-timing-function: cubic-bezier(0.09, 2.4, 0.96, 0.03);
@@ -211,13 +399,14 @@
 @keyframes spin {
 	0% {
 		transform: rotateY(0deg);
+
 	}
 	50% {
 		transform: rotateY(180deg);
+
 	}
 	100% {
 		transform: rotateY(360deg);
+
 	}
 }
-
-

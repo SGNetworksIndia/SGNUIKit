@@ -3,3 +3,11 @@
 /src/css/fonts/FontAwesome5Pro/
 /dist/
 /release/
+/build/dist/dependencies.txt
+/analysis.json
+/colors.json
+/colors.php
+/colors.txt
+/create_css_vars.php
+/changelog-data.json
+/src/addons/CKEditor5-NEW

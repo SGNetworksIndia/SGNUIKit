@@ -1,0 +1,70 @@
+{
+	"include": [
+		//"./src/js/types/*.ts",
+		"./src/addons/**/*.js",
+		"./src/js/**/*.js",
+		//"./src/js/SGNUIKit.loader.js"
+		//"./src/js/test.js"
+	],
+	"compilerOptions": {
+		"outDir": "./dist/lib",
+		"declarationDir": "dist/types",
+		"target": "ES6",
+		"module": "UMD",
+		"moduleResolution": "Node",
+		"strictPropertyInitialization": false,
+		"esModuleInterop": true,
+		"lib": [
+			"ES6",
+			"DOM"
+		],
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": false,
+		"allowSyntheticDefaultImports": true,
+		"removeComments": false,
+		"allowJs": true,
+		"checkJs": false,
+		"strict": false,
+		"skipLibCheck": true,
+		"allowUmdGlobalAccess": true,
+		"alwaysStrict": true,
+		"useDefineForClassFields": true,
+		// Generate d.ts files
+		"declaration": true,
+		// only output d.ts files
+		"emitDeclarationOnly": true,
+		"declarationMap": true,
+		"types": [],
+		"typeRoots": [
+			"./src/types",
+			"./node_modules/@types/jquery"
+		]
+	},
+	"exclude": [
+		"node_modules",
+		"./node_modules",
+		"./node_modules/*",
+		"./node_modules/@types/node/index.d.ts",
+		".backup",
+		".github",
+		"build",
+		"demos",
+		"dist",
+		"docs",
+		"release",
+		"jQuery",
+		"src/addons/addons.js",
+		"src/addons/PrismJS/prism.js",
+		"src/addons/SGNAtom/SGNAtom.js",
+		"src/addons/SGNCarousel/SGNCarousel.js",
+		"src/addons/SGNFullPage/SGNFullPage.js",
+		"src/addons/DataTables",
+		"src/js/addons/addons.js",
+		"src/js/SGNUIKit.loader.js",
+		"src/js/app-free.cjs",
+		"src/js/app-pro.cjs",
+		"src/js/components/components.js",
+		"src/js/components/forms/forms.js"
+	]
+}

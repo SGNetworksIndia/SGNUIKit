@@ -8,7 +8,7 @@
 
 **_SGNUIKit_** is a very powerful UI kit designed to allow web developers use the power of the kit to build efficient and beautiful websites.
 **_SGNUIKit_** is currently being used in all the websites by SGNetworks.
-**_SGNUIKit_** is released under its exclusive license [SGN CS License v1.0](https://github.com/SGNetworksIndia/SGNUIkit/blob/master/LICENSE).
+**_SGNUIKit_** is released under its exclusive license [SGN CS License v1.1](https://github.com/SGNetworksIndia/SGNUIkit/blob/master/LICENSE).
 
 ## REQUIREMENTS
 
@@ -19,9 +19,9 @@
 
 | Technology | Version | Link                                                                        |
 |------------|---------|-----------------------------------------------------------------------------|
-| jQuery     | 3.6.3   | [https://jquery.com/download/](https://code.jquery.com/jquery-3.6.0.min.js) |
+| jQuery     | 3.6.3   | [https://jquery.com/download/](https://code.jquery.com/jquery-3.6.3.min.js) |
 
-_Note: If the dependencies omitted, it will neither break the features nor impact the performance of
+_Note: If the dependencies omitted, it will neither break the features nor impact the performance of **SGNUIKit**
 as it comes built-in with **SGNUIKit** and the built-in dependencies will be used._
 
 ### Web Standards Compatibility (Web 2.0)
@@ -59,7 +59,7 @@ No known bugs till the release.
 There are many features are staged to be implemented in the upcoming releases. The currently planned features awaiting to be implemented are:
 
 1.
-	- [ ] BottomSheets (like Android Material Design)
+	- [x] BottomSheets (like Android Material Design)
 2.
 	- [x] Windows (like desktop windows)
 3.

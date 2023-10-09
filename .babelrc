@@ -1,0 +1,13 @@
+{
+	"presets": [
+		[
+			"@babel/preset-env",
+			{
+				"useBuiltIns": false,
+				"corejs": "3.22",
+				"shippedProposals": false,
+				"targets": "supports es6-module"
+			}
+		]
+	]
+}

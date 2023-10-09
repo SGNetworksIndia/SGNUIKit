@@ -45,4 +45,4 @@ jobs:
       with:
         name: SGNUIKit
     - run: npm ci
-    - run: npm run gulp:build:free --if-present
+    - run: npm run gulp:build:free

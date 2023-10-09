@@ -34,7 +34,7 @@ body {
 
 .has-preloader {
 	overflow: hidden !important;
-	\display: block;
+	display: block;
 }
 
 .sgnuk-preloader.spinner,
@@ -53,7 +53,7 @@ body {
 
 .sgnuk-preloader.indeterminate,
 .sgnuk-preloader.determinate {
-	--sgn-preloader-progress-size: ${progressSize} px;
+	--sgn-preloader-progress-size: 80px;
 	--sgn-preloader-progress-radius: calc((var(--sgn-preloader-progress-size) / 2) - 2px);
 	--sgn-preloader-progress-circumference: calc(2 * 3.14 * var(--sgn-preloader-progress-radius));
 }

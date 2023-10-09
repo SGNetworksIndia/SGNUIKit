@@ -26,17 +26,28 @@
 	--grey-text: #9e9e9e;
 	--blue-grey-text: #607d8b;
 	--white-text: #ffffff;
+	--gray: hsl(0, 0%, 40%);
 }
 
 
-.primary-text,
-.text-primary {
+.primary-text {
 	color: var(--sgn-primary) !important;
 }
 
-.secondary-text,
-.text-secondary {
+.secondary-text {
 	color: var(--sgn-secondary) !important;
+}
+
+.text-primary {
+	color: var(--sgn-text-primary) !important;
+}
+
+.text-secondary {
+	color: var(--sgn-text-secondary) !important;
+}
+
+.text-muted {
+	color: var(--gray) !important;
 }
 
 .info-text,
@@ -196,7 +207,8 @@
 	color: var(--sonic-silver) !important;
 }
 
-.text-gray {
+.text-gray,
+.text-muted {
 	color: var(--gray) !important;
 }
 

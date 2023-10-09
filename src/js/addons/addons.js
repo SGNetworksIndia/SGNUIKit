@@ -5,9 +5,10 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-import('./BBCodesParser.js');
-import('./SGNSnackbar.js');
-import('./SGNConsole.js');
-import("./SGNDataTables.js");
-import("./SGNCodeSnippet.js");
-
+require('./BBCodesParser.js');
+require("./SGNCodeSnippet.js");
+require('./SGNConsole.js');
+require("./SGNDataTables.js");
+require("./SGNMultiPage.js");
+require('./SGNSnackbar.js');
+const console = (window || self).console = new SGNConsole(true, true);

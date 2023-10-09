@@ -13,13 +13,12 @@ if(typeof jQuery === "undefined") {
 (function(window, document, $) {
 	"use strict";
 
-	let SGNModal = function($elem) {
+	const SGNModal = function($elem) {
 		const plugin = this;
 		let $this = $elem;
 
 		const init = () => {
-			const $header = $this.find(".sgn-modal-header"),
-			      $body   = $this.children(".sgn-modal-body"),
+			const $body   = $this.children(".sgn-modal-body"),
 			      $footer = $this.find(".sgn-modal-footer");
 			const $cancelBtn   = $this.find(".sgn-modal-cancelBtn"),
 			      $continueBtn = $this.find(".sgn-modal-continueBtn");
@@ -55,15 +54,29 @@ if(typeof jQuery === "undefined") {
 
 			if((!$this.hasClass('sgn-modal-wrapper') && $this.hasClass('sgn-modal')) && $this.parent('.sgn-modal-wrapper').length <= 0)
 				$this.wrap('<div class="sgn-modal-wrapper" />');
+			const $wrapper = $this.parent('.sgn-modal-wrapper');
 
 			if($this.hasClass('sgn-modal-wrapper') && $this.children('.sgn-modal').length === 1)
 				$this = $this.children('.sgn-modal');
 
 			$this.parent('.sgn-modal-wrapper').hide().removeClass('show').addClass('hide');
 
+			$wrapper.on('click', function(e) {
+				e.preventDefault();
+				plugin.hide();
+				$this.trigger('sgn.modal.onBackdropClick');
+			});
+
 			$this.find('.sgn-modal-cancelBtn').on('click', function(e) {
 				e.preventDefault();
 				plugin.hide();
+				$this.trigger('sgn.modal.onNegativeButtonClick');
+			});
+
+			$this.find('.sgn-modal-continueBtn').on('click', function(e) {
+				e.preventDefault();
+				plugin.hide();
+				$this.trigger('sgn.modal.onPositiveButtonClick');
 			});
 
 			$this.data('SGNModal', plugin);
@@ -124,11 +137,37 @@ if(typeof jQuery === "undefined") {
 		};
 
 		/***
+		 * Show the currently selected <b><i>SGNModal</b></i>.
+		 *
+		 * @returns {jQuery.SGNModal}
+		 */
+		this.open = function() {
+			const plugin = $(this).data("SGNModal");
+			if(plugin !== undefined)
+				plugin.show();
+
+			return this;
+		};
+
+		/***
 		 * Hide the currently selected <b><i>SGNModal</b></i>.
 		 *
 		 * @returns {jQuery.SGNModal}
 		 */
 		this.hide = function() {
+			const plugin = $(this).data("SGNModal");
+			if(plugin !== undefined)
+				plugin.hide();
+
+			return this;
+		};
+
+		/***
+		 * Hide the currently selected <b><i>SGNModal</b></i>.
+		 *
+		 * @returns {jQuery.SGNModal}
+		 */
+		this.close = function() {
 			const plugin = $(this).data("SGNModal");
 			if(plugin !== undefined)
 				plugin.hide();
@@ -157,8 +196,6 @@ if(typeof jQuery === "undefined") {
 
 	SUKR(() => {
 		const $modals = $(".sgn-modal");
-		const $modalToggle = $("[data-sgn-toggle=\"modal\"], [data-toggle=\"modal\"]");
-		const $modalTarget = $("[data-sgn-target=\"modal\"], [data-target=\"modal\"]");
 		const $modalTargetToggle = $("[sgn-modal], [data-sgn-modal], [data-modal]");
 
 		if($modals.length > 0) {

@@ -6,9 +6,9 @@
  */
 
 const jQueryShim = (typeof jQuery !== 'undefined') ? jQuery : undefined;
-let $ = jQuery = (typeof jQueryShim !== 'undefined') ? jQueryShim : (q, c) => {
-	return ($.version === 'SGNUK') ? $.init(q) : jQuery(q, c);
-};
+/*let $ = jQuery = (typeof jQueryShim !== 'undefined') ? jQueryShim : (q, c) => {
+ return ($.version === 'SGNUK') ? $.init(q) : jQuery(q, c);
+ };*/
 if(typeof jQueryShim === 'undefined') {
 	const Variables = {
 		variables: {
@@ -16,8 +16,8 @@ if(typeof jQueryShim === 'undefined') {
 			holdReady: false
 		},
 
-		onChangeListener: function(val) {},
-		onReadyListener: function(val) {},
+		onChangeListener: function() {},
+		onReadyListener: function() {},
 
 		set holdReady(val) {
 			this.variables.holdReady = val;
@@ -50,6 +50,7 @@ if(typeof jQueryShim === 'undefined') {
 
 	jQuery.name = 'SGNUKJQ';
 	jQuery.version = 'SGNUK';
+
 	jQuery.init = (q) => {
 		if(typeof q == "function") {
 			// wait for page to load
@@ -68,7 +69,9 @@ if(typeof jQueryShim === 'undefined') {
 			//return jQuery;
 		}
 
+		// noinspection JSUnusedLocalSymbols
 		function ready(callback) {
+			// noinspection JSUnresolvedVariable
 			if(document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
 				Variables.setOnChangeListener((v) => {
 					if(!v.holdReady)
@@ -97,11 +100,13 @@ if(typeof jQueryShim === 'undefined') {
 			};
 		} else {
 			return function(element, event, handler) {
+				// noinspection JSUnresolvedFunction
 				element.attachEvent('on' + event, handler);
 			};
 		}
 	}());
 
+	// noinspection JSUnusedLocalSymbols
 	const parse = (string) => {
 		let div = document.createElement("div");
 		div.innerHTML = string;
@@ -116,6 +121,7 @@ if(typeof jQueryShim === 'undefined') {
 		return collection;
 	}
 
+	// noinspection JSUnresolvedVariable
 	class Node {
 		constructor(node) {
 			this.node = node; // node should be an HTMLElement
@@ -136,7 +142,7 @@ if(typeof jQueryShim === 'undefined') {
 		css(property, value) {
 			if(typeof property == "string") {
 				if(!value) {
-					let styles = window.getComputedStyle(_this.node);
+					let styles = window.getComputedStyle(this.node);
 					return styles.getPropertyValue(property);
 				} else {
 					this.node.style[property] = value;
@@ -189,16 +195,14 @@ if(typeof jQueryShim === 'undefined') {
 				//document.addEventListener('DOMContentLoaded', handler);
 			}
 		}
-	};
+	}
 
 	class NodeCollection {
 		constructor(nodes) {
 			/*this.nodes = nodes;
 			return this.nodes.length <= 1 ? this.nodes.shift() : this;*/
 			this.nodes = [];
-			nodes.forEach((node, index) => {
-				this.nodes.push(node.node);
-			});
+			nodes.forEach(node => this.nodes.push(node.node));
 			this.nodes = Object.assign({}, this.nodes);
 
 			//this.nodes.prototype = Node.prototype;
@@ -208,7 +212,7 @@ if(typeof jQueryShim === 'undefined') {
 		}
 
 		static isCollection(nodes) {
-			return nodes.constructor.name == "NodeCollection";
+			return nodes.constructor.name === "NodeCollection";
 		}
 
 		generateCollection() {

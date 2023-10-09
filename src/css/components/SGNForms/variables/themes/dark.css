@@ -19,9 +19,9 @@ fieldset,
 fieldset * {
 	--sgnf-accent-active: hsl(220, 100%, 50%);
 	--sgnf-accent-hover: hsl(220, 100%, 60%);
-	--sgnf-accent-inactive: hsl(0, 0%, 50%);
+	--sgnf-accent-inactive: hsl(0, 0%, 80%);
 	--sgnf-accent-disabled: hsl(0, 0%, 40%);
-	--sgnf-accent-readonly: hsl(0, 0%, 60%);
+	--sgnf-accent-readonly: hsl(0, 0%, 40%);
 	--sgnf-accent-valid: hsl(120, 100%, 50%);
 	--sgnf-accent-invalid: hsl(0, 100%, 50%);
 

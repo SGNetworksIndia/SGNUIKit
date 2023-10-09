@@ -1,0 +1,115 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.h-auto {
+	height: auto !important;
+}
+
+.h-fc,
+.h-fit,
+.h-fit-content {
+	height: fit-content !important;
+}
+
+.h-min,
+.h-min-content {
+	height: min-content !important;
+}
+
+.h-max,
+.h-max-content {
+	height: max-content !important;
+}
+
+.h-none,
+.h-unset {
+	height: unset !important;
+}
+
+.h-0 {
+	height: 0 !important;
+}
+
+.h-5 {
+	height: 5% !important;
+}
+
+.h-10 {
+	height: 10% !important;
+}
+
+.h-15 {
+	height: 15% !important;
+}
+
+.h-20 {
+	height: 20% !important;
+}
+
+.h-25 {
+	height: 25% !important;
+}
+
+.h-30 {
+	height: 30% !important;
+}
+
+.h-35 {
+	height: 35% !important;
+}
+
+.h-40 {
+	height: 40% !important;
+}
+
+.h-45 {
+	height: 45% !important;
+}
+
+.h-50 {
+	height: 50% !important;
+}
+
+.h-55 {
+	height: 55% !important;
+}
+
+.h-60 {
+	height: 60% !important;
+}
+
+.h-65 {
+	height: 65% !important;
+}
+
+.h-70 {
+	height: 70% !important;
+}
+
+.h-75 {
+	height: 75% !important;
+}
+
+.h-80 {
+	height: 80% !important;
+}
+
+.h-85 {
+	height: 85% !important;
+}
+
+.h-90 {
+	height: 90% !important;
+}
+
+.h-95 {
+	height: 95% !important;
+}
+
+.h-100 {
+	height: 100% !important;
+}

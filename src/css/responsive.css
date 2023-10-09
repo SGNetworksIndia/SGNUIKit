@@ -1,0 +1,104 @@
+/*
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/***Extra Small**/
+@media (max-width: 575px) {
+	:root, [class^="sgn-"], [class^="sgn-"] * {
+		--font-size-xs: 2vw;
+		--font-size-sm: 2.4vw;
+		--font-size-default: 2.8vw;
+		--font-size-lg: 4vw;
+		--font-size-xl: 6vw;
+	}
+
+	section.banner > .section-img-overlay {
+		display: flex;
+		height: calc(100vh - var(--sgn-navbar-sm-height)) !important;
+		top: calc((var(--sgn-navbar-sm-height))) !important;
+		position: relative;
+	}
+
+	section.banner > .container {
+		height: calc(100vh - var(--sgn-navbar-sm-height)) !important;
+		top: calc((var(--sgn-navbar-sm-height) / 2) - var(--padding-md)) !important;
+	}
+
+	section.banner > .container-fluid > .welcome,
+	section.banner > .container > .welcome,
+	section.banner > .welcome {
+		--welcome-max-width: calc(100% - (var(--padding-md) * 2));
+		--welcome-max-height: calc(100% - var(--sgn-navbar-sm-height));
+	}
+
+	.sgn-atom-container > main > *,
+	.sgn-atom-container > main > [class*="container"] > * {
+		margin-inline-start: 0;
+		margin-inline-end: 0;
+	}
+}
+
+/***Small**/
+@media (min-width: 576px) {
+	:root, [class^="sgn-"], [class^="sgn-"] * {
+		--font-size-xs: 1.6vw;
+		--font-size-sm: 2vw;
+		--font-size-default: 2.4vw;
+		--font-size-lg: 3vw;
+		--font-size-xl: 5vw;
+	}
+}
+
+/***Medium**/
+@media (min-width: 768px) {
+	:root, [class^="sgn-"], [class^="sgn-"] * {
+		--font-size-xs: 1vw;
+		--font-size-sm: 1.4vw;
+		--font-size-default: 1.8vw;
+		--font-size-lg: 2vw;
+		--font-size-xl: 4vw;
+	}
+}
+
+/***Large**/
+@media (min-width: 992px) {
+	:root, [class^="sgn-"], [class^="sgn-"] * {
+		--font-size-xs: 1vw;
+		--font-size-sm: 1.2vw;
+		--font-size-default: 1.4vw;
+		--font-size-lg: 1.4vw;
+		--font-size-xl: 2.8vw;
+	}
+}
+
+/***Extra Large**/
+@media (min-width: 1200px) {
+	:root, [class^="sgn-"], [class^="sgn-"] * {
+		--font-size-xs: .8vw;
+		--font-size-sm: 1vw;
+		--font-size-default: 1.2vw;
+		--font-size-lg: 1.4vw;
+		--font-size-xl: 2.8vw;
+	}
+}
+
+/***Double-Extra Large**/
+@media (min-width: 1600px) {
+	:root, [class^="sgn-"], [class^="sgn-"] * {
+		--font-size-xs: .4vw;
+		--font-size-sm: .6vw;
+		--font-size-default: .8vw;
+		--font-size-lg: 1.4vw;
+		--font-size-xl: 2vw;
+	}
+
+	section.banner > .container-fluid > .welcome,
+	section.banner > .container > .welcome,
+	section.banner > .welcome {
+		--welcome-max-width: calc(100% - 10rem);
+		--welcome-max-height: calc(100% - (60px * 2));
+	}
+}

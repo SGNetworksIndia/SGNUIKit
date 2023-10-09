@@ -5,6 +5,7 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
+@import "alerts.css";
 @import "align.css";
 @import "autogrid.css";
 @import "colors.css";
@@ -13,8 +14,11 @@
 @import "paddings.css";
 @import "texts.css";
 @import "marquee.css";
+@import "ripple.css";
 @import "shadows.css";
 @import "shapes.css";
+@import "widths.css";
+@import "heights.css";
 
 .ov-none {
 	overflow: hidden !important;

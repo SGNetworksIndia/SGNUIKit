@@ -40,7 +40,7 @@ section.banner > .section-img-overlay {
 
 section.banner > .section-img-overlay > img {
 	width: 100%;
-	max-height: 100%;
+	/*! max-height: 100%; */
 	display: flex;
 }
 
@@ -48,14 +48,13 @@ section.banner > .section-img-overlay.blur {
 	filter: blur(4px);
 }
 
+
 section.banner > .container-fluid,
 section.banner > .container,
 section.banner > .welcome {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center;
-	color: var(--sgn-accent-primary-text);
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -64,8 +63,7 @@ section.banner > .welcome {
 	overflow: visible;
 }
 
-section.banner > .container-fluid,
-section.banner > .container {
+section.banner > .container-fluid {
 	margin: 0;
 	padding: 0;
 	min-width: 100%;
@@ -76,50 +74,54 @@ section.banner > .container {
 	backdrop-filter: var(--banner-container-bg-blur-intensity, blur(5px));
 }
 
+section.banner > .section-img-overlay {
+	height: calc(100vh - var(--sgn-navbar-sm-height)) !important;
+	/*! top: var(--sgn-navbar-sm-height) !important; */
+	/*! position: absolute; */
+}
+
 section.banner > .container-fluid > .welcome,
-section.banner > .container > .welcome,
 section.banner > .welcome {
-	max-width: calc(100% - 10rem);
-	max-height: calc(100% - (60px * 2));
+	color: var(--sgn-accent-primary-text);
+	max-width: var(--welcome-max-width);
+	max-height: var(--welcome-max-height);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	text-align: center;
 }
 
 section.banner > .container-fluid > .welcome > h1,
-section.banner > .container > .welcome > h1,
 section.banner > .container-fluid > .welcome > h6,
-section.banner > .container > .welcome > h6,
 section.banner > .welcome > h1,
 section.banner > .welcome > h6 {
 	margin: 0;
 }
 
 section.banner > .container-fluid > .welcome > h1,
-section.banner > .container > .welcome > h1,
 section.banner > .welcome > h1 {
-	font-size: 3rem;
+	font-size: var(--font-size-xl);
 	color: var(--sgn-accent-primary);
 }
 
 section.banner > .container-fluid > .welcome > h6,
-section.banner > .container > .welcome > h6,
 section.banner > .welcome > h6 {
-	font-size: 1.4rem;
-	color: var(--sgn-text-secondary-light);
+	font-size: var(--font-size-lg);
+	color: var(--sgn-text-secondary-alt);
+	text-align: center;
 }
 
-section.banner > .container > .auto-grid,
-section.banner > .container > .row,
-section.banner > .container > .card {
+section.banner > .container-fluid > .auto-grid,
+section.banner > .container-fluid > .row,
+section.banner > .container-fluid > .card {
 	width: 100%;
 }
 
-section.banner > .container > .title {
+section.banner > .container-fluid > .title {
 	color: var(--sgn-accent-primary);
 	mix-blend-mode: hard-light;
 	text-transform: uppercase;
-	font-size: 3.5rem;
+	font-size: var(--font-size-xl);
 	font-family: var(--sgn-font-default-bold);
 }

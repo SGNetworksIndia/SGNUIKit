@@ -5,17 +5,26 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-var anchor = document.querySelectorAll('.nav-transformBtn');
-[].forEach.call(anchor, function(anchor) {
-	var open = (anchor.classList.contains('close'));
-	anchor.onclick = function(event) {
-		//event.preventDefault();
-		if(!open) {
-			this.classList.add('close');
-			open = true;
-		} else {
-			this.classList.remove('close');
-			open = false;
+SUKR(function() {
+	const anchor = document.querySelectorAll('.nav-transformBtn'),
+	      navbar = document.querySelectorAll('.navbar-collapse');
+	[].forEach.call(anchor, function(anchor) {
+		let open = (anchor.classList.contains('close'));
+		anchor.onclick = function(event) {
+			//event.preventDefault();
+			if(!open) {
+				this.classList.add('close');
+				if(navbar !== undefined) {
+					navbar[0].classList.add('open');
+				}
+				open = true;
+			} else {
+				this.classList.remove('close');
+				if(navbar !== undefined) {
+					navbar[0].classList.remove('open');
+				}
+				open = false;
+			}
 		}
-	}
+	});
 });

@@ -5,5 +5,6 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-import('./inputs.js');
-import('./select.js');
+require('./inputs.js');
+require('./select.js');
+require('./datetime-picker.js');

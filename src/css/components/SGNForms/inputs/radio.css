@@ -1,0 +1,117 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+/*** RADIO BUTTONS ***/
+.sgn-form.sgn-input-radio,
+.sgn-form.sgn-input-radio * {
+	--size: 22px;
+	--thickness: 2px;
+}
+
+.sgn-form.sgn-input-radio > .sgn-form-wrapper > .sgn-input-wrapper {
+	display: flex;
+	flex-direction: row;
+	position: relative;
+	width: auto;
+	height: 100%;
+	cursor: pointer;
+}
+
+.sgn-form.sgn-input-radio > .sgn-form-wrapper > .sgn-input-wrapper > input.form-control {
+	position: absolute;
+	left: 0;
+	opacity: 0;
+	z-index: 1;
+	height: 100%;
+	width: 100%;
+	display: block;
+	cursor: pointer;
+}
+
+.sgn-form.sgn-input-radio > .sgn-form-wrapper > .sgn-input-wrapper > label {
+	display: flex;
+	padding: 0 0 0 var(--padding-lg);
+	align-items: center;
+	position: relative;
+	cursor: pointer;
+	z-index: 0;
+	width: 100%;
+}
+
+.sgn-form.sgn-input-radio > .sgn-form-wrapper > .sgn-input-wrapper > label:before {
+	content: "";
+	position: absolute;
+	left: 0;
+	width: var(--size);
+	height: var(--size);
+	background-color: transparent;
+	border: var(--thickness) solid var(--sgnf-border);
+	border-radius: 50%;
+	z-index: 1;
+	transition: border-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sgn-form.sgn-input-radio > .sgn-form-wrapper > .sgn-input-wrapper > label:after {
+	content: "";
+	width: calc((var(--size) - var(--thickness)) / 2);
+	height: calc((var(--size) - var(--thickness)) / 2);
+	position: absolute;
+	background-color: var(--sgnf-accent-active);
+	border-radius: 50%;
+	z-index: 2;
+	top: calc(-1px + (var(--size) / 2) - (var(--thickness) * var(--thickness)));
+	left: calc(0px + (var(--size) / 2) - (var(--thickness) * 2) - 1px);
+
+	transform: scale(0, 0);
+	transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color .3s linear;
+}
+
+.sgn-form.sgn-input-radio > .sgn-form-wrapper > .sgn-input-wrapper > input.form-control:checked + label:before {
+	border-color: var(--sgnf-accent-active);
+	border-width: calc(var(--thickness) + (var(--thickness) / 2));
+}
+
+.sgn-form.sgn-input-radio > .sgn-form-wrapper > .sgn-input-wrapper > input.form-control:checked + label:after {
+	transform: scale(1, 1) translate(.4px, -.4px);
+
+}
+
+
+.sgn-form.sgn-input-radio > .sgn-form-wrapper > .sgn-input-wrapper > label.sgn-label-left {
+	padding: 0 var(--padding-lg) 0 0;
+}
+
+.sgn-form.sgn-input-radio > .sgn-form-wrapper > .sgn-input-wrapper > label.sgn-label-left:before,
+.sgn-form.sgn-input-radio > .sgn-form-wrapper > .sgn-input-wrapper > label.sgn-label-left:after {
+	left: unset;
+	right: 0;
+}
+
+.sgn-form.sgn-input-radio > .sgn-form-wrapper > .sgn-input-wrapper > label.sgn-label-left:after {
+	right: calc(var(--thickness) * 3);
+}
+
+
+.sgn-form.sgn-input-radio.loading > .sgn-form-wrapper > .sgn-input-wrapper > label:after {
+	background-color: transparent;
+}
+
+.sgn-form.sgn-input-radio.loading > .sgn-form-wrapper > .sgn-input-wrapper > label:before {
+	border-top-color: transparent !important;
+	animation: nm-radio-spinner 1s cubic-bezier(.46, .07, .53, .94) infinite;
+}
+
+@keyframes nm-radio-spinner {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+

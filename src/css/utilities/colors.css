@@ -39,6 +39,277 @@
 	color: #4b515d !important;
 }
 
+/*** SOCIAL MEDIA ***/
+.color-fb,
+.color-facebook,
+.btn.fb:hover,
+.btn.facebook:hover {
+	color: #0e61f1;
+}
+
+.color-tw,
+.color-twitter,
+.btn.tw:hover,
+.btn.twitter:hover {
+	color: #55acee;
+}
+
+.color-gp,
+.color-gplus,
+.color-google-plus,
+.btn.gp:hover,
+.btn.gplus:hover,
+.btn.google-plus:hover {
+	color: #dc4e41;
+}
+
+.color-pr,
+.color-pinterest,
+.btn.pr:hover,
+.btn.pinterest:hover {
+	color: #bd081c;
+}
+
+.color-li,
+.color-linkedin,
+.btn.li:hover,
+.btn.linkedin:hover {
+	color: #0077b5;
+}
+
+.color-gh,
+.color-github,
+.btn.gh:hover,
+.btn.github:hover {
+	color: #00405d;
+}
+
+.btn.digg:hover {
+	color: #000000;
+}
+
+.color-dc,
+.color-delicious,
+.btn.dc:hover,
+.btn.delicious:hover {
+	color: #3399ff;
+}
+
+.color-su,
+.color-stumbleupon,
+.color-stumble-upon,
+.btn.su:hover,
+.btn.stumbleupon:hover,
+.btn.stumble-upon:hover {
+	color: #eb4924;
+}
+
+.color-tr,
+.color-tumblr,
+.btn.tr:hover,
+.btn.tumblr:hover {
+	color: #00405d;
+}
+
+.color-vk,
+.color-vkontakte,
+.btn.vk:hover,
+.btn.vkontakte:hover {
+	color: #45668e;
+}
+
+.color-fr,
+.color-flattr,
+.btn.fr:hover,
+.btn.flattr:hover {
+	color: #f67c1a; /*338d11*/
+}
+
+.color-ri,
+.color-reddit,
+.btn.ri:hover,
+.btn.reddit:hover {
+	color: #ff4500;
+}
+
+.color-bf,
+.color-buffer,
+.btn.bf:hover,
+.btn.buffer:hover {
+	color: #000000;
+}
+
+.color-wb,
+.color-weibo,
+.btn.wb:hover,
+.btn.weibo:hover {
+	color: #ce1126;
+}
+
+.color-pc,
+.color-pocket,
+.btn.pc:hover,
+.btn.pocket:hover {
+	color: #ef4056;
+}
+
+.color-xi,
+.color-xing,
+.btn.xi:hover,
+.btn.xing:hover {
+	color: #cfdc00; /*026466*/
+}
+
+.color-on,
+.color-odnoklassniki,
+.btn.on:hover,
+.btn.odnoklassniki:hover {
+	color: #ed812b;
+}
+
+.color-wa,
+.color-whatsapp,
+.btn.wa:hover,
+.btn.whatsapp:hover {
+	color: #43d854;
+}
+
+.color-ma,
+.color-meneame,
+.btn.ma:hover,
+.btn.meneame:hover {
+	color: #ff6400;
+}
+
+.color-bg,
+.color-blogger,
+.btn.bg:hover,
+.btn.blogger:hover {
+	color: #f57d00;
+}
+
+.color-az,
+.color-amazon,
+.btn.az:hover,
+.btn.amazon:hover {
+	color: #ff9900; /*000*/
+}
+
+.color-ym,
+.color-ymail,
+.color-yahoo,
+.color-yahoo-mail,
+.btn.ym:hover,
+.btn.ymail:hover,
+.btn.yahoo:hover,
+.btn.yahoo-mail:hover {
+	color: #410093;
+}
+
+.color-gm,
+.color-gmail,
+.color-google-mail,
+.btn.gm:hover,
+.btn.gmail:hover,
+.btn.google-mail:hover {
+	color: #ea4335;
+}
+
+.color-ig,
+.color-instagram,
+.btn.ig:hover,
+.btn.instagram:hover {
+	color: #3f729b;
+}
+
+.color-sc,
+.color-snapchat,
+.btn.sc:hover,
+.btn.snapchat:hover {
+	color: #00aff0;
+}
+
+.color-yt,
+.color-youtube,
+.btn.yt:hover,
+.btn.youtube:hover {
+	color: #cd201f;
+}
+
+.color-sk,
+.color-skype,
+.btn.sk:hover,
+.btn.skype:hover {
+	color: #00aff0;
+}
+
+.color-vm,
+.color-vimeo,
+.btn.vm:hover,
+.btn.vimeo:hover {
+	color: #1ab7ea;
+}
+
+.color-bh,
+.color-behance,
+.btn.bh:hover,
+.btn.behance:hover {
+	color: #1769ff;
+}
+
+.color-tg,
+.color-telegram,
+.btn.tg:hover,
+.btn.telegram:hover {
+	color: #00405d;
+}
+
+.color-vb,
+.color-viber,
+.btn.vb:hover,
+.btn.viber:hover {
+	color: #00405d;
+}
+
+.color-ln,
+.color-line,
+.btn.ln:hover,
+.btn.line:hover {
+	color: #00c300;
+}
+
+.color-nv,
+.color-newsvine,
+.btn.nv:hover,
+.btn.newsvine:hover {
+	color: #00b488;
+}
+
+.color-mp,
+.color-myspace,
+.btn.mp:hover,
+.btn.myspace:hover {
+	color: #00405d;
+}
+
+.color-yl,
+.color-yummly,
+.btn.yl:hover,
+.btn.yummly:hover {
+	color: #00405d;
+}
+
+.btn.flipboard:hover {
+	color: #e12828;
+}
+
+.color-en,
+.color-evernote,
+.btn.en:hover,
+.btn.evernote:hover {
+	color: #2dbe60;
+}
+
 
 :root {
 	--black: hsl(0, 0%, 0%);

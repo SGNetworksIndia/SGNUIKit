@@ -5,12 +5,14 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-import('./dropdown.js');
-import('./forms/forms.js');
-import('./marquee.js');
-import('./modals.js');
-import('./sidebar.js');
-import('./wizard.js');
-import("./tablayout.js");
-import("./windows.js");
+require('./dropdown.js');
+require('./forms/forms.js');
+require('./marquee.js');
+require('./modals.js');
+require('./popover.js');
+require('./sheet.js');
+require('./sidebar.js');
+require("./tablayout.js");
+require("./windows.js");
+require('./wizard.js');
 

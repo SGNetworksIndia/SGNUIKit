@@ -19,3 +19,46 @@
 	flex: 1;
 	user-select: text;
 }
+
+pre {
+	background-color: var(--sgn-secondary-light);
+	padding: var(--padding-sm);
+	border-radius: var(--sgn-border-radius-sm);
+}
+
+pre > code {
+	color: var(--sgn-accent-primary-text);
+}
+
+pre.inline {
+	display: inline-block;
+}
+
+pre.can-copy {
+	min-height: calc(var(--padding-sm) * 6);
+}
+
+pre.inline:not(.can-copy) {
+	margin: 0;
+	padding: var(--padding-xs) var(--padding-sm);
+}
+
+.copy-btn {
+	margin: 0 var(--margin-sm);
+}
+
+.copy-btn:not(.inline),
+pre.can-copy > .copy-btn {
+	padding: var(--padding-sm);
+	background-color: var(--sgn-accent-primary);
+	color: var(--sgn-accent-primary-text);
+	border: none;
+	outline: none;
+	border-radius: var(--sgn-border-radius-sm);
+	cursor: pointer;
+	float: right;
+}
+
+pre.inline > .copy-btn {
+	float: none;
+}

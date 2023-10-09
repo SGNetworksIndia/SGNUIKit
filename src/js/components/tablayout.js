@@ -11,27 +11,37 @@ if(typeof jQuery === "undefined") {
 
 ;(function(window, document, $) {
 	"use strict";
-	$.fn.SGNTabLayout = function() {
-		return $(this).each(function() {
-			const $this = $(this);
-			const $tabLinks   = $this.children('.tab-links'),
-				  $tabView    = $this.children('.tab-view'),
-				  $tabLink    = $tabLinks.children(`.tab-link`),
-				  $tab        = $tabView.children(`.tab`),
-				  $activeLink = $tabLinks.children(`.tab-link.active`),
-				  $activeTab  = $tabView.children(`.tab.active`),
-				  $activeElem = $activeLink || $activeTab;
 
+	/**
+	 *
+	 * @param {jQuery} $elem The <b>DOM Element</b> wrapped with <b>jQuery</b> where the <b>SGNTabLayout</b> will be initialized.
+	 *
+	 * @return {SGNTabLayout} An instance of <b>SGNTabLayout</b> if initialized.
+	 *
+	 * @constructor
+	 */
+	const SGNTabLayout = function($elem) {
+		const plugin = this;
+		const $tabLinks   = $elem.children('.tab-links'),
+		      $tabView    = $elem.children('.tab-view'),
+		      $tabLink    = $tabLinks.children(`.tab-link`),
+		      $tab        = $tabView.children(`.tab`),
+		      $activeLink = $tabLinks.children(`.tab-link.active`),
+		      $activeTab  = $tabView.children(`.tab.active`),
+		      $activeElem = $activeLink || $activeTab;
+
+
+		const init = () => {
 			if($activeElem.length > 0) {
 				if($activeLink.length === 1) {
 					const targetTab  = $activeLink.attr('sgn-target-tab') || $activeLink.attr('data-target-tab'),
-						  $targetTab = ($tabView.children(`.tab[sgn-tab="${targetTab}"]`).length > 0) ? $tabView.children(`.tab[sgn-tab="${targetTab}"]`) : $tabView.children(`.tab[data-tab="${targetTab}"]`);
+					      $targetTab = ($tabView.children(`.tab[sgn-tab="${targetTab}"]`).length > 0) ? $tabView.children(`.tab[sgn-tab="${targetTab}"]`) : $tabView.children(`.tab[data-tab="${targetTab}"]`);
 
 					if(!$targetTab.hasClass('active'))
 						$targetTab.addClass('active');
 				} else if($activeTab.length === 1) {
 					const targetLink  = $activeTab.attr('sgn-tab') || $activeTab.attr('data-tab'),
-						  $targetLink = ($tabView.children(`.tab[sgn-tab="${targetLink}"]`).length > 0) ? $tabView.children(`.tab[sgn-tab="${targetLink}"]`) : $tabView.children(`.tab[data-tab="${targetLink}"]`);
+					      $targetLink = ($tabView.children(`.tab[sgn-tab="${targetLink}"]`).length > 0) ? $tabView.children(`.tab[sgn-tab="${targetLink}"]`) : $tabView.children(`.tab[data-tab="${targetLink}"]`);
 
 					if(!$targetLink.hasClass('active'))
 						$targetLink.addClass('active');
@@ -45,9 +55,9 @@ if(typeof jQuery === "undefined") {
 				const $_this = $(this);
 
 				const targetTab = $_this.attr('sgn-target-tab') || $_this.attr('data-target-tab'),
-					  target    = $_this.attr('sgn-target') || $_this.attr('data-target');
+				      target    = $_this.attr('sgn-target') || $_this.attr('data-target');
 				const $targetTab = ($tabView.children(`.tab[sgn-tab="${targetTab}"]`).length > 0) ? $tabView.children(`.tab[sgn-tab="${targetTab}"]`) : $tabView.children(`.tab[data-tab="${targetTab}"]`),
-					  $target    = $(target);
+				      $target    = $(target);
 
 				if($target.length > 0 || $targetTab.length > 0) {
 					$_this.on('click', function(e) {
@@ -69,11 +79,40 @@ if(typeof jQuery === "undefined") {
 					});
 				}
 			});
+
+			$elem.data("SGNTabLayout", plugin);
+			$elem[0]["SGNTabLayout"] = plugin;
+		}
+
+		if($elem.length > 0 && ($elem.hasClass('tab-layout') || $elem.attr('sgn-component') || $elem.attr('data-sgn-component') || $elem.attr('data-component')))
+			init();
+		else
+			throw new Error(`[SGNTabLayout] Failed to initialize SGNTabLayout: Invalid DOM element supplied.`);
+
+		return plugin;
+	};
+
+	/**
+	 * Initialize <b>SGNTabLayout</b> on the element.
+	 *
+	 * @return {jQuery} The <b>jQuery</b> to retain method chaining capabilities.
+	 *
+	 * @constructor
+	 */
+	$.fn.SGNTabLayout = function() {
+		return $(this).each(function() {
+			const $this = $(this),
+			      data  = $this.data("SGNTabLayout");
+
+			const plugin = (data === undefined) ? new SGNTabLayout($this) : data;
+
+			$this.data("SGNTabLayout", plugin);
+			$this[0]["SGNTabLayout"] = plugin;
 		});
 	};
 
 	SUKR(() => {
-		const $tab = $('[sgn-component="tab"], [sgn-component="tab"], [data-component="tab"]') || $('.tab-layout');
+		const $tab = $('[sgn-component="tab"], [data-sgn-component="tab"], [data-component="tab"]') || $('.tab-layout');
 		$tab.SGNTabLayout();
 	});
 })(window, document, jQuery);

@@ -1,0 +1,249 @@
+/*
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+.dropdown {
+	position: relative;
+	width: 100%;
+}
+
+.dropdown > a,
+.dropdown > .dropdown-toggle {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	color: inherit;
+	width: 100%;
+}
+
+.dropdown > a:after,
+.dropdown > .dropdown-toggle:after {
+	display: inline-block;
+	margin-left: var(--margin-md);
+	content: "";
+	border-top: .45rem solid;
+	border-bottom: 0;
+	border-right: .4rem solid transparent;
+	border-left: .4rem solid transparent;
+	right: 0;
+}
+
+.dropdown > a > img,
+.dropdown > .dropdown-toggle > img {
+	width: 36px;
+}
+
+.dropdown ul,
+.dropdown ul > li {
+	list-style-type: none;
+}
+
+.dropdown ul > li > a {
+	width: 100%;
+	text-decoration: none;
+	color: inherit;
+	display: flex;
+	align-items: center;
+	/*! justify-content: center; */
+	justify-content: stretch;
+	border-radius: var(--sgn-border-radius-md);
+	position: relative;
+	padding: var(--padding-sm) var(--padding-md);
+	/*! height: var(--sgn-sidebar-link-height);
+	margin: var(--margin-sm) 0; */
+}
+
+.dropdown ul > li > a {
+	transition: background-color .5s linear;
+}
+
+.dropdown a > svg:last-child {
+	text-align: right;
+	justify-content: end;
+	align-items: end;
+	display: flex;
+}
+
+.dropdown a > span:first-child {
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	position: absolute;
+	transition: all .5s linear;
+}
+
+.dropdown:not(.active) a > span:first-child {
+	left: calc(var(--margin-sm) / 2);
+}
+
+.dropdown a > span:first-child {
+	left: calc(var(--margin-sm));
+}
+
+.dropdown a > span:first-child > svg {
+	font-size: 24px;
+	text-align: center;
+}
+
+.dropdown a > span:nth-child(2) > .js-marquee-wrapper {
+	margin: 0 auto;
+	white-space: nowrap;
+	overflow: hidden;
+	display: flex;
+	animation: none !important;
+}
+
+.dropdown a > span:nth-child(2) {
+	white-space: nowrap;
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	overflow: hidden;
+	position: relative;
+	/*! left: calc(34px + (var(--margin-md) - var(--margin-sm))); */
+	left: calc(var(--margin-sm));
+	transition: opacity 0.5s linear;
+}
+
+.dropdown:not(.active) a > span:nth-child(2) {
+	/*! left: calc(34px + var(--margin-md)); */
+}
+
+.dropdown a > span:nth-child(3) {
+	position: absolute;
+	right: 0;
+	margin: 0 var(--margin-sm);
+	width: 14px;
+	transition: opacity 0.1s linear;
+}
+
+.dropdown a[data-toggle="dropdown"] .chevron:after {
+	content: "\f078";
+	font-family: "Font Awesome 5 Pro", serif;
+	font-weight: 900;
+	font-style: normal;
+	display: block;
+	transition: all .3s linear;
+}
+
+.dropdown a[data-toggle="dropdown"]:not(.active) .chevron:after {
+	transform: rotate(0deg);
+}
+
+.dropdown a[data-toggle="dropdown"].active > span > .chevron:after {
+	transform: rotate(-180deg);
+}
+
+
+.dropdown:not(.accordion) ul,
+.dropdown:not(.accordion) .dropdown-menu {
+	position: absolute;
+	top: 100%;
+	margin-top: var(--margin-sm);
+	background-color: var(--sgn-accent-background);
+	border-radius: var(--sgn-border-radius-sm);
+	box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
+}
+
+.dropdown:not(.accordion) ul > .dropdown > ul,
+.dropdown:not(.accordion) .dropdown-menu > .dropdown > .dropdown-menu {
+	top: 0;
+	left: 105%;
+	margin-top: -1px;
+}
+
+.dropdown:not(.accordion) ul > .dropdown > ul:before,
+.dropdown:not(.accordion) .dropdown-menu > .dropdown > .dropdown-menu:before {
+	display: inline-block;
+	content: "";
+	border-top: .7rem solid transparent;
+	border-bottom: .7rem solid transparent;
+	border-left: 0;
+	border-right: .8rem solid var(--sgn-accent-background-secondary);
+	position: absolute;
+	top: calc(50% - .7rem);
+	left: -.77rem;
+	z-index: 1;
+}
+
+.dropdown:not(.accordion) ul > li > .dropdown-toggle:after,
+.dropdown:not(.accordion) .dropdown-menu > li > .dropdown-toggle:after {
+	transform: rotate(270deg);
+}
+
+.dropdown ul:not(.active) {
+	display: none;
+}
+
+.dropdown:not(.accordion) ul > li:first-child {
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
+}
+
+.dropdown:not(.accordion) ul > li:last-child {
+	border-bottom-left-radius: inherit;
+	border-bottom-right-radius: inherit;
+}
+
+.dropdown:not(.accordion) ul > li {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+}
+
+.dropdown:not(.accordion) ul > li > a,
+.dropdown:not(.accordion) ul > li > .dropdown-item {
+	color: var(--sgn-text-primary);
+	width: 100%;
+	border-radius: 0;
+	white-space: nowrap;
+	border-radius: inherit;
+}
+
+.dropdown:not(.accordion) ul > li > a:hover,
+.dropdown:not(.accordion) ul > li > .dropdown-item:hover {
+	color: var(--sgn-text-primary-hover);
+	background-color: var(--sgn-secondary-light);
+}
+
+@media (max-width: 768px) {
+	.dropdown:not(.accordion) {
+		flex-direction: column;
+	}
+
+	.dropdown:not(.accordion) ul,
+	.dropdown:not(.accordion) .dropdown-menu {
+		position: relative;
+		box-shadow: none;
+		width: 100%;
+		border-radius: 0;
+	}
+
+	.dropdown:not(.accordion) ul > .dropdown > ul,
+	.dropdown:not(.accordion) .dropdown-menu > .dropdown > .dropdown-menu {
+		left: 0;
+		border-radius: 0;
+		border-top: 1px solid var(--sgn-border-light);
+		border-bottom: 1px solid var(--sgn-border-light);
+	}
+
+	.dropdown:not(.accordion) ul > .dropdown > ul:before,
+	.dropdown:not(.accordion) .dropdown-menu > .dropdown > .dropdown-menu:before {
+		display: none;
+	}
+
+	.dropdown:not(.accordion) ul > li > .dropdown-toggle:after,
+	.dropdown:not(.accordion) .dropdown-menu > li > .dropdown-toggle:after {
+		transform: rotate(0deg);
+	}
+
+	.dropdown:not(.accordion) ul > .dropdown > ul > li > a,
+	.dropdown:not(.accordion) .dropdown-menu > .dropdown > .dropdown-menu > li > a {
+		padding-left: var(--padding-lg);
+	}
+}
+

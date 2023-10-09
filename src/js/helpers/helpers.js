@@ -20,6 +20,7 @@ window.logStopArt = stopArt => {
 		stopArt = "\n";
 		stopArt += "                                                                                                \n";
 		stopArt += "                                                                                                \n";
+
 		stopArt += "     SSSSSSSSSSSSSSS           tttt                                                   !!!       \n";
 		stopArt += "   SS:::::::::::::::S       ttt:::t                                                  !!:!!      \n";
 		stopArt += "  S:::::SSSSSS::::::S       t:::::t                                                  !:::!      \n";
@@ -48,7 +49,7 @@ window.logStopArt = stopArt => {
 		stopArt += "If you are not a developer, please close this panel by pressing F12 or CTRL-SHIFT-I (Windows). If someone told you to paste a block of code here to activate a feature, please don't do that as it may result in a punishable offense.\n";
 	}
 
-	Console.log("%c" + stopArt, styles);
+	console.log("%c" + stopArt, styles);
 };
 
 /**
@@ -213,22 +214,6 @@ window.getUrlVars = url => {
 };
 
 /***
- * Get an <b>SGNi18n</b> string identified by <b><i>key</i></b> and also if <b>SGNi18n</b> is used and initialized.
- *
- * @param {string} key The <b><i>key</i></b> to identify a <b>SGNi18n</b> object.
- * @param {string} fallback A <b><i>string</i></b> to use as fallback (in case the <b>SGNi18n</b> object could not be found).
- * @param {...any} args Any optional arguments to pass to concatenate in the found <b>SGNi18n</b> object.
- *
- * @returns {string} The processed i18n <b><i>string</i></b> or fallback <b><i>string</i></b>.
- *
- * @since 1.1.3
- * @version 1.1.4
- * @var i18n
- * @requires SGNi18n
- */
-window.getI18nString = (key, fallback, ...args) => ((typeof i18n !== 'undefined' && i18n instanceof SGNi18n) ? i18n.getString(key, fallback, args) : fallback);
-
-/***
  * Find the position of the first occurrence of a substring in a string
  *
  * @param {string} haystack The <b><i>string</i></b> to search in.
@@ -250,7 +235,7 @@ window.strpos = (haystack, needle, offset) => {
  * Determine if a string contains a given substring
  *
  * @param {string} haystack The <b><i>string</i></b> to search in.
- * @param {string|number} needle The substring to search in the <b><i>haystack</i></b>.
+ * @param {string|number|array} needle The substring or <b><i>array</i></b> of substrings to search in the <b><i>haystack</i></b>.
  *
  * @returns {boolean} <b><i>TRUE</i></b> if needle is found in the haystack, <b><i>FALSE</i></b> otherwise.
  *
@@ -258,13 +243,28 @@ window.strpos = (haystack, needle, offset) => {
  * @version 1.1.4
  */
 window.str_contains = (haystack, needle) => {
-	return ((haystack + "").indexOf(needle + "", 0) !== -1);
+	const check = (needle) => ((haystack + "").indexOf(needle + "", 0) !== -1);
+
+	if(is_array(needle)) {
+		const length = needle.length;
+
+		let found = 0;
+		for(let i = 0; i < length; i++) {
+			const need = needle[i];
+			if(check(need)) {
+				found++;
+			}
+		}
+
+		return (found > 0);
+	} else
+		return check(needle);
 };
 
 /***
  * Allow only numbers in a specific form field.
  *
- * @param {HTMLElement} f The <b><i>HTMLElement</i></b> to capture the event.
+ * @param {HTMLInputElement|HTMLTextAreaElement} f The <b><i>HTMLElement</i></b> to capture the event.
  * @param {UIEventInit} e The event object for the specified <b><i>HTMLElement</i></b> in <b><i>f</i></b>.
  *
  * @returns {boolean} <b><i>TRUE</i></b> if needle is found in the haystack, <b><i>FALSE</i></b> otherwise.
@@ -273,29 +273,35 @@ window.str_contains = (haystack, needle) => {
  * @version 1.1.2
  */
 window.numbersOnly = (f, e) => {
-	let key,
-	    keychar;
-	if(window.event)
+	let key, keychar;
+	// noinspection JSDeprecatedSymbols
+	if(window.event) {
+		// noinspection JSDeprecatedSymbols,JSUnresolvedVariable
 		key = window.event.keyCode;
-	else if(e)
-		key = e.which;
-	else
-		return true;
+	} else {
+		if(e) {
+			// noinspection JSDeprecatedSymbols
+			key = e.which;
+		} else {
+			return true;
+		}
+	}
 	keychar = String.fromCharCode(key);
 	//CONTROL KEYS
-	if((key == null) || (key === 0) || (key === 8) || (key === 9) || (key === 13) || (key === 27))
+	if((key == null) || (key === 0) || (key === 8) || (key === 9) || (key === 13) || (key === 27)) {
 		return true;
-	//NUMBER KEYS
-	else if((("0123456789").indexOf(keychar) > -1))
+	}//NUMBER KEYS
+	else if((("0123456789").indexOf(keychar) > -1)) {
 		return true;
-	//ONLY ONE DECIMAL POINT
+	}//ONLY ONE DECIMAL POINT
 	else if((keychar === ".")) {
-		if(f.val().indexOf(keychar) > -1)
+		if(f.value.indexOf(keychar) > -1) {
 			return false;
-	} else
+		}
+	} else {
 		return false;
+	}
 };
-
 
 /**
  * This callback type is called `readFileCallback` and is displayed as a global symbol.
@@ -308,7 +314,7 @@ window.numbersOnly = (f, e) => {
  *
  * @param {jQuery} $el - The jQuery reference to HTML file input.
  * @param {readFileCallback} callback - The callback that handles the response.
- * @param {JSON} [data] - The form data.
+ * @param {{}} [data] - The form data.
  * @param {boolean} [stringify=true] - Stringify the finalized form data.
  */
 window.readFile = function($el, callback, data, stringify = false) {
@@ -326,12 +332,13 @@ window.readFile = function($el, callback, data, stringify = false) {
 	fdata = $.extend(fdata, data);
 
 	if(files.length > 0) {
-		$.each(files, function(i, c) {
+		$.each(files, function() {
 			const $this = $(this),
 			      file  = $this[0];
 			if(file === undefined) {
-				if(typeof callback === "function")
+				if(typeof callback === "function") {
 					callback(true, fdata);
+				}
 			} else {
 				fdata[id] = [];
 				reader.addEventListener("loadend", function() {
@@ -344,21 +351,24 @@ window.readFile = function($el, callback, data, stringify = false) {
 						"data": reader.result.split(",", 2)[1],
 					};
 					const objJSON = JSON.stringify(obj);
-					if(stringify)
+					if(stringify) {
 						fdata[id].push(objJSON);
-					else
+					} else {
 						fdata[id].push(obj);
+					}
 
-					if(typeof callback === "function")
+					if(typeof callback === "function") {
 						callback(false, fdata);
+					}
 				}, false);
 
 				reader.readAsDataURL(file);
 			}
 		});
 	} else {
-		if(typeof callback === "function")
+		if(typeof callback === "function") {
 			callback(true, fdata);
+		}
 	}
 };
 
@@ -372,37 +382,33 @@ window.mergeFormData = function(data, $fileInputs, callback) {
 	let fdata = {};
 	fdata = $.extend(fdata, data);
 
-	if($fileInputs.length > 0 && ($.isArray($fileInputs) || $fileInputs instanceof jQuery)) {
-		if($.isArray($fileInputs)) {
-			$fileInputs.forEach((c, i) => {
-				$fileInputs[i].each(function(n) {
-					const $this      = $(this),
-					      $fileInput = $this;
-
-					const name = $fileInput.attr("name") || $fileInput.attr("id");
-					readFile($fileInput, (error, finalData) => {
-						//fdata = finalData;
-						if(typeof callback === "function")
+	if($fileInputs.length > 0 && (is_array($fileInputs) || $fileInputs instanceof jQuery)) {
+		if(is_array($fileInputs)) {
+			$fileInputs.each((c, i) => {
+				$fileInputs[i].each(function() {
+					const $this = $(this);
+					readFile($this, (error, finalData) => {
+						if(typeof callback === "function") {
 							callback(error, finalData);
+						}
 					}, fdata);
 				});
 			});
 		} else {
 			$fileInputs.each(function() {
-				const $this      = $(this),
-				      $fileInput = $this;
-
-				const name = $fileInput.attr("name") || $fileInput.attr("id");
-				readFile($fileInput, (error, finalData) => {
+				const $this = $(this);
+				readFile($this, (error, finalData) => {
 					//fdata = finalData;
-					if(typeof callback === "function")
+					if(typeof callback === "function") {
 						callback(error, finalData);
+					}
 				}, fdata);
 			});
 		}
 	} else {
-		if(typeof callback === "function")
+		if(typeof callback === "function") {
 			callback(true, fdata);
+		}
 	}
 };
 
@@ -420,6 +426,7 @@ window.getFormData = function($form, callback) {
 
 		if($inputs.length > 0) {
 			$inputs.each(function() {
+				// noinspection JSCheckFunctionSignatures
 				const $this    = $(this),
 				      nodeName = ($this.prop("nodeName")) ? $this.prop("nodeName") : $this[0].nodeName,
 				      type     = (nodeName === "INPUT") ? $this.attr("type").toLowerCase() : nodeName.toLowerCase(),
@@ -432,8 +439,9 @@ window.getFormData = function($form, callback) {
 				}
 			});
 
-			if(typeof callback === "function")
+			if(typeof callback === "function") {
 				callback(true, fd);
+			}
 		}
 	}
 };
@@ -446,84 +454,207 @@ window.getFormData = function($form, callback) {
  * @param {boolean} [checkLength=false] If set to <b>TRUE</b>, this will check for zero-length objects as well.
  * @returns {boolean} <b>TRUE</b> if the <i>obj</i> does not exist or has a value that is empty but not equal to <i><b>zero</b></i>, <b>FALSE</b> otherwise.
  */
-window.empty = (obj, checkLength = false) => (checkLength) ? (obj === undefined || obj === null || obj === "" || (obj.length && obj.length <= 0)) : (obj === undefined || obj === null || obj === "");
+window.empty = (obj, checkLength = false) => {
+	const isEmpty = (obj === undefined || obj === null || obj === "");
+	if(isEmpty) {
+		return true;
+	}
+
+	if(checkLength) {
+		if(typeof obj === "object") {
+			return (obj.hasOwnProperty("length")) ? (obj.length <= 0) : (Object.keys(obj).length <= 0);
+		} else {
+			return isEmpty;
+		}
+	}
+};
+
+/**
+ * Finds whether a variable is a number or a numeric string.
+ *
+ * @param value The variable being evaluated.
+ *
+ * @return {boolean} Returns <b>TRUE</b> if value is a number or a numeric string, <b>FALSE</b> otherwise.
+ *
+ * @since 1.2.2
+ * @version 1.0.1
+ * @author Kevin van Zonneveld ({@link https://kvz.io})
+ * {@link https://locutus.io/php/var/is_numeric}
+ * @example
+ * Example 1: is_numeric(186.31) : true
+ * Example 2: is_numeric('Kevin van Zonneveld') : false
+ * Example 3: is_numeric(' +186.31e2') : true
+ * Example 4: is_numeric("") : false
+ * Example 5: is_numeric([]) : false
+ * Example 6: is_numeric("1 ") : false
+ */
+window.is_numeric = (value) => {
+	const whitespace = [
+		" ",
+		"\n",
+		"\r",
+		"\t",
+		"\f",
+		"\x0b",
+		"\xa0",
+		"\u2000",
+		"\u2001",
+		"\u2002",
+		"\u2003",
+		"\u2004",
+		"\u2005",
+		"\u2006",
+		"\u2007",
+		"\u2008",
+		"\u2009",
+		"\u200a",
+		"\u200b",
+		"\u2028",
+		"\u2029",
+		"\u3000"
+	].join("");
+	return (typeof value === "number" || (typeof value === "string" && whitespace.indexOf(value.slice(-1)) === -1)) && value !== "" && !isNaN(value);
+};
+
+/**
+ * Finds whether a variable is an array.<br/>
+ *
+ * @param value The variable being evaluated.
+ *
+ * @return {boolean} Returns <b>TRUE</b> if value is an array, <b>FALSE</b> otherwise.
+ *
+ * @since 1.2.2
+ * @version 1.0.1
+ * @author Kevin van Zonneveld ({@link https://kvz.io})
+ * {@link https://locutus.io/php/var/is_array}
+ * @example
+ * Example 1: is_array(['Kevin', 'van', 'Zonneveld']) : true
+ * Example 2: is_array('Kevin van Zonneveld') : false
+ * Example 3: is_array({0: 'Kevin', 1: 'van', 2: 'Zonneveld'}) : false
+ * Example 4: is_array(function tmp_a (){ this.name = 'Kevin' }) : false
+ */
+window.is_array = (value) => {
+	const _isArray = function(value) {
+		if(!value || typeof value !== "object" || typeof value.length !== "number") {
+			return false;
+		}
+		const len = value.length;
+		value[value.length] = "bogus";
+		if(len !== value.length) {
+			value.length -= 1;
+			return true;
+		}
+		delete value[value.length];
+		return false;
+	};
+	if(!value || typeof value !== "object") {
+		return false;
+	}
+
+	return _isArray(value);
+};
+
+/**
+ *
+ * Checks if a value exists in an array. Searches for needle in haystack using loose comparison unless strict is set.
+ *
+ * @param {any|[]} needle The value to be searched.<br/><b>Note:</b> If <b><i>needle</i></b> is a <b>string</b>, the comparison is done in a case-sensitive manner.
+ * <br/><b>Note:</b> If <b><i>needle</i></b> is an <b>array</b>, it will iterate through all the values and if <b><i>strict</i></b> is <b>TRUE</b> then it will have to match all the values and if the value is a <b>string</b> the comparison is done in a case-sensitive manner with respect to the parameter <b><i>strict</i></b>.
+ * @param {[]} haystack The array to perform the search on.
+ * @param {boolean} [strict=false] If the <b><i>strict</i></b> is set to <b>TRUE</b> then the <b>in_array()</b> will also check the types of the <b><i>needle</i></b> in the <b><i>haystack</i></b>.
+ *
+ * @returns {boolean} Returns <b>TRUE</b> if <b><i>needle</i></b> is found in the array, <b>FALSE</b> otherwise.
+ *
+ * @since 1.2.2
+ * @version 1.0.4
+ */
+window.in_array = (needle, haystack, strict = false) => {
+	if(!is_array(haystack)) {
+		return false;
+	}
+
+	function arrayCompare(a1, a2) {
+		if((strict && a1.length !== a2.length) || a1.length != a2.length) {
+			return false;
+		}
+		const length = a2.length;
+		for(let i = 0; i < length; i++) {
+			if((strict && a1[i] !== a2[i]) || a1[i] != a2[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	const length = haystack.length;
+	const check = (obj, needle) => {
+		if(typeof obj === "object" || is_array(obj)) {
+			if(arrayCompare(obj, needle)) {
+				return true;
+			}
+		} else {
+			// noinspection EqualityComparisonWithCoercionJS
+			if((strict && obj === needle) || obj == needle) {
+				return true;
+			}
+		}
+		return false;
+	}
+	if(strict) {
+		for(let i = 0; i < length; i++) {
+			const obj = haystack[i];
+			if(is_array(needle)) {
+				for(let j = 0; j < needle.length; j++) {
+					const need = needle[j];
+					if(check(obj, need)) {
+						return true;
+					}
+				}
+			} else {
+				if(check(obj, needle)) {
+					return true;
+				}
+			}
+		}
+	} else {
+		for(let i = 0; i < length; i++) {
+			const obj = haystack[i];
+			if(is_array(needle)) {
+				for(let j = 0; j < needle.length; j++) {
+					const need = needle[j];
+					if(check(obj, need)) {
+						return true;
+					}
+				}
+			} else {
+				if(check(obj, needle)) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+};
 
 /***
  * Select an object which is not empty from the specified array of objects.
  *
- * @param obj The <b>array</b> of objects.
+ * @param {...} obj The list of objects.
  *
  * @returns {jQuery|any} The non-empty object (if any), otherwise <b>undefined</b>.
  */
 window.select = (...obj) => {
-	if(!empty(obj)) {
-		for(const k in obj) {
-			const o = obj[k];
+	if(!empty(obj, true)) {
+		for(let i = 0; i < obj.length; i++) {
+			const o = obj[i];
 
-			if(!empty(o, true))
+			if(!empty(o, true)) {
 				return o;
+			}
 		}
 	}
-};
 
-window.escapeHTML = (str) => {
-	const escapeChars = {
-		"¢": "cent",
-		"£": "pound",
-		"¥": "yen",
-		"€": "euro",
-		"©": "copy",
-		"®": "reg",
-		"<": "lt",
-		">": "gt",
-		"\"": "quot",
-		"&": "amp",
-		"'": "#39",
-	};
-
-	let regexString = "[";
-	for(const key in escapeChars) {
-		regexString += key;
-	}
-	regexString += "]";
-
-	const regex = new RegExp(regexString, "g");
-
-	return str.replace(regex, function(m) {
-		return "&" + escapeChars[m] + ";";
-	});
-};
-
-window.unescapeHTML = (str) => {
-	const htmlEntities = {
-		nbsp: " ",
-		cent: "¢",
-		pound: "£",
-		yen: "¥",
-		euro: "€",
-		copy: "©",
-		reg: "®",
-		lt: "<",
-		gt: ">",
-		quot: "\"",
-		amp: "&",
-		apos: "'",
-	};
-	return str.replace(/&([^;]+);/g, function(entity, entityCode) {
-		let match;
-
-		if(entityCode in htmlEntities) {
-			return htmlEntities[entityCode];
-			/*eslint no-cond-assign: 0*/
-		} else if(match = entityCode.match(/^#x([\da-fA-F]+)$/)) {
-			return String.fromCharCode(parseInt(match[1], 16));
-			/*eslint no-cond-assign: 0*/
-		} else if(match = entityCode.match(/^#(\d+)$/)) {
-			return String.fromCharCode(~~match[1]);
-		} else {
-			return entity;
-		}
-	});
+	return undefined;
 };
 
 window.getGeolocation = (e, element, callback) => {
@@ -533,61 +664,68 @@ window.getGeolocation = (e, element, callback) => {
 		maximumAge: 0
 	};
 
-	if(e instanceof Event)
+	if(e instanceof Event) {
 		e.preventDefault();
+	}
 
 	let $elem = e;
-	if(e instanceof EventTarget || e instanceof HTMLElement || e instanceof jQuery)
+	if(e instanceof EventTarget || e instanceof HTMLElement || e instanceof jQuery) {
 		$elem = $(e);
-	else if(e instanceof Event)
+	} else if(e instanceof Event) {
 		$elem = $(e.target);
-	const $sgnInput = $elem.parents('.sgn-input-wrapper');
-	if($sgnInput.length > 0) {
-		$elem = $sgnInput.children('.form-control');
 	}
-	$elem.showLoader();
+	const $sgnInput = $elem.parents(".sgn-input-wrapper");
+	if($sgnInput.length > 0) {
+		$elem = $sgnInput.children(".form-control");
+	}
+	$elem.showSGNLoader();
 
-	if(typeof element === 'string') {
+	if(typeof element === "string") {
 		element = $(element);
 	}
 
 	navigator.geolocation.getCurrentPosition((pos) => {
-		const coordinates = pos.coords,
-		      timestamp   = pos.timestamp;
-		const latitude         = coordinates.latitude,
-		      longitude        = coordinates.longitude,
-		      accuracy         = coordinates.accuracy, // in meters
-		      altitude         = coordinates.altitude,
-		      altitudeAccuracy = coordinates.altitudeAccuracy,
-		      heading          = coordinates.heading,
-		      speed            = coordinates.speed;
+		const coordinates = pos.coords;
+		const latitude  = coordinates.latitude,
+		      longitude = coordinates.longitude;
 		const coords = `${latitude}, ${longitude}`;
+		/*const timestamp = pos.timestamp,
+		 accuracy         = coordinates.accuracy, // in meters
+		 altitude         = coordinates.altitude,
+		 altitudeAccuracy = coordinates.altitudeAccuracy,
+		 heading          = coordinates.heading,
+		 speed            = coordinates.speed;*/
 
 		const defaultAPI = SGNUIKit.config.geocoding.defaultAPI;
 
-		if(defaultAPI === 'osm' || defaultAPI === 'geonames') {
+		if(defaultAPI === "osm" || defaultAPI === "geonames") {
 			const apiBase = SGNUIKit.config.urls.api[defaultAPI],
-			      apiURL  = (defaultAPI === 'geonames') ? `${apiBase}countryCode` : `${apiBase}reverse`,
-			      apiKey  = (defaultAPI === 'geonames') ? SGNUIKit.config.api.geonames : '';
-			const opt = (defaultAPI === 'geonames') ? {
+			      apiURL  = (defaultAPI === "geonames") ? `${apiBase}countryCode` : `${apiBase}reverse`,
+			      apiKey  = (defaultAPI === "geonames") ? SGNUIKit.config.api.geonames : "";
+			const opt = (defaultAPI === "geonames") ? {
 				lat: latitude,
 				lon: longitude,
-				type: 'JSON',
-				username: apiKey || 'demo'
+				type: "JSON",
+				username: apiKey || "demo"
 			} : {
 				lat: latitude,
 				lon: longitude,
-				format: 'json',
+				format: "json",
 			};
+
 			$.getJSON(apiURL, opt, function(result) {
-				//console.log(result);
-				if(defaultAPI === 'osm') {
-					const address  = result.address,
-					      location = result.display_name;
-					result = Object.assign(result, {'position': coordinates});
+				/**
+				 * @typedef result
+				 *
+				 * @property {string} display_name
+				 * @property {GeolocationCoordinates} position
+				 */
+				if(defaultAPI === "osm") {
+					const location = result.display_name;
+					result = Object.assign(result, {"position": coordinates});
 					setLocation(coords, result, location);
 				} else {
-					result = Object.assign(result, {'position': coordinates});
+					result = Object.assign(result, {"position": coordinates});
 					setLocation(coords, result, location);
 				}
 			});
@@ -606,291 +744,396 @@ window.getGeolocation = (e, element, callback) => {
 
 		console.warn(`GEOLOCATION: ERROR(${code}): ${message}`);
 
-		const msg = (code === GeolocationPositionError.PERMISSION_DENIED) ? getI18nString('sgn_geolocation_error_permission_denied', message) :
-		            (code === GeolocationPositionError.POSITION_UNAVAILABLE) ? getI18nString('sgn_geolocation_error_position_unavailable', message) :
-		            (code === GeolocationPositionError.TIMEOUT) ? getI18nString('sgn_geolocation_error_request_timeout', message, `${timeout} seconds`) : message;
+		const msg = (code === GeolocationPositionError.PERMISSION_DENIED) ? getI18nString("sgn_geolocation_error_permission_denied", message) :
+		            (code === GeolocationPositionError.POSITION_UNAVAILABLE) ? getI18nString("sgn_geolocation_error_position_unavailable", message) :
+		            (code === GeolocationPositionError.TIMEOUT) ? getI18nString("sgn_geolocation_error_request_timeout", message, `${timeout} seconds`) : message;
 
 		if($.SGNSnackbar !== undefined) {
 			$.SGNSnackbar(msg);
 		}
-		if(typeof callback === 'function') {
+		if(typeof callback === "function") {
 			callback(true, error);
 		}
 	}, options);
 
 	const setLocation = (coordinates, position, location) => {
 		if(element instanceof HTMLElement || element instanceof jQuery) {
-			element = (element instanceof jQuery) ? $(element)[0] : element;
+			element = (element instanceof jQuery) ? element[0] : element;
 			const $element = $(element);
 
 			if(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
-				if(element instanceof HTMLTextAreaElement)
-					$element.text(location).data('sgn-user-location', coordinates).trigger('change');
-				else {
-					const type = ($element.attr('type') || 'text').toLowerCase();
+				if(element instanceof HTMLTextAreaElement) {
+					$element.text(location).data("sgn-user-location", coordinates).trigger("change");
+				} else {
+					const type = ($element.attr("type") || "text").toLowerCase();
 
-					if(type !== 'checkbox' && type !== 'radio' && type !== 'toggle' && type !== 'switch')
-						$element.val(location).data('sgn-user-location', coordinates).trigger('change');
+					if(type !== "checkbox" && type !== "radio" && type !== "toggle" && type !== "switch") {
+						$element.val(location).data("sgn-user-location", coordinates).trigger("change");
+					}
 				}
 			}
 		}
 
-		if(typeof callback === 'function') {
+		if(typeof callback === "function") {
 			callback(false, coordinates, position);
 		} else {
-			$elem.hideLoader();
+			$elem.hideSGNLoader();
+		}
+	};
+};
+
+window.copyToClipboard = (element, callback) => {
+	const nodeName = (typeof element === 'string') ? 'TEXT' : element.nodeName;
+	if(navigator.clipboard) {
+		const text = (nodeName === 'TEXT') ? element : ((nodeName !== "INPUT" && nodeName !== "SELECT") ? element.innerText : element.val());
+
+		/***
+		 * Note: The `clipboard-write` permission name is not supported in Firefox, only Chromium browsers.
+		 */
+		/* navigator.permissions.query({name: "write-on-clipboard"})
+		 .then((result) => {
+		 if(result.state == "granted" || result.state == "prompt") {
+		 navigator.clipboard.writeText(text)
+		 .then(() => {
+		 if(typeof callback === "function") {
+		 callback(true);
+		 }
+		 })
+		 .catch((e) => {
+		 if(typeof callback === "function") {
+		 callback(false, e);
+		 }
+		 });
+		 } else {
+		 if(typeof callback === "function") {
+		 callback(false, result);
+		 }
+		 }
+		 })
+		 .catch((e) => {
+		 if(typeof callback === "function") {
+		 callback(false, e);
+		 }
+		 }); */
+
+		navigator.clipboard.writeText(text)
+		         .then(() => {
+			         if(typeof callback === "function") {
+				         callback(true);
+			         }
+		         })
+		         .catch((e) => {
+			         if(typeof callback === "function") {
+				         callback(false, e);
+			         }
+		         });
+	} else {
+		if(document.selection) { // IE?
+			document.selection.empty();
+			if(nodeName === "INPUT") {
+				element.select();
+			} else {
+				const range = document.body.createTextRange();
+				range.moveToElementText(element);
+				range.select().createTextRange();
+			}
+		} else if(window.getSelection) {
+			if(window.getSelection().empty) { // Chrome
+				window.getSelection().empty();
+			} else if(window.getSelection().removeAllRanges) { // Firefox
+				window.getSelection().removeAllRanges();
+			}
+			if(nodeName === "INPUT") {
+				element.select();
+			} else {
+				const range = document.createRange();
+				range.selectNode(element);
+				window.getSelection().addRange(range);
+			}
+		}
+		document.execCommand("copy");
+		if(typeof callback === "function") {
+			callback(true);
 		}
 	}
-}
+};
 
-$(document).ready(function() {
-	$.extend({
-		NMAjax: function(options) {
-			if(options.url === undefined)
-				Console.error("NMAjax: Value for parameter 'url' is not specified!");
-			if(options.data === undefined)
-				Console.error("NMAjax: Value for parameter 'data' is not specified!");
-			if(options.success === undefined)
-				Console.error("NMAjax: Callback function for parameter 'success' is not specified!");
-			$.ajax({
-				url: options.url,
-				type: "POST",
-				data: options.data,
-				success: function(d) {
-					d = is_json(d) ? $.parseJSON(d) : d;
-					if(typeof options.success == "function")
-						options.success(d);
-				},
-				error: function(xhr) {
-					if(typeof options.error == "function")
-						options.error(xhr);
-				},
-			});
-		},
-	});
-	$.fn.extend({
-		showButtonSpinner: function(keepText = false, style) {
-			style = (style) ? " style=\"" + style + "\"" : "";
-			return this.each(function() {
-				$(this).data("sgn-spinner-text", $(this).html());
-				$(this).attr("disabled", true).addClass("disabled loading");
-				const width  = $(this).width(),
-				      height = $(this).height();
+/**
+ * The replacePage() method of the Location interface replaces the current resource with the one at the provided URL.
+ * When using **SGNAtom**, to change the location to an external URL only *window.location.replacePage()* has to be called instead of *window.location.replace()*.
+ *
+ * @param {string}url URL Is a DOMString containing the URL of the page to navigate to.
+ */
+window.location.replacePage = (url) => {
+	if(typeof SGNAtom !== "undefined") {
+		SGNAtom.interceptWindowUnloadEvents = false;
+	}
+	window.location.replace(url);
+	setTimeout(() => SGNAtom.interceptWindowUnloadEvents = true, 2000);
+};
 
-				if(keepText)
-					$(this).html("<i class=\"fas fa-spinner fa-spin\"" + style + "></i> " + $(this).text());
-				else
-					$(this).html("<i class=\"fas fa-spinner fa-spin\"" + style + "></i>");
+/**
+ * The isUsingSGNAtom function checks to see if the SGNAtom object is defined and has a length greater than 0 and is initialized.
+ *
+ * @return {boolean} **TRUE** if ***SGNAtom*** is being used, **FALSE** otherwise.
+ */
+window.isUsingSGNAtom = () => {
+	if(typeof SGNAtom !== "undefined") {
+		return (SGNAtom.getInstance().length > 0);
+	}
 
+	return false;
+};
 
-				$(this).width(width).height(height);
-			});
-		},
-		hideButtonSpinner: function() {
-			return this.each(function() {
-				$(this).children("fa-spin").remove();
-				$(this).html($(this).data("sgn-spinner-text"));
-				$(this).removeAttr("disabled").removeClass("disabled loading");
-			});
-		},
-		showButtonDone: function(keepText = false, style) {
-			style = (style) ? " style=\"" + style + "\"" : "";
-			return this.each(function() {
-				$(this).hideButtonSpinner();
-				$(this).data("sghcl-cms-spinner-text", $(this).html());
-				$(this).attr("disabled", true).addClass("disabled");
-				if(keepText)
-					$(this).html("<i class=\"fas fa-check\"" + style + "></i> " + $(this).text());
-				else
-					$(this).html("<i class=\"fas fa-check\"" + style + "></i>");
-			});
-		},
-		hideButtonDone: function() {
-			return this.each(function() {
-				$(this).children("fa-check").remove();
-				$(this).html($(this).data("sghcl-cms-spinner-text"));
-				$(this).removeAttr("disabled").removeClass("disabled");
-			});
-		},
-		showButtonFailed: function(keepText = false) {
-			return this.each(function() {
-				$(this).data("nm-failed-text", $(this).text());
-				$(this).attr("disabled", true).addClass("disabled");
-				if(keepText)
-					$(this).html("<i class=\"fas fa-times\"></i> " + $(this).text());
-				else
-					$(this).html("<i class=\"fas fa-times\"></i>");
-			});
-		},
-		hideButtonFailed: function() {
-			return this.each(function() {
-				$(this).children("fa-times").remove();
-				$(this).html($(this).data("nm-failed-text"));
-				$(this).removeAttr("disabled").removeClass("disabled");
-			});
-		},
-		showInputSpinner: function(keepText = false, style) {
-			style = (style) ? " style=\"" + style + "\"" : "";
-			return this.each(function() {
-				const $this = $(this);
-				if($this.parents(".md-form").length > 0) {
-					$this.data("ctpl-spinner-text", $this.html());
-					$this.attr("disabled", true);
-					const $container   = $this.parents(".md-form").find(".sgngf-input-container"),
-					      $iccontainer = $this.parents(".md-form").find(".sgngf-input-addon");
-					if(!$iccontainer.find(".fa-spin").length) {
-						if(keepText)
-							$container.before("<div class=\"sgngf-input-addon ctpl-loader\"><i class=\"fas fa-spinner fa-spin\"" + style + "></i> " + $(this).text() + "</div>");
-						else
-							$container.before("<div class=\"sgngf-input-addon ctpl-loader\"><i class=\"fas fa-spinner fa-spin\"" + style + "></i></div>");
-					}
-				} else {
-					$(this).data("nm-spinner-text", $this.html());
-					$(this).attr("disabled", true);
-					if(!$(this).parent().find(".fa-spin").length) {
-						if(keepText)
-							$(this).after("<i class=\"fas fa-spinner fa-spin ctpl-loader\"" + style + "></i> " + $(this).text());
-						else
-							$(this).after("<i class=\"fas fa-spinner fa-spin ctpl-loader\"" + style + "></i>");
+// noinspection JSUnusedGlobalSymbols
+$.fn.extend({
+	showButtonSpinner: function(keepText = false, style) {
+		style = (style) ? " style=\"" + style + "\"" : "";
+		return this.each(function() {
+			$(this).data("sgn-spinner-text", $(this).html());
+			$(this).attr("disabled", "disabled").addClass("disabled loading");
+			const width  = $(this).width(),
+			      height = $(this).height();
+
+			if(keepText) {
+				$(this).html("<i class=\"fas fa-spinner fa-spin\"" + style + "></i> " + $(this).text());
+			} else {
+				$(this).html("<i class=\"fas fa-spinner fa-spin\"" + style + "></i>");
+			}
+
+			//$(this).width(width).height(height);
+		});
+	},
+	hideButtonSpinner: function() {
+		return this.each(function() {
+			$(this).children("fa-spin").remove();
+			$(this).html($(this).data("sgn-spinner-text"));
+			$(this).removeAttr("disabled").removeClass("disabled loading");
+		});
+	},
+	showButtonDone: function(keepText = false, style) {
+		style = (style) ? " style=\"" + style + "\"" : "";
+		return this.each(function() {
+			$(this).hideButtonSpinner();
+			$(this).data("sghcl-cms-spinner-text", $(this).html());
+			$(this).attr("disabled", "disabled").addClass("disabled");
+			if(keepText) {
+				$(this).html("<i class=\"fas fa-check\"" + style + "></i> " + $(this).text());
+			} else {
+				$(this).html("<i class=\"fas fa-check\"" + style + "></i>");
+			}
+		});
+	},
+	hideButtonDone: function() {
+		return this.each(function() {
+			$(this).children("fa-check").remove();
+			$(this).html($(this).data("sghcl-cms-spinner-text"));
+			$(this).removeAttr("disabled").removeClass("disabled");
+		});
+	},
+	showButtonFailed: function(keepText = false) {
+		return this.each(function() {
+			$(this).hideButtonSpinner();
+			$(this).data("nm-failed-text", $(this).text());
+			$(this).attr("disabled", "disabled").addClass("disabled");
+			if(keepText) {
+				$(this).html("<i class=\"fas fa-times\"></i> " + $(this).text());
+			} else {
+				$(this).html("<i class=\"fas fa-times\"></i>");
+			}
+		});
+	},
+	hideButtonFailed: function() {
+		return this.each(function() {
+			$(this).children("fa-times").remove();
+			$(this).html($(this).data("nm-failed-text"));
+			$(this).removeAttr("disabled").removeClass("disabled");
+		});
+	},
+	hideButtonIcons: function() {
+		return this.each(function() {
+			$(this).hideButtonSpinner();
+			$(this).hideButtonFailed();
+			$(this).hideButtonDone();
+		});
+	},
+	showInputSpinner: function(keepText = false, style) {
+		style = (style) ? " style=\"" + style + "\"" : "";
+		return this.each(function() {
+			const $this = $(this);
+			if($this.parents(".md-form").length > 0) {
+				$this.data("ctpl-spinner-text", $this.html());
+				$this.attr("disabled", "disabled");
+				// noinspection JSCheckFunctionSignatures
+				const $container   = $this.parents(".md-form").find(".sgngf-input-container"),
+				      $iccontainer = $this.parents(".md-form").find(".sgngf-input-addon");
+				// noinspection JSCheckFunctionSignatures
+				if(!$iccontainer.find(".fa-spin").length) {
+					if(keepText) {
+						$container.before("<div class=\"sgngf-input-addon ctpl-loader\"><i class=\"fas fa-spinner fa-spin\"" + style + "></i> " + $(this).text() + "</div>");
+					} else {
+						$container.before("<div class=\"sgngf-input-addon ctpl-loader\"><i class=\"fas fa-spinner fa-spin\"" + style + "></i></div>");
 					}
 				}
-			});
-		},
-		hideInputSpinner: function() {
-			return this.each(function() {
-				const $this = $(this).parent();
-				$this.find(".fa-spin").remove();
-				//$(this).html($(this).data('nm-spinner-text'));
-				$(this).removeAttr("disabled");
-			});
-		},
-		/*showLoader: function(alignWithFlex = true, classes) {
-		 classes = (classes) ? "nm-loader-align-flex " + classes : "nm-loader-align-flex";
-		 if(classes === undefined) {
-		 this.addClass("nm-loader");
-		 this.html("<div class='nm-spinner'><div class='nm-icon'><img src='" + QTConfig.urls.root.global + "icons/medium.png' alt=''/></div><div class='spinner'></div></div>");
-		 } else {
-		 this.data("nm-loader-classes", classes);
-		 this.addClass("nm-loader " + classes);
-		 this.html("<div class='nm-spinner " + classes + "'><div class='nm-icon'><img src='" + QTConfig.urls.root.global + "icons/medium.png' alt=''/></div><div class='spinner'></div></div>");
-		 }
-		 },
-		 hideLoader: function() {
-		 const classes = this.data("nm-loader-classes");
-		 if(classes !== undefined)
-		 this.removeClass("nm-loader " + classes);
-		 this.removeClass("nm-loader");
-		 this.find(".nm-spinner").remove();
-		 },*/
-		showLoader: function() {
-			const $this = $(this);
-			const $sgnInput = ($this.hasClass('sgn-input-wrapper')) ? $this : $this.parents('.sgn-input-wrapper');
-			if($sgnInput.length > 0) {
-				$sgnInput.children('.form-control').SGNInput().showLoader();
-			} else
-				$this.SGNSpinner().showLoader();
-		},
-		hideLoader: function() {
-			const $this = $(this);
-			const $sgnInput = ($this.hasClass('sgn-input-wrapper')) ? $this : $this.parents('.sgn-input-wrapper');
-			if($sgnInput.length > 0) {
-				$sgnInput.children('.form-control').SGNInput().hideLoader();
-			} else
-				$this.SGNSpinner().hideLoader();
-		},
-		showBackdropLoader: function(options) {
-			let $this = this;
-			let append  = (typeof options.append !== "boolean") ? true : options.append,
-			    classes = (options.classes !== undefined) ? options.classes : undefined,
-			    padding = (typeof options.padding !== "string") ? undefined : options.padding,
-			    //margin  = (typeof options.margin !== 'string') ? undefined : options.margin,
-			    styles  = (typeof options.styles !== "object") ? "" : options.styles;
-
-			this.addClass("sghcl-backdrop-loader-container");
-			let html;
-			let width  = this.width(),
-			    height = this.height(),
-			    left   = 0,
-			    top    = 0;
-
-			if(padding !== undefined) {
-				width = "calc(100% - (" + padding + " * 2))";
-				height = "calc(100% - (" + padding + " * 2))";
-				left = padding;
-				top = padding;
-
-				styles += "width: " + width + "; height: " + height + "; left: " + left + "; top: " + top + ";";
-			}
-
-			if(classes === undefined) {
-				html = "<div class=\"sghcl-backdrop-loader\" style=\"" + styles + "\"><div class=\"sghcl-backdrop-loader-spinner default\"></div></div>";
 			} else {
-				this.data("sghclbdl-loader-classes", classes);
-				html = "<div class=\"sghcl-backdrop-loader\" style=\"" + styles + "\"><div class=\"sghcl-backdrop-loader-spinner " + classes + "\"></div></div>";
+				$(this).data("nm-spinner-text", $this.html());
+				$(this).attr("disabled", "disabled");
+				if(!$(this).parent().find(".fa-spin").length) {
+					if(keepText) {
+						$(this).after("<i class=\"fas fa-spinner fa-spin ctpl-loader\"" + style + "></i> " + $(this).text());
+					} else {
+						$(this).after("<i class=\"fas fa-spinner fa-spin ctpl-loader\"" + style + "></i>");
+					}
+				}
 			}
+		});
+	},
+	hideInputSpinner: function() {
+		return this.each(function() {
+			const $this = $(this).parent();
+			$this.find(".fa-spin").remove();
+			//$(this).html($(this).data('nm-spinner-text'));
+			$(this).removeAttr("disabled");
+		});
+	},
+	/*showLoader: function(alignWithFlex = true, classes) {
+	 classes = (classes) ? "nm-loader-align-flex " + classes : "nm-loader-align-flex";
+	 if(classes === undefined) {
+	 this.addClass("nm-loader");
+	 this.html("<div class='nm-spinner'><div class='nm-icon'><img src='" + QTConfig.urls.root.global + "icons/medium.png' alt=''/></div><div class='spinner'></div></div>");
+	 } else {
+	 this.data("nm-loader-classes", classes);
+	 this.addClass("nm-loader " + classes);
+	 this.html("<div class='nm-spinner " + classes + "'><div class='nm-icon'><img src='" + QTConfig.urls.root.global + "icons/medium.png' alt=''/></div><div class='spinner'></div></div>");
+	 }
+	 },
+	 hideLoader: function() {
+	 const classes = this.data("nm-loader-classes");
+	 if(classes !== undefined)
+	 this.removeClass("nm-loader " + classes);
+	 this.removeClass("nm-loader");
+	 this.find(".nm-spinner").remove();
+	 },*/
+	showSGNLoader: function() {
+		return this.each(function() {
+			const $this = $(this);
+			const $sgnInput = ($this.hasClass("sgn-input-wrapper")) ? $this : $this.parents(".sgn-input-wrapper");
+			if($sgnInput.length > 0) {
+				//$sgnInput.children('.form-control').SGNInput().showLoader();
+			} else {
+				$this.SGNSpinner().show();
+			}
+		});
+	},
+	hideSGNLoader: function() {
+		return this.each(function() {
+			const $this = $(this);
+			const $sgnInput = ($this.hasClass("sgn-input-wrapper")) ? $this : $this.parents(".sgn-input-wrapper");
+			if($sgnInput.length > 0) {
+				//$sgnInput.children('.form-control').SGNInput().hideLoader();
+			} else {
+				$this.SGNSpinner().hide();
+			}
+		});
+	},
+	showBackdropLoader: function(options) {
+		let $this = this;
+		let append  = (typeof options.append !== "boolean") ? true : options.append,
+		    classes = (options.classes !== undefined) ? options.classes : undefined,
+		    padding = (typeof options.padding !== "string") ? undefined : options.padding,
+		    //margin  = (typeof options.margin !== 'string') ? undefined : options.margin,
+		    styles  = (typeof options.styles !== "object") ? "" : options.styles;
 
-			console.log(this);
-			if(append)
-				this.append(html);
-			else
-				this.html(html);
+		this.addClass("sghcl-backdrop-loader-container");
+		let html;
+		let width  = this.width(),
+		    height = this.height(),
+		    left   = 0,
+		    top    = 0;
 
-			setTimeout(function() {
-				$this.find(".sghcl-backdrop-loader").addClass("fadein");
-			}, 1000);
-		},
-		hideBackdropLoader: function() {
+		if(padding !== undefined) {
+			width = "calc(100% - (" + padding + " * 2))";
+			height = "calc(100% - (" + padding + " * 2))";
+			left = padding;
+			top = padding;
+
+			styles += "width: " + width + "; height: " + height + "; left: " + left + "; top: " + top + ";";
+		}
+
+		if(classes === undefined) {
+			html = "<div class=\"sghcl-backdrop-loader\" style=\"" + styles + "\"><div class=\"sghcl-backdrop-loader-spinner default\"></div></div>";
+		} else {
+			this.data("sghclbdl-loader-classes", classes);
+			html = "<div class=\"sghcl-backdrop-loader\" style=\"" + styles + "\"><div class=\"sghcl-backdrop-loader-spinner " + classes + "\"></div></div>";
+		}
+
+		console.log(this);
+		if(append) {
+			this.append(html);
+		} else {
+			this.html(html);
+		}
+
+		setTimeout(function() {
+			$this.find(".sghcl-backdrop-loader").addClass("fadein");
+		}, 1000);
+	},
+	hideBackdropLoader: function() {
+		return this.each(function() {
 			const $this = $(this);
 			//const classes = this.data('sghclbdl-loader-classes');
 			this.removeClass("sghcl-backdrop-loader-container");
 			this.find(".sghcl-backdrop-loader").addClass("fadeout");
-			setTimeout(function() {
-				$this.find(".sghcl-backdrop-loader").remove();
-			}, 1100);
-		},
-		disable: function() {
-			return this.each(function() {
-				$(this).attr("disabled", true).addClass("disabled");
-				$(this).parents(".sgn-form").addClass("disabled");
-			});
-		},
-		enable: function() {
-			return this.each(function() {
-				if($(this).prop("nodeName") === "SELECT" && $(this).hasClass("sgn-select")) {
-					if($(this).is(":disabled")) {
-						$(this).removeAttr("disabled").removeClass("disabled");
-					}
-				} else
+			// noinspection JSCheckFunctionSignatures
+			setTimeout(() => $this.find(".sghcl-backdrop-loader").remove(), 1100);
+		});
+	},
+	disable: function() {
+		return this.each(function() {
+			$(this).attr("disabled", "disabled").addClass("disabled");
+			$(this).parents(".sgn-form").addClass("disabled");
+		});
+	},
+	enable: function() {
+		return this.each(function() {
+			if($(this).prop("nodeName") === "SELECT" && $(this).hasClass("sgn-select")) {
+				if($(this).is(":disabled")) {
 					$(this).removeAttr("disabled").removeClass("disabled");
-				$(this).parents(".sgn-form").removeClass("disabled");
-			});
-		},
-		postLoad: function(url, callback) {
-			this.each(function() {
-				const $this = $(this);
-				$.ajax({
-					type: "POST",
-					url: url,
-					data: getUrlVars(url),
-					success: function(d) {
-						$this.html(d);
-						if(typeof callback == "function")
-							callback(d);
-					},
-				});
-			});
-		},
-		SGNLoad: function(url, callback) {
-			return this.each(function() {
-				const $this = $(this);
-				$this.load(url, function(d) {
-					if(typeof callback == "function")
+				}
+			} else {
+				$(this).removeAttr("disabled").removeClass("disabled");
+			}
+			$(this).parents(".sgn-form").removeClass("disabled");
+		});
+	},
+	postLoad: function(url, callback) {
+		this.each(function() {
+			const $this = $(this);
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: getUrlVars(url),
+				success: function(d) {
+					$this.html(d);
+					if(typeof callback == "function") {
 						callback(d);
-				});
+					}
+				},
 			});
-		},
-	});
+		});
+	},
+	SGNLoad: function(url, callback) {
+		return this.each(function() {
+			const $this = $(this);
+			$this.load(url, function(d) {
+				if(typeof callback == "function") {
+					callback(d);
+				}
+			});
+		});
+	},
 });
+// noinspection JSUnusedGlobalSymbols
 $.extend({
 	/**
 	 * @return {string|null}
@@ -900,10 +1143,12 @@ $.extend({
 		name = name.replace(/[\[\]]/g, "\\$&");
 		const regex   = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
 		      results = regex.exec(url);
-		if(!results)
+		if(!results) {
 			return null;
-		if(!results[2])
+		}
+		if(!results[2]) {
 			return "";
+		}
 		return (name === undefined) ? results[2] : decodeURIComponent(results[2].replace(/\+/g, " "));
 	},
 	deepValueSearch: function(obj, val) {
@@ -955,8 +1200,9 @@ $.extend({
 	getAsUriParameters: function(data) {
 		let url = "";
 		for(const prop in data) {
-			if(data.hasOwnProperty(prop))
+			if(data.hasOwnProperty(prop)) {
 				url += prop + "=" + data[prop] + "&";
+			}
 		}
 		return url.substring(0, url.length - 1);
 	},
@@ -968,8 +1214,9 @@ $.extend({
 		fdata = $.extend(fdata, data);
 
 		if(file === undefined) {
-			if(typeof callback === "function")
+			if(typeof callback === "function") {
 				callback(false, fdata);
+			}
 		} else {
 			fdata.file = {
 				"name": file.name,
@@ -982,13 +1229,31 @@ $.extend({
 			reader.addEventListener("loadend", function() {
 				fdata.file.data = reader.result.split(",", 2)[1];
 				fdata.file = JSON.stringify(fdata.file);
-				if(typeof callback === "function")
+				if(typeof callback === "function") {
 					callback(true, fdata);
+				}
 			}, false);
 
 			reader.readAsDataURL(file);
 		}
 	},
+	/**
+	 * @typedef SGNAjaxOptions
+	 *
+	 * @property {boolean} [noJsonCheck=undefined]
+	 * @property {boolean} [async=undefined]
+	 * @property {string} url
+	 * @property {{}} data
+	 * @property {function} [success=undefined]
+	 * @property {function} [error=undefined]
+	 * @property {function} [onprogress=undefined]
+	 */
+	/**
+	 *
+	 * @param {SGNAjaxOptions} options
+	 * @param callback
+	 * @constructor
+	 */
 	SGNAjax: function(options, callback) {
 		let noJsonCheck = (options.noJsonCheck !== undefined);
 		delete options.noJsonCheck;
@@ -1000,17 +1265,20 @@ $.extend({
 			type: "POST",
 		};
 		//const xhrFields = {};
-		if(options.url === undefined)
-			Console.error("SGNAjax: Value for parameter 'url' is not specified!");
-		if(options.data === undefined)
-			Console.error("SGNAjax: Value for parameter 'data' is not specified!");
-		if(options.success === undefined && typeof callback != "function")
-			Console.error("SGNAjax: Callback function for parameter 'success' is not specified!");
+		if(options.url === undefined) {
+			console.error("SGNAjax: Value for parameter 'url' is not specified!");
+		}
+		if(options.data === undefined) {
+			console.error("SGNAjax: Value for parameter 'data' is not specified!");
+		}
+		if(options.success === undefined && typeof callback != "function") {
+			console.error("SGNAjax: Callback function for parameter 'success' is not specified!");
+		}
 
 		$.extend(settings, options);
 
 		settings.success = function(d) {
-			d = is_json(d) ? $.parseJSON(d) : d;
+			d = is_json(d) ? JSON.parse(d) : d;
 			let error;
 
 			if(!noJsonCheck) {
@@ -1031,15 +1299,16 @@ $.extend({
 				error = false;
 			}
 
-			if(typeof options.success == "function")
+			if(typeof options.success == "function") {
 				options.success(d);
-			else if(typeof callback == "function")
+			} else if(typeof callback == "function") {
 				callback(error, d);
+			}
 		};
 		settings.error = function(xhr) {
-			const rtxt = is_json(xhr.responseText) ? $.parseJSON(xhr.responseText) : xhr.responseText;
+			const rtxt = is_json(xhr.responseText) ? JSON.parse(xhr.responseText) : xhr.responseText;
 			const rjson = (xhr.hasOwnProperty("responseJSON")) ? xhr.responseJSON : rtxt;
-			let d = is_json(rjson) ? $.parseJSON(rjson) : rjson;
+			let d = is_json(rjson) ? JSON.parse(rjson) : rjson;
 			let error;
 
 			if(!noJsonCheck) {
@@ -1060,10 +1329,11 @@ $.extend({
 				error = false;
 			}
 
-			if(typeof options.error == "function")
+			if(typeof options.error == "function") {
 				options.error(xhr);
-			else if(typeof callback == "function")
+			} else if(typeof callback == "function") {
 				callback(error, d, xhr);
+			}
 		};
 
 		settings.async = (options.async === undefined) ? true : options.async;
@@ -1088,6 +1358,11 @@ $.extend({
 		}
 		$.ajax(settings);
 	},
+	/**
+	 * @typedef SGNAjaxOptions
+	 *
+	 * @property {string} encType
+	 */
 	xAjax: function(url, type, data, options) {
 		// local var
 		let response     = null,
@@ -1121,25 +1396,29 @@ $.extend({
 		});
 		request.done(function(d) {
 			responseType = "success";
-			if(typeof options.success == "function")
+			if(typeof options.success == "function") {
 				options.success(d);
-			else
+			} else {
 				response = d;
+			}
 		});
 		request.fail(function(xhr) {
 			responseType = "error";
 			response = xhr.statusText + "\nURL: " + url;
-			if(typeof options.error == "function")
+			if(typeof options.error == "function") {
 				options.error(xhr, xhr.statusText + "\nURL: " + url);
-			else
+			} else {
 				response = xhr.statusText + "\nURL: " + url;
+			}
 		});
 		// Return the response text
-		if(responseType === "success")
-			if(typeof options.success != "function")
+		if(responseType === "success") {
+			if(typeof options.success != "function") {
 				return response;
-			else if(typeof options.error != "function")
+			} else if(typeof options.error != "function") {
 				return response;
+			}
+		}
 	},
 	select: function(...obj) {
 		let r;
@@ -1147,10 +1426,10 @@ $.extend({
 			for(const k in obj) {
 				const o = obj[k];
 				if(!empty(o, true)) {
-					if(r === undefined)
+					if(r === undefined) {
 						r = $(o);
-					else
-						r = $.merge(r, $(o));
+					}
+					r = $.merge(r, $(o));
 				}
 			}
 			return r;

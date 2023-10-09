@@ -9,6 +9,11 @@
 	display: flex !important;
 }
 
+.d-flex-i,
+.d-inline-flex {
+	display: inline-flex !important;
+}
+
 .d-block {
 	display: block !important;
 }

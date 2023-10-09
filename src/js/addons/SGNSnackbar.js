@@ -14,8 +14,10 @@ if(typeof jQuery === "undefined") {
 	"use strict";
 
 	/**
-	 * @param msg{string}
-	 * @param block{boolean}
+	 * Creates a snackbar with the supplied message
+	 *
+	 * @param {string} msg The message to add to the snackbar
+	 * @param {boolean} [block=false] If <b>true</b>, the snackbar will be taken the full-width considering some parameters.
 	 */
 	const SGNSnackbar = function(msg, block = false) {
 		const plugin = this;
@@ -72,8 +74,8 @@ if(typeof jQuery === "undefined") {
 	/**
 	 * Creates a snackbar with the supplied message
 	 *
-	 * @param msg{string} The message to add to the snackbar
-	 * @param block{boolean} If <b>true</b>, the snackbar will be taken the full-width considering some parameters.
+	 * @param {string} msg The message to add to the snackbar
+	 * @param {boolean} [block=false] If <b>true</b>, the snackbar will be taken the full-width considering some parameters.
 	 */
 	$.SGNSnackbar = function(msg, block = false) {
 		const _this = this;

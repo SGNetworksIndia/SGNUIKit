@@ -34,7 +34,7 @@ select {
 
 .sgn-form,
 .sgn-form * {
-	font-size: 1rem;
+	font-size: var(--font-size-default);
 	line-height: 1;
 }
 
@@ -43,11 +43,20 @@ select {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	min-height: 100%;
+	flex: 1 1 auto;
+	/*min-height: 100%;*/
 	max-height: 100%;
-	width: 100%;
+	/* width: 100%; */
+	width: auto;
 	position: relative;
-	margin: var(--margin-md) 0;
+}
+
+.sgn-form:not(:first-child) {
+	margin-top: var(--margin-sm);
+}
+
+.sgn-form:not(:last-child) {
+	margin-bottom: var(--margin-sm);
 }
 
 .sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch) {
@@ -96,7 +105,7 @@ select {
 	align-items: center;
 	position: relative;
 	width: 100%;
-	min-height: 100%;
+	/*min-height: 100%;*/
 	max-height: 100%;
 }
 
@@ -109,7 +118,7 @@ select {
 .sgn-form > .sgn-form-wrapper > .sgn-input-wrapper > label {
 	position: absolute;
 	left: 0;
-	padding: 0 var(--margin-md);
+	padding: 0 var(--padding-md);
 	line-height: 1;
 	height: 100%;
 	width: calc(100%);
@@ -122,6 +131,7 @@ select {
 	transform-origin: left;
 	transition: transform .3s linear, color .3s linear;
 	transition-property: transform, left, padding, width, height;
+	pointer-events: none;
 }
 
 .sgn-form:not(.sgn-textarea) > label,
@@ -143,7 +153,7 @@ select {
 .sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch) > .sgn-form-wrapper > .sgn-input-wrapper > select {
 	border: none;
 	border-radius: var(--sgn-border-radius-sm);
-	min-height: 100%;
+	/*min-height: 100%;*/
 	max-height: 100%;
 }
 
@@ -152,7 +162,7 @@ select {
 	background-color: var(--sgnf-background);
 	padding: var(--padding-sm) var(--padding-sm);
 	color: var(--sgnf-accent-inactive);
-	min-height: 100%;
+	/*min-height: 100%;*/
 	max-height: 100%;
 	display: flex;
 	justify-content: stretch;
@@ -190,6 +200,7 @@ select {
 	background-color: var(--sgnf-background-inactive-light);
 	color: var(--sgnf-accent-inactive);
 	font-size: .8rem;
+	font-size: var(--font-size-sm);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -250,6 +261,7 @@ select {
 	opacity: 1;
 	pointer-events: auto;
 	border-top: 1px solid var(--sgnf-border);
+	z-index: 1;
 }
 
 .sgn-form.autocomplete-active > .sgn-input-autocomplete-box > li {
@@ -350,7 +362,7 @@ fieldset.edited {
 .sgn-form > .sgn-form-wrapper > .sgn-input-overlay-suffix.interactive:hover,
 .sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-prefix > .sgn-input-overlay-prefix.interactive:hover,
 .sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-suffix > .sgn-input-overlay-suffix.interactive:hover {
-	color: var(--sgn-accent-secondary);
+	color: var(--sgn-text-secondary-hover);
 }
 
 .sgn-form > .sgn-form-wrapper > .sgn-input-overlay.interactive:active,
@@ -358,7 +370,7 @@ fieldset.edited {
 .sgn-form > .sgn-form-wrapper > .sgn-input-overlay-suffix.interactive:active,
 .sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-prefix > .sgn-input-overlay-prefix.interactive:active,
 .sgn-form > .sgn-form-wrapper > .sgn-input-wrapper.has-input-overlay-suffix > .sgn-input-overlay-suffix.interactive:active {
-	color: var(--sgn-accent-secondary-active);
+	color: var(--sgn-text-secondary-active);
 }
 
 
@@ -376,15 +388,7 @@ fieldset.edited {
 .sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch):not(.sgn-textarea).edited > label,
 .sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch):not(.sgn-textarea).active > .sgn-form-wrapper > .sgn-input-wrapper > label,
 .sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch):not(.sgn-textarea).edited > .sgn-form-wrapper > .sgn-input-wrapper > label {
-	transform: scale(.85) translateX(calc(.5rem - var(--padding-md))) translateY(-1.35rem);
-}
-
-.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).sgn-textarea.active > label,
-.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).sgn-textarea.edited > label,
-.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).sgn-textarea.active > .sgn-form-wrapper > .sgn-input-wrapper > label,
-.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).sgn-textarea.edited > .sgn-form-wrapper > .sgn-input-wrapper > label {
-	padding: var(--padding-sm);
-	transform: scale(.85) translateX(calc(.5rem - var(--padding-md))) translateY(-2.6rem);
+	transform: scale(.85) translateX(calc(.5rem - var(--padding-md))) translateY(-1.5rem);
 }
 
 .sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).active > .sgn-form-help-block,

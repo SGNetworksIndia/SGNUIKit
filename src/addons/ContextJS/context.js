@@ -7,7 +7,7 @@
 
 /* Author: @UnrealSec */
 class ContextMenu {
-	container;
+	//container = null;
 
 	constructor(container, items) {
 		this.container = container;
@@ -19,8 +19,8 @@ class ContextMenu {
 		this.items = items;
 
 		this._onclick = e => {
-			if(this.dom && e.target != this.dom &&
-			   e.target.parentElement != this.dom &&
+			if(this.dom && e.target !== this.dom &&
+			   e.target.parentElement !== this.dom &&
 			   !e.target.classList.contains('item') &&
 			   !e.target.parentElement.classList.contains('item')) {
 				this.hideAll();
@@ -29,8 +29,8 @@ class ContextMenu {
 
 		this._oncontextmenu = e => {
 			e.preventDefault();
-			if(e.target != this.dom &&
-			   e.target.parentElement != this.dom &&
+			if(e.target !== this.dom &&
+			   e.target.parentElement !== this.dom &&
 			   !e.target.classList.contains('item') &&
 			   !e.target.parentElement.classList.contains('item')) {
 				this.hideAll();
@@ -39,7 +39,7 @@ class ContextMenu {
 		};
 
 		this._oncontextmenu_keydown = e => {
-			if(e.keyCode != 93) return;
+			if(e.keyCode !== 93) return;
 			e.preventDefault();
 
 			this.hideAll();
@@ -245,4 +245,9 @@ class ContextMenu {
 		this.container.removeEventListener('click', this._onclick);
 		window.removeEventListener('blur', this._onblur);
 	}
+}
+
+if(typeof root !== 'undefined') {
+	root.ContextMenu = ContextMenu;
+	root.getContextMenu = (container, items) => new ContextMenu(container, items);
 }

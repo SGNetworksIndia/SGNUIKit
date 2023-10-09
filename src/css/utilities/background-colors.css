@@ -97,3 +97,273 @@
 	background-color: var(--white) !important;
 }
 
+/*** SOCIAL MEDIA ***/
+.bg-fb,
+.bg-facebook,
+.btn.fb,
+.btn.facebook {
+	background-color: #0e61f1;
+}
+
+.bg-tw,
+.bg-twitter,
+.btn.tw,
+.btn.twitter {
+	background-color: #55acee;
+}
+
+.bg-gp,
+.bg-gplus,
+.bg-google-plus,
+.btn.gp,
+.btn.gplus,
+.btn.google-plus {
+	background-color: #dc4e41;
+}
+
+.bg-pr,
+.bg-pinterest,
+.btn.pr,
+.btn.pinterest {
+	background-color: #bd081c;
+}
+
+.bg-li,
+.bg-linkedin,
+.btn.li,
+.btn.linkedin {
+	background-color: #0077b5;
+}
+
+.bg-gh,
+.bg-github,
+.btn.gh,
+.btn.github {
+	background-color: #00405d;
+}
+
+.btn.digg {
+	background-color: #000000;
+}
+
+.bg-dc,
+.bg-delicious,
+.btn.dc,
+.btn.delicious {
+	background-color: #3399ff;
+}
+
+.bg-su,
+.bg-stumbleupon,
+.bg-stumble-upon,
+.btn.su,
+.btn.stumbleupon,
+.btn.stumble-upon {
+	background-color: #eb4924;
+}
+
+.bg-tr,
+.bg-tumblr,
+.btn.tr,
+.btn.tumblr {
+	background-color: #00405d;
+}
+
+.bg-vk,
+.bg-vkontakte,
+.btn.vk,
+.btn.vkontakte {
+	background-color: #45668e;
+}
+
+.bg-fr,
+.bg-flattr,
+.btn.fr,
+.btn.flattr {
+	background-color: #f67c1a; /*338d11*/
+}
+
+.bg-ri,
+.bg-reddit,
+.btn.ri,
+.btn.reddit {
+	background-color: #ff4500;
+}
+
+.bg-bf,
+.bg-buffer,
+.btn.bf,
+.btn.buffer {
+	background-color: #000000;
+}
+
+.bg-wb,
+.bg-weibo,
+.btn.wb,
+.btn.weibo {
+	background-color: #ce1126;
+}
+
+.bg-pc,
+.bg-pocket,
+.btn.pc,
+.btn.pocket {
+	background-color: #ef4056;
+}
+
+.bg-xi,
+.bg-xing,
+.btn.xi,
+.btn.xing {
+	background-color: #cfdc00; /*026466*/
+}
+
+.bg-on,
+.bg-odnoklassniki,
+.btn.on,
+.btn.odnoklassniki {
+	background-color: #ed812b;
+}
+
+.bg-wa,
+.bg-whatsapp,
+.btn.wa,
+.btn.whatsapp {
+	background-color: #43d854;
+}
+
+.bg-ma,
+.bg-meneame,
+.btn.ma,
+.btn.meneame {
+	background-color: #ff6400;
+}
+
+.bg-bg,
+.bg-blogger,
+.btn.bg,
+.btn.blogger {
+	background-color: #f57d00;
+}
+
+.bg-az,
+.bg-amazon,
+.btn.az,
+.btn.amazon {
+	background-color: #ff9900; /*000*/
+}
+
+.bg-ym,
+.bg-ymail,
+.bg-yahoo,
+.bg-yahoo-mail,
+.btn.ym,
+.btn.ymail,
+.btn.yahoo,
+.btn.yahoo-mail {
+	background-color: #410093;
+}
+
+.bg-gm,
+.bg-gmail,
+.bg-google-mail,
+.btn.gm,
+.btn.gmail,
+.btn.google-mail {
+	background-color: #ea4335;
+}
+
+.bg-ig,
+.bg-instagram,
+.btn.ig,
+.btn.instagram {
+	background-color: #3f729b;
+}
+
+.bg-sc,
+.bg-snapchat,
+.btn.sc,
+.btn.snapchat {
+	background-color: #00aff0;
+}
+
+.bg-yt,
+.bg-youtube,
+.btn.yt,
+.btn.youtube {
+	background-color: #cd201f;
+}
+
+.bg-sk,
+.bg-skype,
+.btn.sk,
+.btn.skype {
+	background-color: #00aff0;
+}
+
+.bg-vm,
+.bg-vimeo,
+.btn.vm,
+.btn.vimeo {
+	background-color: #1ab7ea;
+}
+
+.bg-bh,
+.bg-behance,
+.btn.bh,
+.btn.behance {
+	background-color: #1769ff;
+}
+
+.bg-tg,
+.bg-telegram,
+.btn.tg,
+.btn.telegram {
+	background-color: #00405d;
+}
+
+.bg-vb,
+.bg-viber,
+.btn.vb,
+.btn.viber {
+	background-color: #00405d;
+}
+
+.bg-ln,
+.bg-line,
+.btn.ln,
+.btn.line {
+	background-color: #00c300;
+}
+
+.bg-nv,
+.bg-newsvine,
+.btn.nv,
+.btn.newsvine {
+	background-color: #00b488;
+}
+
+.bg-mp,
+.bg-myspace,
+.btn.mp,
+.btn.myspace {
+	background-color: #00405d;
+}
+
+.bg-yl,
+.bg-yummly,
+.btn.yl,
+.btn.yummly {
+	background-color: #00405d;
+}
+
+.btn.flipboard {
+	background-color: #e12828;
+}
+
+.bg-en,
+.bg-evernote,
+.btn.en,
+.btn.evernote {
+	background-color: #2dbe60;
+}

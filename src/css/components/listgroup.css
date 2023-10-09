@@ -18,10 +18,18 @@
 .list-group > .list-group-title {
 	border-radius: var(--sgn-border-radius-md) var(--sgn-border-radius-md) 0 0;
 	background-color: var(--sgn-accent-background-secondary);
-	padding: var(--padding-sm);
+	padding: var(--padding-md);
 	font-family: var(--sgn-font-default-bold);
 }
 
-.list-group > .list-view > .list-link:last-child {
-	border-radius: 0 0 var(--sgn-border-radius-md) var(--sgn-border-radius-md);
+.list-group > .list-view {
+	box-shadow: none;
+	border-radius: 0;
+	border-left: none;
+	border-right: none;
+}
+
+.list-group > .list-view > .list-link,
+.list-group > .list-view > li {
+	border-radius: 0;
 }

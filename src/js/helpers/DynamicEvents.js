@@ -12,15 +12,9 @@ if(typeof jQuery === "undefined") {
 
 ;(function(window, document, $) {
 	"use strict";
-	/*const oldAddEventListener = HTMLElement.prototype.addEventListener;
-	HTMLElement.prototype.addEventListener = function(event, handler, bubbling, data) {
-		//console.log(this,event);
-		//event.data = data;
-
-		oldAddEventListener.call(event, handler, bubbling);
-	}*/
 
 	if(!Element.prototype.matches) {
+		// noinspection JSDeprecatedSymbols,JSUnresolvedVariable
 		Element.prototype.matches =
 			Element.prototype.matchesSelector ||
 			Element.prototype.webkitMatchesSelector ||
@@ -35,11 +29,36 @@ if(typeof jQuery === "undefined") {
 			};
 	}
 
-	const delegate = (element, event, selector, handler, useCapture) => {
-		if(selector === undefined || selector === null) {
-			element.addEventListener(event, handler, useCapture);
-		} else {
-			element.addEventListener(event, function(event) {
+	const inlineFunctionRegex = new RegExp("^([\\w.]+)(\\((.+(?=.*\\))+)\\))?;?$", 'gi'),
+	      funcArgsRegex       = new RegExp("([^,]+\\(.+?\\))|([^,]+)", 'gi');
+
+	const delegate = (element, event, selector, handler, useCapture, outHandler) => {
+		const trigger = (event, element) => {
+			if(typeof outHandler === 'function') {
+				if(selector === undefined || selector === null) {
+					if(element.eventTriggered) {
+						outHandler.call(element, event);
+						element.eventTriggered = false;
+					} else {
+						handler.call(element, event);
+						element.eventTriggered = true;
+					}
+				} else {
+					let t = event.target;
+					while(t && t !== this) {
+						if(t.matches(selector)) {
+							if(element.eventTriggered) {
+								outHandler.call(t, event);
+								element.eventTriggered = false;
+							} else {
+								handler.call(t, event);
+								element.eventTriggered = true;
+							}
+						}
+						t = t.parentNode;
+					}
+				}
+			} else {
 				let t = event.target;
 				while(t && t !== this) {
 					if(t.matches(selector)) {
@@ -47,7 +66,21 @@ if(typeof jQuery === "undefined") {
 					}
 					t = t.parentNode;
 				}
+			}
+		};
+
+		if(typeof outHandler === 'function') {
+			element.addEventListener(event, function(event) {
+				trigger(event, element);
 			}, useCapture);
+		} else {
+			if(selector === undefined || selector === null) {
+				element.addEventListener(event, handler, useCapture);
+			} else {
+				element.addEventListener(event, function(event) {
+					trigger(event, element);
+				}, useCapture);
+			}
 		}
 	};
 
@@ -56,24 +89,14 @@ if(typeof jQuery === "undefined") {
 	 *
 	 * @param {string} [eventName=null] The name or space-separated name of events to bind to the context or DOM element.<p>If not specified, every turned-off events will be turned on.</p>
 	 * @param {function} [listener=null] The name of the function or an asynchronous function callback to handle the event(s). (not required if <b>eventName</b> is not specified).
-	 * @param {string|null} [selector=null]
-	 * @param {{}|[]|null} [data=null]
+	 * @param {string|null} [selector=null] A selector string to filter the descendants of the selected elements that trigger the event. If the selector is null or omitted, the event is always triggered when it reaches the selected element.
+	 * @param {{}|[]|null} [data=null] Data to be passed to the handler in event.data when an event is triggered.
 	 * @param {string|null} [id=null] An unique event identifier to distinguish the event from other listeners of same types.<p>If not specified, only the events of the same type identified by <b>eventName</b> will be turned on.</p>
 	 *
 	 * @return {jQuery} The DOM element
+	 * @since 1.1
 	 */
 	$.fn.on = function(eventName, listener, selector, data, id) {
-		/*function GUID() {
-			let result, i, j;
-			result = '';
-			for(j=0; j<32; j++) {
-				if(j === 8 || j === 12 || j === 16 || j === 20)
-					result = result + '-';
-				i = Math.floor(Math.random()*16).toString(16).toUpperCase();
-				result = result + i;
-			}
-			return result;
-		}*/
 		function GUID(str) {
 			if(str === undefined || !str.length)
 				str = "" + Math.random() * new Date().getTime() + Math.random();
@@ -97,63 +120,494 @@ if(typeof jQuery === "undefined") {
 				else
 					c %= 16; //0-F
 
-				r += c.toString(16);
+				r += c.toString();
 			}
 			return r;
 		}
 
-		let useCapture = false;
+		let useCapture = (this[0] === window);
 
-		let tmp = undefined;
-		if(typeof listener === 'function' && typeof selector === 'string' && typeof data === 'object' && typeof id === 'string') {
+		let listenerArgs = '';
+		if(typeof listener === 'string' && inlineFunctionRegex.test(listener)) {
+			inlineFunctionRegex.lastIndex = 0;
+			const matches = inlineFunctionRegex.exec(listener);
 
-		} else if(typeof listener === 'string' && typeof selector === 'function' && typeof data === 'object' && typeof id === 'string') {
-			tmp = listener;
-			listener = selector;
-			selector = tmp;
-		} else if(typeof listener === 'string' && typeof selector === 'object' && typeof data === 'function' && typeof id === 'string') {
-			// $(element).on('event', '.selector', listener(){}, 'id', {data})
-			tmp = data;
-			data = selector;
-			selector = listener;
-			listener = tmp;
-		} else if(typeof listener === 'string' && typeof selector === 'function' && typeof data === 'string' && typeof id === 'object') {
-			// $(element).on('event', '.selector', listener(){}, 'id', {data})
-			tmp = listener;
-			listener = selector;
-			selector = tmp;
-			tmp = data;
-			data = id;
-			id = tmp;
-		} else if(typeof listener === 'function' && typeof selector === 'string' && typeof data === 'string' && typeof id === 'object') {
-			// $(element).on('event', '.selector', listener(){}, 'id', {data})
-			tmp = listener;
-			listener = selector;
-			selector = tmp;
-			tmp = data;
-			data = id;
-			id = tmp;
-		} else if(typeof listener === 'function' && typeof selector === 'string' && typeof data === 'undefined' && typeof id === 'undefined') {
-			// $(element).on('event', listener(){}, 'id')
-			id = selector;
-			selector = data = undefined;
+			const funcArgs = [];
+			const funcName        = window[matches[1]],
+			      funcArgsMatches = (matches[3] !== null) ? matches[3].matchAll(funcArgsRegex) : [];
+			for(let argsMatch of funcArgsMatches) {
+				argsMatch = argsMatch[0];
+				if(!empty(argsMatch)) {
+					argsMatch = argsMatch.trim().replace(/(^['"]+|['"]+$)/mg, '');
+					if(funcArgs.indexOf(argsMatch) === -1) {
+						funcArgs.push(argsMatch);
+					}
+				}
+			}
+			listener = function() {
+				return funcName.apply($(this)[0], funcArgs);
+			};
+			listenerArgs = funcArgs;
 		}
 
-		const turnOnSingleEvent = ($element, eventData, eventName, create = false) => {
+		const useMouseOver = (typeof listener === 'function' && typeof selector === 'function');
+		let outHandler;
+		if(typeof listener === 'function') {
+			if(typeof selector === 'string' && $(selector).length > 0) {
+				if(typeof data === 'object') {
+					if(typeof id !== 'string') {
+						// $(document).on('event', listener(){}, '#bubling_element', {data: 'test'}, 'event-id');
+						// $(document).on('event', listener(){}, '#bubling_element', {data: 'test'});
+						id = undefined;
+					}
+				} else if(typeof data === 'string') {
+					if(typeof id === 'object') {
+						// $(document).on('event', listener(){}, '#bubling_element', 'event-id', {data: 'test'});
+						const tmp = id;
+						id = data;
+						data = tmp;
+					}
+				} else if(typeof data === 'undefined') {
+					if(typeof id === 'object') {
+						// $(document).on('event', listener(){}, '#bubling_element', undefined, {data: 'test'});
+						data = id;
+					}
+				}
+			} else if(typeof selector === 'string') {
+				const tmp0 = selector;
+				if(typeof data === 'object') {
+					if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', listener(){}, 'event-id', {data: 'test'}, '#bubling_element');
+						selector = id;
+					} else {
+						// $(document).on('event', listener(){}, 'event-id', {data: 'test'});
+						selector = undefined;
+					}
+				} else if(typeof data === 'string' && $(data).length > 0) {
+					selector = data;
+					if(typeof id === 'object') {
+						// $(document).on('event', listener(){}, 'event-id', '#bubling_element', {data: 'test'});
+						data = id;
+					} else {
+						// $(document).on('event', listener(){}, 'event-id', '#bubling_element');
+						data = undefined;
+					}
+				} else {
+					selector = undefined;
+					if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', listener(){}, 'event-id', undefined, '#bubling_element');
+						selector = id;
+					} else if(typeof id === 'object') {
+						// $(document).on('event', listener(){}, 'event-id', undefined, {data: 'test'});
+						data = id;
+					} else {
+						// $(document).on('event', listener(){}, 'event-id');
+						selector = undefined;
+					}
+				}
+				id = tmp0;
+			} else if(typeof selector === 'object') {
+				const tmp0 = selector;
+				if(typeof data === 'string' && $(data).length > 0) {
+					selector = data;
+					if(typeof id !== 'string')
+						id = undefined;
+					// $(document).on('event', listener(){}, {data: 'test'}, '#bubling_element', 'event-id');
+					// $(document).on('event', listener(){}, {data: 'test'}, '#bubling_element');
+				} else if(typeof data === 'string') {
+					if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', listener(){}, {data: 'test'}, 'event-id', '#bubling_element');
+						selector = id;
+					} else {
+						// $(document).on('event', listener(){}, {data: 'test'}, 'event-id');
+						selector = undefined;
+					}
+					id = data;
+				} else {
+					if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', listener(){}, {data: 'test'}, undefined, '#bubling_element');
+						selector = id;
+					} else if(typeof id === 'string') {
+						// $(document).on('event', listener(){}, {data: 'test'}, undefined, 'event-id');
+						selector = undefined;
+					}
+				}
+				data = tmp0;
+			} else if(typeof selector === 'function') {
+				outHandler = selector;
+				if(typeof data === 'object') {
+					if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', listener(){}, undefined, {data: 'test'}, '#bubling_element');
+						selector = id;
+						id = undefined;
+					} else if(typeof id === 'string') {
+						// $(document).on('event', listener(){}, undefined, {data: 'test'}, 'event-id');
+						selector = id = undefined;
+					}
+				} else if(typeof data === 'string' && $(data).length > 0) {
+					selector = data;
+					if(typeof id === 'object') {
+						// $(document).on('event', listener(){}, undefined, '#bubling_element', {data: 'test'});
+						data = id;
+						id = undefined;
+					} else if(typeof id === 'string') {
+						// $(document).on('event', listener(){}, undefined, '#bubling_element', 'event-id');
+						data = undefined;
+					} else {
+						// $(document).on('event', listener(){}, undefined, '#bubling_element');
+						data = id = undefined;
+					}
+				} else {
+					if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', listener(){}, undefined, undefined, '#bubling_element');
+						selector = id;
+						data = id = undefined;
+					} else if(typeof id === 'string') {
+						// $(document).on('event', listener(){}, undefined, undefined, 'event-id');
+						data = selector = undefined;
+					} else if(typeof id === 'object') {
+						// $(document).on('event', listener(){}, undefined, undefined, {data: 'test'});
+						data = id;
+						id = selector = undefined;
+					} else {
+						// $(document).on('event', listener(){});
+						selector = data = id = undefined;
+					}
+				}
+
+			} else {
+				selector = undefined;
+				if(typeof data === 'object') {
+					if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', listener(){}, undefined, {data: 'test'}, '#bubling_element');
+						selector = id;
+						id = undefined;
+					} else if(typeof id === 'string') {
+						// $(document).on('event', listener(){}, undefined, {data: 'test'}, 'event-id');
+						selector = id = undefined;
+					}
+				} else if(typeof data === 'string' && $(data).length > 0) {
+					selector = data;
+					if(typeof id === 'object') {
+						// $(document).on('event', listener(){}, undefined, '#bubling_element', {data: 'test'});
+						data = id;
+						id = undefined;
+					} else if(typeof id === 'string') {
+						// $(document).on('event', listener(){}, undefined, '#bubling_element', 'event-id');
+						data = undefined;
+					} else {
+						// $(document).on('event', listener(){}, undefined, '#bubling_element');
+						data = id = undefined;
+					}
+				} else {
+					if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', listener(){}, undefined, undefined, '#bubling_element');
+						selector = id;
+						data = id = undefined;
+					} else if(typeof id === 'string') {
+						// $(document).on('event', listener(){}, undefined, undefined, 'event-id');
+						data = selector = undefined;
+					} else if(typeof id === 'object') {
+						// $(document).on('event', listener(){}, undefined, undefined, {data: 'test'});
+						data = id;
+						id = selector = undefined;
+					} else {
+						// $(document).on('event', listener(){});
+						selector = data = id = undefined;
+					}
+				}
+			}
+		} else if(typeof listener === 'string' && $(listener).length > 0) {
+			const tmp0 = listener;
+			if(typeof selector === 'function') {
+				listener = selector;
+				if(typeof data === 'object') {
+					if(typeof id === 'string') {
+						// $(document).on('event', '#bubling_element', listener(){}, {data: 'test'}, 'event-id');
+					} else if(typeof id === 'undefined') {
+						// $(document).on('event', '#bubling_element', listener(){}, {data: 'test'});
+					}
+				} else if(typeof data === 'string') {
+					if(typeof id === 'object') {
+						// $(document).on('event', '#bubling_element', listener(){}, 'event-id', {data: 'test'});
+						const tmp = id;
+						id = data;
+						data = tmp;
+					}
+				} else if(typeof data === 'undefined') {
+					if(typeof id === 'object') {
+						// $(document).on('event', '#bubling_element', listener(){}, undefined, {data: 'test'});
+						data = id;
+					}
+				}
+			} else if(typeof selector === 'object') {
+				const tmp1 = selector;
+				if(typeof data === 'function') {
+					listener = data;
+					if(typeof id !== 'string')
+						id = undefined;
+					// $(document).on('event', '#bubling_element', {data: 'test'}, listener(){}, 'event-id');
+					// $(document).on('event', '#bubling_element', {data: 'test'}, listener(){});
+				} else if(typeof data === 'string') {
+					if(typeof id === 'function') {
+						// $(document).on('event', '#bubling_element', {data: 'test'}, 'event-id', listener(){});
+						listener = id;
+					} else if(typeof id === 'undefined') {
+						// $(document).on('event', '#bubling_element', {data: 'test'}, 'event-id');
+						listener = undefined;
+					}
+					id = data;
+				} else if(typeof data === 'undefined') {
+					if(typeof id === 'function') {
+						// $(document).on('event', '#bubling_element', {data: 'test'}, undefined, listener(){});
+						listener = id;
+					} else {
+						// $(document).on('event', '#bubling_element', {data: 'test'}, undefined, 'event-id');
+						// $(document).on('event', '#bubling_element', {data: 'test'});
+						listener = undefined;
+					}
+				}
+				data = tmp1;
+			} else if(typeof selector === 'string') {
+				const tmp1 = selector;
+				if(typeof data === 'function') {
+					listener = data;
+					if(typeof id === 'object') {
+						// $(document).on('event', '#bubling_element', 'event-id', listener(){}, {data: 'test'});
+						data = id;
+					} else {
+						// $(document).on('event', '#bubling_element', 'event-id', listener(){});
+						data = undefined;
+					}
+				} else if(typeof data === 'object') {
+					if(typeof id === 'function') {
+						// $(document).on('event', '#bubling_element','event-id', {data: 'test'}, listener(){});
+						listener = id;
+					} else if(typeof id === 'undefined') {
+						// $(document).on('event', '#bubling_element', 'event-id', {data: 'test'});
+						listener = undefined;
+					}
+				} else if(typeof data === 'undefined') {
+					if(typeof id === 'function') {
+						// $(document).on('event', '#bubling_element', 'event-id', undefined, listener(){});
+						listener = id;
+					} else {
+						// $(document).on('event', '#bubling_element', 'event-id', undefined, 'event-id');
+						// $(document).on('event', '#bubling_element', 'event-id');
+						listener = undefined;
+					}
+				}
+				id = tmp1;
+			} else {
+				if(typeof data === 'string') {
+					if(typeof id === 'function') {
+						// $(document).on('event', '#bubling_element', undefined, 'event-id', listener(){});
+						listener = id;
+					} else if(typeof id === 'undefined') {
+						// $(document).on('event', '#bubling_element', undefined, 'event-id');
+						listener = undefined;
+					}
+					id = data;
+				} else if(typeof data === 'function') {
+					listener = data;
+					if(typeof id === 'object') {
+						// $(document).on('event', '#bubling_element', undefined, listener(){}, {data: 'test'});
+						data = id;
+					} else {
+						// $(document).on('event', '#bubling_element', undefined, listener(){});
+						data = undefined;
+					}
+				} else if(typeof data === 'object') {
+					if(typeof id === 'function') {
+						// $(document).on('event', '#bubling_element', undefined, {data: 'test'}, listener(){});
+						listener = id;
+					} else if(typeof id === 'undefined') {
+						// $(document).on('event', '#bubling_element', undefined, {data: 'test'});
+						listener = undefined;
+					}
+				} else if(typeof data === 'undefined') {
+					if(typeof id === 'function') {
+						// $(document).on('event', '#bubling_element', undefined, undefined, listener(){});
+						listener = id;
+					} else {
+						// $(document).on('event', '#bubling_element', undefined, undefined, 'event-id');
+						// $(document).on('event', '#bubling_element');
+						listener = undefined;
+					}
+				}
+			}
+			selector = tmp0;
+		} else if(typeof listener === 'string' && $(listener).length <= 0) {
+			const tmp0 = listener;
+			if(typeof selector === 'function') {
+				listener = selector;
+				if(typeof data === 'object') {
+					if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', 'event-id', listener(){}, {data: 'test'}, '#bubling_element');
+						selector = id;
+					} else {
+						// $(document).on('event', 'event-id', listener(){}, {data: 'test'});
+						selector = undefined;
+					}
+				} else if(typeof data === 'string' && $(data).length > 0) {
+					selector = data;
+					if(typeof id === 'object') {
+						// $(document).on('event', 'event-id', listener(){}, '#bubling_element', {data: 'test'});
+						data = id;
+					} else {
+						// $(document).on('event', 'event-id', listener(){}, '#bubling_element');
+						data = undefined;
+					}
+				} else if(typeof data === 'undefined') {
+					selector = undefined;
+					if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', 'event-id', listener(){}, undefined, '#bubling_element');
+						selector = id;
+					} else if(typeof id === 'object') {
+						// $(document).on('event', 'event-id', listener(){}, undefined, {data: 'test'});
+						data = id;
+					} else {
+						// $(document).on('event', 'event-id', listener(){});
+						selector = undefined;
+					}
+				}
+			} else if(typeof selector === 'object') {
+				const tmp1 = selector;
+				if(typeof data === 'function') {
+					listener = data;
+					if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', 'event-id', {data: 'test'}, listener(){}, '#bubling_element');
+						selector = id;
+					} else {
+						// $(document).on('event', 'event-id', {data: 'test'}, listener(){});
+						selector = undefined;
+					}
+				} else if(typeof data === 'string' && $(data).length > 0) {
+					selector = data;
+					if(typeof id === 'function') {
+						// $(document).on('event', 'event-id', {data: 'test'}, '#bubling_element', listener(){});
+						listener = id;
+					} else {
+						// $(document).on('event', 'event-id', {data: 'test'}, '#bubling_element');
+						listener = undefined;
+					}
+				} else if(typeof data === 'undefined') {
+					if(typeof id === 'function') {
+						// $(document).on('event', 'event-id', {data: 'test'}, undefined, listener(){});
+						listener = id;
+					} else if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', 'event-id', {data: 'test'}, undefined, '#bubling_element');
+						selector = id;
+						listener = undefined;
+					} else {
+						// $(document).on('event', 'event-id', {data: 'test'});
+						listener = selector = undefined;
+					}
+				}
+				data = tmp1;
+			} else if(typeof selector === 'string' && $(selector).length > 0) {
+				if(typeof data === 'function') {
+					listener = data;
+					if(typeof id === 'object') {
+						// $(document).on('event', 'event-id', '#bubling_element', listener(){}, {data: 'test'});
+						data = id;
+					} else {
+						// $(document).on('event', 'event-id', '#bubling_element', listener(){});
+						data = undefined;
+					}
+				} else if(typeof data === 'object') {
+					if(typeof id === 'function') {
+						// $(document).on('event', 'event-id', '#bubling_element', {data: 'test'}, listener(){});
+						listener = id;
+					} else if(typeof id === 'undefined') {
+						// $(document).on('event', 'event-id', '#bubling_element', {data: 'test'});
+						listener = undefined;
+					}
+				} else if(typeof data === 'undefined') {
+					if(typeof id === 'function') {
+						// $(document).on('event', 'event-id', '#bubling_element', undefined, listener(){});
+						listener = id;
+					} else {
+						// $(document).on('event', 'event-id', '#bubling_element', undefined, 'event-id');
+						// $(document).on('event', 'event-id', '#bubling_element');
+						listener = undefined;
+					}
+				}
+			} else {
+				if(typeof data === 'string' && $(data).length > 0) {
+					if(typeof id === 'function') {
+						// $(document).on('event', 'event-id', undefined, '#bubbling_element', listener(){});
+						listener = id;
+					} else if(typeof id === 'object') {
+						// $(document).on('event', 'event-id', undefined, '#bubbling_element', listener(){}, {data: 'test'});
+						data = id;
+					} else {
+						// $(document).on('event', 'event-id', undefined, '#bubbling_element');
+						listener = data = undefined;
+					}
+					selector = data;
+				} else if(typeof data === 'function') {
+					listener = data;
+					if(typeof id === 'object') {
+						// $(document).on('event', 'event-id', undefined, listener(){}, {data: 'test'});
+						data = id;
+					} else if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', 'event-id', undefined, listener(){}, '#bubbling_element');
+						selector = id;
+					} else {
+						// $(document).on('event', 'event-id', undefined, listener(){});
+						data = selector = undefined;
+					}
+				} else if(typeof data === 'object') {
+					if(typeof id === 'function') {
+						// $(document).on('event', 'event-id', undefined, {data: 'test'}, listener(){});
+						listener = id;
+					} else if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', 'event-id', undefined, {data: 'test'}, '#bubbling_element');
+						selector = id;
+					} else if(typeof id === 'undefined') {
+						// $(document).on('event', 'event-id', undefined, {data: 'test'});
+						listener = selector = undefined;
+					}
+				} else if(typeof data === 'undefined') {
+					if(typeof id === 'function') {
+						// $(document).on('event', 'event-id', undefined, undefined, listener(){});
+						listener = id;
+					} else if(typeof id === 'object') {
+						// $(document).on('event', 'event-id', undefined, undefined, {data: 'test'});
+						data = id;
+					} else if(typeof id === 'string' && $(id).length > 0) {
+						// $(document).on('event', 'event-id', undefined, undefined, '#bubbling_element');
+						selector = id;
+					} else {
+						// $(document).on('event', 'event-id', undefined, undefined, 'event-id');
+						// $(document).on('event', 'event-id');
+						listener = selector = data = undefined;
+					}
+				}
+			}
+
+			id = tmp0;
+		}
+
+		useCapture = (typeof selector === 'string' && $(selector).length > 0) ? true : useCapture;
+
+		const turnOnSingleEvent = ($element, eventData, eventName, listener, outListener) => {
 			const element = $element[0];
-			if(create) {
+			if(typeof listener === 'function') {
 				const guid = (id === undefined || id === '') ? GUID() : id;
 
 				const eventData = {
 					'element': $element,
 					'event': eventName,
 					'handler': listener,
+					'outHandler': outHandler,
 					'data': data,
 					'guid': guid,
 					'status': 'on'
 				};
 
-				delegate(element, eventName, selector, listener, useCapture);
+				delegate(element, eventName, selector, listener, useCapture, outHandler);
 				if(typeof data === 'object') {
 					$.extend(element, data);
 				}
@@ -168,22 +622,22 @@ if(typeof jQuery === "undefined") {
 			} else {
 				if(eventData !== undefined) {
 					if(eventData.hasOwnProperty('guid')) {
-						const name    = eventData.event,
-						      handler = eventData.handler,
-						      data    = eventData.data;
+						const handler    = eventData.handler,
+						      outHandler = eventData.outHandler,
+						      data       = eventData.data;
 
-						delegate(element, eventName, selector, handler, useCapture);
+						delegate(element, eventName, selector, handler, useCapture, outHandler);
 						if(typeof data === 'object') {
 							$.extend(element, data);
 						}
 						eventData.status = 'on';
 					} else {
-						$.each(eventData, function(i, c) {
-							const name    = c.event,
-							      handler = c.handler,
-							      data    = c.data;
+						$.each(eventData, (i, c) => {
+							const handler    = c.handler,
+							      outHandler = c.outHandler,
+							      data       = c.data;
 
-							delegate(element, eventName, selector, handler, useCapture);
+							delegate(element, eventName, selector, handler, useCapture, outHandler);
 							if(typeof data === 'object') {
 								$.extend(element, data);
 							}
@@ -193,29 +647,48 @@ if(typeof jQuery === "undefined") {
 				}
 			}
 		}
-		const turnOnEvent = ($element, eventName, create = false) => {
+		const turnOnEvent = ($element, eventName, handler, outHandler) => {
 			if(eventName !== undefined && eventName !== null && eventName !== '') {
+				eventName = (eventName === 'hover') ? 'mouseenter' : eventName;
 				const eventData = $element.getEventData(eventName, id);
-				turnOnSingleEvent($element, eventData, eventName, create);
+				turnOnSingleEvent($element, eventData, eventName, handler, outHandler);
 			} else {
 				const eventData = $element.getEventData();
 
 				if(eventData !== undefined && eventData.length > 0) {
-					$.each(eventData, function(event, eventDatum) {
-						turnOnSingleEvent($element, eventDatum, create);
-					});
+					$.each(eventData, (event, eventDatum) => turnOnSingleEvent($element, eventDatum, handler, outHandler));
 				}
 			}
 		}
 
 		return this.each(function() {
 			const $this = $(this);
-			const eventNames = (eventName !== undefined && eventName !== null && eventName !== '') ? eventName.split(' ') : [];
+			const eventNames = (eventName !== undefined && eventName !== null && eventName !== '' && eventName.indexOf(' ') > -1) ? eventName.split(' ') : [];
 
 			if(eventNames.length > 0) {
-				eventNames.forEach(eventName => turnOnEvent($this, eventName, (typeof listener === 'function')));
+				if(useMouseOver) {
+					if(str_contains(eventName, ['hover', 'mouseover', 'mousemove'])) {
+						eventName = eventName.replace(/\s*hover/ig, ' mouseover').replace(/hover\s*/ig, 'mouseover ');
+						eventNames.forEach(eventName => turnOnEvent($this, eventName, listener));
+						turnOnEvent($this, 'mouseout', outHandler);
+					} else if(str_contains(eventName, ['click'])) {
+						eventNames.forEach(eventName => turnOnEvent($this, eventName, listener, outHandler));
+					}
+				} else {
+					eventNames.forEach(eventName => turnOnEvent($this, eventName, listener));
+				}
 			} else {
-				turnOnEvent($this, eventName, false);
+				if(useMouseOver) {
+					if(str_contains(eventName, ['hover', 'mouseover', 'mousemove'])) {
+						turnOnEvent($this, 'mouseover', listener);
+						turnOnEvent($this, 'mouseout', outHandler);
+					} else if(str_contains(eventName, ['click'])) {
+						turnOnEvent($this, eventName, listener, outHandler);
+					}
+				} else {
+					turnOnEvent($this, eventName, listener);
+				}
+				;
 			}
 		});
 	};
@@ -238,7 +711,7 @@ if(typeof jQuery === "undefined") {
 					$element[0].removeEventListener(name, handler);
 					eventData.status = 'off';
 				} else {
-					$.each(eventData, function(i, c) {
+					$.each(eventData, (i, c) => {
 						const name    = c.event,
 						      handler = c.handler;
 
@@ -298,18 +771,14 @@ if(typeof jQuery === "undefined") {
 			}
 		}
 		const terminateEvent = ($element, eventName) => {
-			const element = $element[0];
-
 			if(eventName !== undefined && eventName !== null && eventName !== '') {
 				const eventData = $element.getEventData(eventName, id);
 				terminateSingleEvent($element, eventData);
 			} else {
-				const eventDatas = $element.getEventData();
+				const eventData = $element.getEventData();
 
-				if(eventDatas !== undefined && eventDatas.length > 0) {
-					$.each(eventDatas, function(event, eventData) {
-						terminateSingleEvent($element, eventData);
-					});
+				if(eventData !== undefined && eventData.length > 0) {
+					$.each(eventData, (event, eventDatum) => terminateSingleEvent($element, eventDatum));
 				}
 			}
 		}
@@ -326,10 +795,10 @@ if(typeof jQuery === "undefined") {
 	};
 
 	/**
-	 * Triggers an already bind event identified by <b>event name</b> and <b>id</b>.<br>If <b>eventName</b> is not specified, every bind events will be triggered.
+	 * Triggers an already bound event identified by <b>event name</b> and <b>id</b>.<br>If <b>eventName</b> is not specified, every bind events will be triggered.
 	 *
 	 * @param {string}[eventName=null] The name or space-separated name of events to bind to the context or DOM element.<p>If not specified, every bind events will be turned off.</p>
-	 * @param {JSON}[data=null] A JSON object containing additional information needed to pass to the event.
+	 * @param {{}}[data=null] A JSON object containing additional information needed to pass to the event.
 	 * @param {string}[id=null] An unique event identifier to distinguish the event from other listeners of same types.<p>If not specified, all the events of the same type identified by <b>eventName</b> will be turned off.</p>
 	 *
 	 * @return {jQuery} The DOM element
@@ -339,18 +808,20 @@ if(typeof jQuery === "undefined") {
 
 		const triggerSingleEvent = ($element, eventData) => {
 			const element = $element[0];
-
 			if(eventData !== undefined) {
 				$.each(eventData, function(i, c) {
-					const name    = c.event,
-						  handler = c.handler;
+					const name = c.event;
 
 					let event;
+					const evtData = $.extend({'detail': data}, data);
 					if(window.CustomEvent) {
-						event = new CustomEvent(name, data);
+						event = new CustomEvent(name, evtData);
+
+						//console.default.log($(this),eventName, data, id, event);
 					} else {
 						event = document.createEvent('CustomEvent');
-						event.initCustomEvent(name, (!useCapture), true, data);
+						// noinspection JSDeprecatedSymbols
+						event.initCustomEvent(name, (!useCapture), true, evtData);
 					}
 
 					element.dispatchEvent(event);
@@ -358,24 +829,21 @@ if(typeof jQuery === "undefined") {
 			}
 		}
 		const triggerEvent = ($element, eventName) => {
-			const element = $element[0];
-
 			if(eventName !== undefined && eventName !== null && eventName !== '') {
 				const eventData = $element.getEventData(eventName, id);
 				triggerSingleEvent($element, eventData);
 			} else {
-				const eventDatas = $element.getEventData();
+				const eventData = $element.getEventData();
 
-				if(eventDatas !== undefined && eventDatas.length > 0) {
-					$.each(eventDatas, function(event, eventData) {
-						triggerSingleEvent($element, eventData);
-					});
+				if(eventData !== undefined && eventData.length > 0) {
+					$.each(eventData, (event, eventDatum) => triggerSingleEvent($element, eventDatum));
 				}
 			}
 		}
 
 		return this.each(function() {
 			const $this = $(this);
+			// noinspection JSUnresolvedVariable
 			eventName = (eventName !== undefined && eventName !== null && eventName !== '' && typeof eventName === 'object') ? eventName.type : eventName;
 
 			const eventNames = (eventName !== undefined && eventName !== null && eventName !== '' && eventName.indexOf(' ') !== -1) ? eventName.split(' ') : [];

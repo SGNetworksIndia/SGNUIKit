@@ -5,10 +5,10 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
+// noinspection JSUnusedGlobalSymbols,SpellCheckingInspection
 class BBCodesParser {
 	_pluginName = "BBCodesParser";
 	_version = '1.0.0';
-	plugin = this;
 	tags = {
 		"decoded": {
 			"search": [
@@ -168,4 +168,9 @@ class BBCodesParser {
 	br2nl(str) {
 		return str.replace(/\[br:]/g, "\n");
 	}
+}
+
+if(typeof root !== 'undefined') {
+	root.BBCodesParser = BBCodesParser;
+	root.getBBCodesParser = (bbcodes) => new BBCodesParser(bbcodes);
 }

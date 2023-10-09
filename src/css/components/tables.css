@@ -30,7 +30,11 @@ table > tbody > tr > td {
 table > thead > tr > th {
 	background-color: var(--sgn-accent-primary);
 	color: var(--sgn-accent-primary-text);
-	padding: var(--padding-md);
+	padding: var(--padding-md) var(--padding-sm);
+}
+
+table > tbody > tr {
+	transition: background-color .4s linear;
 }
 
 table > tbody > tr > td {
@@ -63,6 +67,36 @@ table.bordered > tbody > tr > td {
 	border-bottom: 0;
 }
 
+table > tbody > tr > td > .badge {
+	max-height: 1.4rem;
+	vertical-align: middle;
+}
+
+
+table.bordered.column > tbody > tr > th,
+table.bordered.column > tbody > tr > td {
+	border: none;
+	border-left: 1px solid var(--sgn-border-light);
+}
+
+table.bordered.column > tbody > tr > *:first-child {
+	border-left-width: 0;
+	text-align: left;
+	padding: var(--padding-sm);
+}
+
+table.bordered.column > tbody > tr > *:last-child {
+	border-right-width: 0;
+}
+
+table.bordered.column > tbody > tr {
+	border-bottom: 1px solid var(--sgn-border-light);
+}
+
+table.bordered.column > tbody > tr:last-child {
+	border-bottom-width: 0;
+}
+
 table.fixed-header > thead > tr > th {
 	position: sticky;
 	top: 0;
@@ -83,8 +117,14 @@ table.primary > thead > tr > th {
 	background-color: var(--sgn-primary);
 }
 
-table.primary > tbody > tr:nth-child(odd) {
+table.primary > tbody > tr:nth-child(odd),
+table > tbody > tr.primary:nth-child(n) {
 	background-color: var(--sgn-primary-lightest);
+}
+
+table.primary > tbody > tr:nth-child(odd):hover,
+table > tbody > tr.primary:hover {
+	background-color: var(--sgn-primary-light);
 }
 
 
@@ -92,8 +132,14 @@ table.secondary > thead > tr > th {
 	background-color: var(--sgn-secondary);
 }
 
-table.secondary > tbody > tr:nth-child(odd) {
+table.secondary > tbody > tr:nth-child(odd),
+table > tbody > tr.secondary:nth-child(n) {
 	background-color: var(--sgn-secondary-lightest);
+}
+
+table.secondary > tbody > tr:nth-child(odd):hover,
+table > tbody > tr.secondary:hover {
+	background-color: var(--sgn-secondary-light);
 }
 
 
@@ -101,8 +147,14 @@ table.success > thead > tr > th {
 	background-color: var(--sgn-success);
 }
 
-table.success > tbody > tr:nth-child(odd) {
+table.success > tbody > tr:nth-child(odd),
+table > tbody > tr.success:nth-child(n) {
 	background-color: var(--sgn-success-lightest);
+}
+
+table.success > tbody > tr:nth-child(odd):hover,
+table > tbody > tr.success:hover {
+	background-color: var(--sgn-success-light);
 }
 
 
@@ -110,8 +162,14 @@ table.info > thead > tr > th {
 	background-color: var(--sgn-info);
 }
 
-table.info > tbody > tr:nth-child(odd) {
+table.info > tbody > tr:nth-child(odd),
+table > tbody > tr.info:nth-child(n) {
 	background-color: var(--sgn-info-lightest);
+}
+
+table.info > tbody > tr:nth-child(odd):hover,
+table > tbody > tr.info:hover {
+	background-color: var(--sgn-info-light);
 }
 
 
@@ -119,8 +177,14 @@ table.warning > thead > tr > th {
 	background-color: var(--sgn-warning);
 }
 
-table.warning > tbody > tr:nth-child(odd) {
+table.warning > tbody > tr:nth-child(odd),
+table > tbody > tr.warning:nth-child(n) {
 	background-color: var(--sgn-warning-lightest);
+}
+
+table.warning > tbody > tr:nth-child(odd):hover,
+table > tbody > tr.warning:hover {
+	background-color: var(--sgn-warning-light);
 }
 
 
@@ -128,6 +192,29 @@ table.danger > thead > tr > th {
 	background-color: var(--sgn-danger);
 }
 
-table.danger > tbody > tr:nth-child(odd) {
+table.danger > tbody > tr:nth-child(odd),
+table > tbody > tr.danger:nth-child(n) {
 	background-color: var(--sgn-danger-lightest);
+}
+
+table.danger > tbody > tr:nth-child(odd):hover,
+table > tbody > tr.danger:hover {
+	background-color: var(--sgn-danger-light);
+}
+
+
+@media (max-width: 768px) {
+	table:not(.no-th-wrap) > tbody > tr:not(.no-wrap) > th:not(.no-wrap),
+	table:not(.no-td-wrap) > tbody > tr:not(.no-wrap) > td:not(.no-wrap) {
+		word-wrap: break-word;
+		white-space: break-spaces;
+	}
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+	table:not(.no-th-wrap) > tbody > tr:not(.no-wrap) > th:not(.no-wrap),
+	table:not(.no-td-wrap) > tbody > tr:not(.no-wrap) > td:not(.no-wrap) {
+		word-wrap: break-word;
+		white-space: break-spaces;
+	}
 }

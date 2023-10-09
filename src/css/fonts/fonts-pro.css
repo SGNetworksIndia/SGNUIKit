@@ -6,6 +6,12 @@
  */
 
 @import "FontAwesome5Pro/css/all.min.css";
+@import "FontAwesome5Pro/css/fontawesome-font-face.css";
+@import "MaterialDesignIcons/css/materialdesignicons.min.css";
+@import "MaterialDesignIcons/mdi.css";
+@import "icofont/icofont.min.css";
+@import "iconic/css/open-iconic.min.css";
+@import "ThemifyIcons/themify-icons.css";
 @import "Netmate/netmate.css";
 @import "Poppins/Poppins.css";
 @import "Roboto/Roboto.css";
@@ -65,9 +71,14 @@
 	--sgn-font-poppins-black: "Poppins Black", sans-serif;
 	--sgn-font-poppins-black-italic: "Poppins Black Italic", sans-serif;
 
-	--sgn-font-apple: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular', sans-serif;
+	--sgn-font-apple: system-ui, -apple-system, BlinkMacSystemFont, ".SFNSText-Regular", sans-serif;
 	/*--sgn-font-default: Helvetica, Arial, sans-serif;*/
 	--sgn-font-segoe: Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif;
 
 	--sgn-font-fa: "Font Awesome 5 Pro";
+	--sgn-font-fa-light: "Font Awesome 5 Light";
+	--sgn-font-fa-solid: "Font Awesome 5 Solid";
+	--sgn-font-fa-brands: "Font Awesome 5 Brands";
+	--sgn-font-fa-duotone: "Font Awesome 5 Duotone";
+	--sgn-font-fa-regular: "Font Awesome 5 Regular";
 }

@@ -1,0 +1,149 @@
+/*
+ * Copyright (c) 2023 SGNetworks. All rights reserved.
+ * Copyright (c) 2022 Ivan Teplov
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.sgn-sheet-wrapper,
+.sgn-sheet-wrapper * {
+	--background: var(--sgn-accent-background, #ffffff);
+	--foreground: var(--sgn-text-primary, #000000);
+	--divider: var(--sgn-secondary-light, #dcdcdc);
+	--overlay: var(--sgn-semi-transparent-dark, #888888);
+}
+
+.sgn-sheet-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1000;
+	transition: opacity 0.5s, visibility 0.5s;
+
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+
+	max-width: unset !important;
+	width: 100%;
+}
+
+.sgn-sheet-wrapper[aria-hidden="false"],
+.sgn-sheet-wrapper.shown {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: unset;
+}
+
+.sgn-sheet-wrapper[aria-hidden=true] > .sgn-sheet {
+	height: 0vh !important;
+}
+
+.sgn-sheet-wrapper > .overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: -1;
+	background: var(--overlay);
+	opacity: 0.5;
+}
+
+.sgn-sheet-wrapper > .sgn-sheet {
+	display: flex;
+	flex-direction: column;
+
+	border-radius: 1rem 1rem 0 0;
+
+	background: var(--background);
+
+	overflow-y: hidden;
+
+	--default-transitions: transform 0.5s, border-radius 0.5s;
+
+	transition: var(--default-transitions);
+	transform: translateY(0);
+
+	max-width: 70rem;
+	max-height: 100vh;
+	height: 30vh;
+
+	box-sizing: border-box;
+}
+
+.sgn-sheet-wrapper > .sgn-sheet[aria-hidden="true"] {
+	transform: translateY(100%);
+}
+
+.sgn-sheet-wrapper > .sgn-sheet:not(.not-selectable) {
+	transition: var(--default-transitions), height 0.5s;
+}
+
+.sgn-sheet-wrapper > .sgn-sheet.fullscreen {
+	border-radius: 0;
+}
+
+.sgn-sheet-wrapper > .sgn-sheet > .sgn-sheet-controls {
+	display: flex;
+}
+
+.sgn-sheet-wrapper > .sgn-sheet > .sgn-sheet-controls > .draggable-area {
+	width: 3rem;
+	margin: auto;
+	padding: var(--padding-md) 0;
+	cursor: grab;
+}
+
+.sgn-sheet-wrapper > .sgn-sheet > .sgn-sheet-controls > .draggable-area > .draggable-thumb {
+	width: inherit;
+	height: 0.25rem;
+	background: var(--divider);
+	border-radius: 0.125rem;
+}
+
+.sgn-sheet-wrapper > .sgn-sheet > .sgn-sheet-controls > .sgn-sheet-closeBtn {
+	border: none;
+	padding: 0;
+	margin: var(--padding-md) var(--padding-md);
+	background: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem;
+	line-height: .7;
+}
+
+.sgn-sheet-wrapper > .sgn-sheet > .sgn-sheet-controls > .sgn-sheet-closeBtn:hover {
+	color: var(--sgn-text-primary-hover);
+}
+
+.sgn-sheet-wrapper > .sgn-sheet > .sgn-sheet-controls > .sgn-sheet-closeBtn > i,
+.sgn-sheet-wrapper > .sgn-sheet > .sgn-sheet-controls > .sgn-sheet-closeBtn > svg {
+
+}
+
+.sgn-sheet-wrapper > .sgn-sheet > .sgn-sheet-body {
+	flex-grow: 1;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+
+	overflow-y: auto;
+	gap: var(--padding-md);
+
+	padding: var(--padding-md);
+	box-sizing: border-box;
+
+	scroll-behavior: smooth;
+}

@@ -5,26 +5,22 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-//import('./CKEditor5/ckeditor.js');
-import {CKSource} from "./CKEditor5/ckeditor.js";
-
-export default CKSource;
-
-import('./ContextJS/context.js');
-//import('./DataTables/datatables.min.js');
-import('./datepicker/bootstrap-datepicker.min.js');
-import('./iziToast/iziToast.easy.js');
-//import('./jQuery/jquery.js');
-//import('./Marquee/marquee.js');
-import('./NavbarTransformIcons/NavbarTransformIcons.js');
-import('./noty/noty.js');
-import("./noty/noty.init.js");
-import("./PrismJS/prism.js");
-import("./SGNLoaders/SGNLoaders.js");
-import("./SGNAtom/SGNAtom.js");
-import("./SGNFullPage/SGNFullPage.js");
-import("./SGNGeoData/SGNGeoData.js");
-import('./SGNTimePicker/SGNTimePicker.js');
-import('./SweetAlert2/sweetalert2.all.js');
-import('./VelocityJS/velocity.js');
+require('./CKEditor5/ckeditor.js');
+require('./ContextJS/context.js');
+require('./datepicker/bootstrap-datepicker.js');
+require("./iziToast/iziToast.js");
+require('./iziToast/iziToast.easy.js');
+require('./NavbarTransformIcons/NavbarTransformIcons.js');
+/*require('./noty/noty.js'); //DROP
+ require("./noty/noty.init.js"); // DROP*/
+require("./PrismJS/prism.js");
+require("./SGNLoaders/SGNLoaders.js");
+require("./SGNAtom/SGNAtom.js");
+require('./SGNCarousel/SGNCarousel.js');
+require("./SGNFullPage/SGNFullPage.js");
+require("./SGNGeoData/SGNGeoData.js");
+require("./SGNLoadingDialog/SGNLoadingDialog.js");
+require('./SGNTimePicker/SGNTimePicker.js');
+require('./SweetAlert2/sweetalert2.all.js');
+require('./VelocityJS/velocity.js');
 

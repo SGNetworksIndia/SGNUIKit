@@ -35,8 +35,18 @@
 
 
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
-	input[type=checkbox], input[type=radio] {
+	.sgn-form.sgn-input-radio:not(.disabled):not(.readonly),
+	.sgn-form.sgn-input-radio:not(.disabled):not(.readonly),
+	.sgn-form.sgn-input-checkbox:not(.disabled):not(.readonly),
+	.sgn-form.sgn-input-checkbox:not(.disabled):not(.readonly),
+	.sgn-form.sgn-input-switch:not(.disabled):not(.readonly),
+	.sgn-form.sgn-input-switch:not(.disabled):not(.readonly),
+	.sgn-form.sgn-input-toggle:not(.disabled):not(.readonly),
+	.sgn-form.sgn-input-toggle:not(.disabled):not(.readonly) {
+		cursor: pointer;
+	}
 
+	input[type=checkbox], input[type=radio] {
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		height: 21px;
@@ -83,7 +93,16 @@
 		cursor: not-allowed;
 	}
 
-	input[type=checkbox]:hover:not(:checked):not(:disabled), input[type=radio]:hover:not(:checked):not(:disabled) {
+	.sgn-form.sgn-input-radio:not(.disabled):not(.readonly):hover input[type=checkbox]:not(:checked):not(:disabled),
+	.sgn-form.sgn-input-radio:not(.disabled):not(.readonly):hover input[type=radio]:not(:checked):not(:disabled),
+	.sgn-form.sgn-input-checkbox:not(.disabled):not(.readonly):hover input[type=checkbox]:not(:checked):not(:disabled),
+	.sgn-form.sgn-input-checkbox:not(.disabled):not(.readonly):hover input[type=radio]:not(:checked):not(:disabled),
+	.sgn-form.sgn-input-switch:not(.disabled):not(.readonly):hover input[type=checkbox]:not(:checked):not(:disabled),
+	.sgn-form.sgn-input-switch:not(.disabled):not(.readonly):hover input[type=radio]:not(:checked):not(:disabled),
+	.sgn-form.sgn-input-toggle:not(.disabled):not(.readonly):hover input[type=checkbox]:not(:checked):not(:disabled),
+	.sgn-form.sgn-input-toggle:not(.disabled):not(.readonly):hover input[type=radio]:not(:checked):not(:disabled),
+	input[type=checkbox]:hover:not(:checked):not(:disabled),
+	input[type=radio]:hover:not(:checked):not(:disabled) {
 		--bc: var(--border-hover);
 	}
 

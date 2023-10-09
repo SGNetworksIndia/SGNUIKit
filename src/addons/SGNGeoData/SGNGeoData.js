@@ -54,7 +54,7 @@ if(typeof jQuery === "undefined") {
 			});
 			if(_checked) {
 				if(plugin.settings.deployment === 'public') {
-					plugin.settings.url = '//sgn.heliohost.org/api/geodata';
+					plugin.settings.url = '//sgnetworks.eu.org/api/geodata';
 				} else {
 					plugin.settings.url = '//sgnetworks.net/api/geodata';
 				}

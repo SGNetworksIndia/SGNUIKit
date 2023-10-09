@@ -1,0 +1,52 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.sgn-form.sgn-textarea > textarea,
+.sgn-form.sgn-textarea > .sgn-form-wrapper > .sgn-input-wrapper > textarea {
+	border: none !important;
+	outline: none !important;
+}
+
+.sgn-form.sgn-textarea > label,
+.sgn-form.sgn-textarea > .sgn-form-wrapper > .sgn-input-wrapper > label {
+	align-items: start;
+	padding: var(--padding-sm) var(--padding-md);
+	transition-delay: 0s, 0s, 1s, 1.5s, 1.5s;
+}
+
+.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).sgn-textarea.active > label,
+.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).sgn-textarea.edited > label,
+.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).sgn-textarea.active > .sgn-form-wrapper > .sgn-input-wrapper > label,
+.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch).sgn-textarea.edited > .sgn-form-wrapper > .sgn-input-wrapper > label {
+	padding: var(--padding-sm);
+	transform: scale(.85) translateX(calc(.5rem - var(--padding-md))) translateY(-2rem);
+}
+
+textarea.no-resize,
+.sgn-form.sgn-textarea > .sgn-form-wrapper > .sgn-input-wrapper.no-resize > textarea {
+	resize: none;
+}
+
+textarea.resize-both,
+.sgn-form.sgn-textarea > .sgn-form-wrapper > .sgn-input-wrapper.resize-both > textarea {
+	resize: both;
+}
+
+textarea.resize-x,
+.sgn-form.sgn-textarea > .sgn-form-wrapper > .sgn-input-wrapper.resize-x > textarea {
+	resize: horizontal;
+}
+
+textarea.resize-y,
+.sgn-form.sgn-textarea > .sgn-form-wrapper > .sgn-input-wrapper.resize-y > textarea {
+	resize: vertical;
+}
+
+textarea.resize-inline,
+.sgn-form.sgn-textarea > .sgn-form-wrapper > .sgn-input-wrapper.resize-inline > textarea {
+	resize: inline;
+}

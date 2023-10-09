@@ -59,18 +59,15 @@
 			const disabledClass = (disabled) ? ' disabled' : '',
 			      readonlyClass = (readonly) ? ' readonly' : '',
 			      selectedClass = (selected) ? ' selected' : '';
-			$option.attr('aria-describedby', guid);
-			$option.data('describedby', guid);
+			$option.attr('aria-describedby', guid).data('describedby', guid);
 
 			return `<li class="sgn-option${disabledClass}${readonlyClass}${selectedClass}" id="${guid}" value="${guid}"><span class="sgn-option-label" aria-labelledby="${guid}">${t}</span></li>`;
 		}
 
 		const init = () => {
-			let $container    = $_this.parents('.sgn-form.sgn-select'),
-			    $formWrapper  = $container.children('.sgn-form-wrapper'),
-			    $inputWrapper = $formWrapper.children('.sgn-input-wrapper');
-
 			$_this.hide();
+
+			$_this.SGNInput();
 
 			create();
 		}
@@ -93,13 +90,12 @@
 
 			let html = `<ul class="sgn-select" id="${guid}">`;
 			$options.each(function(i) {
-				const $this    = $(this),
-				      t        = $this.text(),
-				      selected = ($this.attr('selected') || $this.prop('selected')) || (i === 0);
-				html += getOptionHTML($this, selected);
-				if(selected)
-					$sgnSelectInput.val(t).trigger('change');
+				const $this = $(this);
+				html += getOptionHTML($this);
 			});
+			if($optionSelected.length > 0) {
+				$sgnSelectInput.val($optionSelected.text()).trigger('change');
+			}
 			html += `</ul>`;
 
 			$inputWrapper.append(html);
@@ -269,6 +265,11 @@
 
 		return _this;
 	}
+
+	SUKR(function() {
+		const $inputs = $('select.form-control');
+		$inputs.SGNSelect();
+	});
 
 	window.SGNSelect = SGNSelect;
 

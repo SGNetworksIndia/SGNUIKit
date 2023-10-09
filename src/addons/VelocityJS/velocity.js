@@ -421,37 +421,23 @@
 
 	/* Globalize Velocity onto the window, and assign its Utilities property. */
 	window.Velocity = {Utilities: $};
-})(window);
+})(root);
 
 /******************
  Velocity.js
  ******************/
 
-(function(factory) {
-	"use strict";
-	/* CommonJS module. */
-	if(typeof module === "object" && typeof module.exports === "object") {
-		module.exports = factory();
-		/* AMD module. */
-	} else if(typeof define === "function" && define.amd) {
-		define(factory);
-		/* Browser globals. */
-	} else {
-		factory();
-	}
-}(function() {
-	"use strict";
-	return function(global, window, document, undefined) {
+;(function(global, window, document) {
 
-		/***************
+	/***************
 		 Summary
-		 ***************/
+	 ***************/
 
-		/*
-		 - CSS: CSS stack that works independently from the rest of Velocity.
-		 - animate(): Core animation method that iterates over the targeted elements and queues the incoming call onto each element individually.
-		 - Pre-Queueing: Prepare the element for animation by instantiating its data cache and processing the call's options.
-		 - Queueing: The logic that runs once the call has reached its point of execution in the element's $.queue() stack.
+	/*
+	 - CSS: CSS stack that works independently from the rest of Velocity.
+	 - animate(): Core animation method that iterates over the targeted elements and queues the incoming call onto each element individually.
+	 - Pre-Queueing: Prepare the element for animation by instantiating its data cache and processing the call's options.
+	 - Queueing: The logic that runs once the call has reached its point of execution in the element's $.queue() stack.
 		 Most logic is placed here to avoid risking it becoming stale (if the element's properties have changed).
 		 - Pushing: Consolidation of the tween data followed by its push onto the global in-progress calls container.
 		 - tick(): The single requestAnimationFrame loop responsible for tweening all in-progress calls.
@@ -4771,9 +4757,9 @@
 			};
 		});
 
-		return Velocity;
-	}((window.jQuery || window.Zepto || window), window, (window ? window.document : undefined));
-}));
+	return Velocity;
+})((jQuery || Zepto), root, document);
+
 
 /******************
  Known Issues

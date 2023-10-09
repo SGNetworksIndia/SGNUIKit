@@ -5,7 +5,7 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-.sgn-loading-dialog {
+/*.sgn-loading-dialog {
 	display: none;
 }
 
@@ -15,6 +15,8 @@
 
 .sgn-loading-dialog > .sgn-modal > .sgn-modal-body {
 	min-height: auto;
+}*/
+
+.sgn-loading-dialog > .sgn-modal-body > .sgn-loading-dialog_content > .content {
+	margin-top: 0;
 }
-
-

@@ -13,12 +13,26 @@ if(typeof jQuery === "undefined") {
 ;(function(window, document, $) {
 	"use strict";
 
+	/**
+	 * @typedef {Object} SGNFullPageOptions The options for <b>SGNFullPage</b>
+	 *
+	 * @property {number} [scroll_speed=1000] Define the speed of scroll animation, by default <b><i>scroll_speed</i></b> is <i>1 second</i>.
+	 * @property {number} [transition_speed=1000] Define the speed of scroll transition, by default <b><i>transition_speed</i></b> is <i>1 second</i>.
+	 * @property {number} [default_page=1] Define the default page to show at the beginning, by default <b><i>default_page</i></b> is <i>1</i> which means it will show the very first page of <b>SGNFullPage</b>.
+	 * @property {number} [delta_threshold=1] Define the scroll threshold (intensity) to define how further a user need to scroll the current page to change the page, by default <b><i>delta_threshold</i></b> is <i>1</i> which means the user need to scroll the page only one step (in mouse wheel).
+	 * @property {boolean} [page_indicator=true] Specify if the page indicators to show or not, by default it will be shown, set it to <b><i>FALSE</i></b> to hide the page indicators.
+	 * @property {boolean} [slider_indicator=true] Specify if the slider indicators to show or not, by default it will be shown, set it to <b><i>FALSE</i></b> to hide the slider indicators.
+	 * @property {function} [onSectionChanged=null] A callback which will be triggered each time when a page is changed.
+	 * @property {function} [onSlideChanged=null] A callback which will be triggered each time when a slide is changed.
+	 */
+
 	/***
+	 * Creates a new instance of <b>SGNFullPage</b> with the supplied options if not created or returns the old instance.
 	 *
-	 * @param {jQuery | HTMLElement} $fullpage
-	 * @param {{scroll_speed: number, transition_speed: number, default_page: number, delta_threshold: number, page_indicator: boolean, slider_indicator: boolean, scroll_indicator: boolean, onSectionChanged: function, onSlideChanged: function}} [options={}]
+	 * @param {jQuery | HTMLElement} $fullpage The carousel container with CSS class 'sgn-fullpage'.
+	 * @param {SGNFullPageOptions} [options={}] The options to override the default settings of <b>SGNFullPage</b>.
 	 *
-	 * @return {SGNFullPage}
+	 * @return {SGNFullPage} A new instance of <b>SGNCarousel</b> if not created be fore for the element. Otherwise, the previously created instance of <b>SGNCarousel</b>.
 	 *
 	 * @constructor
 	 */
@@ -40,7 +54,7 @@ if(typeof jQuery === "undefined") {
 		      $sgnatom  = $body.children('.sgn-atom-container'),
 		      $main     = ($sgnatom.length > 0) ? $sgnatom.children('main') : $body.children('main'),
 		      $sections = $($fullpage).children('.section, section');
-		let maxPages, currentPage, currentSlide;
+		let maxPages, maxSlides, currentPage, currentSlide;
 		let $pageNav, $slideNav;
 		let isSlideActive = false, slideDown = false, slideUp = false, allowPageUp = true, allowPageDown = true;
 		let isPageScrolling = false;
@@ -76,7 +90,11 @@ if(typeof jQuery === "undefined") {
 		const init = (rebind = true) => {
 			$.extend(plugin.settings, _defaults, options);
 
-			destroy();
+			//destroy();
+
+			$(document).on('SGNAtom.startPageLoad', function(e) {
+				destroy(true);
+			});
 
 			if(!$body.hasClass('sgn-fullpage-active'))
 				$body.addClass('sgn-fullpage-active');
@@ -92,7 +110,6 @@ if(typeof jQuery === "undefined") {
 				$sections.each(function(i) {
 					const j        = (i + 1),
 					      $this    = $(this),
-					      $section = $this,
 					      $slides  = $this.children('.slide');
 
 					const activeClass = (j === plugin.settings.default_page) ? 'active' : '',
@@ -112,21 +129,13 @@ if(typeof jQuery === "undefined") {
 					else
 						navLinksHTML += navLinkHTML;
 
-					$slides.each(function(i) {
-						const j     = (i + 1),
-						      $this = $(this);
-						const currentSlide = 1;
-						const id    = $this.attr('id') || 'sgn-fp-slide-' + GUID(),
-						      title = $this.attr('title') || `Slide-${j}`;
-
-						$this.attr({'id': id, 'title': title});
-
-						if(j === currentSlide && !$this.hasClass('active'))
-							$this.addClass('active');
-
-						if(!$section.hasClass('sgn-fp-slides'))
-							$section.addClass('sgn-fp-slides');
-					});
+					if($slides.length > 0) {
+						setupSlides($this, $slides);
+					}
+					if(j === plugin.settings.default_page) {
+						$sections.removeClass('active');
+						$this.addClass('active');
+					}
 				});
 
 				const navHTML = (navLinksHTML !== undefined) ? `<ul class="sgn-fp-nav page-nav nav-right">${navLinksHTML}</ul>` : undefined;
@@ -138,18 +147,47 @@ if(typeof jQuery === "undefined") {
 
 				if(rebind)
 					bindEvents();
+
+				const $activePage     = $sections.filter('.active'),
+				      activePageIndex = ($activePage.length > 0) ? $activePage.index() : plugin.settings.default_page;
+				if($activePage.length > 0) {
+					currentPage = (activePageIndex + 1);
+					const $slides = $activePage.children('.slide');
+					if($slides.length > 0) {
+						initSlides($activePage, $slides);
+					}
+				}
 			}
 		};
 
-		const initSlides = ($section, $slides) => {
+		const setupSlides = ($section, $slides) => {
+			$slides.each(function(i) {
+				const j     = (i + 1),
+				      $this = $(this);
+				const currentSlide = 1;
+				const id    = $this.attr('id') || 'sgn-fp-slide-' + GUID(),
+				      title = $this.attr('title') || `Slide-${j}`;
+
+				$this.attr({'id': id, 'title': title});
+
+				if(j === currentSlide && !$this.hasClass('active'))
+					$this.addClass('active');
+
+				if(!$section.hasClass('sgn-fp-slides'))
+					$section.addClass('sgn-fp-slides');
+			});
+		}
+
+		const initSlides = ($section, $slides, bind = true) => {
+			maxSlides = $slides.length;
 			let slideNavLinksHTML;
+			const $activeSlide = $section.children('.slide.active');
+			const activeSlideIndex = ($activeSlide.length > 0) ? $activeSlide.index() : 1;
+			currentSlide = activeSlideIndex + 1;
 
 			$slides.each(function(i) {
 				const j     = (i + 1),
 				      $this = $(this);
-				const $activeSlide = $section.children('.slide.active');
-				const activeSlideIndex = ($activeSlide.length > 0) ? $activeSlide.index() : 1;
-				currentSlide = activeSlideIndex + 1;
 
 				const activeClass = (j === currentSlide) ? 'active' : '',
 				      id          = $this.attr('id') || 'sgn-fp-slide-' + GUID(),
@@ -166,8 +204,10 @@ if(typeof jQuery === "undefined") {
 
 			const slideNavHTML = (slideNavLinksHTML !== undefined) ? `<ul class="sgn-fp-nav slide-nav nav-bottom">${slideNavLinksHTML}</ul>` : undefined;
 
-			if($slideNav !== undefined && $slideNav.length > 0)
+			if($slideNav !== undefined && $slideNav.length > 0) {
 				$slideNav.remove();
+				$slideNav = undefined;
+			}
 
 			if(slideNavHTML !== undefined && ($slideNav === undefined || $slideNav.length <= 0)) {
 				$body.append(slideNavHTML);
@@ -177,26 +217,43 @@ if(typeof jQuery === "undefined") {
 			if(!$section.hasClass('sgn-fp-slides'))
 				$section.addClass('sgn-fp-slides');
 
-			bindEvents.bindSlideScroll($section, $slides).bindSlideNavEvent();
+			if(bind)
+				bindEvents.bindSlideScroll($section, $slides).bindSlideNavEvent();
 		};
 
-		const destroy = () => {
+		const destroySlides = (destroyEvents = false, callback) => {
 			isSlideActive = slideUp = slideDown = false;
-			allowPageUp = allowPageDown = true;
 			if($slideNav !== undefined && $slideNav.length > 0) {
 				$slideNav.fadeOut(plugin.settings.transition_speed, () => {
 					if($slideNav !== undefined && $slideNav.length > 0)
 						$slideNav.remove();
-					$slideNav = undefined;
+					$slideNav = currentSlide = undefined;
+					if(typeof callback === 'function')
+						callback();
 				});
 			}
+			if(destroyEvents) {
+				$(document).off('wheel', 'sgn-fp-slide-scroll');
+			}
+		};
+
+		const destroyPages = (destroyEvents = false) => {
+			allowPageUp = allowPageDown = true;
 			if($pageNav !== undefined && $pageNav.length > 0) {
 				$pageNav.fadeOut(plugin.settings.transition_speed, () => {
 					if($pageNav !== undefined && $pageNav.length > 0)
 						$pageNav.remove();
-					$pageNav = undefined;
+					$pageNav = currentPage = undefined;
 				});
 			}
+			if(destroyEvents) {
+				$(document).off('wheel', 'sgn-fp-page-scroll');
+			}
+		};
+
+		const destroy = (destroyEvents = false) => {
+			destroySlides(destroyEvents);
+			destroyPages(destroyEvents);
 			$body.removeClass('sgn-fullpage-active');
 		};
 
@@ -224,7 +281,6 @@ if(typeof jQuery === "undefined") {
 
 				isSlideActive = (slideUp || slideDown);
 
-				$section.off('wheel', 'sgn-fp-slide-scroll');
 				$section.on('wheel', function(e) {
 					e.preventDefault();
 					const prevSlide = currentSlide;
@@ -337,8 +393,20 @@ if(typeof jQuery === "undefined") {
 			}
 
 			const bindPageScroll = () => {
+				const gate = $(window);
+				let edge;
+				setLength();
+				gate.resize(function() {
+					setLength();
+				});
+
+				function setLength() {
+					edge = $(document).height() - gate.height();
+				}
+
 				$(document).on('wheel', function(e) {
 					e.preventDefault();
+					const outset = gate.scrollTop();
 					const target  = e.target,
 					      $target = $(target);
 
@@ -425,7 +493,15 @@ if(typeof jQuery === "undefined") {
 									plugin.settings.onSectionChanged(currentPage, prevPage);
 							});
 						} else {
-							destroy();
+							/*if(delta == 1 && outset == 0) console.log('top');
+							 if(delta == -1 && outset == edge) console.log('bottom');*/
+							if(wd > 0 && outset == 0) {
+								//console.default.log('top');
+							} else if(outset == edge) {
+								//console.default.log('bottom');
+							} else {
+								destroy();
+							}
 						}
 					} else {
 						if($target.parents().hasClass('sgn-fullpage'))
@@ -502,6 +578,33 @@ if(typeof jQuery === "undefined") {
 				bindEvents.bindPageNavEvent();
 				bindEvents.bindSlideNavEvent();
 
+				$(document).on('keyup', function(e) {
+					const code      = e.code,
+					      isFocused = false;
+
+					if(!isFocused) {
+						e.preventDefault();
+						switch(code) {
+							case 'ArrowUp':
+							case 'KeyW':
+								plugin.prevPage();
+								break;
+							case 'ArrowDown':
+							case 'KeyS':
+								plugin.nextPage();
+								break;
+							case 'ArrowLeft':
+							case 'KeyA':
+								plugin.prevSlide();
+								break;
+							case 'ArrowRight':
+							case 'KeyD':
+								plugin.nextSlide();
+								break;
+						}
+					}
+				});
+
 				return bindEvents;
 			};
 
@@ -509,18 +612,234 @@ if(typeof jQuery === "undefined") {
 			bindNavigationEvents();
 		};
 
+		const changePage = (i) => {
+			if(i > currentPage || i < currentPage) {
+				if($body.hasClass('sgn-fullpage-active')) {
+					const prevPage = currentPage;
+
+					if(isPageScrolling)
+						return;
+
+					if(typeof i === 'number' || !isSlideActive) {
+						allowPageUp = allowPageDown = true;
+					}
+
+					if($pageNav === undefined || $pageNav.length < 1)
+						init();
+
+					if((i > (currentPage - 1) && !allowPageDown) || (i < (currentPage - 1) && !allowPageUp))
+						return;
+
+					if(i >= 0 && i < $sections.length) {
+						$sections.removeClass('active');
+
+						destroySlides();
+
+						const section  = $sections[i],
+						      $section = $(section);
+						const distance = section.offsetTop;
+
+						isPageScrolling = true;
+						$main.stop().val(0).animate({
+							scrollTop: distance
+						}, plugin.settings.scroll_speed, function() {
+							const $this = $(this);
+							currentPage = (i + 1);
+							if($pageNav !== undefined && $pageNav.length > 0) {
+								$pageNav.children('li').removeClass('active');
+								$($pageNav.children('li')[i]).addClass('active');
+							}
+							$section.addClass('active');
+
+							const $slides = $section.children('.slide');
+							if($slides.length > 0) {
+								initSlides($section, $slides);
+							} else {
+								isSlideActive = slideUp = slideDown = false;
+								allowPageUp = allowPageDown = true;
+								if($slideNav !== undefined && $slideNav.length > 0) {
+									$slideNav.fadeOut(plugin.settings.transition_speed, () => {
+										$slideNav.remove();
+										$slideNav = undefined;
+									});
+								}
+							}
+
+							isPageScrolling = false;
+
+							if(typeof plugin.settings.onSectionChanged === 'function')
+								plugin.settings.onSectionChanged(currentPage, prevPage);
+						});
+					} else {
+						//destroy();
+					}
+				} else {
+					if($target.parents().hasClass('sgn-fullpage'))
+						init(false);
+				}
+			}
+		}
+
+		const changeSlide = (i) => {
+			const $section = $sections.filter('.active'),
+			      $slides  = $section.children('.slide');
+
+			if($slides.length > 0 && (i > currentSlide || i < currentSlide)) {
+				allowPageUp = ($section.prev('section, .section').length > 0);
+				allowPageDown = ($section.next('section, .section').length > 0);
+				if(currentSlide === maxSlides) {
+					slideUp = true;
+					allowPageUp = false;
+					slideDown = ($section.next('section, .section').length > 0);
+					allowPageDown = true;
+				} else if(currentSlide === 1) {
+					slideDown = true;
+					allowPageDown = false;
+					slideUp = ($section.prev('section, .section').length > 0);
+					allowPageUp = true;
+				} else {
+					slideUp = slideUp = true;
+					allowPageUp = allowPageDown = false;
+				}
+
+				isSlideActive = (slideUp || slideDown);
+				const prevSlide = currentSlide;
+
+				if(!isSlideActive || isPageScrolling)
+					return;
+
+				if(currentSlide === maxSlides) {
+					slideUp = true;
+					allowPageUp = false;
+					slideDown = ($section.next('section, .section').length > 0);
+					allowPageDown = true;
+					$(document).on('wheel', 'sgn-fp-page-scroll');
+				} else if(currentSlide === 1) {
+					slideDown = true;
+					allowPageDown = false;
+					slideUp = ($section.prev('section, .section').length > 0);
+					allowPageUp = true;
+					$(document).on('wheel', 'sgn-fp-page-scroll');
+				} else {
+					slideUp = slideUp = true;
+					allowPageUp = allowPageDown = false;
+					$(document).off('wheel', 'sgn-fp-page-scroll');
+				}
+
+				isSlideActive = (slideUp || slideDown);
+
+				if((i > (currentSlide - 1) && !slideDown) || (i < (currentSlide - 1) && !slideUp))
+					return;
+
+				if(i >= 0 && i < maxSlides) {
+					isPageScrolling = true;
+					$slides.removeClass('active');
+
+					const slide  = $slides[i],
+					      $slide = $(slide);
+					const distance = slide.offsetLeft;
+
+					$section.stop().val(0).animate({
+						scrollLeft: distance
+					}, plugin.settings.scroll_speed, function() {
+						const $this = $(this);
+						currentSlide = (i + 1);
+						//$this.data('current-slide', currentSlide);
+
+						allowPageUp = ($section.prev('section, .section').length > 0);
+						allowPageDown = ($section.next('section, .section').length > 0);
+
+						if(currentSlide === maxSlides) {
+							slideUp = true;
+							allowPageUp = false;
+							slideDown = ($section.next('section, .section').length > 0);
+							allowPageDown = true;
+							$(document).on('wheel', 'sgn-fp-page-scroll');
+						} else if(currentSlide === 1) {
+							slideDown = true;
+							allowPageDown = false;
+							slideUp = ($section.prev('section, .section').length > 0);
+							allowPageUp = true;
+							$(document).on('wheel', 'sgn-fp-page-scroll');
+						} else {
+							slideUp = slideUp = true;
+							allowPageUp = allowPageDown = false;
+							$(document).off('wheel', 'sgn-fp-page-scroll');
+						}
+
+						isSlideActive = (slideUp || slideDown);
+						//console.log(isSlideActive, slideDown, slideUp, wheelYPositive);
+
+						$slideNav.children('li').removeClass('active');
+						$($slideNav.children('li')[i]).addClass('active');
+						$slide.addClass('active');
+
+						isPageScrolling = false;
+
+						if(typeof plugin.settings.onSlideChanged === 'function')
+							plugin.settings.onSlideChanged(currentSlide, prevSlide, currentPage);
+					});
+				}
+			}
+		}
+
+
+		plugin.prevPage = (index) => {
+			if(typeof index === 'number')
+				index++;
+			index = index || currentPage - 1 || 1;
+			index--;
+			if(index < 0)
+				index = 0;
+
+			changePage(index);
+		}
+
+		plugin.nextPage = (index) => {
+			if(typeof index === 'number')
+				index++;
+			index = index || currentPage + 1 || 2;
+			index--;
+			if(index >= maxPages)
+				index = (maxPages - 1);
+
+			changePage(index);
+		}
+
+		plugin.prevSlide = (index) => {
+			if(typeof index === 'number')
+				index++;
+			index = index || currentSlide - 1 || 1;
+			index--;
+			if(index < 0)
+				index = 0;
+
+			changeSlide(index);
+		}
+
+		plugin.nextSlide = (index) => {
+			if(typeof index === 'number')
+				index++;
+			index = index || currentSlide + 1 || 2;
+			index--;
+			if(index >= maxSlides)
+				index = (maxSlides - 1);
+
+			changeSlide(index);
+		}
+
+
 		init();
 
 		return plugin;
 	};
 
 	/***
-	 * Creates a <b>SGNFullPage</b> object with the supplied options.
-	 * @param {{scroll_speed: number, transition_speed: number, default_page: number, delta_threshold: number, page_indicator: boolean, slider_indicator: boolean, scroll_indicator: boolean, onSectionChanged: function, onSlideChanged: function}} [options]
+	 * Creates a new instance of <b>SGNFullPage</b> with the supplied options if not created or returns the old instance.
 	 *
-	 * @return {jQuery}
+	 * @param {SGNFullPageOptions} [options={}] The options to override the default settings of <b>SGNFullPage</b>.
 	 *
-	 * @constructor
+	 * @return {jQuery} The <b>jQuery</b> object to retain method chaining capability.
 	 */
 	$.fn.SGNFullPage = function(options = {
 		'scroll_indicator': true,

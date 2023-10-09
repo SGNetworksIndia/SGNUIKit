@@ -6,27 +6,31 @@
  */
 
 if(typeof jQuery === "undefined") {
-	throw new Error("marquee requires jQuery");
+	throw new Error("SGNMarquee requires jQuery");
 }
 
 ;(function(window, document, $) {
 	"use strict";
 
 	/***
+	 * Initialize <b>SGNMarquee</b> on the element identified by <b><i>$elem</i></b>.
 	 *
-	 * @param {number} [duration=5000]
-	 * @param {"left"|"right"|"top"|"bottom"} [direction='left']
+	 * @param {jQuery} $elem The <b>DOM Element</b> wrapped with <b>jQuery</b> where the <b>SGNMarquee</b> will be initialized.
+	 * @param {number} [duration=5000] Specify the duration (in milliseconds) of how long should the marquee take to complete its full revolution. By default, it is set to 5000 (5 seconds).
+	 * @param {"left"|"right"|"top"|"bottom"} [direction='left'] Specify the direction of the marquee.
 	 * @param {boolean} [force=false] If <b>TRUE</b>, the marquee will be generated regardless of the necessity.
-	 * @return {jQuery}
+	 *
+	 * @return {SGNMarquee} An instance of <b>SGNMarquee</b> if initialized.
 	 */
-	$.fn.marquee = function(duration = 5000, direction = "left", force = false) {
+	const SGNMarquee = function($elem, duration = 5000, direction = "left", force = false) {
+		const plugin = this;
+
 		const directions = [
 			"left", "right",
 			"top", "bottom",
 		];
-		const isDurationSpecified = ($.isNumeric(duration));
-		const sdir  = direction,
-		      stime = duration;
+		const isDurationSpecified = (typeof duration === 'number');
+		const sDir = direction;
 		duration = (!isDurationSpecified) ? 5000 : duration;
 		direction = ($.inArray(direction, directions) !== -1) ? direction : "left";
 
@@ -48,7 +52,7 @@ if(typeof jQuery === "undefined") {
 			element.style.display = "inline-block";
 			element.innerHTML = text;
 
-			let width = "0px";
+			let width;
 			if($elem !== undefined && $elem.length > 0) {
 				$elem[0].appendChild(element);
 
@@ -69,54 +73,83 @@ if(typeof jQuery === "undefined") {
 		};
 		const uint = (n) => Math.sqrt(Math.pow(n, 2));
 
-		return this.each(function() {
-			const $this = $(this);
-			let utime  = ($.isNumeric($this.attr("sgn-marquee-duration"))) ? $this.attr("sgn-marquee-duration") : $this.attr("data-marquee-duration"),
-			    uspeed = (!empty($this.attr("sgn-marquee-speed"))) ? $this.attr("sgn-marquee-speed") : $this.attr("data-marquee-speed"),
-			    udir   = (!empty($this.attr("sgn-marquee-direction"))) ? $this.attr("sgn-marquee-direction") : $this.attr("data-marquee-direction");
-			uspeed = ($.isNumeric(uspeed)) ? uspeed : 10;
+		const init = () => {
+			let uTime  = (typeof $elem.attr("sgn-marquee-duration") === 'number') ? $elem.attr("sgn-marquee-duration") : $elem.attr("data-marquee-duration"),
+			    uSpeed = (!empty($elem.attr("sgn-marquee-speed"))) ? $elem.attr("sgn-marquee-speed") : $elem.attr("data-marquee-speed"),
+			    uDir   = (!empty($elem.attr("sgn-marquee-direction"))) ? $elem.attr("sgn-marquee-direction") : $elem.attr("data-marquee-direction");
+			uSpeed = (typeof uSpeed === 'number') ? uSpeed : 10;
 
-			const textWidth       = (getTextWidth($this.text(), $this)),
-			      containerWidth  = ($this.width() < textWidth) ? $this.width() : $this.parent().width(),
-			      containerHeight = ($this.height() < textWidth) ? $this.height() : $this.parent().height(),
-			      boxWidth        = (textWidth + containerWidth);
-			direction = (textWidth > containerHeight && empty(sdir)) ? 'top' : direction;
-			udir = (!empty(udir) && $.inArray(udir, directions) !== -1) ? udir : direction;
+			const textWidth       = (getTextWidth($elem.text(), $elem)),
+			      containerWidth  = ($elem.width() < textWidth) ? $elem.width() : $elem.parent().width(),
+			      containerHeight = ($elem.height() < textWidth) ? $elem.height() : $elem.parent().height();
+			direction = (textWidth > containerHeight && empty(sDir)) ? 'top' : direction;
+			uDir = (!empty(uDir) && $.inArray(uDir, directions) !== -1) ? uDir : direction;
 			let distance, time;
 			/*
 			 Time = (Distance / Speed)
 			 Speed = (Distance / Time)
 			 Duration = (Speed * Distance)
 			 */
-			distance = (udir === 'top' || udir === 'bottom') ? uint((textWidth) / (containerHeight)) : uint((textWidth) / (containerWidth));
-			time = uint(uspeed * distance);
+			distance = (uDir === 'top' || uDir === 'bottom') ? uint((textWidth) / (containerHeight)) : uint((textWidth) / (containerWidth));
+			time = uint(uSpeed * distance);
 			time = Math.round(time);
-			time = ($.isNumeric(utime)) ? utime : time;
-			time = ($.isNumeric(time)) ? time : duration;
+			time = (typeof uTime === 'number') ? uTime : time;
+			time = (typeof time === 'number') ? time : duration;
 			time = (isDurationSpecified) ? duration : time;
-			const dirClass = (udir === 'top' || udir === 'bottom') ? 'vertical' : 'horizontal';
+			const dirClass = (uDir === 'top' || uDir === 'bottom') ? 'vertical' : 'horizontal';
 
 			if(force || (textWidth > containerWidth || textWidth > containerHeight)) {
-				$this.wrapInner("<div class=\"sgn-marquee\"/>");
-				const $marquee = $this.children(".sgn-marquee");
-				$marquee.clone(true).appendTo($this);
-				const $marquees = $this.children(".sgn-marquee");
+				$elem.wrapInner("<div class=\"sgn-marquee\"/>");
+				const $marquee = $elem.children(".sgn-marquee");
+				$marquee.clone(true).appendTo($elem);
+				const $marquees = $elem.children(".sgn-marquee");
 
-				$this.wrapInner(`<div class="sgn-marquee-wrapper"/>`);
+				$elem.wrapInner(`<div class="sgn-marquee-wrapper"/>`);
 
-				if(!$this.hasClass("has-marquee"))
-					$this.addClass("has-marquee");
+				if(!$elem.hasClass("has-marquee"))
+					$elem.addClass("has-marquee");
 
-				$this.addClass(dirClass);
+				$elem.addClass(dirClass);
 
-				$marquees.css("animation-name", `marquee-${udir}`);
+				$marquees.css("animation-name", `marquee-${uDir}`);
 				$marquees.css("animation-duration", `${time}s`);
 			}
+
+			$elem.data("SGNMarquee", plugin);
+			$elem[0]["SGNMarquee"] = plugin;
+		}
+
+		if($elem.length > 0 && ($elem.hasClass('marquee') || $elem.attr('sgn-component') === 'marquee' || $elem.attr('data-sgn-component') === 'marquee' || $elem.attr('data-component') === 'marquee'))
+			init();
+		else
+			throw new Error(`[SGNMarquee] Failed to initialize SGNMarquee: Invalid DOM element supplied.`);
+
+		return plugin;
+	}
+
+	/***
+	 * Initialize <b>SGNMarquee</b> on the element.
+	 *
+	 * @param {number} [duration=5000] Specify the duration (in milliseconds) of how long should the marquee take to complete its full revolution. By default, it is set to 5000 (5 seconds).
+	 * @param {"left"|"right"|"top"|"bottom"} [direction='left'] Specify the direction of the marquee.
+	 * @param {boolean} [force=false] If <b>TRUE</b>, the marquee will be generated regardless of the necessity.
+	 *
+	 * @return {jQuery} The <b>jQuery</b> to retain method chaining capabilities.
+	 */
+	$.fn.marquee = function(duration = 5000, direction = "left", force = false) {
+		return this.each(function() {
+			const $_this = $(this),
+			      data   = $_this.data("SGNMarquee");
+
+			const plugin = (data === undefined) ? new SGNMarquee($_this, duration, direction, force) : data;
+
+			$_this.data("SGNMarquee", plugin);
+			$_this[0]["SGNMarquee"] = plugin;
 		});
 	};
 
 	SUKR(() => {
-		const $elem = $("[sgn-component=\"marquee\"], [data-component=\"marquee\"]");
+		const $elem = $("[sgn-component=\"marquee\"], [data-sgn-component=\"marquee\"], [data-component=\"marquee\"]");
 		const $marquees = ($elem.length > 0) ? $elem : $(".marquee");
 
 		$marquees.marquee();

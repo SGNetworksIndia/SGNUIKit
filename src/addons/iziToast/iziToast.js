@@ -15,16 +15,7 @@ if(typeof jQuery === "undefined") {
 	throw new Error("iziToast requires jQuery");
 }
 
-let iziToast;
-(function(root, factory) {
-	if(typeof define === "function" && define.amd) {
-		define([], factory(root));
-	} else if(typeof exports === "object") {
-		module.exports = factory(root);
-	} else {
-		root.iziToast = factory(root);
-	}
-})(typeof global !== "undefined" ? global : window || this.window || this.global, function() {
+;(function() {
 
 	"use strict";
 
@@ -1294,10 +1285,12 @@ let iziToast;
 		that.toast = $DOM.toast;
 	};
 
-	iziToast = $iziToast;
-	window.iziToast = iziToast;
+	const iziToast = $iziToast;
+
+	if(typeof root !== 'undefined')
+		root.iziToast = iziToast;
+	else
+		window.iziToast = iziToast;
 
 	return $iziToast;
-});
-
-window.iziToast = iziToast;
+})();

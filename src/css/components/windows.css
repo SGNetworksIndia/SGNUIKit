@@ -22,7 +22,7 @@
 
 .sgn-window-dock {
 	align-items: center;
-	background-color: var(--sgn-primary-lightest);
+	background-color: var(--sgn-background-primary);
 	border-top: 1px solid var(--sgn-border-light);
 	bottom: 0;
 	display: flex;
@@ -57,6 +57,10 @@
 	justify-content: space-between;
 	padding: var(--padding-md) var(--padding-md);
 	position: relative;
+}
+
+.sgn-window > .title-bar > .window-title {
+	color: inherit;
 }
 
 .sgn-window > .title-bar > .window-actions {
@@ -130,8 +134,8 @@
 }
 
 .sgn-window > .title-bar > .window-actions > .sgn-window-closeBtn {
-	border-color: var(--sgn-danger-light);
-	color: var(--sgn-danger-light);
+	border-color: var(--sgn-danger);
+	color: var(--sgn-danger);
 }
 
 .sgn-window > .title-bar > .window-actions > .sgn-window-closeBtn:hover {

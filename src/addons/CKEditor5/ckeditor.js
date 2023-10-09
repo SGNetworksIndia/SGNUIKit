@@ -495,9 +495,7 @@
 	})
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
 (function t(e, n) {
-	if(typeof exports === "object" && typeof module === "object")
-		module.exports = n();
-	else if(typeof define === "function" && define.amd)
+	if(typeof define === "function" && define.amd)
 		define([], n);
 	else if(typeof exports === "object")
 		exports["CKSource"] = n();

@@ -5,15 +5,23 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
+.card,
+.card * {
+	--card-border: var(--sgn-border-light);
+}
+
 .card {
 	background-color: transparent;
-	border: 0 solid var(--sgn-border-light);
+	border: 0 solid var(--card-border);
 	border-radius: var(--sgn-border-radius-md);
 	box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
 	display: flex;
 	flex-direction: column;
+	/*! align-items: center; */
 	margin: var(--margin-md);
 	overflow: visible;
+	min-width: 0;
+	max-width: 100%;
 }
 
 .card .card-header {
@@ -21,11 +29,25 @@
 	width: 100%;
 	justify-content: space-between;
 	align-items: center;
-	padding: var(--padding-sm) var(--padding-md);
-	border-bottom: 1px solid var(--sgn-border-light);
+	margin: 0;
+	padding: var(--padding-md) var(--padding-md);
+	border: 1px solid var(--card-border);
 	border-radius: var(--sgn-border-radius-md) var(--sgn-border-radius-md) 0 0;
 	background-color: var(--sgn-secondary-lightest);
 	font-family: var(--sgn-font-default-bold);
+}
+
+.card > .card-header > .card-heading {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	font-size: var(--font-size-lg);
+	flex-wrap: wrap;
+	column-gap: var(--margin-md);
+}
+
+.card > .card-header > .card-heading > .badge {
+	max-height: 1.8rem;
 }
 
 .card > .card-img-top {
@@ -42,18 +64,36 @@
 
 .card .card-body {
 	background-color: var(--sgn-accent-background);
-	border-radius: var(--sgn-border-radius-md) var(--sgn-border-radius-md);
+	border: 1px solid var(--card-border);
+	border-top: none;
 	overflow: auto;
 	padding: var(--padding-md);
 	position: relative;
+	flex: 1;
+	/*! width: 100%; */
+}
+
+.card .card-body:last-child {
+	border-bottom-left-radius: var(--sgn-border-radius-md);
+	border-bottom-right-radius: var(--sgn-border-radius-md);
 }
 
 .card .card-body > .card-title {
 	color: var(--sgn-text-primary);
+	margin-top: 0;
+	margin-bottom: var(--margin-sm);
 }
 
 .card .card-body > .card-text {
 	color: var(--sgn-text-secondary);
+}
+
+.card .card-body > .card-text:first-child {
+	margin-top: 0;
+}
+
+.card .card-body > .card-text:last-child {
+	margin-bottom: 0;
 }
 
 .card > .card-header ~ .card-body {
@@ -69,11 +109,13 @@
 .card > .card-footer {
 	background-color: var(--sgn-accent-background-secondary);
 	border-radius: 0 0 var(--sgn-border-radius-md) var(--sgn-border-radius-md);
-	border-top: 1px solid var(--sgn-border-light);
+	border: 1px solid var(--card-border);
 	color: var(--sgn-text-secondary);
+	width: 100%;
 	display: flex;
 	justify-content: start;
-	padding: var(--padding-sm) var(--padding-md);
+	align-items: center;
+	padding: var(--padding-md) var(--padding-md);
 }
 
 .card > .card-footer > .btn {
@@ -128,27 +170,48 @@
 }
 
 
-.card > .card-body > .list-group {
+.card > .card-body > .list-group,
+.card > .card-body .sgn-list-group-container > .list-group {
 	border-radius: 0;
 	box-shadow: none;
 	margin: 0;
 }
 
 .card > .card-body > .list-group > .list-group-title,
-.card > .card-body > .list-group > .list-view > .list-link:last-child {
+.card > .card-body > .list-group > .list-view > li:first-child,
+.card > .card-body > .list-group > .list-view > .list-item:first-child,
+.card > .card-body > .list-group > .list-view > li:last-child,
+.card > .card-body > .list-group > .list-view > .list-item:last-child,
+.card > .card-body > .list-view > li:first-child,
+.card > .card-body > .list-view > .list-item:first-child,
+.card > .card-body > .list-view > li:last-child,
+.card > .card-body > .list-view > .list-item:last-child,
+.card > .card-body .sgn-list-group-container > .list-group > .list-group-title,
+.card > .card-body .sgn-list-group-container > .list-group > .list-view > li:first-child,
+.card > .card-body .sgn-list-group-container > .list-group > .list-view > .list-item:first-child,
+.card > .card-body .sgn-list-group-container > .list-group > .list-view > li:last-child,
+.card > .card-body .sgn-list-group-container > .list-group > .list-view > .list-item:last-child,
+.card > .card-body .sgn-list-group-container > .list-view > li:first-child,
+.card > .card-body .sgn-list-group-container > .list-view > .list-item:first-child,
+.card > .card-body .sgn-list-group-container > .list-view > li:last-child,
+.card > .card-body .sgn-list-group-container > .list-view > .list-item:last-child {
 	border-radius: 0;
 }
 
-.card > .card-body > .list-group:last-child > .list-view:last-child > .list-link:last-child {
+.card > .card-body > .list-group:last-child > .list-view:last-child > li:last-child,
+.card > .card-body > .list-group:last-child > .list-view:last-child > .list-item:last-child,
+.card > .card-body .sgn-list-group-container > .list-group:last-child > .list-view:last-child > li:last-child,
+.card > .card-body .sgn-list-group-container > .list-group:last-child > .list-view:last-child > .list-item:last-child {
 	border-bottom-width: 0;
 }
 
 
 /*** CARD DECK ***/
 .card-deck {
+	display: flex;
 	justify-content: space-around;
 	flex-flow: row;
-	margin: 0 0 2rem;
+	margin: 0 0 var(--margin-lg);
 }
 
 .card-deck > .card.counter {
@@ -192,6 +255,7 @@
 
 
 /*** CASCADED CARDS ***/
+
 .card.cascade > .view.cascade {
 	border-radius: var(--sgn-border-radius-md);
 	box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
@@ -222,13 +286,13 @@
 .card.cascade.inner {
 	background: var(--sgn-accent-background);
 	box-shadow: 0 0 1rem 0 var(--sgn-shadow-light);
-	margin-top: calc(var(--margin-lg));
+	margin-top: calc(var(--margin-xl) - .25rem);
 }
 
 .card.cascade.inner > .view {
 	margin-left: 4%;
 	margin-right: 4%;
-	margin-top: calc(.25rem - var(--margin-lg));
+	margin-top: calc(0.25rem - var(--margin-xl));
 	z-index: 1;
 }
 
@@ -236,7 +300,6 @@
 	background-color: transparent;
 	box-shadow: none;
 }
-
 
 /*** CARD INTERSECTION ***/
 .card.intersection > .view {

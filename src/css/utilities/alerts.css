@@ -1,0 +1,117 @@
+/*
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.alert > .error,
+.alert > .danger,
+.alert > .success,
+.alert > .done,
+.alert > .warning,
+.alert > .warn,
+.alert > .info {
+	padding: var(--padding-sm);
+	width: 100%;
+}
+
+.alert > .error:before,
+.alert > .danger:before,
+.alert > .success:before,
+.alert > .done:before,
+.alert > .warning:before,
+.alert > .warn:before,
+.alert > .info:before,
+.alert > .error:after,
+.alert > .danger:after,
+.alert > .success:after,
+.alert > .done:after,
+.alert > .warning:after,
+.alert > .warn:after,
+.alert > .info:after {
+	font-weight: 900;
+}
+
+.alert > .error:before,
+.alert > .danger:before,
+.alert > .success:before,
+.alert > .done:before,
+.alert > .warning:before,
+.alert > .warn:before,
+.alert > .info:before {
+	margin-right: var(--margin-sm);
+}
+
+.alert > .error:after,
+.alert > .danger:after,
+.alert > .success:after,
+.alert > .done:after,
+.alert > .warning:after,
+.alert > .warn:after,
+.alert > .info:after {
+	margin-left: var(--margin-sm);
+}
+
+.alert.error,
+.alert.danger,
+.alert > .error,
+.alert > .danger {
+	background-color: var(--sgn-danger-lightest);
+	color: var(--sgn-danger);
+}
+
+.alert.success,
+.alert.done,
+.alert > .success,
+.alert > .done {
+	background-color: var(--sgn-success-lightest);
+	color: var(--sgn-success);
+}
+
+.alert.warning,
+.alert.warn,
+.alert > .warning,
+.alert > .warn {
+	background-color: var(--sgn-warning-lightest);
+	color: var(--sgn-warning);
+}
+
+.alert.info,
+.alert > .info {
+	background-color: var(--sgn-info-lightest);
+	color: var(--sgn-info);
+}
+
+.alert > .info:before {
+	content: "\f05a";
+}
+
+.alert > .success:before,
+.alert > .done:before {
+	content: "\f058";
+}
+
+.alert > .warning:before,
+.alert > .warn:before {
+	content: "\f071";
+}
+
+.alert > .error:before,
+.alert > .danger:before {
+	content: "\f057";
+}
+
+
+.alert {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	padding: var(--padding-sm) var(--padding-md);
+}
+
+.alert.dismissable:after {
+	content: "\f00d";
+	font-weight: 400;
+	margin-left: auto;
+}

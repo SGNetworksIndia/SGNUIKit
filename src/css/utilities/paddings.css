@@ -767,3 +767,56 @@
 	padding-bottom: 3rem !important;
 }
 
+/***Extra Small**/
+@media (max-width: 575px) {
+	.p-xs-0,
+	.pl-xs-0,
+	.px-xs-0 {
+		padding-left: 0 !important;
+	}
+
+	.p-xs-0,
+	.pt-xs-0,
+	.py-xs-0 {
+		padding-top: 0 !important;
+	}
+
+	.p-xs-0,
+	.pr-xs-0,
+	.px-xs-0 {
+		padding-right: 0 !important;
+	}
+
+	.p-xs-0,
+	.pb-xs-0,
+	.py-xs-0 {
+		padding-bottom: 0 !important;
+	}
+}
+
+/***Small**/
+@media (min-width: 576px) and (max-width: 768px) {
+	.p-sm-0,
+	.pl-sm-0,
+	.px-sm-0 {
+		padding-left: 0 !important;
+	}
+
+	.p-sm-0,
+	.pt-sm-0,
+	.py-sm-0 {
+		padding-top: 0 !important;
+	}
+
+	.p-sm-0,
+	.pr-sm-0,
+	.px-sm-0 {
+		padding-right: 0 !important;
+	}
+
+	.p-sm-0,
+	.pb-sm-0,
+	.py-sm-0 {
+		padding-bottom: 0 !important;
+	}
+}

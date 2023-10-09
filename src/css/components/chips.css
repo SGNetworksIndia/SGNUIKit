@@ -1,0 +1,68 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.chip {
+	box-sizing: border-box;
+	display: inline-block;
+	background-color: var(--sgn-secondary-light);
+	border-radius: var(--sgn-border-radius-md);
+	text-align: center;
+	font-weight: 400;
+	padding: var(--padding-xs) var(--padding-sm);
+	margin-right: var(--margin-sm);
+	line-height: inherit;
+}
+
+.chip:first-of-type:not(:first-child) {
+	margin-left: var(--margin-sm);
+}
+
+.chip.outline {
+	background-color: transparent !important;
+	border: 1px solid var(--sgn-secondary-light);
+}
+
+.chip:not(.outline) {
+	color: var(--sgn-accent-primary-text) !important;
+}
+
+/***CONTEXTUAL***/
+.chip.primary {
+	background-color: var(--sgn-primary-light);
+	border-color: var(--sgn-primary-light);
+	color: var(--sgn-primary);
+}
+
+.chip.secondary {
+	background-color: var(--sgn-secondary-light);
+	border-color: var(--sgn-secondary-light);
+	color: var(--sgn-secondary);
+}
+
+.chip.info {
+	background-color: var(--sgn-info-light);
+	border-color: var(--sgn-info-light);
+	color: var(--sgn-info);
+}
+
+.chip.warning {
+	background-color: var(--sgn-warning-light);
+	border-color: var(--sgn-warning-light);
+	border-color: var(--sgn-warning);
+}
+
+.chip.success {
+	background-color: var(--sgn-success-light);
+	border-color: var(--sgn-success-light);
+	color: var(--sgn-success);
+}
+
+.chip.danger {
+	background-color: var(--sgn-danger-light);
+	border-color: var(--sgn-danger-light);
+	color: var(--sgn-danger);
+}

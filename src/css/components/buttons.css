@@ -6,6 +6,7 @@
  */
 
 :root, [class^="sgn-"], [class^="sgn-"] * {
+	--sgn-button-xs: 1rem;
 	--sgn-button-sm: 2rem;
 	--sgn-button-md: 3rem;
 	--sgn-button-lg: 4rem;
@@ -18,33 +19,91 @@
 }
 
 .btn {
+	outline: none;
 	border: none;
-	border-radius: var(--sgn-border-radius-md);
+	background-color: transparent;
+	border-radius: var(--sgn-border-radius-sm);
 	border-width: var(--sgn-button-border-width);
-	cursor: pointer;
 	font-family: var(--sgn-font-default-bold);
-	font-size: var(--sgn-button-text-md);
+	font-size: var(--font-size-default);
 	line-height: 1;
 	padding: var(--padding-sm) var(--padding-md);
 	text-align: center;
+	vertical-align: middle;
 	text-decoration: none;
 	text-transform: uppercase;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	position: relative;
+	cursor: pointer;
 	transition: background-color .3s ease-in-out, color .3s ease-in-out;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	user-select: none;
 }
 
+/* Overlay */
+.btn::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: currentColor;
+	opacity: 0;
+	border-radius: var(--sgn-border-radius-sm);
+	transition: opacity .4s ease-in-out;
+}
+
+/* Ripple */
+.btn::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 100%;
+	height: 100%;
+	background-color: currentColor;
+	opacity: 0;
+	transform: translate(-50%, -50%) scale(1);
+	transition: opacity 2s, transform 0.5s;
+	border-radius: var(--sgn-border-radius-md);
+}
+
+/* Hover, Focus */
+.btn:hover::before {
+	opacity: 0.15;
+}
+
+.btn:focus::before {
+	opacity: 0.25;
+}
+
+.btn:hover:focus::before {
+	opacity: 0.35;
+}
+
+/* Active */
+/*.btn:not(.waves-effect):active::after {
+	opacity: 0.2;
+	transform: translate(-50%, -50%) scale(0);
+	transition: transform 0s;
+}*/
+
 .btn:not(.icon).sm {
 	font-size: var(--sgn-button-text-sm);
+	padding: var(--padding-xs) var(--padding-sm);
 }
 
 .btn:not(.icon).md {
 	font-size: var(--sgn-button-text-md);
+	padding: var(--padding-sm) var(--padding-md);
 }
 
 .btn:not(.icon).lg {
 	font-size: var(--sgn-button-text-lg);
+	padding: var(--padding-xs) var(--padding-sm);
 }
 
 .block {
@@ -58,272 +117,277 @@
 .btn.disabled,
 .btn[disabled] {
 	pointer-events: none;
+	filter: contrast(40%);
+	cursor: initial;
 }
 
+.btn.disabled::before,
+.btn:disabled::before,
+.btn.disabled::after,
+.btn:disabled::after {
+	opacity: 0;
+}
 
 .btn.rounded {
 	border-radius: 10rem;
 }
 
 
-input[type=button].primary:not(.outline):not(.gradient):not(.btn-text),
-input[type=submit].primary:not(.outline):not(.gradient):not(.btn-text),
-input[type=reset].primary:not(.outline):not(.gradient):not(.btn-text),
-input[type=file].primary:not(.outline):not(.gradient):not(.btn-text),
-button.primary:not(.outline):not(.gradient):not(.btn-text),
-.btn.primary:not(.outline):not(.gradient):not(.btn-text) {
+input[type=button].primary:not(.outline):not(.gradient):not(.text),
+input[type=submit].primary:not(.outline):not(.gradient):not(.text),
+input[type=reset].primary:not(.outline):not(.gradient):not(.text),
+input[type=file].primary:not(.outline):not(.gradient):not(.text),
+button.primary:not(.outline):not(.gradient):not(.text),
+.btn.primary:not(.outline):not(.gradient):not(.text) {
 	background-color: var(--sgn-accent-primary);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].secondary:not(.outline):not(.gradient):not(.btn-text),
-input[type=submit].secondary:not(.outline):not(.gradient):not(.btn-text),
-input[type=reset].secondary:not(.outline):not(.gradient):not(.btn-text),
-input[type=file].secondary:not(.outline):not(.gradient):not(.btn-text),
-button.secondary:not(.outline):not(.gradient):not(.btn-text),
-.btn.secondary:not(.outline):not(.gradient):not(.btn-text) {
+input[type=button].secondary:not(.outline):not(.gradient):not(.text),
+input[type=submit].secondary:not(.outline):not(.gradient):not(.text),
+input[type=reset].secondary:not(.outline):not(.gradient):not(.text),
+input[type=file].secondary:not(.outline):not(.gradient):not(.text),
+button.secondary:not(.outline):not(.gradient):not(.text),
+.btn.secondary:not(.outline):not(.gradient):not(.text) {
 	background-color: var(--sgn-accent-secondary);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].success:not(.outline):not(.gradient):not(.btn-text),
-input[type=submit].success:not(.outline):not(.gradient):not(.btn-text),
-input[type=reset].success:not(.outline):not(.gradient):not(.btn-text),
-input[type=file].success:not(.outline):not(.gradient):not(.btn-text),
-button.success:not(.outline):not(.gradient):not(.btn-text),
-.btn.success:not(.outline):not(.gradient):not(.btn-text) {
+input[type=button].success:not(.outline):not(.gradient):not(.text),
+input[type=submit].success:not(.outline):not(.gradient):not(.text),
+input[type=reset].success:not(.outline):not(.gradient):not(.text),
+input[type=file].success:not(.outline):not(.gradient):not(.text),
+button.success:not(.outline):not(.gradient):not(.text),
+.btn.success:not(.outline):not(.gradient):not(.text) {
 	background-color: var(--sgn-success);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].info:not(.outline):not(.gradient):not(.btn-text),
-input[type=submit].info:not(.outline):not(.gradient):not(.btn-text),
-input[type=reset].info:not(.outline):not(.gradient):not(.btn-text),
-input[type=file].info:not(.outline):not(.gradient):not(.btn-text),
-button.info:not(.outline):not(.gradient):not(.btn-text),
-.btn.info:not(.outline):not(.gradient):not(.btn-text) {
+input[type=button].info:not(.outline):not(.gradient):not(.text),
+input[type=submit].info:not(.outline):not(.gradient):not(.text),
+input[type=reset].info:not(.outline):not(.gradient):not(.text),
+input[type=file].info:not(.outline):not(.gradient):not(.text),
+button.info:not(.outline):not(.gradient):not(.text),
+.btn.info:not(.outline):not(.gradient):not(.text) {
 	background-color: var(--sgn-info);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].warning:not(.outline):not(.gradient):not(.btn-text),
-input[type=submit].warning:not(.outline):not(.gradient):not(.btn-text),
-input[type=reset].warning:not(.outline):not(.gradient):not(.btn-text),
-input[type=file].warning:not(.outline):not(.gradient):not(.btn-text),
-button.warning:not(.outline):not(.gradient):not(.btn-text),
-.btn.warning:not(.outline):not(.gradient):not(.btn-text) {
+input[type=button].warning:not(.outline):not(.gradient):not(.text),
+input[type=submit].warning:not(.outline):not(.gradient):not(.text),
+input[type=reset].warning:not(.outline):not(.gradient):not(.text),
+input[type=file].warning:not(.outline):not(.gradient):not(.text),
+button.warning:not(.outline):not(.gradient):not(.text),
+.btn.warning:not(.outline):not(.gradient):not(.text) {
 	background-color: var(--sgn-warning);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].danger:not(.outline):not(.gradient):not(.btn-text),
-input[type=submit].danger:not(.outline):not(.gradient):not(.btn-text),
-input[type=reset].danger:not(.outline):not(.gradient):not(.btn-text),
-input[type=file].danger:not(.outline):not(.gradient):not(.btn-text),
-button.danger:not(.outline):not(.gradient):not(.btn-text),
-.btn.danger:not(.outline):not(.gradient):not(.btn-text) {
+input[type=button].danger:not(.outline):not(.gradient):not(.text),
+input[type=submit].danger:not(.outline):not(.gradient):not(.text),
+input[type=reset].danger:not(.outline):not(.gradient):not(.text),
+input[type=file].danger:not(.outline):not(.gradient):not(.text),
+button.danger:not(.outline):not(.gradient):not(.text),
+.btn.danger:not(.outline):not(.gradient):not(.text) {
 	background-color: var(--sgn-danger);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
 
-input[type=button].primary:not(.outline):not(.gradient):hover,
-input[type=submit].primary:not(.outline):not(.gradient):hover,
-input[type=reset].primary:not(.outline):not(.gradient):hover,
-input[type=file].primary:not(.outline):not(.gradient):hover,
-button.primary:not(.outline):not(.gradient):hover,
-.btn.primary:not(.outline):not(.gradient):hover {
+input[type=button].primary:not(.outline):not(.gradient):not(.text):hover,
+input[type=submit].primary:not(.outline):not(.gradient):not(.text):hover,
+input[type=reset].primary:not(.outline):not(.gradient):not(.text):hover,
+input[type=file].primary:not(.outline):not(.gradient):not(.text):hover,
+button.primary:not(.outline):not(.gradient):not(.text):hover,
+.btn.primary:not(.outline):not(.gradient):not(.text):hover {
 	background-color: var(--sgn-accent-primary-hover);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].primary:not(.outline):not(.gradient):active,
-input[type=submit].primary:not(.outline):not(.gradient):active,
-input[type=reset].primary:not(.outline):not(.gradient):active,
-input[type=file].primary:not(.outline):not(.gradient):active,
-button.primary:not(.outline):not(.gradient):active,
-.btn.primary:not(.outline):not(.gradient):active {
+input[type=button].primary:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=submit].primary:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=reset].primary:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=file].primary:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+button.primary:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+.btn.primary:not(.outline):not(.gradient):not(.text):not(.waves-effect):active {
 	background-color: var(--sgn-accent-primary-active);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].secondary:not(.outline):not(.gradient):hover,
-input[type=submit].secondary:not(.outline):not(.gradient):hover,
-input[type=reset].secondary:not(.outline):not(.gradient):hover,
-input[type=file].secondary:not(.outline):not(.gradient):hover,
-button.secondary:not(.outline):not(.gradient):hover,
-.btn.secondary:not(.outline):not(.gradient):hover {
+input[type=button].secondary:not(.outline):not(.gradient):not(.text):hover,
+input[type=submit].secondary:not(.outline):not(.gradient):not(.text):hover,
+input[type=reset].secondary:not(.outline):not(.gradient):not(.text):hover,
+input[type=file].secondary:not(.outline):not(.gradient):not(.text):hover,
+button.secondary:not(.outline):not(.gradient):not(.text):hover,
+.btn.secondary:not(.outline):not(.gradient):not(.text):hover {
 	background-color: var(--sgn-accent-secondary-hover);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].secondary:not(.outline):not(.gradient):active,
-input[type=submit].secondary:not(.outline):not(.gradient):active,
-input[type=reset].secondary:not(.outline):not(.gradient):active,
-input[type=file].secondary:not(.outline):not(.gradient):active,
-button.secondary:not(.outline):not(.gradient):active,
-.btn.secondary:not(.outline):not(.gradient):active {
+input[type=button].secondary:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=submit].secondary:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=reset].secondary:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=file].secondary:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+button.secondary:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+.btn.secondary:not(.outline):not(.gradient):not(.text):not(.waves-effect):active {
 	background-color: var(--sgn-accent-secondary-active);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].success:not(.outline):not(.gradient):hover,
-input[type=submit].success:not(.outline):not(.gradient):hover,
-input[type=reset].success:not(.outline):not(.gradient):hover,
-input[type=file].success:not(.outline):not(.gradient):hover,
-button.success:not(.outline):not(.gradient):hover,
-.btn.success:not(.outline):not(.gradient):hover {
+input[type=button].success:not(.outline):not(.gradient):not(.text):hover,
+input[type=submit].success:not(.outline):not(.gradient):not(.text):hover,
+input[type=reset].success:not(.outline):not(.gradient):not(.text):hover,
+input[type=file].success:not(.outline):not(.gradient):not(.text):hover,
+button.success:not(.outline):not(.gradient):not(.text):hover,
+.btn.success:not(.outline):not(.gradient):not(.text):hover {
 	background-color: var(--sgn-success-dark);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].success:not(.outline):not(.gradient):active,
-input[type=submit].success:not(.outline):not(.gradient):active,
-input[type=reset].success:not(.outline):not(.gradient):active,
-input[type=file].success:not(.outline):not(.gradient):active,
-button.success:not(.outline):not(.gradient):active,
-.btn.success:not(.outline):not(.gradient):active {
+input[type=button].success:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=submit].success:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=reset].success:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=file].success:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+button.success:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+.btn.success:not(.outline):not(.gradient):not(.text):not(.waves-effect):active {
 	background-color: var(--sgn-success-darker);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].info:not(.outline):not(.gradient):hover,
-input[type=submit].info:not(.outline):not(.gradient):hover,
-input[type=reset].info:not(.outline):not(.gradient):hover,
-input[type=file].info:not(.outline):not(.gradient):hover,
-button.info:not(.outline):not(.gradient):hover,
-.btn.info:not(.outline):not(.gradient):hover {
+input[type=button].info:not(.outline):not(.gradient):not(.text):hover,
+input[type=submit].info:not(.outline):not(.gradient):not(.text):hover,
+input[type=reset].info:not(.outline):not(.gradient):not(.text):hover,
+input[type=file].info:not(.outline):not(.gradient):not(.text):hover,
+button.info:not(.outline):not(.gradient):not(.text):hover,
+.btn.info:not(.outline):not(.gradient):not(.text):hover {
 	background-color: var(--sgn-info-dark);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].info:not(.outline):not(.gradient):active,
-input[type=submit].info:not(.outline):not(.gradient):active,
-input[type=reset].info:not(.outline):not(.gradient):active,
-input[type=file].info:not(.outline):not(.gradient):active,
-button.info:not(.outline):not(.gradient):active,
-.btn.info:not(.outline):not(.gradient):active {
+input[type=button].info:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=submit].info:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=reset].info:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=file].info:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+button.info:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+.btn.info:not(.outline):not(.gradient):not(.text):not(.waves-effect):active {
 	background-color: var(--sgn-info-darker);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].warning:not(.outline):not(.gradient):hover,
-input[type=submit].warning:not(.outline):not(.gradient):hover,
-input[type=reset].warning:not(.outline):not(.gradient):hover,
-input[type=file].warning:not(.outline):not(.gradient):hover,
-button.warning:not(.outline):not(.gradient):hover,
-.btn.warning:not(.outline):not(.gradient):hover {
+input[type=button].warning:not(.outline):not(.gradient):not(.text):hover,
+input[type=submit].warning:not(.outline):not(.gradient):not(.text):hover,
+input[type=reset].warning:not(.outline):not(.gradient):not(.text):hover,
+input[type=file].warning:not(.outline):not(.gradient):not(.text):hover,
+button.warning:not(.outline):not(.gradient):not(.text):hover,
+.btn.warning:not(.outline):not(.gradient):not(.text):hover {
 	background-color: var(--sgn-warning-dark);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].warning:not(.outline):not(.gradient):active,
-input[type=submit].warning:not(.outline):not(.gradient):active,
-input[type=reset].warning:not(.outline):not(.gradient):active,
-input[type=file].warning:not(.outline):not(.gradient):active,
-button.warning:not(.outline):not(.gradient):active,
-.btn.warning:not(.outline):not(.gradient):active {
+input[type=button].warning:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=submit].warning:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=reset].warning:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=file].warning:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+button.warning:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+.btn.warning:not(.outline):not(.gradient):not(.text):not(.waves-effect):active {
 	background-color: var(--sgn-warning-darker);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].danger:not(.outline):not(.gradient):hover,
-input[type=submit].danger:not(.outline):not(.gradient):hover,
-input[type=reset].danger:not(.outline):not(.gradient):hover,
-input[type=file].danger:not(.outline):not(.gradient):hover,
-button.danger:not(.outline):not(.gradient):hover,
-.btn.danger:not(.outline):not(.gradient):hover {
+input[type=button].danger:not(.outline):not(.gradient):not(.text):hover,
+input[type=submit].danger:not(.outline):not(.gradient):not(.text):hover,
+input[type=reset].danger:not(.outline):not(.gradient):not(.text):hover,
+input[type=file].danger:not(.outline):not(.gradient):not(.text):hover,
+button.danger:not(.outline):not(.gradient):not(.text):hover,
+.btn.danger:not(.outline):not(.gradient):not(.text):hover {
 	background-color: var(--sgn-danger-dark);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
-input[type=button].danger:not(.outline):not(.gradient):active,
-input[type=submit].danger:not(.outline):not(.gradient):active,
-input[type=reset].danger:not(.outline):not(.gradient):active,
-input[type=file].danger:not(.outline):not(.gradient):active,
-button.danger:not(.outline):not(.gradient):active,
-.btn.danger:not(.outline):not(.gradient):active {
+input[type=button].danger:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=submit].danger:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=reset].danger:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+input[type=file].danger:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+button.danger:not(.outline):not(.gradient):not(.text):not(.waves-effect):active,
+.btn.danger:not(.outline):not(.gradient):not(.text):not(.waves-effect):active {
 	background-color: var(--sgn-danger-darker);
-	color: var(--sgn-text-secondary-light);
+	color: var(--sgn-text-primary-light);
 }
 
 
-input[type=button].btn-text,
-input[type=submit].btn-text,
-input[type=reset].btn-text,
-input[type=file].btn-text,
-button.btn-text,
-.btn.btn-text {
+/*** TEXT BUTTON ***/
+input[type=button].text,
+input[type=submit].text,
+input[type=reset].text,
+input[type=file].text,
+button.text,
+.btn.text {
 	background-color: transparent;
-	text-transform: uppercase;
+	vertical-align: middle;
+	text-align: center;
+	text-overflow: ellipsis;
+	text-transform: none;
+	font-weight: 500;
+	font-family: var(--sgn-font-default-medium);
 	/*transition: color .3s ease-in-out, background-color .3s ease-in-out;*/
 	transition: color, background-color .3s ease-in-out;
 }
 
-input[type=button].btn-text.primary,
-input[type=submit].btn-text.primary,
-input[type=reset].btn-text.primary,
-input[type=file].btn-text.primary,
-button.btn-text.primary,
-.btn.btn-text.primary {
+input[type=button].text.primary,
+input[type=submit].text.primary,
+input[type=reset].text.primary,
+input[type=file].text.primary,
+button.text.primary,
+.btn.text.primary {
 	color: var(--sgn-accent-primary);
 }
 
-input[type=button].btn-text.secondary,
-input[type=submit].btn-text.secondary,
-input[type=reset].btn-text.secondary,
-input[type=file].btn-text.secondary,
-button.btn-text.secondary,
-.btn.btn-text.secondary {
+input[type=button].text.secondary,
+input[type=submit].text.secondary,
+input[type=reset].text.secondary,
+input[type=file].text.secondary,
+button.text.secondary,
+.btn.text.secondary {
 	color: var(--sgn-accent-secondary);
 }
 
-input[type=button].btn-text.success,
-input[type=submit].btn-text.success,
-input[type=reset].btn-text.success,
-input[type=file].btn-text.success,
-button.btn-text.success,
-.btn.btn-text.success {
+input[type=button].text.success,
+input[type=submit].text.success,
+input[type=reset].text.success,
+input[type=file].text.success,
+button.text.success,
+.btn.text.success {
 	color: var(--sgn-success);
 }
 
-input[type=button].btn-text.info,
-input[type=submit].btn-text.info,
-input[type=reset].btn-text.info,
-input[type=file].btn-text.info,
-button.btn-text.info,
-.btn.btn-text.info {
+input[type=button].text.info,
+input[type=submit].text.info,
+input[type=reset].text.info,
+input[type=file].text.info,
+button.text.info,
+.btn.text.info {
 	color: var(--sgn-info);
 }
 
-input[type=button].btn-text.warning,
-input[type=submit].btn-text.warning,
-input[type=reset].btn-text.warning,
-input[type=file].btn-text.warning,
-button.btn-text.warning,
-.btn.btn-text.warning {
+input[type=button].text.warning,
+input[type=submit].text.warning,
+input[type=reset].text.warning,
+input[type=file].text.warning,
+button.text.warning,
+.btn.text.warning {
 	color: var(--sgn-warning);
 }
 
-input[type=button].btn-text.danger,
-input[type=submit].btn-text.danger,
-input[type=reset].btn-text.danger,
-input[type=file].btn-text.danger,
-button.btn-text.danger,
-.btn.btn-text.danger {
+input[type=button].text.danger,
+input[type=submit].text.danger,
+input[type=reset].text.danger,
+input[type=file].text.danger,
+button.text.danger,
+.btn.text.danger {
 	color: var(--sgn-danger);
 }
 
-input[type=button].btn-text:hover,
-input[type=submit].btn-text:hover,
-input[type=reset].btn-text:hover,
-input[type=file].btn-text:hover,
-button.btn-text:hover,
-.btn.btn-text:hover {
-	color: var(--sgn-text-secondary-light);
-}
-
-
+/*** GRADIENT BUTTON***/
 .btn.gradient {
 	background-size: 200% auto;
 	border-color: transparent;
@@ -353,9 +417,10 @@ button.btn-text:hover,
 
 .btn.gradient:hover {
 	background-position: right center !important;
+	color: inherit;
 }
 
-
+/*** OUTLINE BUTTON***/
 .btn.outline {
 	background: none;
 	border: 3px solid;
@@ -414,32 +479,32 @@ button.btn-text:hover,
 	background-color: var(--sgn-danger);
 }
 
-.btn.outline:active {
+.btn.outline:not(.waves-effect):active {
 	color: var(--sgn-accent-primary-text);
 	background-color: var(--sgn-accent-secondary-active);
 }
 
-.btn.outline.primary:active {
+.btn.outline.primary:not(.waves-effect):active {
 	background-color: var(--sgn-accent-primary-active);
 }
 
-.btn.outline.success:active {
+.btn.outline.success:not(.waves-effect):active {
 	background-color: var(--sgn-success-darker);
 }
 
-.btn.outline.info:active {
+.btn.outline.info:not(.waves-effect):active {
 	background-color: var(--sgn-info-darker);
 }
 
-.btn.outline.warning:active {
+.btn.outline.warning:not(.waves-effect):active {
 	background-color: var(--sgn-warning-darker);
 }
 
-.btn.outline.danger:active {
+.btn.outline.danger:not(.waves-effect):active {
 	background-color: var(--sgn-danger-darker);
 }
 
-
+/***FILLED BUTTON***/
 .btn.filled {
 	background-color: var(--sgn-accent-secondary);
 	border: 3px solid;
@@ -501,43 +566,62 @@ button.btn-text:hover,
 	color: var(--sgn-danger);
 }
 
-.btn.filled:active {
+.btn.filled:not(.waves-effect):active {
 	background-color: transparent;
 }
 
-.btn.filled.primary:active {
+.btn.filled.primary:not(.waves-effect):active {
 	color: var(--sgn-accent-primary-active);
 }
 
-.btn.filled.success:active {
+.btn.filled.success:not(.waves-effect):active {
 	color: var(--sgn-success-darker);
 }
 
-.btn.filled.info:active {
+.btn.filled.info:not(.waves-effect):active {
 	color: var(--sgn-info-darker);
 }
 
-.btn.filled.warning:active {
+.btn.filled.warning:not(.waves-effect):active {
 	color: var(--sgn-warning-darker);
 }
 
-.btn.filled.danger:active {
+.btn.filled.danger:not(.waves-effect):active {
 	color: var(--sgn-danger-darker);
 }
 
 
 .btn.icon {
-	line-height: 1;
-	display: inline-flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: center;
 	align-items: center;
-	margin: 0 .2rem;
-
+	background: none;
+	border: var(--sgn-button-border-width) solid;
+	border-color: var(--sgn-accent-primary-text);
+	border-radius: var(--sgn-border-radius-sm);
+	color: var(--sgn-accent-primary-text);
+	cursor: pointer;
+	display: inline-flex;
+	justify-content: center;
+	margin: 0 var(--margin-xs);
+	padding: var(--padding-sm);
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition: background-color, color .3s linear;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
 	width: var(--sgn-button-md);
 	height: var(--sgn-button-md);
-	border-radius: var(--sgn-border-radius-md);
+}
+
+.btn.no-border {
+	border-width: 0;
+}
+
+.btn.icon:hover {
+	color: inherit;
+	background-color: unset;
+	border-color: unset;
 }
 
 .btn.icon > svg,
@@ -545,22 +629,32 @@ button.btn-text:hover,
 	font-size: var(--sgn-button-text-lg);
 }
 
+.btn.icon.xs {
+	width: var(--sgn-button-xs);
+	height: var(--sgn-button-xs);
+	border-radius: var(--sgn-border-radius-sm);
+}
+
+.btn.icon.xs > svg,
+.btn.icon.xs > i {
+	font-size: var(--sgn-button-text-lg);
+}
+
 .btn.icon.sm {
 	width: var(--sgn-button-sm);
 	height: var(--sgn-button-sm);
-	border-radius: .7rem;
+	border-radius: var(--sgn-border-radius-sm);
 }
 
 .btn.icon.sm > svg,
 .btn.icon.sm > i {
-	font-size: var(--sgn-button-text-md);
+	font-size: var(--sgn-button-text-lg);
 }
 
 
 .btn.icon.lg {
 	width: var(--sgn-button-lg);
 	height: var(--sgn-button-lg);
-	border-radius: var(--sgn-border-radius-md);
 }
 
 .btn.icon.lg > svg,
@@ -584,12 +678,11 @@ button.btn-text:hover,
 	width: 3rem;
 }
 
-
-.btn.disabled:not(.loading),
+/*.btn.disabled:not(.loading),
 .btn[disabled]:not(.loading) {
 	pointer-events: none;
 	filter: contrast(40%);
-}
+}*/
 
 /*.btn:not(.outline):not(.filled).disabled:not(.loading) {
 	filter: contrast(40%);
@@ -608,6 +701,3 @@ button.btn-text:hover,
 		background-position: -100%;
 	}
 }
-
-
-

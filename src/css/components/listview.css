@@ -8,30 +8,91 @@
 .list-view {
 	display: flex;
 	flex-direction: column;
+	border-left: 1px solid var(--sgn-border-light);
+	border-right: 1px solid var(--sgn-border-light);
+	border-radius: var(--sgn-border-radius-md);
+	box-shadow: 0 0 var(--sgn-shadow-spread) 0 var(--sgn-shadow-light);
 }
 
-.list-view > .list-link {
+.list-view li {
+	list-style-type: none;
+}
+
+.list-view > .list-item,
+.list-view > li {
 	border-bottom: 1px solid var(--sgn-border-light);
 	display: block;
-	padding: var(--padding-sm);
+	transition: background-color 1.5s ease-out;
 }
 
-.list-view > .list-link:first-child {
+.list-view > .list-item > *,
+.list-view > li > * {
+	width: 100%;
+	padding: var(--padding-sm) var(--padding-md);
+}
+
+.list-view > .list-item:first-child,
+.list-view > li:first-child {
 	border-top: 1px solid var(--sgn-border-light);
+	border-radius: var(--sgn-border-radius-md) var(--sgn-border-radius-md) 0 0;
 }
 
-.list-view.striped > .list-link:nth-child(2n+1) {
+.list-view > .list-item:last-child,
+.list-view > li:last-child {
+	border-radius: 0 0 var(--sgn-border-radius-md) var(--sgn-border-radius-md);
+}
+
+.list-view > .list-item:only-child,
+.list-view > li:only-child {
+	border-radius: var(--sgn-border-radius-md);
+}
+
+.list-view > .list-item > .list-link-col,
+.list-view > li > .list-link-col {
+	display: flex;
+	align-items: center;
+}
+
+.list-view > .list-item > .list-link > i:first-child,
+.list-view > li > a > i:first-child,
+.list-view > .list-item > .list-link > svg:first-child,
+.list-view > li > a > svg:first-child,
+.list-view > .list-item > .list-link:after,
+.list-view > li > a:after {
+	font-size: 1.4rem;
+}
+
+.list-view > .list-item > .list-link > i:first-child,
+.list-view > li > a > i:first-child,
+.list-view > .list-item > .list-link > svg:first-child,
+.list-view > li > a > svg:first-child {
+	margin-right: var(--margin-sm);
+}
+
+.list-view > .list-item > .list-link:after,
+.list-view > li > a:after {
+	content: "\f105";
+	margin-left: auto;
+}
+
+
+.list-view.striped > .list-item:nth-child(2n+1),
+.list-view.striped > li:nth-child(2n+1) {
 	background-color: var(--sgn-accent-background-secondary);
 }
 
-.list-view.striped.primary > .list-link:nth-child(2n+1) {
+.list-view.striped.primary > .list-item:nth-child(2n+1),
+.list-view.striped.primary > li:nth-child(2n+1) {
 	background-color: var(--sgn-primary-lightest);
 }
 
-.list-view.hover > .list-link:hover {
-	background-color: var(--sgn-accent-background-secondary);
+.list-view.hover > .list-item:hover,
+.list-view.hover > li:hover {
+	background-color: var(--sgn-accent-secondary-alt);
+	transition: background-color .2s ease-out;
 }
 
-.list-view.primary.hover > .list-link:hover {
+.list-view.primary.hover > .list-item:hover,
+.list-view.primary.hover > li:hover {
 	background-color: var(--sgn-primary-light);
 }

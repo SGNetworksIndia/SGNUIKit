@@ -205,9 +205,19 @@
 					$input.wrapAll(`<div class="sgn-input-wrapper"/>`);
 					$inputWrapper = $input.parents('.sgn-input-wrapper');
 				}
-				const label = $_this.attr('sgn-input-label');
+				const label = $_this.attr('sgn-input-label'),
+				      dir   = ($_this.attr('dir') || '').toLowerCase();
 				if(label !== undefined && label !== null) {
-					$inputWrapper.prepend(`<label for="${id}">${label}</label>`);
+					if(dir === 'rtl')
+						$inputWrapper.prepend(`<label for="${id}">${label}</label>`);
+					else if(dir === 'ltr')
+						$inputWrapper.append(`<label for="${id}">${label}</label>`);
+					else {
+						if(type === 'checkbox' || type === 'radio' || type === 'switch')
+							$inputWrapper.append(`<label for="${id}">${label}</label>`);
+						else
+							$inputWrapper.prepend(`<label for="${id}">${label}</label>`);
+					}
 				}
 			}
 
@@ -300,7 +310,7 @@
 					duration = uint(speed * distance);
 					duration = Math.round(duration);
 
-					$helpBlock.marquee(duration, 'left', true);
+					$helpBlock.attr('sgn-component', 'marquee').marquee(duration, 'left', true);
 					$helpBlock.addClass('has-marquee');
 
 					//setTimeout(() => $helpBlock.children('.sgn-marquee-wrapper').children('.sgn-marquee').attr('style', `animation: marquee-left ${duration}s linear infinite`), 10);
@@ -319,7 +329,8 @@
 				$autocompleteBox.detach().prependTo($container);
 			} else {
 				const autocomplete = $input.attr('searchable') || $input.attr('sgn-input-searchable') || $input.hasClass('searchable');
-				if(autocomplete !== undefined) {
+
+				if(autocomplete !== false) {
 					$autocompleteBox = $(`<div class="sgn-input-autocomplete-box"/>`);
 					$container.append($autocompleteBox);
 				}
@@ -442,7 +453,7 @@
 			}
 
 			if(type === 'select') {
-				$_this.SGNSelect();
+				//$_this.SGNSelect();
 			} else if(type === 'toggle') {
 				$inputWrapper.addClass('toggle');
 				const offTXTAttr = $_this.attr('data-off'), onTXTAttr = $_this.attr('data-on');
@@ -562,21 +573,25 @@
 			}
 		}
 		const bindEvents = (rebind) => {
-			let $container             = $_this.parents('.sgn-form:not(.sgn-select):not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch)'),
-			    $clickableContainer    = $_this.parents('.sgn-form.sgn-input-checkbox, .sgn-form.sgn-input-radio, .sgn-form.sgn-input-switch'),
+			let $container             = $_this.parents('.sgn-form:not(.sgn-input-checkbox):not(.sgn-input-radio):not(.sgn-input-switch):not(.disabled)'),
+			    $clickableContainer    = $_this.parents('.sgn-form.sgn-input-checkbox:not(.disabled):not(.readonly), .sgn-form.sgn-input-radio:not(.disabled):not(.readonly), .sgn-form.sgn-input-switch:not(.disabled):not(.readonly)'),
 			    $formWrapper           = $container.children('.sgn-form-wrapper'),
 			    $clickableFormWrapper  = $clickableContainer.children('.sgn-form-wrapper'),
 			    $inputWrapper          = $formWrapper.children('.sgn-input-wrapper'),
 			    $clickableInputWrapper = $clickableFormWrapper.children('.sgn-input-wrapper'),
-			    $input                 = $inputWrapper.children('input.form-control'),
+			    $input                 = $inputWrapper.children('input.form-control, textarea.form-control'),
 			    $clickableInput        = $clickableInputWrapper.children('input.form-control');
 			const autocomplete = $input.attr('searchable') || $input.attr('sgn-input-searchable') || $input.hasClass('searchable');
 
 			$container.on('click', function(e) {
 				const $this = $(this), $target = $(e.target);
-				let $wrapper = ($this.hasClass('sgn-form') && $this.parents('.sgn-form').length <= 0) ? $this : $this.parents('.sgn-form');
+				const $wrapper = ($this.hasClass('sgn-form') && $this.parents('.sgn-form').length <= 0) ? $this : $this.parents('.sgn-form');
 				const $inputGroup = ($wrapper.find('.crtb-group').length > 0) ? $wrapper.find('.crtb-group') : $wrapper.find('.input-group');
 				const $input = $wrapper.children('.sgn-form-wrapper').children('.sgn-input-wrapper').children('input.form-control');
+				const nodeName = ($input.prop('nodeName')) ? $input.prop('nodeName') : $input[0].nodeName;
+				const type = (nodeName === 'INPUT') ? $_this.attr('type').toLowerCase() : nodeName.toLowerCase();
+
+				//if(type === 'checkbox' || type === 'radio') $input.trigger('click');
 
 				if(!$input.hasClass('toggle')) {
 					if(!$this.hasClass('sgn-select-open') && !$target.hasClass('sgn-select') && !$target.parents().hasClass('sgn-select')) {
@@ -597,17 +612,21 @@
 			});
 
 			$container.on('sgninput.click', function(e) {
-				const $input = $(this).children('.sgn-form-wrapper').children('.sgn-input-wrapper').children('input.form-control');
+				const $input = $(this).children('.sgn-form-wrapper').children('.sgn-input-wrapper').children('input.form-control textarea.form-control');
 				if($input.length > 0) $input[0].focus();
 			});
 
-			$clickableContainer.on('sgniclick', function(e) {
+			$clickableContainer.on('click', function(e) {
 				const $this = $(this);
+				const $wrapper = ($this.hasClass('sgn-form') && $this.parents('.sgn-form').length <= 0) ? $this : $this.parents('.sgn-form');
 				const $inputGroup = ($this.parents('.crtb-group').length > 0) ? $this.parents('.crtb-group') : $this.parents('.input-group');
+				const $input = $wrapper.children('.sgn-form-wrapper').children('.sgn-input-wrapper').children('input.form-control');
 
 				if($inputGroup.length > 0) $inputGroup.removeClass('edited').addClass('active');
 
-				$this.trigger('sgninput.click');
+				//$input[0].checked = true;
+				//setTimeout(() => click($input[0]), 100);
+				//$this.trigger('sgninput.click');
 			});
 
 			$clickableContainer.on('sgniblur', function(e) {
@@ -623,13 +642,16 @@
 				const $this      = $(this),
 				      $container = $this.parents('.sgn-form');
 
-				if(!$container.hasClass('active') && !$container.hasClass('sgn-select'))
-					$container.click();
-				else {
-					if(!$container.hasClass('sgn-select sgn-input-checkbox sgn-input-radio sgn-input-switch') && ($this.prop('readonly') || $container.hasClass('readonly'))) {
-						this.setSelectionRange(0, this.value.length);
-					}
+				if(!$container.hasClass('sgn-select sgn-input-checkbox sgn-input-radio sgn-input-switch') && ($this.prop('readonly') || $container.hasClass('readonly'))) {
+					this.setSelectionRange(0, this.value.length);
 				}
+				/* if(!$container.hasClass('active') && !$container.hasClass('sgn-select'))
+				 $container.click();
+				 else {
+				 if(!$container.hasClass('sgn-select sgn-input-checkbox sgn-input-radio sgn-input-switch') && ($this.prop('readonly') || $container.hasClass('readonly'))) {
+				 this.setSelectionRange(0, this.value.length);
+				 }
+				 } */
 
 				setTimeout(() => click($(this)[0]), 100);
 
@@ -662,7 +684,7 @@
 				}
 			});
 
-			if(autocomplete !== undefined) {
+			if(autocomplete !== undefined && autocomplete !== false) {
 				const $autocompleteBox = $container.children('.sgn-input-autocomplete-box');
 				const suggestionsAttr                = $input.attr('sgn-input-suggestions') || {},
 				      suggestionsResultKeyAttr       = $input.attr('sgn-input-suggestions-api-result-key'),
@@ -853,6 +875,11 @@
 
 				$(this).trigger('sgninput.blur');
 			});
+
+			if(typeof $input !== 'undefined' && $input.val() !== undefined && $input.val().length > 0) {
+				if(!$container.hasClass('edited'))
+					$container.addClass('edited');
+			}
 		}
 
 		plugin.invalid = () => {
@@ -931,6 +958,8 @@
 			      $suffix   = $formWrapper.children('.sgn-input-suffix'),
 			      $ovPrefix = $inputWrapper.children('.sgn-input-overlay-prefix'),
 			      $ovSuffix = $inputWrapper.children('.sgn-input-overlay-suffix');
+			const nodeName = ($_this.prop('nodeName')) ? $_this.prop('nodeName') : $_this[0].nodeName;
+			const type = (nodeName === 'INPUT') ? $_this.attr('type').toLowerCase() : nodeName.toLowerCase();
 
 			if(!$container.hasClass('loading')) $container.addClass('loading');
 
@@ -938,6 +967,8 @@
 
 			if(disable)
 				plugin.disabled(true);
+
+			$_this.data('sgni-actual-disabled', ($_this.attr('disabled') === undefined));
 
 			if($suffix.length <= 0 && $ovSuffix.length > 0) {
 				if(!$ovSuffix.hasClass('sgni-loader')) {
@@ -952,9 +983,12 @@
 					$suffix.addClass('sgni-loader');
 				}
 			} else {
-				$inputWrapper.append(ovLoadingHTML);
-				if(!$inputWrapper.hasClass('has-input-overlay-suffix'))
-					$inputWrapper.addClass('has-input-overlay-suffix');
+				if(type !== 'checkbox' && type !== 'radio' && type !== 'switch' && type !== 'toggle') {
+					$inputWrapper.append(ovLoadingHTML);
+					if(!$inputWrapper.hasClass("has-input-overlay-suffix")) {
+						$inputWrapper.addClass("has-input-overlay-suffix");
+					}
+				}
 			}
 		}
 
@@ -967,46 +1001,51 @@
 			      $suffix   = $formWrapper.children('.sgn-input-suffix'),
 			      $ovPrefix = $inputWrapper.children('.sgn-input-overlay-prefix'),
 			      $ovSuffix = $inputWrapper.children('.sgn-input-overlay-suffix');
+			const nodeName = ($_this.prop('nodeName')) ? $_this.prop('nodeName') : $_this[0].nodeName;
+			const type = (nodeName === 'INPUT') ? $_this.attr('type').toLowerCase() : nodeName.toLowerCase();
 			const oldHTML = $_this.data("sgni-spinner-text");
 
-			if($suffix.length <= 0 || ($ovSuffix.length > 0 && $ovSuffix.hasClass('sgni-loader')) || (!$suffix.hasClass('interactive') && !$suffix.hasClass('sgni-loader'))) {
-				if(oldHTML !== undefined) {
-					$ovSuffix.replaceWith(oldHTML);
-					if($ovSuffix.hasClass('sgni-loader')) $ovSuffix.removeClass('sgni-loader');
-					$container.removeClass('loading');
-					$inputGroup.removeClass('loading');
-
+			const removeLoadingClass = () => {
+				if(!$_this.data('sgni-actual-disabled')) {
 					plugin.disabled(false);
-				} else {
-					$ovSuffix.fadeOut(1000, function() {
-						$(this).remove();
+				}
+				$container.removeClass('loading');
+				$inputGroup.removeClass('loading');
+			}
 
-						if(!$inputWrapper.hasClass('has-input-overlay-suffix')) $inputWrapper.removeClass('has-input-overlay-suffix');
+			if(type !== 'checkbox' && type !== 'radio' && type !== 'switch' && type !== 'toggle') {
+				if($suffix.length <= 0 || ($ovSuffix.length > 0 && $ovSuffix.hasClass('sgni-loader')) || (!$suffix.hasClass('interactive') && !$suffix.hasClass('sgni-loader'))) {
+					if(oldHTML !== undefined) {
+						$ovSuffix.replaceWith(oldHTML);
+						if($ovSuffix.hasClass('sgni-loader')) $ovSuffix.removeClass('sgni-loader');
+						removeLoadingClass();
+					} else {
+						$ovSuffix.fadeOut(1000, function() {
+							$(this).remove();
+
+							if(!$inputWrapper.hasClass('has-input-overlay-suffix')) $inputWrapper.removeClass('has-input-overlay-suffix');
+							removeLoadingClass();
+						});
+					}
+				} else {
+					if(oldHTML !== undefined) {
+						$suffix.html(oldHTML);
+						if($suffix.hasClass('sgni-loader')) $suffix.removeClass('sgni-loader');
 						$container.removeClass('loading');
 						$inputGroup.removeClass('loading');
 
 						plugin.disabled(false);
-					});
+					} else {
+						$suffix.fadeOut(1000, function() {
+							$(this).remove();
+
+							if(!$inputWrapper.hasClass('has-input-overlay-suffix')) $inputWrapper.removeClass('has-input-overlay-suffix');
+							removeLoadingClass();
+						});
+					}
 				}
 			} else {
-				if(oldHTML !== undefined) {
-					$suffix.html(oldHTML);
-					if($suffix.hasClass('sgni-loader')) $suffix.removeClass('sgni-loader');
-					$container.removeClass('loading');
-					$inputGroup.removeClass('loading');
-
-					plugin.disabled(false);
-				} else {
-					$suffix.fadeOut(1000, function() {
-						$(this).remove();
-
-						if(!$inputWrapper.hasClass('has-input-overlay-suffix')) $inputWrapper.removeClass('has-input-overlay-suffix');
-						$container.removeClass('loading');
-						$inputGroup.removeClass('loading');
-
-						plugin.disabled(false);
-					});
-				}
+				removeLoadingClass();
 			}
 		}
 
@@ -1126,7 +1165,7 @@
 	}
 
 	SUKR(function() {
-		const $inputs = $('input.form-control, textarea.form-control, select.form-control');
+		const $inputs = $('input.form-control, textarea.form-control');
 		$inputs.SGNInput();
 	});
 

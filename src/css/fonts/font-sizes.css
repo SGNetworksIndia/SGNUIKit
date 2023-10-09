@@ -1,0 +1,60 @@
+/*
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.fs-auto,
+.font-size-auto {
+	font-size: var(--font-size-default, 1rem) !important;
+}
+
+
+/***Extra Small**/
+@media (max-width: 575px) {
+	.fs-auto,
+	.font-size-auto {
+		font-size: var(--font-size-sm, .5rem) !important;
+	}
+}
+
+/***Small**/
+@media (min-width: 576px) {
+	.fs-auto,
+	.font-size-auto {
+		font-size: var(--font-size-sm, .5rem) !important;
+	}
+}
+
+/***Medium**/
+@media (min-width: 768px) {
+	.fs-auto,
+	.font-size-auto {
+		font-size: var(--font-size-md, 1rem) !important;
+	}
+}
+
+/***Large**/
+@media (min-width: 992px) {
+	.fs-auto,
+	.font-size-auto {
+		font-size: var(--font-size-lg, 1.1rem) !important;
+	}
+}
+
+/***Extra Large**/
+@media (min-width: 1200px) {
+	.fs-auto,
+	.font-size-auto {
+		font-size: var(--font-size-xl, 1.3rem) !important;
+	}
+}
+
+/***Double-Extra Large**/
+@media (min-width: 1400px) {
+	.fs-auto,
+	.font-size-auto {
+		font-size: var(--font-size-xxl, 1.5rem) !important;
+	}
+}

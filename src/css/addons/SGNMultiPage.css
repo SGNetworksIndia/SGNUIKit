@@ -1,0 +1,71 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.sgn-multi-page {
+	width: auto;
+	position: relative;
+	top: 0;
+	right: 0;
+	transition: all 0.3s ease;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+}
+
+.sgn-multi-page.show {
+	display: flex;
+}
+
+.sgn-multi-page > .page {
+	width: 100%;
+	list-style: none;
+	transition: all 0.3s ease;
+	overflow: auto;
+}
+
+.sgn-multi-page > .page:not(.main) {
+	display: none;
+}
+
+.sgn-multi-page > .page.prev {
+	margin-left: -100%;
+}
+
+.sgn-multi-page > .page.current {
+	margin-left: 0;
+	display: block;
+}
+
+.sgn-multi-page > .page .page-heading {
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	width: 100%;
+}
+
+.sgn-multi-page > .page .page-heading > .back-btn,
+.sgn-multi-page > .page .page-heading > .ic-prefix {
+	margin-inline-end: var(--padding-sm);
+	height: 34px;
+	width: 34px;
+	padding: .5rem;
+	font-size: 1.2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: var(--sgn-accent-primary-text);
+}
+
+.sgn-multi-page > .page .page-heading > .back-btn {
+	border-radius: 50%;
+	transition: background-color .5s linear;
+	cursor: pointer;
+}
+
+.sgn-multi-page > .page .page-heading > .back-btn:hover {
+	background-color: var(--sgn-accent-primary-hover);
+}

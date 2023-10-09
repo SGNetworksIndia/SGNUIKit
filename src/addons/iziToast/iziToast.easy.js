@@ -8,14 +8,13 @@
 "use strict";
 
 //import {iziToast} from "./iziToast";
-import("./iziToast.js");
 
 if(typeof jQuery === "undefined") {
 	throw new Error("iziToast.easy requires jQuery");
 }
-/*if(typeof iziToast === "undefined") {
- throw new Error("iziToast.easy requires iziToast");
- }*/
+if(typeof iziToast === "undefined") {
+	throw new Error("iziToast.easy requires iziToast");
+}
 
 
 $(function(SGNUIKitConfig) {

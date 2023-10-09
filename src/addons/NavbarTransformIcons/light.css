@@ -5,19 +5,19 @@
  * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
  */
 
-.buttons-container {
+.nav-buttons-container {
 	margin: 100px auto;
 	text-align: center;
 }
 
-button {
+.nav-button {
 	display: inline-block;
 	margin: 0 1em;
 	border: none;
 	background: none;
 }
 
-button span {
+.nav-button span {
 	display: block;
 }
 
@@ -94,7 +94,7 @@ button span {
 	transition: 0.3s;
 	position: absolute;
 	left: 0;
-	content: '';
+	content: "";
 	-webkit-transform-origin: 0.28571rem center;
 	transform-origin: 0.28571rem center;
 }

@@ -37,7 +37,6 @@ if(typeof jQuery === "undefined") {
 			"xml": "XML",
 		};
 
-
 		const fixIndents = (input, tabs = 1) => {
 			const tab = '\t';
 			const indents = input.match(/^[^\S\n\r]*(?=\S)/gm);
@@ -70,9 +69,10 @@ if(typeof jQuery === "undefined") {
 
 			const title = $elem.attr("sgn-snippet-title") || $elem.attr("data-snippet-title") || "Code Snippet";
 
-			let snippetCodeTab = '', snippetCodeTabLink = '', $previewHTML = '';
+			let snippetCodeTab = '', snippetCodeTabLink = '', $previewHTML = '', previewTab;
 
 			if(isMultipleSnippets) {
+				previewTab = 0;
 				$previewHTML = $snippet.first().outerHTML;
 
 				$snippet.each(function(i) {
@@ -99,6 +99,7 @@ if(typeof jQuery === "undefined") {
 					snippetCodeTabLink += `		<a class="tab-link" data-target-tab="${t}">${langTitle}</a>\n`;
 				});
 			} else {
+				previewTab = 1;
 				const langAttr = $snippet.attr("sgn-snippet-lang") || $snippet.attr("data-snippet-lang") || "html",
 				      lang     = langAttr.toLowerCase();
 				const langTitle = langTitles[lang] || "HTML";
@@ -122,13 +123,13 @@ if(typeof jQuery === "undefined") {
 			html = `<div class="tab-layout bottom sgn-code-snippet-wrapper">\n`;
 			html += (!empty(title)) ? `	<div class="tab-title">${title}</div>` : ``;
 			html += `	<div class="tab-view">\n`;
-			html += `		<div class="tab sgn-code-snippet-preview" data-tab="0">\n`;
+			html += `		<div class="tab sgn-code-snippet-preview" data-tab="${previewTab}">\n`;
 			html += `			${$previewHTML}`;
 			html += `		</div>\n`;
 			html += snippetCodeTab;
 			html += `	</div>\n`;
 			html += `	<div class="tab-links">\n`;
-			html += `		<a class="tab-link" data-target-tab="0">Preview</a>\n`;
+			html += `		<a class="tab-link" data-target-tab="${previewTab}">Preview</a>\n`;
 			html += snippetCodeTabLink;
 			html += `	</div>\n`;
 			html += `</div>\n`;
@@ -137,36 +138,17 @@ if(typeof jQuery === "undefined") {
 				$elem.replaceWith(html);
 			else
 				$snippet.replaceWith(html);
+			$('.tab-layout').SGNTabLayout();
 			Prism.highlightAll();
+
+			$elem.data("SGNCodeSnippet", plugin);
+			$elem[0]["SGNCodeSnippet"] = plugin;
 		}
 
-		plugin.show = (duration) => {
-			duration = (duration !== true && !$.isNumeric(duration)) ? undefined : duration;
-			duration = (duration !== true && !$.isNumeric(duration) && duration === undefined) ? 5000 : duration;
-			duration = (duration === true) ? null : duration;
-
-			if($snackbar.length <= 0)
-				init();
-			else {
-				if(!$snackbar.hasClass("show"))
-					$snackbar.addClass("show");
-			}
-
-			if(duration !== null) {
-				setTimeout(function() {
-					plugin.hide();
-				}, duration);
-			}
-		};
-
-		plugin.hide = () => {
-			if($snackbar.length > 0) {
-				if($snackbar.hasClass("show"))
-					$snackbar.removeClass("show");
-			}
-		};
-
-		init();
+		if($elem.length > 0 && ($elem.hasClass('sgn-code-snippets') || $elem.hasClass('sgn-code-snippet')))
+			init();
+		else
+			throw new Error(`[SGNCodeSnippet] Failed to initialize SGNCodeSnippet: Invalid DOM element supplied.`);
 
 		return plugin;
 	};
@@ -197,26 +179,6 @@ if(typeof jQuery === "undefined") {
 				}
 			}
 		});
-
-		/**
-		 * Show a built snackbar
-		 */
-		_this.show = function() {
-			const plugin = $_this.data("SGNCodeSnippet");
-			plugin.show();
-
-			return _this;
-		};
-
-		/**
-		 * Hide a snackbar
-		 */
-		_this.hide = function() {
-			const plugin = $_this.data("SGNCodeSnippet");
-			plugin.hide();
-
-			return _this;
-		};
 
 		return _this;
 	};

@@ -12,19 +12,36 @@ if(typeof jQuery === "undefined") {
 
 ;(function(window, document, $) {
 	"use strict";
+
 	/**
-	 * @param $table
-	 * @param options
+	 * @typedef {Object} SGNDataTableOptions The options for <b>SGNDataTable</b>
+	 *
+	 * @property {boolean} [sortable=true] State whether to make the rows of the <b>SGNDataTable</b> sortable.
+	 * @property {number} [sorted_column=1] Specify the number of the column of which to sort the rows to be based on by default.<br/><b>NOTE:</b> This needs the <b><i>sortable</i></b> to be <b>TRUE</b>.
+	 * @property {'asc'|'desc'} [order='asc'] Specify the sorting order of the rows.<br/><b><i>ASC —</i></b> Sort the rows in ascending order.<br/><b><i>DESC —</i></b>  Sort the rows in descending order.
+	 * @property {boolean} [searchable=true] State whether to turn on search system.<br/><b>NOTE:</b> If <b><i>pagination</i></b> is enabled and <b><i>max_paging</i></b> is greater than 0('zero'), the search will be performed within the current page only.
+	 * @property {[]} [skip_search=null] Specify the number of <i>columns</i> (starting from 0('zero') which denotes to the first column(<b>&lt;TD&gt;</b> element) to exclude from the search result.
+	 * @property {boolean} [pagination=true] State whether to use pagination. If <b>FALSE</b>, all the rows will be displayed at once which may impact the site performance.
+	 * @property {number} [max_paging=10] Specify the maximum number of rows in one page.
 	 */
-	const SGNDataTable = function($table, options) {
+
+	/**
+	 *
+	 * @param {jQuery} $table The <b>DOM Element</b> wrapped with <b>jQuery</b> where the <b>SGNDataTable</b> will be initialized.
+	 * @param {SGNDataTableOptions} [options={}] A JSON object specifying the options to override default settings.
+	 *
+	 * @return {SGNTabLayout} An instance of <b>SGNDataTable</b> if initialized.
+	 *
+	 * @constructor
+	 */
+	const SGNDataTable = function($table, options = {}) {
 		const plugin = this;
 		const $_this = $table;
 		const $thead = $_this.children('thead'),
-			  $tbody = $_this.children('tbody'),
-			  $tfoot = $_this.children('tfoot');
+		      $tbody = $_this.children('tbody');
 		let columnCount = 0,
-			rowCount    = 0,
-			$wrapper;
+		    rowCount    = 0,
+		    $wrapper;
 		const settings = {
 			sortable: true,
 			sorted_column: 1,
@@ -54,24 +71,10 @@ if(typeof jQuery === "undefined") {
 			return $(row).children("td").eq(index).text();
 		}
 
-		/*function comparer(index, asc) {
-			return function(a, b) {
-				let val_a = getCellValue(a, index),
-					val_b = getCellValue(b, index);
-
-				val_a = (asc) ? val_a : val_b;
-				val_b = (asc) ? val_b : val_a;
-
-				let result = ($.isNumeric(val_a) && $.isNumeric(val_b)) ? val_a - val_b : val_a.toString().localeCompare(val_b);
-
-				return result;
-			}
-		}*/
-
-		// removes highlighting by replacing each em tag within the specified elements with it's content
+		// removes highlighting by replacing each em tag within the specified elements with its content
 		function removeHighlighting(highlightedElements) {
 			highlightedElements.each(function() {
-				var element = $(this);
+				const element = $(this);
 				element.replaceWith(element.html());
 			})
 		}
@@ -79,13 +82,12 @@ if(typeof jQuery === "undefined") {
 		// add highlighting by wrapping the matched text into an em tag, replacing the current elements, html value with it
 		function addHighlighting(element, textToHighlight) {
 			const text = element.text(),
-				  html = element.html();
+			      html = element.html();
 			element.html(html.replace(/<span class="highlight">(.*)<\/span>/, ''));
-			//const text = element.contents().filter(function(){ return this.nodeType == Node.TEXT_NODE; }).first().text();
-			var highlightedText = '<span class="highlight">' + textToHighlight + '</span>';
-			var newText = text.replace(textToHighlight, highlightedText);
+			const highlightedText = '<span class="highlight">' + textToHighlight + '</span>',
+			      newText         = text.replace(textToHighlight, highlightedText);
 
-			element.contents().filter(function() { return this.nodeType == Node.TEXT_NODE; }).first().replaceWith(newText);
+			element.contents().filter(function() { return this.nodeType === Node.TEXT_NODE; }).first().replaceWith(newText);
 			//element.html(newText);
 		}
 
@@ -126,19 +128,17 @@ if(typeof jQuery === "undefined") {
 
 			$ths.filter(':not(.no-sort)').each((i, th) => $(th).on('click', ((elem) => {
 				const $this = $(elem.target);
-				const column = $this.index(),
-					  $tbody = $table.children('tbody'),
-					  $rows  = $tbody.find('tr').get(),
-					  dir    = ($this.hasClass("sort-asc")) ? "desc" : "asc";
+				const $tbody = $table.children('tbody'),
+				      $rows  = $tbody.find('tr').get();
 
 				if($ths.filter('.sort-asc').length > 0 || $ths.filter('.sort-desc').length > 0) {
 					Array.from($rows)
-						 .sort(comparer(Array.from($this.parent().children()).indexOf($this[0]), (asc = this.asc = !this.asc)))
-						 .forEach($tr => $tbody.append($tr));
+					     .sort(comparer(Array.from($this.parent().children()).indexOf($this[0]), (asc = this.asc = !this.asc)))
+					     .forEach($tr => $tbody.append($tr));
 				} else {
 					Array.from($rows)
-						 .sort(comparer(Array.from($this.parent().children()).indexOf($this[0]), (asc = this.asc = order)))
-						 .forEach($tr => $tbody.append($tr));
+					     .sort(comparer(Array.from($this.parent().children()).indexOf($this[0]), (asc = this.asc = order)))
+					     .forEach($tr => $tbody.append($tr));
 				}
 
 				$ths.removeClass('sort-asc sort-desc');
@@ -174,7 +174,7 @@ if(typeof jQuery === "undefined") {
 					const $tr = $(this);
 					let txt = $tr.text();
 					if(settings.skip_search.length > 0) {
-						settings.skip_search.forEach((val, i) => {
+						settings.skip_search.forEach((val) => {
 							const t = $($tr.find('td')[(val - 1)]).text();
 							txt = txt.replace(t, '');
 						});
@@ -209,9 +209,8 @@ if(typeof jQuery === "undefined") {
 			});
 		}
 
-		const initPagination = (maxPaging = 10, reint = false) => {
-			const $header = addHeader(),
-				  $footer = addFooter();
+		const initPagination = (maxPaging = 10, reInit = false) => {
+			const $footer = addFooter();
 			const $trs = $tbody.find('tr');
 			let $pagination = $footer.find('.pagination');
 
@@ -221,10 +220,10 @@ if(typeof jQuery === "undefined") {
 			}
 
 			const rowsShown = maxPaging,
-				  rowsTotal = $tbody.find('tr').length,
+			      rowsTotal = $tbody.find('tr').length,
 				  numPages  = rowsTotal / rowsShown;
 
-			if(reint)
+			if(reInit)
 				$pagination.html('');
 
 			$pagination.append(`<a href="#" rel="prev">❮</a>`);
@@ -312,9 +311,7 @@ if(typeof jQuery === "undefined") {
 			let $pagination = $footer.find('.pagination');
 			const $pages = $pagination.children('a');
 			const totalPages = ($pages.length - 2);
-			const rowsShown = maxPaging,
-				  rowsTotal = $tbody.find('tr').length,
-				  numPages  = rowsTotal / rowsShown;
+			const rowsTotal = $tbody.find('tr').length;
 
 			let maxPagingHTML = `<select id="${maxPagerID}" class="form-control sgn-datatable-maxPager-input" sgn-input-label="Paging Size">`;
 			if(totalPages > maxPaging) {
@@ -333,8 +330,10 @@ if(typeof jQuery === "undefined") {
 			let $pagingSize = $header.find('.sgn-datatable-maxPager-input');
 
 			$pagingSize.on('change', function(e) {
+				e.preventDefault();
+				// noinspection JSCheckFunctionSignatures
 				const $this = $(this),
-					  v     = parseInt($this.find('option:selected').val());
+				      v     = parseInt($this.find('option:selected').val());
 
 				initPagination(v, true);
 			});
@@ -368,7 +367,7 @@ if(typeof jQuery === "undefined") {
 	/**
 	 * Initializes a DataTable on the HTML Table with the supplied option
 	 *
-	 * @param {JSON}[options] A JSON object specifying the options.
+	 * @param {SGNDataTableOptions}[options={}] A JSON object specifying the options to override default settings.
 	 *
 	 * @return {jQuery} The jQuery object
 	 */
@@ -377,9 +376,13 @@ if(typeof jQuery === "undefined") {
 			  $_this = $(_this);
 
 		return $_this.each(function() {
-			const $this = $(this);
+			const $this = $(this),
+			      data  = $this.data("SGNDataTable");
 
-			const plugin = new SGNDataTable($this, options);
+			const plugin = (data === undefined) ? new SGNDataTable($this, options) : data;
+
+			$this.data("SGNDataTable", plugin);
+			$this[0]["SGNDataTable"] = plugin;
 		});
 	};
 

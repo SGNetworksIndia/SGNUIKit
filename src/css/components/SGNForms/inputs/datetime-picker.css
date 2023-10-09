@@ -1,0 +1,146 @@
+/*
+ * Copyright (c) 2022 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.sgn-date-picker {
+	--picker-window-width: 80px;
+	--picker-window-height: 50px;
+}
+
+.sgn-date-picker > input[type=date]:not(.form-control),
+.sgn-date-picker > input[type=time]:not(.form-control),
+.sgn-date-picker > input[type=datetime]:not(.form-control),
+.sgn-date-picker > input[type=datetime-local]:not(.form-control) {
+	display: none;
+}
+
+.sgn-date-picker {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	font-size: 1.5rem;
+	overflow: hidden;
+}
+
+.sgn-date-picker > .date,
+.sgn-date-picker > .time,
+.sgn-date-picker > .date-time {
+	font-size: 2rem;
+	font-weight: 400;
+}
+
+.sgn-date-picker > .picker-wrapper {
+	display: flex;
+	gap: calc(var(--padding-lg) * 2);
+}
+
+.sgn-date-picker > .picker-wrapper > .picker {
+	box-sizing: border-box;
+	cursor: url("https://user-images.githubusercontent.com/9720597/32018236-8e466e82-b9c9-11e7-84a0-038d861bfcd4.png") 32 32, all-scroll;
+	display: flex;
+	padding: calc(var(--picker-window-height, 50px) * 2) 0;
+	overflow: hidden;
+	position: relative;
+}
+
+.sgn-date-picker > .picker-wrapper > .picker > .dragdealer {
+	position: relative;
+	height: var(--picker-window-height, 50px);
+	margin: 0 var(--margin-sm);
+	border-top: 1px solid var(--sgn-accent-primary);
+	border-bottom: 1px solid var(--sgn-accent-primary);
+	border-radius: 0;
+}
+
+
+.sgn-date-picker > .picker-wrapper > .picker > .dragdealer:before,
+.sgn-date-picker > .picker-wrapper > .picker > .dragdealer:after {
+	content: "";
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 205%;
+	background-color: var(--sgn-accent-background);
+	opacity: 1;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.sgn-date-picker > .picker-wrapper > .picker > .dragdealer:before {
+	top: calc(-200% - 5px);
+	background: linear-gradient(white, rgba(255, 255, 255, .7));
+}
+
+.sgn-date-picker > .picker-wrapper > .picker > .dragdealer:after {
+	bottom: calc(-200% - 5px);
+	background: linear-gradient(rgba(255, 255, 255, 0.7), white);
+}
+
+.sgn-date-picker > .picker-wrapper > .picker > .dragdealer > .handle > li {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: var(--picker-window-width, 80px);
+	height: var(--picker-window-height, 50px);
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+
+.sgn-date-picker .reset {
+	width: 100px;
+	height: 30px;
+	border-radius: 15px;
+	border: none;
+	outline: none;
+	color: #ffffff;
+	background-color: #2466fb;
+	box-shadow: 0 1px 10px -2px #2466fb;
+	font-weight: 300;
+}
+
+.sgn-date-picker .reset:active {
+	transform: scale(0.95);
+}
+
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-date-picker.inline {
+	width: 100%;
+}
+
+.sgn-form > .sgn-form-wrapper > .sgn-input-wrapper > .sgn-date-picker.inline > .form-control {
+	border-radius: 0;
+	margin-bottom: var(--margin-md);
+}
+
+.sgn-date-picker-modal > .sgn-modal-body {
+	display: flex;
+	flex-direction: column;
+}
+
+.sgn-date-picker-modal > .sgn-modal-body > .sgn-date-picker:not(:first-child) {
+	margin-top: var(--margin-md);
+}
+
+.sgn-date-picker-modal > .sgn-modal-body > .sgn-date-picker:not(:last-child) {
+	margin-bottom: var(--margin-md);
+}
+
+
+@media all and (prefers-color-scheme: dark) {
+	.sgn-date-picker > .picker-wrapper > .picker > .dragdealer:before {
+		top: calc(-200% - 5px);
+		background: linear-gradient(black, rgba(0, 0, 0, .7));
+	}
+
+	.sgn-date-picker > .picker-wrapper > .picker > .dragdealer:after {
+		bottom: calc(-200% - 5px);
+		background: linear-gradient(rgba(0, 0, 0, 0.7), black);
+	}
+}
+

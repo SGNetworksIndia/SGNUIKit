@@ -6,14 +6,10 @@
  */
 
 /*!
-* sweetalert2 v10.15.7
-* Released under the MIT License.
-*/
-(function(global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global = global || self, global.Sweetalert2 = factory());
-}(this, function() {
+ * sweetalert2 v10.15.7
+ * Released under the MIT License.
+ */
+;(function(window, noGlobal) {
 	'use strict';
 
 	function _typeof(obj) {
@@ -3651,10 +3647,16 @@
 	var Swal = SweetAlert;
 	Swal["default"] = Swal;
 
+	if(!noGlobal) {
+		if(typeof root !== 'undefined')
+			root.swal = root.Swal = root.sweetAlert = root.SweetAlert2 = Sweetalert;
+		else
+			window.swal = window.Swal = window.sweetAlert = window.SweetAlert2 = Sweetalert;
+	}
+
 	return Swal;
 
-}));
-if(typeof this !== 'undefined' && this.Sweetalert2) { this.swal = this.sweetAlert = this.Swal = this.SweetAlert = this.Sweetalert2}
+})(root, (typeof root !== 'window'));
 
 "undefined" != typeof document && function(e, t) {
 	var n = e.createElement("style");

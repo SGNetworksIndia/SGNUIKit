@@ -1,0 +1,147 @@
+/*
+ * Copyright (c) 2022-2023 SGNetworks. All rights reserved.
+ *
+ * The software is an exclusive copyright of "SGNetworks" and is provided as is exclusively with only "USAGE" access. "Modification",  "Alteration", "Re-distribution" is completely prohibited.
+ * VIOLATING THE ABOVE TERMS IS A PUNISHABLE OFFENSE WHICH MAY LEAD TO LEGAL CONSEQUENCES.
+ */
+
+.sgn-carousel,
+.sgn-carousel * {
+	--width: 100%;
+}
+
+.sgn-carousel {
+	border: 1px solid var(--sgn-border-light);
+	overflow: hidden;
+	position: relative;
+	max-width: var(--width);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.sgn-carousel > .carousel {
+	display: flex;
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+}
+
+.sgn-carousel > .carousel > .carousel-item {
+	max-width: 100%;
+	max-height: 100%;
+	position: relative;
+	display: none;
+	transform: translate3d(100%, 0, 0);
+	transition: transform 1s linear;
+}
+
+.sgn-carousel > .carousel > .carousel-item.active {
+	display: block;
+	width: 100%;
+	transform: translate3d(0, 0, 0);
+}
+
+.sgn-carousel > .carousel > .carousel-item.item-next:not(.active) {
+	position: relative;
+	top: 0;
+	width: 100%;
+	display: block;
+	transform: translate3d(100%, 0, 0);
+}
+
+.sgn-carousel > .carousel > .carousel-item.item-prev:not(.active) {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	display: block;
+}
+
+.sgn-carousel > .carousel > .carousel-item.item-prev {
+	transform: translate3d(-100%, 0, 0);
+}
+
+.sgn-carousel > .carousel > .carousel-item.item-right {
+	transform: translate3d(100%, 0, 0);
+}
+
+.sgn-carousel > .sgn-carousel-indicators {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	position: absolute;
+	bottom: var(--padding-sm);
+}
+
+.sgn-carousel > .sgn-carousel-indicators > .sgn-carousel-indicator {
+	width: var(--padding-md);
+	height: var(--padding-md);
+	margin: 0 var(--margin-sm);
+	position: relative;
+	z-index: 1;
+	line-height: 1;
+	text-decoration: none;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.sgn-carousel > .sgn-carousel-indicators > .sgn-carousel-indicator > .sgn-carousel-indicator-link {
+	content: "";
+	width: 100%;
+	height: 100%;
+	border-radius: 100%;
+	background-color: var(--sgn-accent-secondary-alt);
+	opacity: .8;
+	transition: width, height .1s ease-out;
+	transition: opacity, background-color 1s ease-in-out;
+}
+
+.sgn-carousel > .sgn-carousel-indicators > .sgn-carousel-indicator.active > .sgn-carousel-indicator-link {
+	background-color: var(--sgn-accent-primary-active);
+	opacity: 1;
+}
+
+.sgn-carousel > .sgn-carousel-control {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 var(--margin-lg);
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: var(--sgn-accent-secondary-alt);
+	cursor: pointer;
+	transition: color .2s linear;
+	z-index: 1;
+}
+
+.sgn-carousel > .sgn-carousel-control:hover {
+	color: var(--sgn-accent-primary-hover);
+}
+
+.sgn-carousel > .sgn-carousel-control:active {
+	color: var(--sgn-accent-primary-active);
+}
+
+.sgn-carousel > .sgn-carousel-control.previous {
+	left: 0;
+}
+
+.sgn-carousel > .sgn-carousel-control.next {
+	right: 0;
+}
+
+.sgn-carousel > .sgn-carousel-control.previous:before {
+	content: "\f053";
+}
+
+.sgn-carousel > .sgn-carousel-control.next:before {
+	content: "\f054";
+}
+

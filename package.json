@@ -47,7 +47,7 @@
 		"gulp-uglify": "^3.0.2",
 		"hasha": "^5.2.2",
 		"jquery": "^3.6.3",
-		"mini-css-extract-plugin": "^2.7.5",
+		"mini-css-extract-plugin": "^2.7.6",
 		"postcss": "^8.4.21",
 		"postcss-import": "^15.1.0",
 		"postcss-nested": "^6.0.1",
